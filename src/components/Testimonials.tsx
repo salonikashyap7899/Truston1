@@ -1,4 +1,4 @@
-import { Reveal } from "./Reveal";
+import { Reveal, SectionEyebrow } from "./Reveal";
 
 const items = [
   {
@@ -23,30 +23,28 @@ const items = [
 
 export function Testimonials() {
   return (
-    <section className="relative py-32 px-6 overflow-hidden">
+    <section className="relative py-32 px-6">
       <div className="relative mx-auto max-w-7xl">
         <Reveal>
-          <p className="text-gold text-xs uppercase tracking-luxe text-center mb-4">
-            Hear from customers
-          </p>
-          <h2 className="font-display text-5xl md:text-7xl text-center mb-3 max-w-4xl mx-auto">
-            What others say about <em className="gradient-gold-text not-italic">partnering with us</em>
+          <SectionEyebrow>Hear from customers</SectionEyebrow>
+          <h2 className="font-display text-5xl md:text-7xl text-center mb-4 max-w-4xl mx-auto">
+            What others say about <em className="gradient-bronze-text not-italic">partnering with us</em>
           </h2>
         </Reveal>
 
-        <div className="grid md:grid-cols-3 gap-6 mt-20">
+        <div className="grid md:grid-cols-3 gap-px bg-border mt-20">
           {items.map((t, i) => (
             <Reveal key={t.name} delay={i * 0.1}>
-              <figure className="glass rounded-2xl p-10 h-full hover-lift relative">
-                <span className="absolute top-6 left-8 font-display text-7xl text-gold/30 leading-none">
+              <figure className="bg-cream p-10 h-full hover-lift relative">
+                <span className="absolute top-4 left-8 font-display text-7xl text-bronze/40 leading-none">
                   &ldquo;
                 </span>
-                <blockquote className="font-serif italic text-lg text-foreground/90 leading-relaxed mt-8">
+                <blockquote className="font-serif italic text-lg text-ink leading-relaxed mt-8">
                   {t.quote}
                 </blockquote>
                 <figcaption className="mt-8 pt-6 border-t border-border">
-                  <p className="text-gold font-medium">{t.name}</p>
-                  <p className="text-xs uppercase tracking-luxe text-muted-foreground mt-1">
+                  <p className="text-bronze font-medium">{t.name}</p>
+                  <p className="text-[11px] uppercase tracking-luxe text-foreground/55 mt-1">
                     {t.role}
                   </p>
                 </figcaption>
