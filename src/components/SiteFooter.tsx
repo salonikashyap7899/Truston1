@@ -64,7 +64,10 @@ export function SiteFooter() {
       </div>
       <div className="mx-auto max-w-7xl px-6 py-6 flex flex-wrap justify-between gap-3 text-[11px] uppercase tracking-luxe text-cream/50">
         <span>© {new Date().getFullYear()} TrustOn Developers</span>
-        <span>Crafted with luxury in mind</span>
+        <span className="flex gap-5">
+          <Link to="/admin/login" className="hover:text-bronze transition-colors">Admin</Link>
+          <span>Crafted with luxury in mind</span>
+        </span>
       </div>
     </footer>
   );
