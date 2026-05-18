@@ -47,14 +47,11 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
           This page didn't load
         </h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          Something went wrong on our end. You can try refreshing or head back home.
+          Something went wrong. Try refreshing or head back home.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           <button
-            onClick={() => {
-              router.invalidate();
-              reset();
-            }}
+            onClick={() => { router.invalidate(); reset(); }}
             className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
           >
             Try again
@@ -77,10 +74,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "TrustOn — Premium Real Estate & Luxury Living" },
-      { name: "description", content: "Prime Estate by TrustOn — Jila Panchayat approved luxury township in Lucknow. Legally secure plots, premium living, and high-return investment." },
+      { name: "description", content: "Prime Estate by TrustOn — Jila Panchayat approved luxury township in Lucknow." },
       { name: "author", content: "TrustOn Developers" },
       { property: "og:title", content: "TrustOn — Own the Ground. Build the Legacy." },
-      { property: "og:description", content: "Prime Estate — a Jila Panchayat approved township in Lucknow with legal security, prime location, and future-ready infrastructure." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -88,7 +84,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "stylesheet", href: appCss },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap",
+      },
       { rel: "icon", type: "image/png", href: "/favicon.png" },
     ],
   }),
@@ -103,6 +102,14 @@ function RootShell({ children }: { children: React.ReactNode }) {
     <html lang="en">
       <head>
         <HeadContent />
+        {/* Inline critical font fallback so text is visible before fonts load */}
+        <style dangerouslySetInnerHTML={{ __html: `
+          :root {
+            --font-serif: "Cormorant Garamond", Georgia, serif;
+            --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+            --font-display: "Playfair Display", Georgia, serif;
+          }
+        `}} />
       </head>
       <body>
         {children}

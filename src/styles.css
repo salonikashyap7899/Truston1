@@ -84,6 +84,16 @@
     font-feature-settings: "ss01", "cv01";
   }
 
+  /*
+   * FIX: EXIF orientation — browsers must auto-rotate images based on
+   * the EXIF orientation tag in JPEG/HEIC files. Without this, portrait
+   * images taken on a phone or uploaded via WordPress show 90° rotated.
+   */
+  img {
+    image-orientation: from-image;
+    max-width: 100%;
+  }
+
   /* Custom luxury cursor — hide default on desktop */
   @media (pointer: fine) {
     *, *::before, *::after { cursor: none !important; }
