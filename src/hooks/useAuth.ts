@@ -13,57 +13,62 @@ export function useAuth() {
 
     const checkAndAssignRole = async (userId: string) => {
       try {
-        const { data, error } = await supabase
+        // 1. Check if user already has admin role
+        const { data: roles, error: rolesError } = await supabase
           .from("user_roles")
           .select("role")
           .eq("user_id", userId);
         
-        if (!error && data && data.length > 0) {
-          if (isMounted) {
-            setIsAdmin(data.some((r) => r.role === "admin"));
-          }
-        } else if (!error && (!data || data.length === 0)) {
-          // No roles found - if this is the first user, assign admin
-          const { data: allRoles } = await supabase
+        if (!rolesError && roles && roles.some(r => r.role === "admin")) {
+          if (isMounted) setIsAdmin(true);
+          return;
+        }
+
+        // 2. If not admin, check if any admin exists at all
+        const { data: setupDone, error: setupError } = await supabase.rpc("is_setup_completed");
+        
+        if (!setupError && setupDone === false) {
+          // No admins exist yet, try to make this user the first admin
+          const { error: insertError } = await supabase
             .from("user_roles")
-            .select("id");
+            .insert({ user_id: userId, role: "admin" });
 
-          if (!allRoles || allRoles.length === 0) {
-            // No admins exist yet, assign this user as admin
-            const { error: insertError } = await supabase
-              .from("user_roles")
-              .insert({ user_id: userId, role: "admin" });
-
-            if (!insertError && isMounted) {
-              setIsAdmin(true);
-            } else if (insertError) {
-              console.error("Error assigning admin role:", insertError);
-            }
+          if (!insertError && isMounted) {
+            setIsAdmin(true);
+          } else if (insertError) {
+            console.error("Error assigning first admin role:", insertError);
           }
+        } else if (isMounted) {
+          setIsAdmin(false);
         }
       } catch (err) {
-        console.error("Error checking role:", err);
+        console.error("Error in checkAndAssignRole:", err);
       }
     };
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, s) => {
-      setSession(s);
-      setUser(s?.user ?? null);
+      if (isMounted) {
+        setSession(s);
+        setUser(s?.user ?? null);
+      }
+      
       if (s?.user) {
         checkAndAssignRole(s.user.id);
-      } else {
-        if (isMounted) {
-          setIsAdmin(false);
-        }
+      } else if (isMounted) {
+        setIsAdmin(false);
       }
     });
 
     supabase.auth.getSession().then(async ({ data: { session: s } }) => {
-      setSession(s);
-      setUser(s?.user ?? null);
+      if (isMounted) {
+        setSession(s);
+        setUser(s?.user ?? null);
+      }
+      
       if (s?.user) {
         await checkAndAssignRole(s.user.id);
       }
+      
       if (isMounted) {
         setLoading(false);
       }

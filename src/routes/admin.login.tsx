@@ -16,17 +16,30 @@ function AdminLoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
+  const [isSetupDone, setIsSetupDone] = useState<boolean | null>(null);
 
   useEffect(() => {
     if (!loading && user && isAdmin) navigate({ to: "/admin" });
   }, [user, isAdmin, loading, navigate]);
+
+  useEffect(() => {
+    const checkSetup = async () => {
+      const { data, error } = await supabase.rpc("is_setup_completed");
+      if (!error) {
+        setIsSetupDone(data);
+        // If setup is not done, default to signup mode
+        if (data === false) setMode("signup");
+      }
+    };
+    checkSetup();
+  }, []);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setBusy(true);
     try {
       if (mode === "signup") {
-        const { error, data } = await supabase.auth.signUp({
+        const { error } = await supabase.auth.signUp({
           email,
           password,
           options: { emailRedirectTo: `${window.location.origin}/admin` },
@@ -34,12 +47,12 @@ function AdminLoginPage() {
         if (error) throw error;
         
         // Wait for auth state and trigger to complete
-        await new Promise(resolve => setTimeout(resolve, 1500));
+        await new Promise(resolve => setTimeout(resolve, 2000));
         
         // Refresh session to get the latest auth state
         await supabase.auth.refreshSession();
         
-        toast.success("Account created. You are now the admin.");
+        toast.success("Account created. Checking admin permissions...");
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
@@ -86,17 +99,32 @@ function AdminLoginPage() {
               {busy ? "Please wait…" : mode === "signin" ? "Sign in" : "Create account"}
             </button>
           </form>
-          <p className="mt-6 text-center text-sm text-foreground/60">
-            {mode === "signin" ? "First time setup? " : "Already have access? "}
-            <button onClick={() => setMode(mode === "signin" ? "signup" : "signin")} className="text-bronze underline">
-              {mode === "signin" ? "Create the admin account" : "Sign in"}
-            </button>
-          </p>
+          
+          {isSetupDone !== null && (
+            <p className="mt-6 text-center text-sm text-foreground/60">
+              {mode === "signin" ? "First time setup? " : "Already have access? "}
+              <button onClick={() => setMode(mode === "signin" ? "signup" : "signin")} className="text-bronze underline">
+                {mode === "signin" ? "Create the admin account" : "Sign in"}
+              </button>
+            </p>
+          )}
         </div>
-        {user && !isAdmin && (
-          <p className="mt-6 text-center text-sm text-destructive">
-            Signed in but not an admin. Contact the site owner.
-          </p>
+        {user && !isAdmin && !loading && (
+          <div className="mt-6 p-4 bg-destructive/10 rounded-md border border-destructive/20 text-center">
+            <p className="text-sm text-destructive font-medium">
+              Signed in but not an admin.
+            </p>
+            <p className="mt-1 text-xs text-destructive/80">
+              If you just created this account, please wait a moment and refresh. 
+              Otherwise, contact the site owner.
+            </p>
+            <button 
+              onClick={() => window.location.reload()}
+              className="mt-3 text-xs font-bold uppercase tracking-wider text-destructive hover:underline"
+            >
+              Refresh Now
+            </button>
+          </div>
         )}
       </div>
     </main>
