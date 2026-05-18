@@ -11,16 +11,34 @@ export function useAuth() {
   useEffect(() => {
     let isMounted = true;
 
-    const checkRole = async (userId: string) => {
+    const checkAndAssignRole = async (userId: string) => {
       try {
         const { data, error } = await supabase
           .from("user_roles")
           .select("role")
           .eq("user_id", userId);
         
-        if (!error && data) {
+        if (!error && data && data.length > 0) {
           if (isMounted) {
             setIsAdmin(data.some((r) => r.role === "admin"));
+          }
+        } else if (!error && (!data || data.length === 0)) {
+          // No roles found - if this is the first user, assign admin
+          const { data: allRoles } = await supabase
+            .from("user_roles")
+            .select("id");
+
+          if (!allRoles || allRoles.length === 0) {
+            // No admins exist yet, assign this user as admin
+            const { error: insertError } = await supabase
+              .from("user_roles")
+              .insert({ user_id: userId, role: "admin" });
+
+            if (!insertError && isMounted) {
+              setIsAdmin(true);
+            } else if (insertError) {
+              console.error("Error assigning admin role:", insertError);
+            }
           }
         }
       } catch (err) {
@@ -32,7 +50,7 @@ export function useAuth() {
       setSession(s);
       setUser(s?.user ?? null);
       if (s?.user) {
-        checkRole(s.user.id);
+        checkAndAssignRole(s.user.id);
       } else {
         if (isMounted) {
           setIsAdmin(false);
@@ -44,7 +62,7 @@ export function useAuth() {
       setSession(s);
       setUser(s?.user ?? null);
       if (s?.user) {
-        await checkRole(s.user.id);
+        await checkAndAssignRole(s.user.id);
       }
       if (isMounted) {
         setLoading(false);

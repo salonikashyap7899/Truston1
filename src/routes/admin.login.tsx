@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
-import { ensureFirstAdminRole } from "./api.ensure-first-admin.server";
 
 export const Route = createFileRoute("/admin/login")({
   head: () => ({ meta: [{ title: "Admin Login — TrustOn" }, { name: "robots", content: "noindex" }] }),
@@ -34,17 +33,8 @@ function AdminLoginPage() {
         });
         if (error) throw error;
         
-        // Ensure the first user gets admin role
-        if (data.user) {
-          try {
-            await ensureFirstAdminRole(data.user.id);
-          } catch (roleError) {
-            console.error("Error ensuring admin role:", roleError);
-          }
-        }
-
-        // Wait for role to be assigned
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        // Wait for auth state and trigger to complete
+        await new Promise(resolve => setTimeout(resolve, 1500));
         
         // Refresh session to get the latest auth state
         await supabase.auth.refreshSession();
