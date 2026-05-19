@@ -9,7 +9,9 @@ function AnimatedValue({ value }: { value: number }) {
   const spring = useSpring(value, { stiffness: 60, damping: 18 });
   const [display, setDisplay] = useState(value);
 
-  useEffect(() => { spring.set(value); }, [value, spring]);
+  useEffect(() => {
+    spring.set(value);
+  }, [value, spring]);
   useEffect(() => spring.on("change", (v) => setDisplay(Math.round(v))), [spring]);
 
   return <span>₹{inr(display)}</span>;
@@ -19,7 +21,9 @@ function AnimatedPercent({ value }: { value: number }) {
   const spring = useSpring(value, { stiffness: 60, damping: 18 });
   const [display, setDisplay] = useState(value);
 
-  useEffect(() => { spring.set(value); }, [value, spring]);
+  useEffect(() => {
+    spring.set(value);
+  }, [value, spring]);
   useEffect(() => spring.on("change", (v) => setDisplay(Math.round(v))), [spring]);
 
   return <span>+{display}%</span>;
@@ -98,7 +102,15 @@ function LuxurySlider({
   );
 }
 
-function GrowthBar({ years, investment, rate }: { years: number; investment: number; rate: number }) {
+function GrowthBar({
+  years,
+  investment,
+  rate,
+}: {
+  years: number;
+  investment: number;
+  rate: number;
+}) {
   const milestones = useMemo(() => {
     const pts: { yr: number; val: number }[] = [];
     const step = Math.max(1, Math.floor(years / 5));
@@ -155,7 +167,10 @@ export function WealthCalculator() {
   const [years, setYears] = useState(10);
   const [rate, setRate] = useState(12);
 
-  const maturity = useMemo(() => investment * Math.pow(1 + rate / 100, years), [investment, years, rate]);
+  const maturity = useMemo(
+    () => investment * Math.pow(1 + rate / 100, years),
+    [investment, years, rate],
+  );
   const profit = maturity - investment;
   const totalReturn = (profit / investment) * 100;
   const multiplier = maturity / investment;
@@ -179,7 +194,9 @@ export function WealthCalculator() {
           />
           <div
             className="absolute -bottom-40 right-1/4 w-[500px] h-[500px] rounded-full opacity-[0.05]"
-            style={{ background: "radial-gradient(circle, oklch(0.50 0.155 245), transparent 70%)" }}
+            style={{
+              background: "radial-gradient(circle, oklch(0.50 0.155 245), transparent 70%)",
+            }}
           />
         </div>
 
@@ -187,7 +204,8 @@ export function WealthCalculator() {
         <div
           className="absolute inset-0 opacity-[0.025]"
           style={{
-            backgroundImage: "linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)",
+            backgroundImage:
+              "linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)",
             backgroundSize: "80px 80px",
           }}
         />
@@ -197,8 +215,7 @@ export function WealthCalculator() {
           <Reveal>
             <SectionEyebrow light>Wealth Planner</SectionEyebrow>
             <h2 className="font-display text-5xl md:text-7xl text-center text-white mb-4">
-              Calculate your{" "}
-              <em className="gradient-bronze-text not-italic">returns</em>
+              Calculate your <em className="gradient-bronze-text not-italic">returns</em>
             </h2>
             <p className="text-center text-white/35 mb-20 max-w-xl mx-auto">
               See how your investment in Prime Estate compounds over time.
@@ -258,7 +275,11 @@ export function WealthCalculator() {
               <div className="relative bg-white/[0.04] p-10 md:p-14 h-full flex flex-col gap-10 overflow-hidden">
                 {/* Watermark logo */}
                 <div className="absolute bottom-6 right-6 opacity-[0.06] pointer-events-none">
-                  <img src="/logo.png" alt="" className="w-28 h-28 object-contain grayscale brightness-200" />
+                  <img
+                    src="/logo.png"
+                    alt=""
+                    className="w-28 h-28 object-contain grayscale brightness-200"
+                  />
                 </div>
 
                 {/* Main output */}
@@ -288,8 +309,12 @@ export function WealthCalculator() {
                       transition={{ delay: i * 0.07, duration: 0.5 }}
                       className="bg-white/[0.03] hover:bg-white/[0.07] p-5 transition-all duration-300 group"
                     >
-                      <p className="text-[9px] uppercase tracking-widest text-white/25 mb-2">{s.label}</p>
-                      <p className={`font-serif text-lg font-medium ${s.highlight ? "text-[var(--bronze)]" : "text-white/70"}`}>
+                      <p className="text-[9px] uppercase tracking-widest text-white/25 mb-2">
+                        {s.label}
+                      </p>
+                      <p
+                        className={`font-serif text-lg font-medium ${s.highlight ? "text-[var(--bronze)]" : "text-white/70"}`}
+                      >
                         {s.value}
                       </p>
                     </motion.div>
@@ -321,8 +346,12 @@ export function WealthCalculator() {
           <Reveal>
             <div className="bg-white/[0.02] px-10 py-6 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-white/5">
               <div className="flex items-center gap-6">
-                <span className="text-[10px] uppercase tracking-widest text-white/20">Disclaimer:</span>
-                <span className="text-[11px] text-white/25">Conservative estimate. Actual returns may vary based on market conditions.</span>
+                <span className="text-[10px] uppercase tracking-widest text-white/20">
+                  Disclaimer:
+                </span>
+                <span className="text-[11px] text-white/25">
+                  Conservative estimate. Actual returns may vary based on market conditions.
+                </span>
               </div>
               <div className="flex gap-8">
                 {[

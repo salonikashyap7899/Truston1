@@ -26,7 +26,10 @@ function AnimatedNumber({ to }: { to: number }) {
 }
 
 export function PlotTracker() {
-  const total = 150, sold = 45, booked = 20, available = 85;
+  const total = 150,
+    sold = 45,
+    booked = 20,
+    available = 85;
   const pct = Math.round(((sold + booked) / total) * 100);
 
   const stats = [
@@ -39,10 +42,14 @@ export function PlotTracker() {
   return (
     <section id="estate" className="relative py-32 px-6 overflow-hidden bg-[var(--ink)]">
       {/* Subtle grid pattern */}
-      <div className="absolute inset-0 opacity-[0.03]" style={{
-        backgroundImage: "linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)",
-        backgroundSize: "64px 64px"
-      }} />
+      <div
+        className="absolute inset-0 opacity-[0.03]"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)",
+          backgroundSize: "64px 64px",
+        }}
+      />
 
       <div className="relative mx-auto max-w-7xl">
         <Reveal>
@@ -60,7 +67,9 @@ export function PlotTracker() {
           {stats.map((s, i) => (
             <Reveal key={s.label} delay={i * 0.08}>
               <div className="group bg-white/[0.02] hover:bg-white/[0.06] p-10 h-full transition-all duration-500 border-t-2 border-transparent hover:border-[var(--bronze)]">
-                <p className="text-[10px] uppercase tracking-widest text-white/30 mb-5">{s.label}</p>
+                <p className="text-[10px] uppercase tracking-widest text-white/30 mb-5">
+                  {s.label}
+                </p>
                 <p className={`font-display text-6xl font-bold ${s.color} mb-3`}>
                   <AnimatedNumber to={s.value} />
                 </p>
@@ -74,13 +83,17 @@ export function PlotTracker() {
         <Reveal>
           <div className="bg-white/[0.03] border border-white/5 p-10 relative overflow-hidden">
             <img
-              src={plotImg} alt="" loading="lazy"
+              src={plotImg}
+              alt=""
+              loading="lazy"
               className="absolute inset-0 w-full h-full object-cover opacity-[0.04]"
             />
             <div className="relative">
               <div className="flex flex-wrap items-baseline justify-between mb-6">
                 <div>
-                  <p className="text-[11px] uppercase tracking-widest text-white/30 mb-1">Overall Inventory Status</p>
+                  <p className="text-[11px] uppercase tracking-widest text-white/30 mb-1">
+                    Overall Inventory Status
+                  </p>
                   <p className="font-display text-4xl text-white">Phase 1 &amp; 2 Combined</p>
                 </div>
                 <p className="font-serif text-4xl gradient-bronze-text">{pct}% Reserved</p>
@@ -111,7 +124,9 @@ export function PlotTracker() {
 
               <div className="pt-8 border-t border-white/5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
                 <div>
-                  <p className="font-serif text-2xl text-[var(--bronze)]">Fast-selling inventory.</p>
+                  <p className="font-serif text-2xl text-[var(--bronze)]">
+                    Fast-selling inventory.
+                  </p>
                   <p className="text-sm text-white/40 mt-1">
                     43% of Phase 1 is already reserved. Act now before it's gone.
                   </p>

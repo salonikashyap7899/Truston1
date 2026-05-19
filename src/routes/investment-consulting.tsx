@@ -7,7 +7,11 @@ export const Route = createFileRoute("/investment-consulting")({
   head: () => ({
     meta: [
       { title: "Investment Consulting — TrustOn" },
-      { name: "description", content: "Buy smart. Invest smarter. Data-backed real-estate investment guidance focused on long-term value." },
+      {
+        name: "description",
+        content:
+          "Buy smart. Invest smarter. Data-backed real-estate investment guidance focused on long-term value.",
+      },
       { property: "og:title", content: "Investment Consulting — TrustOn" },
     ],
   }),
@@ -21,7 +25,14 @@ const content: ServiceContent = {
     "Our investment consulting service is focused entirely on real estate — providing structured, data-backed insights so you can identify the right opportunities, avoid common pitfalls, and align every decision with current conditions and future potential.",
     "Our recommendations are not driven by sales targets, but by objective market analysis and long-term value creation.",
   ],
-  benefits: ["Market analysis", "Portfolio strategy", "Risk assessment", "ROI projections", "Legal and documentation", "End-to-end transaction"],
+  benefits: [
+    "Market analysis",
+    "Portfolio strategy",
+    "Risk assessment",
+    "ROI projections",
+    "Legal and documentation",
+    "End-to-end transaction",
+  ],
   whyTrustHeading: "Why clients trust TrustOn with their investment",
   whyTrustText: [
     "Our investment consultants bring years of hands-on experience across residential, commercial, and land-based transactions — combining deep market knowledge with a genuine understanding of what each investor needs to achieve.",
@@ -30,16 +41,40 @@ const content: ServiceContent = {
   ],
   processHeading: "Where every smart investment finds its direction",
   process: [
-    { title: "Discovery & Brief", body: "We start by understanding your financial objectives, investment horizon, risk tolerance, and the broader wealth-building vision behind your interest in real estate." },
-    { title: "Market & Location Analysis", body: "Thorough analysis of each opportunity — location, infrastructure, rental demand, price trends, and economic factors shaping that micro market." },
-    { title: "Shortlisting & Due Diligence", body: "We present vetted opportunities with full documentation — ownership records, legal clearances, encumbrance certificates, and relevant approvals." },
-    { title: "Legal Verification & Transaction", body: "Independent legal due diligence covering title, ownership chain, encumbrance, and approvals — so you know exactly what you are buying before any commitment." },
+    {
+      title: "Discovery & Brief",
+      body: "We start by understanding your financial objectives, investment horizon, risk tolerance, and the broader wealth-building vision behind your interest in real estate.",
+    },
+    {
+      title: "Market & Location Analysis",
+      body: "Thorough analysis of each opportunity — location, infrastructure, rental demand, price trends, and economic factors shaping that micro market.",
+    },
+    {
+      title: "Shortlisting & Due Diligence",
+      body: "We present vetted opportunities with full documentation — ownership records, legal clearances, encumbrance certificates, and relevant approvals.",
+    },
+    {
+      title: "Legal Verification & Transaction",
+      body: "Independent legal due diligence covering title, ownership chain, encumbrance, and approvals — so you know exactly what you are buying before any commitment.",
+    },
   ],
   faq: [
-    { q: "Is this service only for large-scale investors?", a: "Not at all. We work with first-time buyers, individual investors, and institutional clients across a wide range of investment sizes and objectives." },
-    { q: "Which markets and locations do you cover?", a: "We focus on key real estate markets across the region — particularly Lucknow and its growth corridors — with selective advisory for high-potential opportunities nationally." },
-    { q: "How is your consulting fee structured?", a: "Fixed-fee advisory packages for clearly defined services, or success-based models for larger engagements. Fees are discussed transparently before any engagement begins." },
-    { q: "Can you assist with legal and documentation requirements?", a: "Yes. Legal and documentation support is integral to our service — coordinated with qualified professionals to fully protect your interests." },
+    {
+      q: "Is this service only for large-scale investors?",
+      a: "Not at all. We work with first-time buyers, individual investors, and institutional clients across a wide range of investment sizes and objectives.",
+    },
+    {
+      q: "Which markets and locations do you cover?",
+      a: "We focus on key real estate markets across the region — particularly Lucknow and its growth corridors — with selective advisory for high-potential opportunities nationally.",
+    },
+    {
+      q: "How is your consulting fee structured?",
+      a: "Fixed-fee advisory packages for clearly defined services, or success-based models for larger engagements. Fees are discussed transparently before any engagement begins.",
+    },
+    {
+      q: "Can you assist with legal and documentation requirements?",
+      a: "Yes. Legal and documentation support is integral to our service — coordinated with qualified professionals to fully protect your interests.",
+    },
   ],
   cta: "Schedule your consultation and identify opportunities that deliver real and lasting returns.",
 };
@@ -47,8 +82,22 @@ const content: ServiceContent = {
 function Page() {
   return (
     <>
-      <InnerHero eyebrow="Service · 04" title={<>Investment <em className="gradient-bronze-text not-italic font-serif italic">Consulting.</em></>} subtitle="Buy smart. Invest smarter." poster={lucknowImg} alt="Investment Consulting" />
-      <ServicePageBody content={content} image="https://truston.advrtisinguru.com/wp-content/uploads/2026/04/jakub-zerdzicki-uZqmXxRLHmQ-unsplash-scaled.jpg" />
+      <InnerHero
+        eyebrow="Service · 04"
+        title={
+          <>
+            Investment{" "}
+            <em className="gradient-bronze-text not-italic font-serif italic">Consulting.</em>
+          </>
+        }
+        subtitle="Buy smart. Invest smarter."
+        poster={lucknowImg}
+        alt="Investment Consulting"
+      />
+      <ServicePageBody
+        content={content}
+        image="https://truston.advrtisinguru.com/wp-content/uploads/2026/04/jakub-zerdzicki-uZqmXxRLHmQ-unsplash-scaled.jpg"
+      />
     </>
   );
 }

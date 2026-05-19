@@ -41,7 +41,8 @@ export function LazyVideo({
       connection?: { saveData?: boolean; effectiveType?: string };
     };
     if (nav.connection?.saveData) return;
-    if (nav.connection?.effectiveType && ["slow-2g", "2g"].includes(nav.connection.effectiveType)) return;
+    if (nav.connection?.effectiveType && ["slow-2g", "2g"].includes(nav.connection.effectiveType))
+      return;
     if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
     setAllowVideo(true);
   }, [sources.length]);
@@ -60,7 +61,7 @@ export function LazyVideo({
           }
         }
       },
-      { threshold }
+      { threshold },
     );
     obs.observe(el);
     return () => obs.disconnect();

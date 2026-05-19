@@ -11,6 +11,8 @@ import { LuxeNav } from "@/components/LuxeNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { IntroScreen } from "@/components/IntroScreen";
+import Lenis from "lenis";
+import { useEffect } from "react";
 
 import appCss from "../styles.css?url";
 
@@ -51,7 +53,10 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           <button
-            onClick={() => { router.invalidate(); reset(); }}
+            onClick={() => {
+              router.invalidate();
+              reset();
+            }}
             className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
           >
             Try again
@@ -74,7 +79,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "TrustOn — Premium Real Estate & Luxury Living" },
-      { name: "description", content: "Prime Estate by TrustOn — Jila Panchayat approved luxury township in Lucknow." },
+      {
+        name: "description",
+        content: "Prime Estate by TrustOn — Jila Panchayat approved luxury township in Lucknow.",
+      },
       { name: "author", content: "TrustOn Developers" },
       { property: "og:title", content: "TrustOn — Own the Ground. Build the Legacy." },
       { property: "og:type", content: "website" },
@@ -113,6 +121,25 @@ function RootShell({ children }: { children: React.ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+    });
+
+    function raf(time: number) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+
+    return () => {
+      lenis.destroy();
+    };
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>

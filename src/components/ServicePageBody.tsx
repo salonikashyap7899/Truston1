@@ -21,7 +21,12 @@ export function ServicePageBody({ content, image }: { content: ServiceContent; i
         <div className="mx-auto max-w-7xl grid md:grid-cols-12 gap-12 items-start">
           <Reveal className="md:col-span-5">
             <div className="relative aspect-[4/5] rounded-md overflow-hidden card-shadow">
-              <img src={image} alt={content.hero} loading="lazy" className="w-full h-full object-cover ken-burns" />
+              <img
+                src={image}
+                alt={content.hero}
+                loading="lazy"
+                className="w-full h-full object-cover ken-burns"
+              />
             </div>
           </Reveal>
           <div className="md:col-span-7 space-y-6">
@@ -144,9 +149,7 @@ export function ServicePageBody({ content, image }: { content: ServiceContent; i
             <p className="text-bronze text-[11px] uppercase tracking-luxe mb-5">
               Contact with us for any advice
             </p>
-            <h2 className="font-display text-3xl md:text-5xl leading-tight">
-              {content.cta}
-            </h2>
+            <h2 className="font-display text-3xl md:text-5xl leading-tight">{content.cta}</h2>
             <div className="mt-10 flex flex-wrap justify-center items-center gap-8">
               <a href="tel:+919616061166" className="font-serif text-3xl text-bronze">
                 +91 96160-61166

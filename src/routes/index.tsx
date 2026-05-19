@@ -8,6 +8,7 @@ import interiorImg from "@/assets/luxury-interior.jpg";
 import lucknowImg from "@/assets/lucknow-aerial.jpg";
 import { PageHero } from "@/components/PageHero";
 import { Reveal, SectionEyebrow, CountUp } from "@/components/Reveal";
+import { TextReveal, CharReveal } from "@/components/TextReveal";
 import { PlotTracker } from "@/components/PlotTracker";
 import { WealthCalculator } from "@/components/WealthCalculator";
 import { Testimonials } from "@/components/Testimonials";
@@ -18,7 +19,10 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "TrustOn — Own the Ground. Build the Legacy." },
-      { name: "description", content: "Prime Estate by TrustOn — Jila Panchayat approved luxury township in Lucknow." },
+      {
+        name: "description",
+        content: "Prime Estate by TrustOn — Jila Panchayat approved luxury township in Lucknow.",
+      },
       { property: "og:title", content: "TrustOn — Own the Ground. Build the Legacy." },
       { property: "og:image", content: heroImg },
     ],
@@ -34,16 +38,28 @@ function Index() {
       <PageHero
         height="full"
         eyebrow="Luxury Real Estate — Lucknow"
-        title={<>Own the <em className="gradient-bronze-text not-italic font-display">Ground.</em><br />Build the <span className="font-display italic">Legacy.</span></>}
+        title={
+          <>
+            Own the <em className="gradient-bronze-text not-italic font-display">Ground.</em>
+            <br />
+            Build the <span className="font-display italic">Legacy.</span>
+          </>
+        }
         poster={heroImg}
         videoSources={[{ src: "/intro-video.mp4", type: "video/mp4" }]}
         alt="Aerial view of Prime Estate township at twilight"
       >
-        <Link to="/project" className="group inline-flex items-center gap-4 bg-[var(--bronze)] text-white px-10 py-4 text-[11px] uppercase tracking-[0.25em] hover:bg-white hover:text-[var(--ink)] transition-all duration-500 shadow-luxe">
+        <Link
+          to="/project"
+          className="group inline-flex items-center gap-4 bg-[var(--bronze)] text-white px-10 py-4 text-[11px] uppercase tracking-[0.25em] hover:bg-white hover:text-[var(--ink)] transition-all duration-500 shadow-luxe"
+        >
           Explore Projects
           <span className="transition-transform duration-500 group-hover:translate-x-2">→</span>
         </Link>
-        <Link to="/contact" className="text-[11px] uppercase tracking-[0.25em] text-white/80 hover:text-[var(--bronze)] transition-all duration-500 border-b border-white/30 hover:border-[var(--bronze)] pb-0.5">
+        <Link
+          to="/contact"
+          className="text-[11px] uppercase tracking-[0.25em] text-white/80 hover:text-[var(--bronze)] transition-all duration-500 border-b border-white/30 hover:border-[var(--bronze)] pb-0.5"
+        >
           Private Consultation
         </Link>
       </PageHero>
@@ -67,14 +83,25 @@ function Index() {
 
 /* ── Marquee ─────────────────────────────────────────── */
 function Marquee() {
-  const words = ["Cinematic Living", "Editorial Architecture", "Premium Plots", "Jila Panchayat Approved", "Legacy Investments", "Prime Location", "Transparent Dealings"];
+  const words = [
+    "Cinematic Living",
+    "Editorial Architecture",
+    "Premium Plots",
+    "Jila Panchayat Approved",
+    "Legacy Investments",
+    "Prime Location",
+    "Transparent Dealings",
+  ];
   return (
     <div className="bg-[var(--ink)] border-y border-white/5 py-5 overflow-hidden">
       <div className="flex whitespace-nowrap marquee gap-16">
         {[...Array(2)].map((_, k) => (
           <div key={k} className="flex gap-16 shrink-0">
             {words.map((w, i) => (
-              <span key={`${k}-${i}`} className="font-serif text-xl italic text-white/40 hover:text-white/70 transition-colors duration-500 cursor-default">
+              <span
+                key={`${k}-${i}`}
+                className="font-serif text-xl italic text-white/40 hover:text-white/70 transition-colors duration-500 cursor-default"
+              >
                 {w} <span className="text-[var(--bronze)] mx-5 not-italic text-sm">✦</span>
               </span>
             ))}
@@ -138,18 +165,38 @@ function Highlights() {
   const inView = useInView(sectionRef, { once: false, margin: "-80px" });
 
   const cards: GalleryItem[] = [
-    { title: "Premium Living",     sub: "World-class interiors",   img: "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/modern-interior-design-interior-600x800.jpg" },
-    { title: "Green Development",  sub: "Sustainable spaces",      img: "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/aerial-photography-chinese-city-600x800.jpg" },
-    { title: "Modern Amenities",   sub: "5-star community",        img: "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/hotel-lobby-interior-600x800.jpg" },
-    { title: "Property Guidance",  sub: "Expert consultation",     img: "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/businessman-explaining-concept-details-600x800.jpg" },
-    { title: "Reasonable Pricing", sub: "Value-first pricing",     img: "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/close-up-hand-holding-cash-600x800.jpg" },
+    {
+      title: "Premium Living",
+      sub: "World-class interiors",
+      img: "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/modern-interior-design-interior-600x800.jpg",
+    },
+    {
+      title: "Green Development",
+      sub: "Sustainable spaces",
+      img: "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/aerial-photography-chinese-city-600x800.jpg",
+    },
+    {
+      title: "Modern Amenities",
+      sub: "5-star community",
+      img: "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/hotel-lobby-interior-600x800.jpg",
+    },
+    {
+      title: "Property Guidance",
+      sub: "Expert consultation",
+      img: "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/businessman-explaining-concept-details-600x800.jpg",
+    },
+    {
+      title: "Reasonable Pricing",
+      sub: "Value-first pricing",
+      img: "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/close-up-hand-holding-cash-600x800.jpg",
+    },
   ];
 
   const total = cards.length;
-  const openGallery  = (i: number) => setGalleryIndex(i);
+  const openGallery = (i: number) => setGalleryIndex(i);
   const closeGallery = () => setGalleryIndex(null);
-  const prevImg = () => setGalleryIndex((p) => p !== null ? (p - 1 + total) % total : 0);
-  const nextImg = () => setGalleryIndex((p) => p !== null ? (p + 1) % total : 0);
+  const prevImg = () => setGalleryIndex((p) => (p !== null ? (p - 1 + total) % total : 0));
+  const nextImg = () => setGalleryIndex((p) => (p !== null ? (p + 1) % total : 0));
 
   return (
     <section ref={sectionRef} className="py-28 px-6 bg-[var(--sand)] overflow-hidden">
@@ -166,11 +213,15 @@ function Highlights() {
         {/* Header */}
         <Reveal className="text-center mb-16">
           <SectionEyebrow>Lifestyle</SectionEyebrow>
-          <h2 className="font-display text-5xl md:text-6xl leading-tight">
-            A life <em className="gradient-bronze-text not-italic">beyond ordinary.</em>
+          <h2 className="font-display text-5xl md:text-6xl leading-tight flex flex-col items-center">
+            <TextReveal>A life beyond</TextReveal>
+            <em className="gradient-bronze-text not-italic">
+              <CharReveal delay={0.8}>ordinary.</CharReveal>
+            </em>
           </h2>
           <p className="text-foreground/50 mt-4 max-w-md mx-auto text-sm">
-            Click any image to open the gallery — every detail crafted for those who demand the finest.
+            Click any image to open the gallery — every detail crafted for those who demand the
+            finest.
           </p>
         </Reveal>
 
@@ -180,7 +231,11 @@ function Highlights() {
             <motion.div
               key={c.title}
               initial={{ opacity: 0, y: 60, scale: 0.94, filter: "blur(8px)" }}
-              animate={inView ? { opacity: 1, y: 0, scale: 1, filter: "blur(0px)" } : { opacity: 0, y: 60, scale: 0.94, filter: "blur(8px)" }}
+              animate={
+                inView
+                  ? { opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }
+                  : { opacity: 0, y: 60, scale: 0.94, filter: "blur(8px)" }
+              }
               transition={{ duration: 0.85, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
               onClick={() => openGallery(i)}
               role="button"
@@ -196,7 +251,9 @@ function Highlights() {
               >
                 {/* Image with scale */}
                 <motion.img
-                  src={c.img} alt={c.title} loading="lazy"
+                  src={c.img}
+                  alt={c.title}
+                  loading="lazy"
                   className="absolute inset-0 w-full h-full object-cover"
                   variants={{ rest: { scale: 1 }, hovered: { scale: 1.09 } }}
                   transition={{ duration: 1.3, ease: [0.16, 1, 0.3, 1] }}
@@ -209,7 +266,7 @@ function Highlights() {
                 <motion.div
                   className="absolute inset-0"
                   variants={{
-                    rest:    { backgroundColor: "rgba(0,0,0,0)" },
+                    rest: { backgroundColor: "rgba(0,0,0,0)" },
                     hovered: { backgroundColor: "rgba(45,107,196,0.14)" },
                   }}
                   transition={{ duration: 0.45 }}
@@ -280,7 +337,12 @@ function AboutPrime() {
           <div className="relative">
             <div className="relative aspect-[3/4] overflow-hidden shadow-2xl">
               <motion.div style={{ y }} className="absolute inset-[-10%]">
-                <img src={interiorImg} alt="Luxury interior" loading="lazy" className="w-full h-full object-cover" />
+                <img
+                  src={interiorImg}
+                  alt="Luxury interior"
+                  loading="lazy"
+                  className="w-full h-full object-cover"
+                />
               </motion.div>
               <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
             </div>
@@ -293,7 +355,9 @@ function AboutPrime() {
               className="absolute bottom-10 -right-6 md:-right-10 bg-[var(--bronze)] text-white p-8 shadow-2xl"
             >
               <p className="font-display text-4xl font-bold">150+</p>
-              <p className="text-[10px] uppercase tracking-widest mt-1 text-white/80">Premium Plots</p>
+              <p className="text-[10px] uppercase tracking-widest mt-1 text-white/80">
+                Premium Plots
+              </p>
             </motion.div>
             {/* Side feature tags */}
             <motion.div
@@ -320,19 +384,26 @@ function AboutPrime() {
             Own the Ground. Build Your Legacy.
           </p>
           <h2 className="font-display text-5xl md:text-6xl leading-tight mb-8">
-            Prime Estate — where <em className="gradient-bronze-text not-italic">imagination</em> takes shape.
+            Prime Estate — where <em className="gradient-bronze-text not-italic">imagination</em>{" "}
+            takes shape.
           </h2>
           <p className="text-foreground/60 text-lg leading-relaxed mb-10">
-            Prime Estate is a trusted name in real estate development, built on a foundation
-            of transparency, quality, and long-term vision. We don't just sell land — we craft
-            opportunities. Our flagship project is a Jila Panchayat approved township that
-            combines legal security, prime location, and future-ready infrastructure.
+            Prime Estate is a trusted name in real estate development, built on a foundation of
+            transparency, quality, and long-term vision. We don't just sell land — we craft
+            opportunities. Our flagship project is a Jila Panchayat approved township that combines
+            legal security, prime location, and future-ready infrastructure.
           </p>
 
           <div className="grid sm:grid-cols-2 gap-px bg-gray-100 mb-10">
             {[
-              { title: "Our Mission", body: "Make premium, legally secure land ownership accessible to every aspiring homeowner and investor." },
-              { title: "Our Vision", body: "Build not just properties, but thriving communities where families live and businesses grow." },
+              {
+                title: "Our Mission",
+                body: "Make premium, legally secure land ownership accessible to every aspiring homeowner and investor.",
+              },
+              {
+                title: "Our Vision",
+                body: "Build not just properties, but thriving communities where families live and businesses grow.",
+              },
             ].map((card) => (
               <motion.div
                 key={card.title}
@@ -340,7 +411,9 @@ function AboutPrime() {
                 transition={{ duration: 0.3 }}
                 className="bg-white p-7 border-l-2 border-[var(--bronze)] group cursor-default"
               >
-                <p className="text-[var(--bronze)] text-[10px] uppercase tracking-widest mb-3">{card.title}</p>
+                <p className="text-[var(--bronze)] text-[10px] uppercase tracking-widest mb-3">
+                  {card.title}
+                </p>
                 <p className="font-serif text-lg leading-snug text-foreground/70">{card.body}</p>
               </motion.div>
             ))}
@@ -356,11 +429,16 @@ function AboutPrime() {
                 className="inline-block"
                 animate={{ x: [0, 4, 0] }}
                 transition={{ repeat: Infinity, duration: 1.8, ease: "easeInOut" }}
-              >→</motion.span>
+              >
+                →
+              </motion.span>
             </Link>
             <div>
               <p className="text-[10px] uppercase tracking-widest text-gray-400">Call Anytime</p>
-              <a href="tel:+919616061166" className="font-serif text-2xl text-[var(--bronze)] hover:underline">
+              <a
+                href="tel:+919616061166"
+                className="font-serif text-2xl text-[var(--bronze)] hover:underline"
+              >
                 +91 96160-61166
               </a>
             </div>
@@ -374,10 +452,30 @@ function AboutPrime() {
 /* ── Invest Lucknow ──────────────────────────────────── */
 function InvestLucknow() {
   const items = [
-    { t: "Lucknow Metro", d: "Extended metro lines are boosting surrounding land values across key residential zones.", num: "3X", unit: "Growth" },
-    { t: "Purvanchal Expressway", d: "Direct connectivity to UP's fastest-growing economic and industrial corridor.", num: "300", unit: "KM Range" },
-    { t: "25% Land Appreciation", d: "Premium zones in Lucknow have seen up to 25% appreciation in the last 3 years.", num: "25%", unit: "Appreciation" },
-    { t: "Airport Expansion", d: "The new international terminal is driving demand for premium residential properties.", num: "#1", unit: "Growth City" },
+    {
+      t: "Lucknow Metro",
+      d: "Extended metro lines are boosting surrounding land values across key residential zones.",
+      num: "3X",
+      unit: "Growth",
+    },
+    {
+      t: "Purvanchal Expressway",
+      d: "Direct connectivity to UP's fastest-growing economic and industrial corridor.",
+      num: "300",
+      unit: "KM Range",
+    },
+    {
+      t: "25% Land Appreciation",
+      d: "Premium zones in Lucknow have seen up to 25% appreciation in the last 3 years.",
+      num: "25%",
+      unit: "Appreciation",
+    },
+    {
+      t: "Airport Expansion",
+      d: "The new international terminal is driving demand for premium residential properties.",
+      num: "#1",
+      unit: "Growth City",
+    },
   ];
 
   const ref = useRef<HTMLDivElement>(null);
@@ -387,7 +485,12 @@ function InvestLucknow() {
   return (
     <section ref={ref} className="relative py-32 px-6 overflow-hidden bg-[var(--ink)]">
       <motion.div style={{ y }} className="absolute inset-0">
-        <img src={lucknowImg} alt="" className="w-full h-full object-cover opacity-10" loading="lazy" />
+        <img
+          src={lucknowImg}
+          alt=""
+          className="w-full h-full object-cover opacity-10"
+          loading="lazy"
+        />
       </motion.div>
       <div className="absolute inset-0 bg-gradient-to-b from-[var(--ink)]/90 via-[var(--ink)]/60 to-[var(--ink)]/95" />
 
@@ -395,11 +498,11 @@ function InvestLucknow() {
         <Reveal>
           <SectionEyebrow light>NRI / Investment</SectionEyebrow>
           <h2 className="font-display text-5xl md:text-7xl text-center text-white mb-6 leading-tight">
-            Why invest in{" "}
-            <em className="gradient-bronze-text not-italic">Lucknow?</em>
+            Why invest in <em className="gradient-bronze-text not-italic">Lucknow?</em>
           </h2>
           <p className="text-center text-white/40 max-w-2xl mx-auto mb-20">
-            One of India's fastest-growing real estate markets — driven by world-class infrastructure and rapidly rising land values.
+            One of India's fastest-growing real estate markets — driven by world-class
+            infrastructure and rapidly rising land values.
           </p>
         </Reveal>
 
@@ -426,8 +529,12 @@ function InvestLucknow() {
                   {String(i + 1).padStart(2, "0")}
                 </div>
 
-                <p className="font-display text-5xl gradient-bronze-text font-bold mb-1">{it.num}</p>
-                <p className="text-[10px] uppercase tracking-widest text-white/25 mb-7">{it.unit}</p>
+                <p className="font-display text-5xl gradient-bronze-text font-bold mb-1">
+                  {it.num}
+                </p>
+                <p className="text-[10px] uppercase tracking-widest text-white/25 mb-7">
+                  {it.unit}
+                </p>
                 <h3 className="font-serif text-xl text-white mb-4 group-hover:text-[var(--bronze)] transition-colors duration-400">
                   {it.t}
                 </h3>
@@ -444,10 +551,34 @@ function InvestLucknow() {
 /* ── Services ────────────────────────────────────────── */
 function Services() {
   const services = [
-    { title: "Plot Selling", sub: "Premium Plots. Zero Compromise.", to: "/plot-selling", img: "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/webaliser-_TPTXZd9mOo-unsplash-1-1024x768.jpg", num: "01" },
-    { title: "Architecture & Design", sub: "Your Vision, Brought to Life on Paper First", to: "/architecture-design", img: "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/april-pethybridge-nN28PjFOOLI-unsplash-scaled.jpg", num: "02" },
-    { title: "Construction & Build", sub: "We Don't Just Build Buildings. We Build Promises", to: "/construction-build", img: "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/avi-werde-hHz4yrvxwlA-unsplash-scaled.jpg", num: "03" },
-    { title: "Investment Consulting", sub: "Buy Smart. Invest Smarter.", to: "/investment-consulting", img: "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/avi-waxman-f9qZuKoZYoY-unsplash-1-scaled.jpg", num: "04" },
+    {
+      title: "Plot Selling",
+      sub: "Premium Plots. Zero Compromise.",
+      to: "/plot-selling",
+      img: "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/webaliser-_TPTXZd9mOo-unsplash-1-1024x768.jpg",
+      num: "01",
+    },
+    {
+      title: "Architecture & Design",
+      sub: "Your Vision, Brought to Life on Paper First",
+      to: "/architecture-design",
+      img: "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/april-pethybridge-nN28PjFOOLI-unsplash-scaled.jpg",
+      num: "02",
+    },
+    {
+      title: "Construction & Build",
+      sub: "We Don't Just Build Buildings. We Build Promises",
+      to: "/construction-build",
+      img: "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/avi-werde-hHz4yrvxwlA-unsplash-scaled.jpg",
+      num: "03",
+    },
+    {
+      title: "Investment Consulting",
+      sub: "Buy Smart. Invest Smarter.",
+      to: "/investment-consulting",
+      img: "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/avi-waxman-f9qZuKoZYoY-unsplash-1-scaled.jpg",
+      num: "04",
+    },
   ] as const;
 
   return (
@@ -455,9 +586,11 @@ function Services() {
       <div className="mx-auto max-w-7xl">
         <Reveal>
           <SectionEyebrow>Our Services</SectionEyebrow>
-          <h2 className="font-display text-5xl md:text-7xl text-center mb-4 leading-tight">
-            Everything you need,{" "}
-            <em className="gradient-bronze-text not-italic">under one roof.</em>
+          <h2 className="font-display text-5xl md:text-7xl text-center mb-4 leading-tight flex flex-col items-center">
+            <TextReveal>Everything you need,</TextReveal>
+            <em className="gradient-bronze-text not-italic">
+              <TextReveal delay={0.6}>under one roof.</TextReveal>
+            </em>
           </h2>
           <p className="text-center text-foreground/45 mb-20 max-w-xl mx-auto">
             Four pillars of expertise, one trusted partner — from land to legacy.
@@ -467,10 +600,17 @@ function Services() {
         <div className="grid md:grid-cols-2 gap-1">
           {services.map((s, i) => (
             <Reveal key={s.title} delay={i * 0.09}>
-              <motion.div whileHover="hovered" initial="rest" className="relative overflow-hidden block" style={{ aspectRatio: "16/10" }}>
+              <motion.div
+                whileHover="hovered"
+                initial="rest"
+                className="relative overflow-hidden block"
+                style={{ aspectRatio: "16/10" }}
+              >
                 <Link to={s.to} className="absolute inset-0 z-10" aria-label={s.title} />
                 <motion.img
-                  src={s.img} alt={s.title} loading="lazy"
+                  src={s.img}
+                  alt={s.title}
+                  loading="lazy"
                   className="absolute inset-0 w-full h-full object-cover"
                   variants={{ rest: { scale: 1 }, hovered: { scale: 1.08 } }}
                   transition={{ duration: 1.8, ease: [0.16, 1, 0.3, 1] }}
@@ -478,8 +618,14 @@ function Services() {
                 <motion.div
                   className="absolute inset-0"
                   variants={{
-                    rest: { background: "linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.1) 100%)" },
-                    hovered: { background: "linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0.15) 100%)" },
+                    rest: {
+                      background:
+                        "linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.1) 100%)",
+                    },
+                    hovered: {
+                      background:
+                        "linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0.15) 100%)",
+                    },
                   }}
                   transition={{ duration: 0.5 }}
                 />
@@ -487,7 +633,10 @@ function Services() {
                 {/* Number top-right */}
                 <motion.div
                   className="absolute top-6 right-6 font-display text-5xl"
-                  variants={{ rest: { color: "rgba(255,255,255,0.1)" }, hovered: { color: "rgba(255,255,255,0.25)" } }}
+                  variants={{
+                    rest: { color: "rgba(255,255,255,0.1)" },
+                    hovered: { color: "rgba(255,255,255,0.25)" },
+                  }}
                   transition={{ duration: 0.4 }}
                 >
                   {s.num}
@@ -584,12 +733,10 @@ function ProjectFeature() {
               <p className="text-[10px] uppercase tracking-widest text-[var(--bronze)] mb-4">
                 Residential Township · Lucknow
               </p>
-              <h3 className="font-display text-5xl md:text-7xl mb-6 leading-none">
-                Prime Estate
-              </h3>
+              <h3 className="font-display text-5xl md:text-7xl mb-6 leading-none">Prime Estate</h3>
               <p className="text-white/65 mb-10 max-w-md text-lg leading-relaxed">
-                A flagship Jila Panchayat approved township — combining legal security,
-                prime location, and future-ready infrastructure.
+                A flagship Jila Panchayat approved township — combining legal security, prime
+                location, and future-ready infrastructure.
               </p>
               <motion.span
                 className="inline-flex w-fit items-center gap-4 bg-[var(--bronze)] text-white px-8 py-4 text-[11px] uppercase tracking-widest"
@@ -609,25 +756,48 @@ function ProjectFeature() {
 /* ── Why Trust ───────────────────────────────────────── */
 function WhyTrust() {
   const items = [
-    { t: "Legal Security", d: "Every plot backed by Jila Panchayat approval & clear title deeds.", icon: "⚖" },
-    { t: "Transparent Dealings", d: "No hidden charges. What we quote is what you pay.", icon: "◈" },
-    { t: "Design Expertise", d: "In-house architects who understand your vision, not just blueprints.", icon: "◻" },
-    { t: "Prime Location", d: "Strategic positioning with road access & utility connections.", icon: "◉" },
-    { t: "Quality Construction", d: "Grade-A materials, skilled workforce, no shortcuts.", icon: "◆" },
+    {
+      t: "Legal Security",
+      d: "Every plot backed by Jila Panchayat approval & clear title deeds.",
+      icon: "⚖",
+    },
+    {
+      t: "Transparent Dealings",
+      d: "No hidden charges. What we quote is what you pay.",
+      icon: "◈",
+    },
+    {
+      t: "Design Expertise",
+      d: "In-house architects who understand your vision, not just blueprints.",
+      icon: "◻",
+    },
+    {
+      t: "Prime Location",
+      d: "Strategic positioning with road access & utility connections.",
+      icon: "◉",
+    },
+    {
+      t: "Quality Construction",
+      d: "Grade-A materials, skilled workforce, no shortcuts.",
+      icon: "◆",
+    },
     { t: "After-Sale Support", d: "We stay with you long after the deal is signed.", icon: "◎" },
   ];
 
   return (
     <section className="py-32 px-6 bg-[var(--ink)] relative overflow-hidden">
-      <div className="absolute inset-0 opacity-[0.04]"
-        style={{ backgroundImage: "radial-gradient(ellipse at 20% 50%, var(--bronze) 0%, transparent 55%), radial-gradient(ellipse at 80% 50%, oklch(0.50 0.155 245) 0%, transparent 55%)" }}
+      <div
+        className="absolute inset-0 opacity-[0.04]"
+        style={{
+          backgroundImage:
+            "radial-gradient(ellipse at 20% 50%, var(--bronze) 0%, transparent 55%), radial-gradient(ellipse at 80% 50%, oklch(0.50 0.155 245) 0%, transparent 55%)",
+        }}
       />
       <div className="relative mx-auto max-w-7xl">
         <Reveal>
           <SectionEyebrow light>Why Choose Us</SectionEyebrow>
           <h2 className="font-display text-5xl md:text-7xl text-center text-white mb-20 leading-tight">
-            Why buyers trust{" "}
-            <em className="gradient-bronze-text not-italic">Prime Estate.</em>
+            Why buyers trust <em className="gradient-bronze-text not-italic">Prime Estate.</em>
           </h2>
         </Reveal>
 
@@ -702,21 +872,23 @@ function ChannelPartnerCTA() {
           </h2>
           <p className="text-foreground/60 text-lg leading-relaxed mb-10">
             Join TrustOn's Channel Partner Program and start earning premium commissions on every
-            deal — with full marketing support, RERA-compliant projects, and a team that's always
-            in your corner.
+            deal — with full marketing support, RERA-compliant projects, and a team that's always in
+            your corner.
           </p>
 
           {/* Benefit tags */}
           <div className="flex flex-wrap gap-3 mb-10">
-            {["Premium Commission", "Marketing Support", "RERA Compliant", "Instant Payouts"].map((tag) => (
-              <motion.span
-                key={tag}
-                whileHover={{ scale: 1.03, borderColor: "var(--bronze)" }}
-                className="text-[11px] uppercase tracking-widest border border-gray-200 px-4 py-2 text-gray-500 cursor-default transition-colors duration-300"
-              >
-                {tag}
-              </motion.span>
-            ))}
+            {["Premium Commission", "Marketing Support", "RERA Compliant", "Instant Payouts"].map(
+              (tag) => (
+                <motion.span
+                  key={tag}
+                  whileHover={{ scale: 1.03, borderColor: "var(--bronze)" }}
+                  className="text-[11px] uppercase tracking-widest border border-gray-200 px-4 py-2 text-gray-500 cursor-default transition-colors duration-300"
+                >
+                  {tag}
+                </motion.span>
+              ),
+            )}
           </div>
 
           <div className="flex flex-wrap gap-4">
@@ -729,7 +901,9 @@ function ChannelPartnerCTA() {
                 className="inline-block"
                 animate={{ x: [0, 4, 0] }}
                 transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-              >→</motion.span>
+              >
+                →
+              </motion.span>
             </Link>
             <a
               href="tel:+919616061166"
@@ -742,10 +916,7 @@ function ChannelPartnerCTA() {
 
         <Reveal direction="right" delay={0.12}>
           <div className="relative">
-            <motion.div
-              style={{ y }}
-              className="relative aspect-[4/5] overflow-hidden shadow-2xl"
-            >
+            <motion.div style={{ y }} className="relative aspect-[4/5] overflow-hidden shadow-2xl">
               <img
                 src="https://truston.advrtisinguru.com/wp-content/uploads/2026/01/ser3.jpg"
                 alt="Channel Partner Program"
@@ -755,7 +926,9 @@ function ChannelPartnerCTA() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
               <div className="absolute bottom-8 left-8 text-white">
                 <p className="font-display text-4xl mb-1">50+</p>
-                <p className="text-[11px] uppercase tracking-widest text-white/50">Active Partners</p>
+                <p className="text-[11px] uppercase tracking-widest text-white/50">
+                  Active Partners
+                </p>
               </div>
             </motion.div>
             {/* Floating accent */}
@@ -767,7 +940,9 @@ function ChannelPartnerCTA() {
               className="absolute -top-6 -right-6 bg-white border border-gray-100 shadow-xl p-6 text-center"
             >
               <p className="font-display text-3xl gradient-bronze-text font-bold">₹50K+</p>
-              <p className="text-[9px] uppercase tracking-widest text-gray-400 mt-1">Avg Commission</p>
+              <p className="text-[9px] uppercase tracking-widest text-gray-400 mt-1">
+                Avg Commission
+              </p>
             </motion.div>
           </div>
         </Reveal>

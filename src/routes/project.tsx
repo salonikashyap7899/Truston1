@@ -7,7 +7,10 @@ export const Route = createFileRoute("/project")({
   head: () => ({
     meta: [
       { title: "Project — TrustOn" },
-      { name: "description", content: "Explore TrustOn's residential projects — Prime Estate in Lucknow, Uttar Pradesh." },
+      {
+        name: "description",
+        content: "Explore TrustOn's residential projects — Prime Estate in Lucknow, Uttar Pradesh.",
+      },
       { property: "og:title", content: "Projects — TrustOn" },
     ],
   }),
@@ -29,7 +32,12 @@ function Page() {
     <>
       <InnerHero
         eyebrow="Project"
-        title={<>Where imagination takes shape in <em className="gradient-bronze-text not-italic font-serif italic">luxury.</em></>}
+        title={
+          <>
+            Where imagination takes shape in{" "}
+            <em className="gradient-bronze-text not-italic font-serif italic">luxury.</em>
+          </>
+        }
         subtitle="Crafted for those who expect nothing less than exceptional living."
         poster={projectImg}
         alt="TrustOn Projects"
@@ -40,12 +48,21 @@ function Page() {
             <Reveal key={p.slug} delay={i * 0.1}>
               <Link to="/projects/$slug" params={{ slug: p.slug }} className="group block">
                 <div className="relative aspect-[4/3] rounded-md overflow-hidden card-shadow mb-6">
-                  <img src={p.img} alt={p.name} loading="lazy" className="w-full h-full object-cover transition-transform duration-[1.8s] group-hover:scale-110" />
+                  <img
+                    src={p.img}
+                    alt={p.name}
+                    loading="lazy"
+                    className="w-full h-full object-cover transition-transform duration-[1.8s] group-hover:scale-110"
+                  />
                   <div className="absolute inset-0 bg-gradient-to-t from-ink/60 to-transparent" />
-                  <p className="absolute top-5 left-5 text-[11px] uppercase tracking-luxe text-cream bg-bronze/90 px-3 py-1 rounded-full">{p.type}</p>
+                  <p className="absolute top-5 left-5 text-[11px] uppercase tracking-luxe text-cream bg-bronze/90 px-3 py-1 rounded-full">
+                    {p.type}
+                  </p>
                 </div>
                 <p className="text-[11px] uppercase tracking-luxe text-bronze">{p.location}</p>
-                <h3 className="font-display text-4xl mt-2 group-hover:text-bronze transition-colors">{p.name}</h3>
+                <h3 className="font-display text-4xl mt-2 group-hover:text-bronze transition-colors">
+                  {p.name}
+                </h3>
               </Link>
             </Reveal>
           ))}

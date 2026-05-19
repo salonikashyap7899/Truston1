@@ -24,9 +24,12 @@ export function CursorGlow() {
     if (!icon || !ring || !glow) return;
 
     let raf = 0;
-    let ix = -100, iy = -100;
-    let rx = -100, ry = -100;
-    let tx = -100, ty = -100;
+    let ix = -100,
+      iy = -100;
+    let rx = -100,
+      ry = -100;
+    let tx = -100,
+      ty = -100;
     let isHovering = false;
 
     const onMove = (e: MouseEvent) => {
@@ -61,7 +64,9 @@ export function CursorGlow() {
 
     const onOver = (e: MouseEvent) => {
       const el = e.target as HTMLElement;
-      const isInteractive = !!el.closest("a, button, [role='button'], input, select, textarea, label, [data-cursor]");
+      const isInteractive = !!el.closest(
+        "a, button, [role='button'], input, select, textarea, label, [data-cursor]",
+      );
       setHover(isInteractive);
     };
 
@@ -123,7 +128,8 @@ export function CursorGlow() {
           borderRadius: "50%",
           border: "1px solid oklch(0.50 0.155 245 / 0.35)",
           backgroundColor: "transparent",
-          transition: "width 0.35s cubic-bezier(0.16,1,0.3,1), height 0.35s cubic-bezier(0.16,1,0.3,1), border-color 0.3s, background-color 0.3s",
+          transition:
+            "width 0.35s cubic-bezier(0.16,1,0.3,1), height 0.35s cubic-bezier(0.16,1,0.3,1), border-color 0.3s, background-color 0.3s",
           willChange: "left, top",
         }}
       />
