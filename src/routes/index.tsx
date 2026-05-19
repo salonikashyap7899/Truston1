@@ -13,8 +13,8 @@ import { TextReveal, CharReveal } from "@/components/TextReveal";
 import { PlotTracker } from "@/components/PlotTracker";
 import { WealthCalculator } from "@/components/WealthCalculator";
 import { Testimonials } from "@/components/Testimonials";
-import { CursorGlow } from "@/components/CursorGlow";
 import { GallerySection } from "@/components/GallerySection";
+import { DevelopersSection } from "@/components/DevelopersSection";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -35,7 +35,6 @@ export const Route = createFileRoute("/")({
 function Index() {
   return (
     <div className="bg-background text-foreground overflow-x-hidden">
-      <CursorGlow />
       <SobhaStyleHero
         height="full"
         title=""
@@ -43,6 +42,8 @@ function Index() {
         videoSources={[{ src: "/intro-video.mp4", type: "video/mp4" }]}
         alt="Aerial view of Prime Estate township at twilight"
       />
+
+      <DevelopersSection />
 
       <Marquee />
       <StatsBar />

@@ -12,6 +12,7 @@ import { SobhaStyleNav } from "@/components/SobhaStyleNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { IntroScreen } from "@/components/IntroScreen";
+import { CursorGlow } from "@/components/CursorGlow";
 import Lenis from "lenis";
 import { useEffect } from "react";
 
@@ -146,6 +147,7 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <CursorGlow />
       <IntroScreen />
       <SobhaStyleNav />
       <main className="min-h-screen">
