@@ -40,8 +40,8 @@ function Index() {
         alt="Aerial view of Prime Estate township at twilight"
       />
 
-      <DevelopersSection />
       <WhoWeAreSection />
+      <DevelopersSection />
 
       <Marquee />
       <StatsBar />
