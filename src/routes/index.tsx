@@ -14,6 +14,7 @@ import { WealthCalculator } from "@/components/WealthCalculator";
 import { Testimonials } from "@/components/Testimonials";
 import { CursorGlow } from "@/components/CursorGlow";
 import { GallerySection } from "@/components/GallerySection";
+import { MagneticButton } from "@/components/MagneticButton";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -49,19 +50,23 @@ function Index() {
         videoSources={[{ src: "/intro-video.mp4", type: "video/mp4" }]}
         alt="Aerial view of Prime Estate township at twilight"
       >
-        <Link
-          to="/project"
-          className="group inline-flex items-center gap-4 bg-[var(--bronze)] text-white px-10 py-4 text-[11px] uppercase tracking-[0.25em] hover:bg-white hover:text-[var(--ink)] transition-all duration-500 shadow-luxe"
-        >
-          Explore Projects
-          <span className="transition-transform duration-500 group-hover:translate-x-2">→</span>
-        </Link>
-        <Link
-          to="/contact"
-          className="text-[11px] uppercase tracking-[0.25em] text-white/80 hover:text-[var(--bronze)] transition-all duration-500 border-b border-white/30 hover:border-[var(--bronze)] pb-0.5"
-        >
-          Private Consultation
-        </Link>
+        <MagneticButton strength={40}>
+          <Link
+            to="/project"
+            className="group inline-flex items-center gap-4 bg-[var(--bronze)] text-white px-10 py-4 text-[11px] uppercase tracking-[0.25em] hover:bg-white hover:text-[var(--ink)] transition-all duration-500 shadow-luxe"
+          >
+            Explore Projects
+            <span className="transition-transform duration-500 group-hover:translate-x-2">→</span>
+          </Link>
+        </MagneticButton>
+        <MagneticButton strength={25}>
+          <Link
+            to="/contact"
+            className="text-[11px] uppercase tracking-[0.25em] text-white/80 hover:text-[var(--bronze)] transition-all duration-500 border-b border-white/30 hover:border-[var(--bronze)] pb-0.5"
+          >
+            Private Consultation
+          </Link>
+        </MagneticButton>
       </PageHero>
 
       <Marquee />
@@ -72,6 +77,7 @@ function Index() {
       <WealthCalculator />
       <AboutPrime />
       <InvestLucknow />
+      <LuxurySignature />
       <Services />
       <ProjectFeature />
       <WhyTrust />
@@ -444,6 +450,48 @@ function AboutPrime() {
             </div>
           </div>
         </Reveal>
+      </div>
+    </section>
+  );
+}
+
+/* ── Luxury Signature ────────────────────────────────── */
+function LuxurySignature() {
+  return (
+    <section className="py-40 bg-white overflow-hidden">
+      <div className="mx-auto max-w-7xl px-6 text-center">
+        <Reveal>
+          <div className="inline-block mb-12">
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+              className="w-32 h-32 border border-[var(--bronze)]/20 rounded-full flex items-center justify-center relative"
+            >
+              <div className="absolute inset-0 border-t-2 border-[var(--bronze)] rounded-full" />
+              <span className="font-display text-4xl text-[var(--bronze)] font-bold">T</span>
+            </motion.div>
+          </div>
+        </Reveal>
+
+        <h2 className="font-display text-6xl md:text-[120px] leading-[0.9] tracking-tighter mb-12">
+          <TextReveal>Elegance in every</TextReveal>
+          <em className="gradient-bronze-text not-italic">
+            <CharReveal delay={0.6}>Detail.</CharReveal>
+          </em>
+        </h2>
+
+        <div className="max-w-2xl mx-auto border-t border-gray-100 pt-12">
+          <p className="font-serif italic text-2xl text-foreground/50 leading-relaxed">
+            "True luxury is not just about what you see, but how it makes you feel. At TrustOn, we
+            craft experiences that resonate with the soul of modern Lucknow."
+          </p>
+          <div className="mt-8 flex flex-col items-center">
+            <div className="w-12 h-px bg-[var(--bronze)] mb-4" />
+            <p className="text-[10px] uppercase tracking-[0.4em] text-[var(--bronze)] font-bold">
+              TrustOn Developers
+            </p>
+          </div>
+        </div>
       </div>
     </section>
   );
@@ -892,25 +940,29 @@ function ChannelPartnerCTA() {
           </div>
 
           <div className="flex flex-wrap gap-4">
-            <Link
-              to="/channel-partner"
-              className="group inline-flex items-center gap-3 bg-[var(--bronze)] text-white px-8 py-4 text-[11px] uppercase tracking-widest hover:bg-[var(--ink)] transition-all duration-500"
-            >
-              Register Now
-              <motion.span
-                className="inline-block"
-                animate={{ x: [0, 4, 0] }}
-                transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+            <MagneticButton strength={30}>
+              <Link
+                to="/channel-partner"
+                className="group inline-flex items-center gap-3 bg-[var(--bronze)] text-white px-8 py-4 text-[11px] uppercase tracking-widest hover:bg-[var(--ink)] transition-all duration-500"
               >
-                →
-              </motion.span>
-            </Link>
-            <a
-              href="tel:+919616061166"
-              className="inline-flex items-center gap-3 border border-gray-200 text-gray-500 px-8 py-4 text-[11px] uppercase tracking-widest hover:border-[var(--bronze)] hover:text-[var(--bronze)] transition-all duration-400"
-            >
-              Call Us
-            </a>
+                Register Now
+                <motion.span
+                  className="inline-block"
+                  animate={{ x: [0, 4, 0] }}
+                  transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                >
+                  →
+                </motion.span>
+              </Link>
+            </MagneticButton>
+            <MagneticButton strength={20}>
+              <a
+                href="tel:+919616061166"
+                className="inline-flex items-center gap-3 border border-gray-200 text-gray-500 px-8 py-4 text-[11px] uppercase tracking-widest hover:border-[var(--bronze)] hover:text-[var(--bronze)] transition-all duration-400"
+              >
+                Call Us
+              </a>
+            </MagneticButton>
           </div>
         </Reveal>
 

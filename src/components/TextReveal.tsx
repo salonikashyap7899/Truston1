@@ -15,7 +15,7 @@ export function TextReveal({ children, className, delay = 0, once = true }: Text
     hidden: { opacity: 0 },
     visible: (i = 1) => ({
       opacity: 1,
-      transition: { staggerChildren: 0.12, delayChildren: 0.04 * i + delay },
+      transition: { staggerChildren: 0.08, delayChildren: 0.04 * i + delay },
     }),
   };
 
@@ -25,20 +25,17 @@ export function TextReveal({ children, className, delay = 0, once = true }: Text
       y: 0,
       rotateX: 0,
       transition: {
-        type: "spring",
-        damping: 12,
-        stiffness: 100,
-        duration: 0.8,
+        duration: 1.2,
+        ease: [0.22, 1, 0.36, 1],
       },
     },
     hidden: {
       opacity: 0,
-      y: 20,
-      rotateX: 45,
+      y: 40,
+      rotateX: 25,
       transition: {
-        type: "spring",
-        damping: 12,
-        stiffness: 100,
+        duration: 1.2,
+        ease: [0.22, 1, 0.36, 1],
       },
     },
   };

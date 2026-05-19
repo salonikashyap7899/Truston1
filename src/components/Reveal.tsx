@@ -3,35 +3,35 @@ import type { ReactNode } from "react";
 import { useRef, useEffect } from "react";
 
 const variants: Variants = {
-  hidden: { opacity: 0, y: 48, filter: "blur(8px)" },
+  hidden: { opacity: 0, y: 60, filter: "blur(12px)" },
   show: {
     opacity: 1,
     y: 0,
     filter: "blur(0px)",
     transition: {
-      duration: 1.1,
-      ease: [0.16, 1, 0.3, 1],
+      duration: 1.4,
+      ease: [0.22, 1, 0.36, 1],
     },
   },
 };
 
 const slideLeft: Variants = {
-  hidden: { opacity: 0, x: -60, filter: "blur(6px)" },
+  hidden: { opacity: 0, x: -80, filter: "blur(10px)" },
   show: {
     opacity: 1,
     x: 0,
     filter: "blur(0px)",
-    transition: { duration: 1.1, ease: [0.16, 1, 0.3, 1] },
+    transition: { duration: 1.4, ease: [0.22, 1, 0.36, 1] },
   },
 };
 
 const slideRight: Variants = {
-  hidden: { opacity: 0, x: 60, filter: "blur(6px)" },
+  hidden: { opacity: 0, x: 80, filter: "blur(10px)" },
   show: {
     opacity: 1,
     x: 0,
     filter: "blur(0px)",
-    transition: { duration: 1.1, ease: [0.16, 1, 0.3, 1] },
+    transition: { duration: 1.4, ease: [0.22, 1, 0.36, 1] },
   },
 };
 
