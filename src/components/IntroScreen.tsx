@@ -7,10 +7,14 @@ export function IntroScreen() {
 
   useEffect(() => {
     // Snappy timing: total ~2 seconds
-    const t1 = setTimeout(() => setPhase("text"), 500);   // tagline appears at 0.5s
-    const t2 = setTimeout(() => setPhase("exit"), 1400);  // exit curtain at 1.4s
+    const t1 = setTimeout(() => setPhase("text"), 500); // tagline appears at 0.5s
+    const t2 = setTimeout(() => setPhase("exit"), 1400); // exit curtain at 1.4s
     const t3 = setTimeout(() => setVisible(false), 2000); // unmount at 2.0s
-    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
+    };
   }, []);
 
   return (
@@ -40,13 +44,21 @@ export function IntroScreen() {
           {/* Floating ambient blue orbs */}
           <motion.div
             className="absolute w-[500px] h-[500px] rounded-full pointer-events-none"
-            style={{ background: "radial-gradient(circle, rgba(45,107,196,0.12) 0%, transparent 70%)", top: "5%", left: "15%" }}
+            style={{
+              background: "radial-gradient(circle, rgba(45,107,196,0.12) 0%, transparent 70%)",
+              top: "5%",
+              left: "15%",
+            }}
             animate={{ scale: [1, 1.12, 1], opacity: [0.5, 0.8, 0.5] }}
             transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
           />
           <motion.div
             className="absolute w-[360px] h-[360px] rounded-full pointer-events-none"
-            style={{ background: "radial-gradient(circle, rgba(45,107,196,0.08) 0%, transparent 70%)", bottom: "10%", right: "10%" }}
+            style={{
+              background: "radial-gradient(circle, rgba(45,107,196,0.08) 0%, transparent 70%)",
+              bottom: "10%",
+              right: "10%",
+            }}
             animate={{ scale: [1.1, 1, 1.1], opacity: [0.3, 0.5, 0.3] }}
             transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
           />
@@ -79,10 +91,19 @@ export function IntroScreen() {
                     border: "1px solid rgba(45,107,196,0.18)",
                   }}
                   animate={{ scale: [1, 1.07, 1], opacity: [0.6, 0.1, 0.6] }}
-                  transition={{ duration: 2, repeat: Infinity, delay: ring * 0.3, ease: "easeInOut" }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    delay: ring * 0.3,
+                    ease: "easeInOut",
+                  }}
                 />
               ))}
-              <img src="/logo.png" alt="TrustOn" className="h-16 w-16 object-contain brightness-110 relative z-10" />
+              <img
+                src="/logo.png"
+                alt="TrustOn"
+                className="h-16 w-16 object-contain brightness-110 relative z-10"
+              />
             </motion.div>
 
             {/* Brand name */}
@@ -94,13 +115,19 @@ export function IntroScreen() {
             >
               <h1
                 className="font-bold tracking-[0.3em] uppercase text-white"
-                style={{ fontFamily: "Inter, system-ui, sans-serif", fontSize: "clamp(2rem, 7vw, 4.5rem)" }}
+                style={{
+                  fontFamily: "Inter, system-ui, sans-serif",
+                  fontSize: "clamp(2rem, 7vw, 4.5rem)",
+                }}
               >
                 TRUST<span style={{ color: "oklch(0.50 0.155 245)" }}>ON</span>
               </h1>
               <div className="flex items-center gap-4">
                 <div className="w-10 h-px" style={{ background: "rgba(45,107,196,0.5)" }} />
-                <span className="text-[9px] uppercase tracking-[0.5em]" style={{ color: "rgba(255,255,255,0.25)" }}>
+                <span
+                  className="text-[9px] uppercase tracking-[0.5em]"
+                  style={{ color: "rgba(255,255,255,0.25)" }}
+                >
                   Premium Estate · Lucknow
                 </span>
                 <div className="w-10 h-px" style={{ background: "rgba(45,107,196,0.5)" }} />
@@ -132,7 +159,9 @@ export function IntroScreen() {
             >
               <motion.div
                 className="absolute inset-y-0 left-0"
-                style={{ background: "linear-gradient(90deg, oklch(0.50 0.155 245), oklch(0.65 0.12 240))" }}
+                style={{
+                  background: "linear-gradient(90deg, oklch(0.50 0.155 245), oklch(0.65 0.12 240))",
+                }}
                 initial={{ width: "0%" }}
                 animate={{ width: "100%" }}
                 transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}

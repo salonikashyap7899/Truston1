@@ -29,7 +29,9 @@ export function usePageContent(key: string, fallback: ContentBlock = {}) {
         cache.set(key, merged);
         setData(merged);
       });
-    return () => { cancel = true; };
+    return () => {
+      cancel = true;
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key]);
 

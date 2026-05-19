@@ -1,6 +1,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, type ReactNode } from "react";
 import { LazyVideo, type VideoSource } from "./LazyVideo";
+import { Luxury3DScene } from "./Luxury3DScene";
 
 interface PageHeroProps {
   eyebrow?: string;
@@ -14,7 +15,17 @@ interface PageHeroProps {
 }
 
 /* Floating particle dot */
-function Particle({ x, y, delay, size = 2 }: { x: string; y: string; delay: number; size?: number }) {
+function Particle({
+  x,
+  y,
+  delay,
+  size = 2,
+}: {
+  x: string;
+  y: string;
+  delay: number;
+  size?: number;
+}) {
   return (
     <motion.div
       className="absolute rounded-full pointer-events-none"
@@ -112,16 +123,21 @@ export function PageHero({
         />
       </motion.div>
 
+      {/* 3D Scene */}
+      <Luxury3DScene />
+
       {/* Dark gradient overlay */}
       <div
         className="absolute inset-0"
         style={{
-          background: "linear-gradient(165deg, oklch(0.08 0.015 250 / 0.65) 0%, oklch(0.08 0.015 250 / 0.85) 60%, oklch(0.06 0.01 250 / 0.92) 100%)",
+          background:
+            "linear-gradient(165deg, oklch(0.08 0.015 250 / 0.65) 0%, oklch(0.08 0.015 250 / 0.85) 60%, oklch(0.06 0.01 250 / 0.92) 100%)",
         }}
       />
 
       {/* Vignette edges */}
-      <div className="absolute inset-0 pointer-events-none"
+      <div
+        className="absolute inset-0 pointer-events-none"
         style={{ boxShadow: "inset 0 0 120px 40px rgba(0,0,0,0.5)" }}
       />
 
@@ -132,9 +148,7 @@ export function PageHero({
       />
 
       {/* Floating particles */}
-      {isFull && particles.map((p, i) => (
-        <Particle key={i} {...p} />
-      ))}
+      {isFull && particles.map((p, i) => <Particle key={i} {...p} />)}
 
       {/* Corner accents */}
       {isFull && (

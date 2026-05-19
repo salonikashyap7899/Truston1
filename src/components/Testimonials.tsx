@@ -3,19 +3,22 @@ import { Reveal, SectionEyebrow } from "./Reveal";
 
 const items = [
   {
-    quote: "We not only bought our plot from Prime Estate, but also got our home designed by their architecture team. The designs were exactly what we imagined — beautiful and within budget.",
+    quote:
+      "We not only bought our plot from Prime Estate, but also got our home designed by their architecture team. The designs were exactly what we imagined — beautiful and within budget.",
     name: "Anil Singh",
     role: "Homeowner",
     initial: "A",
   },
   {
-    quote: "As a channel partner, I have referred over 20 clients to Prime Estate. The team is responsive, the commission structure is fair, and the product is genuinely good.",
+    quote:
+      "As a channel partner, I have referred over 20 clients to Prime Estate. The team is responsive, the commission structure is fair, and the product is genuinely good.",
     name: "Mohammed Irfan",
     role: "Channel Partner",
     initial: "M",
   },
   {
-    quote: "I was skeptical about buying a plot but Prime Estate's team walked me through every document. The land is approved, the location is growing, and the process was completely transparent.",
+    quote:
+      "I was skeptical about buying a plot but Prime Estate's team walked me through every document. The land is approved, the location is growing, and the process was completely transparent.",
     name: "Ramesh Verma",
     role: "Plot Owner, Phase 1",
     initial: "R",
@@ -26,8 +29,14 @@ export function Testimonials() {
   return (
     <section className="relative py-32 px-6 bg-white overflow-hidden">
       {/* Background decoration */}
-      <div className="absolute top-0 left-0 w-64 h-64 opacity-[0.04]" style={{ background: "radial-gradient(circle, var(--bronze), transparent)" }} />
-      <div className="absolute bottom-0 right-0 w-96 h-96 opacity-[0.04]" style={{ background: "radial-gradient(circle, var(--bronze), transparent)" }} />
+      <div
+        className="absolute top-0 left-0 w-64 h-64 opacity-[0.04]"
+        style={{ background: "radial-gradient(circle, var(--bronze), transparent)" }}
+      />
+      <div
+        className="absolute bottom-0 right-0 w-96 h-96 opacity-[0.04]"
+        style={{ background: "radial-gradient(circle, var(--bronze), transparent)" }}
+      />
 
       <div className="relative mx-auto max-w-7xl">
         <Reveal>
@@ -57,7 +66,9 @@ export function Testimonials() {
                 {/* Stars */}
                 <div className="flex gap-1 mb-6">
                   {[...Array(5)].map((_, si) => (
-                    <span key={si} className="text-[var(--bronze)] text-sm">★</span>
+                    <span key={si} className="text-[var(--bronze)] text-sm">
+                      ★
+                    </span>
                   ))}
                 </div>
 
@@ -72,7 +83,9 @@ export function Testimonials() {
                   </div>
                   <div>
                     <p className="font-semibold text-[var(--ink)]">{t.name}</p>
-                    <p className="text-[11px] uppercase tracking-widest text-gray-400 mt-0.5">{t.role}</p>
+                    <p className="text-[11px] uppercase tracking-widest text-gray-400 mt-0.5">
+                      {t.role}
+                    </p>
                   </div>
                 </figcaption>
 

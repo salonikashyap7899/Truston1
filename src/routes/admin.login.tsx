@@ -5,7 +5,9 @@ import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/admin/login")({
-  head: () => ({ meta: [{ title: "Admin Login — TrustOn" }, { name: "robots", content: "noindex" }] }),
+  head: () => ({
+    meta: [{ title: "Admin Login — TrustOn" }, { name: "robots", content: "noindex" }],
+  }),
   component: AdminLoginPage,
 });
 
@@ -46,13 +48,13 @@ function AdminLoginPage() {
           options: { emailRedirectTo: `${origin}/admin` },
         });
         if (error) throw error;
-        
+
         // Wait for auth state and trigger to complete
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+
         // Refresh session to get the latest auth state
         await supabase.auth.refreshSession();
-        
+
         toast.success("Account created. Checking admin permissions...");
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
@@ -80,31 +82,46 @@ function AdminLoginPage() {
           </h1>
           <form onSubmit={submit} className="space-y-5">
             <div>
-              <label className="text-[11px] uppercase tracking-luxe text-foreground/70">Email</label>
+              <label className="text-[11px] uppercase tracking-luxe text-foreground/70">
+                Email
+              </label>
               <input
-                type="email" required value={email} onChange={(e) => setEmail(e.target.value)}
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="mt-2 w-full border border-border rounded-sm px-4 py-3 bg-cream focus:outline-none focus:border-bronze"
               />
             </div>
             <div>
-              <label className="text-[11px] uppercase tracking-luxe text-foreground/70">Password</label>
+              <label className="text-[11px] uppercase tracking-luxe text-foreground/70">
+                Password
+              </label>
               <input
-                type="password" required minLength={6} value={password} onChange={(e) => setPassword(e.target.value)}
+                type="password"
+                required
+                minLength={6}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 className="mt-2 w-full border border-border rounded-sm px-4 py-3 bg-cream focus:outline-none focus:border-bronze"
               />
             </div>
             <button
-              type="submit" disabled={busy}
+              type="submit"
+              disabled={busy}
               className="w-full bg-ink text-cream py-3 rounded-full text-[11px] uppercase tracking-luxe hover:bg-bronze transition-colors disabled:opacity-60"
             >
               {busy ? "Please wait…" : mode === "signin" ? "Sign in" : "Create account"}
             </button>
           </form>
-          
+
           {isSetupDone !== null && (
             <p className="mt-6 text-center text-sm text-foreground/60">
               {mode === "signin" ? "First time setup? " : "Already have access? "}
-              <button onClick={() => setMode(mode === "signin" ? "signup" : "signin")} className="text-bronze underline">
+              <button
+                onClick={() => setMode(mode === "signin" ? "signup" : "signin")}
+                className="text-bronze underline"
+              >
                 {mode === "signin" ? "Create the admin account" : "Sign in"}
               </button>
             </p>
@@ -112,14 +129,12 @@ function AdminLoginPage() {
         </div>
         {user && !isAdmin && !loading && (
           <div className="mt-6 p-4 bg-destructive/10 rounded-md border border-destructive/20 text-center">
-            <p className="text-sm text-destructive font-medium">
-              Signed in but not an admin.
-            </p>
+            <p className="text-sm text-destructive font-medium">Signed in but not an admin.</p>
             <p className="mt-1 text-xs text-destructive/80">
-              If you just created this account, please wait a moment and refresh. 
-              Otherwise, contact the site owner.
+              If you just created this account, please wait a moment and refresh. Otherwise, contact
+              the site owner.
             </p>
-            <button 
+            <button
               onClick={() => window.location.reload()}
               className="mt-3 text-xs font-bold uppercase tracking-wider text-destructive hover:underline"
             >

@@ -7,9 +7,17 @@ export const Route = createFileRoute("/services")({
   head: () => ({
     meta: [
       { title: "Services — TrustOn | Plots, Architecture, Construction & Investment" },
-      { name: "description", content: "Explore TrustOn's full suite of premium real estate services — plot selling, architecture & design, construction & build, and investment consulting." },
+      {
+        name: "description",
+        content:
+          "Explore TrustOn's full suite of premium real estate services — plot selling, architecture & design, construction & build, and investment consulting.",
+      },
       { property: "og:title", content: "Services — TrustOn" },
-      { property: "og:description", content: "Premium plots, architecture, construction and investment consulting under one roof." },
+      {
+        property: "og:description",
+        content:
+          "Premium plots, architecture, construction and investment consulting under one roof.",
+      },
     ],
   }),
   component: ServicesPage,
@@ -19,28 +27,32 @@ const services = [
   {
     title: "Plot Selling",
     sub: "Premium Plots. Zero Compromise.",
-    blurb: "Curated, legally vetted plots across Lucknow's most promising corridors — appreciation-ready and approval-clear.",
+    blurb:
+      "Curated, legally vetted plots across Lucknow's most promising corridors — appreciation-ready and approval-clear.",
     to: "/plot-selling",
     img: "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/webaliser-_TPTXZd9mOo-unsplash-1-1024x768.jpg",
   },
   {
     title: "Architecture & Design",
     sub: "Your Vision, Brought to Life on Paper First.",
-    blurb: "Bespoke architectural drawings, 3D visualisation and interior planning tailored to your land and lifestyle.",
+    blurb:
+      "Bespoke architectural drawings, 3D visualisation and interior planning tailored to your land and lifestyle.",
     to: "/architecture-design",
     img: "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/april-pethybridge-nN28PjFOOLI-unsplash-scaled.jpg",
   },
   {
     title: "Construction & Build",
     sub: "We Don't Just Build Buildings. We Build Promises.",
-    blurb: "Turnkey construction with transparent costing, on-time delivery and premium craftsmanship — end to end.",
+    blurb:
+      "Turnkey construction with transparent costing, on-time delivery and premium craftsmanship — end to end.",
     to: "/construction-build",
     img: "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/avi-werde-hHz4yrvxwlA-unsplash-scaled.jpg",
   },
   {
     title: "Investment Consulting",
     sub: "Buy Smart. Invest Smarter.",
-    blurb: "Data-led advisory on yield, ROI and exit timing across residential, commercial and pre-launch inventory.",
+    blurb:
+      "Data-led advisory on yield, ROI and exit timing across residential, commercial and pre-launch inventory.",
     to: "/investment-consulting",
     img: "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/avi-waxman-f9qZuKoZYoY-unsplash-1-scaled.jpg",
   },
@@ -52,7 +64,12 @@ function ServicesPage() {
       <PageHero
         height="short"
         eyebrow="Our Services"
-        title={<>Everything you need, <em className="gradient-bronze-text not-italic">under one roof.</em></>}
+        title={
+          <>
+            Everything you need,{" "}
+            <em className="gradient-bronze-text not-italic">under one roof.</em>
+          </>
+        }
         subtitle="Four disciplines. One uncompromising standard of luxury real estate execution."
         poster={heroImg}
         alt="TrustOn services"
@@ -102,9 +119,12 @@ function ServicesPage() {
       <section className="py-24 px-6 bg-ink text-cream">
         <div className="mx-auto max-w-4xl text-center">
           <Reveal>
-            <p className="text-bronze text-[11px] uppercase tracking-luxe mb-5">Not sure where to begin?</p>
+            <p className="text-bronze text-[11px] uppercase tracking-luxe mb-5">
+              Not sure where to begin?
+            </p>
             <h2 className="font-display text-3xl md:text-5xl leading-tight">
-              Let our advisors curate the right <em className="text-bronze font-serif italic not-italic">path for you.</em>
+              Let our advisors curate the right{" "}
+              <em className="text-bronze font-serif italic not-italic">path for you.</em>
             </h2>
             <div className="mt-10 flex flex-wrap justify-center items-center gap-8">
               <a href="tel:+919616061166" className="font-serif text-3xl text-bronze">

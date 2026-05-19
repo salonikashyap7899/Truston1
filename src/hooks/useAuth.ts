@@ -20,7 +20,7 @@ export function useAuth() {
           .select("role")
           .eq("user_id", userId);
 
-        if (!rolesError && roles && roles.some(r => r.role === "admin")) {
+        if (!rolesError && roles && roles.some((r) => r.role === "admin")) {
           if (isMounted) setIsAdmin(true);
           return;
         }
@@ -40,7 +40,7 @@ export function useAuth() {
             .from("user_roles")
             .select("role")
             .eq("user_id", userId);
-          if (retry && retry.some(r => r.role === "admin")) {
+          if (retry && retry.some((r) => r.role === "admin")) {
             if (isMounted) setIsAdmin(true);
             return;
           }
@@ -53,12 +53,14 @@ export function useAuth() {
       }
     };
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, s) => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_e, s) => {
       if (isMounted) {
         setSession(s);
         setUser(s?.user ?? null);
       }
-      
+
       if (s?.user) {
         checkAndAssignRole(s.user.id);
       } else if (isMounted) {
@@ -71,11 +73,11 @@ export function useAuth() {
         setSession(s);
         setUser(s?.user ?? null);
       }
-      
+
       if (s?.user) {
         await checkAndAssignRole(s.user.id);
       }
-      
+
       if (isMounted) {
         setLoading(false);
       }

@@ -18,7 +18,9 @@ const variants: Variants = {
 const slideLeft: Variants = {
   hidden: { opacity: 0, x: -60, filter: "blur(6px)" },
   show: {
-    opacity: 1, x: 0, filter: "blur(0px)",
+    opacity: 1,
+    x: 0,
+    filter: "blur(0px)",
     transition: { duration: 1.1, ease: [0.16, 1, 0.3, 1] },
   },
 };
@@ -26,7 +28,9 @@ const slideLeft: Variants = {
 const slideRight: Variants = {
   hidden: { opacity: 0, x: 60, filter: "blur(6px)" },
   show: {
-    opacity: 1, x: 0, filter: "blur(0px)",
+    opacity: 1,
+    x: 0,
+    filter: "blur(0px)",
     transition: { duration: 1.1, ease: [0.16, 1, 0.3, 1] },
   },
 };
@@ -59,7 +63,9 @@ export function Reveal({
 
 export function SectionEyebrow({ children, light }: { children: ReactNode; light?: boolean }) {
   return (
-    <p className={`text-[11px] uppercase tracking-luxe flex items-center gap-3 justify-center mb-5 ${light ? "text-white/60" : "text-bronze"}`}>
+    <p
+      className={`text-[11px] uppercase tracking-luxe flex items-center gap-3 justify-center mb-5 ${light ? "text-white/60" : "text-bronze"}`}
+    >
       <span className={`inline-block w-10 h-px ${light ? "bg-white/40" : "bg-[var(--bronze)]"}`} />
       {children}
       <span className={`inline-block w-10 h-px ${light ? "bg-white/40" : "bg-[var(--bronze)]"}`} />
@@ -67,7 +73,15 @@ export function SectionEyebrow({ children, light }: { children: ReactNode; light
   );
 }
 
-export function CountUp({ to, suffix = "", duration = 2 }: { to: number; suffix?: string; duration?: number }) {
+export function CountUp({
+  to,
+  suffix = "",
+  duration = 2,
+}: {
+  to: number;
+  suffix?: string;
+  duration?: number;
+}) {
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
   const count = useMotionValue(0);

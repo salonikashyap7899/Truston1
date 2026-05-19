@@ -17,7 +17,14 @@ interface GalleryLightboxProps {
   onGoTo?: (i: number) => void;
 }
 
-export function GalleryLightbox({ items, index, onClose, onPrev, onNext, onGoTo }: GalleryLightboxProps) {
+export function GalleryLightbox({
+  items,
+  index,
+  onClose,
+  onPrev,
+  onNext,
+  onGoTo,
+}: GalleryLightboxProps) {
   const isOpen = index !== null;
   const item = isOpen ? items[index!] : null;
   const [isZoomed, setIsZoomed] = useState(false);
@@ -29,11 +36,22 @@ export function GalleryLightbox({ items, index, onClose, onPrev, onNext, onGoTo 
   const handleKey = useCallback(
     (e: KeyboardEvent) => {
       if (!isOpen) return;
-      if (e.key === "Escape") { setIsZoomed(false); onClose(); }
-      if (e.key === "ArrowLeft")  { setDirection(-1); setIsZoomed(false); onPrev(); }
-      if (e.key === "ArrowRight") { setDirection(1);  setIsZoomed(false); onNext(); }
+      if (e.key === "Escape") {
+        setIsZoomed(false);
+        onClose();
+      }
+      if (e.key === "ArrowLeft") {
+        setDirection(-1);
+        setIsZoomed(false);
+        onPrev();
+      }
+      if (e.key === "ArrowRight") {
+        setDirection(1);
+        setIsZoomed(false);
+        onNext();
+      }
     },
-    [isOpen, onClose, onPrev, onNext]
+    [isOpen, onClose, onPrev, onNext],
   );
 
   useEffect(() => {
@@ -62,13 +80,24 @@ export function GalleryLightbox({ items, index, onClose, onPrev, onNext, onGoTo 
 
   const handleDragEnd = (_: unknown, info: { offset: { x: number } }) => {
     if (isZoomed) return;
-    if (info.offset.x < -80)      { setDirection(1);  setIsZoomed(false); onNext(); }
-    else if (info.offset.x > 80)  { setDirection(-1); setIsZoomed(false); onPrev(); }
+    if (info.offset.x < -80) {
+      setDirection(1);
+      setIsZoomed(false);
+      onNext();
+    } else if (info.offset.x > 80) {
+      setDirection(-1);
+      setIsZoomed(false);
+      onPrev();
+    }
     dragX.set(0);
   };
 
   const goTo = (i: number) => {
-    if (onGoTo) { setDirection(i > (index ?? 0) ? 1 : -1); setIsZoomed(false); onGoTo(i); }
+    if (onGoTo) {
+      setDirection(i > (index ?? 0) ? 1 : -1);
+      setIsZoomed(false);
+      onGoTo(i);
+    }
   };
 
   return (
@@ -81,10 +110,15 @@ export function GalleryLightbox({ items, index, onClose, onPrev, onNext, onGoTo 
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.35 }}
-          onClick={() => { if (!isZoomed) onClose(); }}
+          onClick={() => {
+            if (!isZoomed) onClose();
+          }}
         >
           {/* Backdrop */}
-          <div className="absolute inset-0" style={{ background: "rgba(6,8,18,0.97)", backdropFilter: "blur(16px)" }} />
+          <div
+            className="absolute inset-0"
+            style={{ background: "rgba(6,8,18,0.97)", backdropFilter: "blur(16px)" }}
+          />
 
           {/* ── Top bar ── */}
           <div className="absolute top-0 inset-x-0 z-20 flex items-center justify-between px-6 py-5 pointer-events-none">
@@ -102,7 +136,11 @@ export function GalleryLightbox({ items, index, onClose, onPrev, onNext, onGoTo 
 
             {/* Close button */}
             <button
-              onClick={(e) => { e.stopPropagation(); setIsZoomed(false); onClose(); }}
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsZoomed(false);
+                onClose();
+              }}
               className="pointer-events-auto w-10 h-10 flex items-center justify-center border border-white/10 text-white/40 hover:text-white hover:border-white/30 transition-all duration-300 text-lg backdrop-blur-sm bg-white/5"
               aria-label="Close"
             >
@@ -112,7 +150,12 @@ export function GalleryLightbox({ items, index, onClose, onPrev, onNext, onGoTo 
 
           {/* ── Prev arrow ── */}
           <button
-            onClick={(e) => { e.stopPropagation(); setDirection(-1); setIsZoomed(false); onPrev(); }}
+            onClick={(e) => {
+              e.stopPropagation();
+              setDirection(-1);
+              setIsZoomed(false);
+              onPrev();
+            }}
             className="absolute left-3 md:left-6 z-20 w-12 h-12 flex items-center justify-center border border-white/10 text-white/35 hover:text-white hover:border-[oklch(0.50_0.155_245)] transition-all duration-300 text-xl backdrop-blur-sm bg-black/20"
             aria-label="Previous"
           >
@@ -121,7 +164,12 @@ export function GalleryLightbox({ items, index, onClose, onPrev, onNext, onGoTo 
 
           {/* ── Next arrow ── */}
           <button
-            onClick={(e) => { e.stopPropagation(); setDirection(1); setIsZoomed(false); onNext(); }}
+            onClick={(e) => {
+              e.stopPropagation();
+              setDirection(1);
+              setIsZoomed(false);
+              onNext();
+            }}
             className="absolute right-3 md:right-6 z-20 w-12 h-12 flex items-center justify-center border border-white/10 text-white/35 hover:text-white hover:border-[oklch(0.50_0.155_245)] transition-all duration-300 text-xl backdrop-blur-sm bg-black/20"
             aria-label="Next"
           >
@@ -138,9 +186,19 @@ export function GalleryLightbox({ items, index, onClose, onPrev, onNext, onGoTo 
                 key={`img-${index}`}
                 custom={direction}
                 variants={{
-                  enter: (d: number) => ({ opacity: 0, x: d * 80, scale: 0.93, filter: "blur(10px)" }),
+                  enter: (d: number) => ({
+                    opacity: 0,
+                    x: d * 80,
+                    scale: 0.93,
+                    filter: "blur(10px)",
+                  }),
                   center: { opacity: 1, x: 0, scale: 1, filter: "blur(0px)" },
-                  exit:  (d: number) => ({ opacity: 0, x: d * -60, scale: 0.96, filter: "blur(6px)" }),
+                  exit: (d: number) => ({
+                    opacity: 0,
+                    x: d * -60,
+                    scale: 0.96,
+                    filter: "blur(6px)",
+                  }),
                 }}
                 initial="enter"
                 animate="center"
@@ -152,7 +210,11 @@ export function GalleryLightbox({ items, index, onClose, onPrev, onNext, onGoTo 
                 {/* Swipeable / zoomable image wrapper */}
                 <motion.div
                   drag={isZoomed ? true : "x"}
-                  dragConstraints={isZoomed ? { left: -300, right: 300, top: -200, bottom: 200 } : { left: 0, right: 0 }}
+                  dragConstraints={
+                    isZoomed
+                      ? { left: -300, right: 300, top: -200, bottom: 200 }
+                      : { left: 0, right: 0 }
+                  }
                   dragElastic={isZoomed ? 0.1 : 0.25}
                   onDragEnd={handleDragEnd}
                   style={{ x: isZoomed ? undefined : dragX, opacity: isZoomed ? 1 : imgOpacity }}
@@ -223,8 +285,11 @@ export function GalleryLightbox({ items, index, onClose, onPrev, onNext, onGoTo 
           </div>
 
           {/* ── Thumbnail strip ── */}
-          <div className="absolute bottom-0 inset-x-0 z-20 flex justify-center gap-1.5 pb-4 pt-3 px-4 overflow-x-auto"
-            style={{ background: "linear-gradient(to top, rgba(6,8,18,0.95) 0%, transparent 100%)" }}
+          <div
+            className="absolute bottom-0 inset-x-0 z-20 flex justify-center gap-1.5 pb-4 pt-3 px-4 overflow-x-auto"
+            style={{
+              background: "linear-gradient(to top, rgba(6,8,18,0.95) 0%, transparent 100%)",
+            }}
             onClick={(e) => e.stopPropagation()}
           >
             {items.map((it, i) => (
@@ -238,7 +303,12 @@ export function GalleryLightbox({ items, index, onClose, onPrev, onNext, onGoTo 
                 }`}
                 aria-label={`Go to image ${i + 1}`}
               >
-                <img src={it.img} alt={it.title} className="w-full h-full object-cover" draggable={false} />
+                <img
+                  src={it.img}
+                  alt={it.title}
+                  className="w-full h-full object-cover"
+                  draggable={false}
+                />
               </button>
             ))}
           </div>

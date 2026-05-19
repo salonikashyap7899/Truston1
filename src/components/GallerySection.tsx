@@ -72,7 +72,7 @@ type Tab = (typeof TABS)[number];
 /* Grid layout: index → how many columns/rows it spans in a 3-col grid */
 const SPANS: Record<number, string> = {
   0: "md:col-span-2 md:row-span-2", // large feature
-  4: "md:col-span-2",               // wide
+  4: "md:col-span-2", // wide
   7: "md:col-span-1 md:row-span-2", // tall
 };
 
@@ -83,30 +83,35 @@ export function GallerySection() {
   const inView = useInView(sectionRef, { once: false, margin: "-60px" });
 
   const filtered =
-    activeTab === "All"
-      ? ALL_IMAGES
-      : ALL_IMAGES.filter((img) => img.category === activeTab);
+    activeTab === "All" ? ALL_IMAGES : ALL_IMAGES.filter((img) => img.category === activeTab);
 
-  const open  = (i: number) => setLightboxIndex(i);
+  const open = (i: number) => setLightboxIndex(i);
   const close = () => setLightboxIndex(null);
-  const prev  = () => setLightboxIndex((p) => p !== null ? (p - 1 + filtered.length) % filtered.length : 0);
-  const next  = () => setLightboxIndex((p) => p !== null ? (p + 1) % filtered.length : 0);
-  const goTo  = (i: number) => setLightboxIndex(i);
+  const prev = () =>
+    setLightboxIndex((p) => (p !== null ? (p - 1 + filtered.length) % filtered.length : 0));
+  const next = () => setLightboxIndex((p) => (p !== null ? (p + 1) % filtered.length : 0));
+  const goTo = (i: number) => setLightboxIndex(i);
 
   return (
     <section ref={sectionRef} className="relative py-32 px-6 bg-[var(--ink)] overflow-hidden">
       {/* ── Ambient glow orbs ── */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full opacity-[0.04]"
-          style={{ background: "radial-gradient(circle, oklch(0.50 0.155 245), transparent 70%)" }} />
-        <div className="absolute -bottom-40 -right-40 w-[600px] h-[600px] rounded-full opacity-[0.04]"
-          style={{ background: "radial-gradient(circle, oklch(0.50 0.155 245), transparent 70%)" }} />
+        <div
+          className="absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full opacity-[0.04]"
+          style={{ background: "radial-gradient(circle, oklch(0.50 0.155 245), transparent 70%)" }}
+        />
+        <div
+          className="absolute -bottom-40 -right-40 w-[600px] h-[600px] rounded-full opacity-[0.04]"
+          style={{ background: "radial-gradient(circle, oklch(0.50 0.155 245), transparent 70%)" }}
+        />
       </div>
 
       {/* ── Grid texture ── */}
-      <div className="absolute inset-0 opacity-[0.025] pointer-events-none"
+      <div
+        className="absolute inset-0 opacity-[0.025] pointer-events-none"
         style={{
-          backgroundImage: "linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)",
+          backgroundImage:
+            "linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)",
           backgroundSize: "80px 80px",
         }}
       />
@@ -121,11 +126,11 @@ export function GallerySection() {
         >
           <SectionEyebrow light>Site Photography</SectionEyebrow>
           <h2 className="font-display text-5xl md:text-7xl text-white leading-tight">
-            Every detail,{" "}
-            <em className="gradient-bronze-text not-italic">captured.</em>
+            Every detail, <em className="gradient-bronze-text not-italic">captured.</em>
           </h2>
           <p className="text-white/35 mt-4 max-w-lg mx-auto text-sm leading-relaxed">
-            Click any image to open the cinematic viewer. Swipe or use arrow keys to explore. Double-click to zoom.
+            Click any image to open the cinematic viewer. Swipe or use arrow keys to explore.
+            Double-click to zoom.
           </p>
         </motion.div>
 
@@ -139,7 +144,10 @@ export function GallerySection() {
           {TABS.map((tab) => (
             <button
               key={tab}
-              onClick={() => { setActiveTab(tab); setLightboxIndex(null); }}
+              onClick={() => {
+                setActiveTab(tab);
+                setLightboxIndex(null);
+              }}
               className={`text-[10px] uppercase tracking-[0.4em] px-5 py-2.5 border transition-all duration-300 ${
                 activeTab === tab
                   ? "border-[oklch(0.50_0.155_245)] text-[oklch(0.50_0.155_245)] bg-[oklch(0.50_0.155_245)/10]"
@@ -147,9 +155,7 @@ export function GallerySection() {
               }`}
             >
               {tab}
-              {tab === "All" && (
-                <span className="ml-2 text-white/20">{ALL_IMAGES.length}</span>
-              )}
+              {tab === "All" && <span className="ml-2 text-white/20">{ALL_IMAGES.length}</span>}
             </button>
           ))}
         </motion.div>

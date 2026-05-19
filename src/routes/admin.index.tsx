@@ -21,7 +21,11 @@ function AdminPage() {
   }, [user, isAdmin, loading, navigate]);
 
   if (loading || !user || !isAdmin) {
-    return <div className="min-h-screen flex items-center justify-center text-foreground/60">Loading…</div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center text-foreground/60">
+        Loading…
+      </div>
+    );
   }
 
   return (
@@ -34,9 +38,17 @@ function AdminPage() {
             <span className="ml-3 text-[11px] uppercase tracking-luxe text-bronze">Admin</span>
           </Link>
           <div className="flex items-center gap-4">
-            <Link to="/" className="text-xs uppercase tracking-luxe text-foreground/70 hover:text-bronze">View site</Link>
+            <Link
+              to="/"
+              className="text-xs uppercase tracking-luxe text-foreground/70 hover:text-bronze"
+            >
+              View site
+            </Link>
             <button
-              onClick={async () => { await supabase.auth.signOut(); navigate({ to: "/admin/login" }); }}
+              onClick={async () => {
+                await supabase.auth.signOut();
+                navigate({ to: "/admin/login" });
+              }}
               className="text-xs uppercase tracking-luxe bronze-border rounded-full px-4 py-2 text-bronze hover:bg-bronze hover:text-cream transition-colors"
             >
               Sign out
@@ -46,9 +58,12 @@ function AdminPage() {
         <nav className="mx-auto max-w-7xl px-6 flex gap-1">
           {(["content", "media", "submissions"] as const).map((t) => (
             <button
-              key={t} onClick={() => setTab(t)}
+              key={t}
+              onClick={() => setTab(t)}
               className={`px-5 py-3 text-[11px] uppercase tracking-luxe border-b-2 transition-colors ${
-                tab === t ? "border-bronze text-bronze" : "border-transparent text-foreground/60 hover:text-foreground"
+                tab === t
+                  ? "border-bronze text-bronze"
+                  : "border-transparent text-foreground/60 hover:text-foreground"
               }`}
             >
               {t === "content" ? "Page Content" : t === "media" ? "Media Library" : "Submissions"}
@@ -67,7 +82,13 @@ function AdminPage() {
 }
 
 // ---------- Content ----------
-type ContentRow = { id: string; key: string; label: string; data: Record<string, unknown>; updated_at: string };
+type ContentRow = {
+  id: string;
+  key: string;
+  label: string;
+  data: Record<string, unknown>;
+  updated_at: string;
+};
 
 function ContentPanel() {
   const [rows, setRows] = useState<ContentRow[]>([]);
@@ -84,7 +105,9 @@ function ContentPanel() {
       setDraft((data[0].data as Record<string, unknown>) ?? {});
     }
   };
-  useEffect(() => { load(); /* eslint-disable-next-line */ }, []);
+  useEffect(() => {
+    load(); /* eslint-disable-next-line */
+  }, []);
 
   const current = rows.find((r) => r.key === selected);
 
@@ -95,24 +118,42 @@ function ContentPanel() {
   const save = async () => {
     if (!current) return;
     setBusy(true);
-    const { error } = await supabase.from("site_content").update({ data: draft as never }).eq("id", current.id);
+    const { error } = await supabase
+      .from("site_content")
+      .update({ data: draft as never })
+      .eq("id", current.id);
     setBusy(false);
     if (error) return toast.error(error.message);
     toast.success("Saved");
     load();
   };
 
-  const fields = current ? Object.keys({ eyebrow: "", title: "", title_accent: "", subtitle: "", image_url: "", video_url: "", ...(current.data as object) }) : [];
+  const fields = current
+    ? Object.keys({
+        eyebrow: "",
+        title: "",
+        title_accent: "",
+        subtitle: "",
+        image_url: "",
+        video_url: "",
+        ...(current.data as object),
+      })
+    : [];
 
   return (
     <div className="grid md:grid-cols-[260px_1fr] gap-8">
       <aside className="space-y-1">
-        <p className="text-[10px] uppercase tracking-luxe text-foreground/50 mb-3 px-3">Content blocks</p>
+        <p className="text-[10px] uppercase tracking-luxe text-foreground/50 mb-3 px-3">
+          Content blocks
+        </p>
         {rows.map((r) => (
-          <button key={r.id} onClick={() => setSelected(r.key)}
+          <button
+            key={r.id}
+            onClick={() => setSelected(r.key)}
             className={`w-full text-left px-3 py-2.5 rounded-sm text-sm transition-colors ${
               selected === r.key ? "bg-ink text-cream" : "hover:bg-white text-foreground/80"
-            }`}>
+            }`}
+          >
             <div className="font-serif">{r.label}</div>
             <div className="text-[10px] opacity-60 uppercase tracking-wider">{r.key}</div>
           </button>
@@ -126,15 +167,20 @@ function ContentPanel() {
               <p className="text-[11px] uppercase tracking-luxe text-bronze">{current.key}</p>
               <h2 className="font-display text-2xl mt-1">{current.label}</h2>
             </div>
-            <button onClick={save} disabled={busy}
-              className="bg-ink text-cream px-5 py-2.5 rounded-full text-[11px] uppercase tracking-luxe hover:bg-bronze transition-colors disabled:opacity-60">
+            <button
+              onClick={save}
+              disabled={busy}
+              className="bg-ink text-cream px-5 py-2.5 rounded-full text-[11px] uppercase tracking-luxe hover:bg-bronze transition-colors disabled:opacity-60"
+            >
               {busy ? "Saving…" : "Save changes"}
             </button>
           </div>
 
           <div className="space-y-5">
             {fields.map((k) => (
-              <Field key={k} name={k}
+              <Field
+                key={k}
+                name={k}
                 value={(draft[k] as string) ?? ""}
                 onChange={(v) => setDraft({ ...draft, [k]: v })}
               />
@@ -149,9 +195,18 @@ function ContentPanel() {
   );
 }
 
-function Field({ name, value, onChange }: { name: string; value: string; onChange: (v: string) => void }) {
+function Field({
+  name,
+  value,
+  onChange,
+}: {
+  name: string;
+  value: string;
+  onChange: (v: string) => void;
+}) {
   const isMedia = name.includes("image_url") || name.includes("video_url");
-  const isLong = name === "subtitle" || name === "body" || (typeof value === "string" && value.length > 80);
+  const isLong =
+    name === "subtitle" || name === "body" || (typeof value === "string" && value.length > 80);
   return (
     <div>
       <label className="text-[11px] uppercase tracking-luxe text-foreground/70 flex items-center gap-2">
@@ -159,17 +214,26 @@ function Field({ name, value, onChange }: { name: string; value: string; onChang
         {isMedia && <span className="text-bronze">(paste URL from Media Library)</span>}
       </label>
       {isLong ? (
-        <textarea value={value} onChange={(e) => onChange(e.target.value)} rows={3}
-          className="mt-2 w-full border border-border rounded-sm px-4 py-3 bg-cream focus:outline-none focus:border-bronze" />
+        <textarea
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          rows={3}
+          className="mt-2 w-full border border-border rounded-sm px-4 py-3 bg-cream focus:outline-none focus:border-bronze"
+        />
       ) : (
-        <input value={value} onChange={(e) => onChange(e.target.value)}
-          className="mt-2 w-full border border-border rounded-sm px-4 py-3 bg-cream focus:outline-none focus:border-bronze" />
+        <input
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className="mt-2 w-full border border-border rounded-sm px-4 py-3 bg-cream focus:outline-none focus:border-bronze"
+        />
       )}
-      {isMedia && value && (
-        value.match(/\.(mp4|webm|mov)$/i)
-          ? <video src={value} className="mt-2 max-h-32 rounded-sm" muted />
-          : <img src={value} alt="" className="mt-2 max-h-32 rounded-sm" />
-      )}
+      {isMedia &&
+        value &&
+        (value.match(/\.(mp4|webm|mov)$/i) ? (
+          <video src={value} className="mt-2 max-h-32 rounded-sm" muted />
+        ) : (
+          <img src={value} alt="" className="mt-2 max-h-32 rounded-sm" />
+        ))}
     </div>
   );
 }
@@ -179,30 +243,57 @@ function AddField({ onAdd }: { onAdd: (k: string) => void }) {
   return (
     <div className="flex items-end gap-3 pt-4 border-t border-border">
       <div className="flex-1">
-        <label className="text-[10px] uppercase tracking-luxe text-foreground/50">Add custom field</label>
-        <input value={name} onChange={(e) => setName(e.target.value.replace(/[^a-z0-9_]/gi, "_").toLowerCase())}
+        <label className="text-[10px] uppercase tracking-luxe text-foreground/50">
+          Add custom field
+        </label>
+        <input
+          value={name}
+          onChange={(e) => setName(e.target.value.replace(/[^a-z0-9_]/gi, "_").toLowerCase())}
           placeholder="e.g. cta_label"
-          className="mt-2 w-full border border-border rounded-sm px-4 py-2 bg-cream focus:outline-none focus:border-bronze text-sm" />
+          className="mt-2 w-full border border-border rounded-sm px-4 py-2 bg-cream focus:outline-none focus:border-bronze text-sm"
+        />
       </div>
-      <button type="button" onClick={() => { if (name) { onAdd(name); setName(""); } }}
-        className="bronze-border text-bronze px-4 py-2 rounded-full text-[11px] uppercase tracking-luxe">Add</button>
+      <button
+        type="button"
+        onClick={() => {
+          if (name) {
+            onAdd(name);
+            setName("");
+          }
+        }}
+        className="bronze-border text-bronze px-4 py-2 rounded-full text-[11px] uppercase tracking-luxe"
+      >
+        Add
+      </button>
     </div>
   );
 }
 
 // ---------- Media ----------
-type MediaRow = { id: string; name: string; type: string; url: string; storage_path: string; created_at: string };
+type MediaRow = {
+  id: string;
+  name: string;
+  type: string;
+  url: string;
+  storage_path: string;
+  created_at: string;
+};
 
 function MediaPanel() {
   const [items, setItems] = useState<MediaRow[]>([]);
   const [uploading, setUploading] = useState(false);
 
   const load = async () => {
-    const { data, error } = await supabase.from("media").select("*").order("created_at", { ascending: false });
+    const { data, error } = await supabase
+      .from("media")
+      .select("*")
+      .order("created_at", { ascending: false });
     if (error) toast.error(error.message);
     setItems((data ?? []) as MediaRow[]);
   };
-  useEffect(() => { load(); }, []);
+  useEffect(() => {
+    load();
+  }, []);
 
   const upload = async (files: FileList | null) => {
     if (!files?.length) return;
@@ -211,13 +302,23 @@ function MediaPanel() {
       for (const file of Array.from(files)) {
         const ext = file.name.split(".").pop();
         const path = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
-        const { error: upErr } = await supabase.storage.from("site-media").upload(path, file, { contentType: file.type });
+        const { error: upErr } = await supabase.storage
+          .from("site-media")
+          .upload(path, file, { contentType: file.type });
         if (upErr) throw upErr;
-        const { data: { publicUrl } } = supabase.storage.from("site-media").getPublicUrl(path);
-        const { data: { user } } = await supabase.auth.getUser();
+        const {
+          data: { publicUrl },
+        } = supabase.storage.from("site-media").getPublicUrl(path);
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
         const { error: insErr } = await supabase.from("media").insert({
-          name: file.name, type: file.type.startsWith("video") ? "video" : "image",
-          url: publicUrl, storage_path: path, size_bytes: file.size, uploaded_by: user?.id,
+          name: file.name,
+          type: file.type.startsWith("video") ? "video" : "image",
+          url: publicUrl,
+          storage_path: path,
+          size_bytes: file.size,
+          uploaded_by: user?.id,
         });
         if (insErr) throw insErr;
       }
@@ -245,45 +346,82 @@ function MediaPanel() {
         <h2 className="font-display text-2xl">Media library</h2>
         <label className="bg-ink text-cream px-5 py-2.5 rounded-full text-[11px] uppercase tracking-luxe hover:bg-bronze transition-colors cursor-pointer">
           {uploading ? "Uploading…" : "Upload images / videos"}
-          <input type="file" multiple accept="image/*,video/*" hidden onChange={(e) => upload(e.target.files)} disabled={uploading} />
+          <input
+            type="file"
+            multiple
+            accept="image/*,video/*"
+            hidden
+            onChange={(e) => upload(e.target.files)}
+            disabled={uploading}
+          />
         </label>
       </div>
       <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {items.map((m) => (
           <div key={m.id} className="bg-white card-shadow rounded-md overflow-hidden">
             <div className="aspect-video bg-sand flex items-center justify-center overflow-hidden">
-              {m.type === "video"
-                ? <video src={m.url} className="w-full h-full object-cover" muted />
-                : <img src={m.url} alt={m.name} className="w-full h-full object-cover" />}
+              {m.type === "video" ? (
+                <video src={m.url} className="w-full h-full object-cover" muted />
+              ) : (
+                <img src={m.url} alt={m.name} className="w-full h-full object-cover" />
+              )}
             </div>
             <div className="p-3">
               <p className="text-xs truncate font-serif">{m.name}</p>
               <div className="flex items-center gap-2 mt-2">
-                <button onClick={() => { navigator.clipboard.writeText(m.url); toast.success("URL copied"); }}
-                  className="flex-1 text-[10px] uppercase tracking-luxe text-bronze bronze-border rounded-full px-2 py-1">Copy URL</button>
-                <button onClick={() => remove(m)}
-                  className="text-[10px] uppercase tracking-luxe text-destructive border border-destructive/40 rounded-full px-2 py-1 hover:bg-destructive hover:text-cream">×</button>
+                <button
+                  onClick={() => {
+                    navigator.clipboard.writeText(m.url);
+                    toast.success("URL copied");
+                  }}
+                  className="flex-1 text-[10px] uppercase tracking-luxe text-bronze bronze-border rounded-full px-2 py-1"
+                >
+                  Copy URL
+                </button>
+                <button
+                  onClick={() => remove(m)}
+                  className="text-[10px] uppercase tracking-luxe text-destructive border border-destructive/40 rounded-full px-2 py-1 hover:bg-destructive hover:text-cream"
+                >
+                  ×
+                </button>
               </div>
             </div>
           </div>
         ))}
-        {!items.length && <p className="text-foreground/60 col-span-full">No media yet — upload your first image or video.</p>}
+        {!items.length && (
+          <p className="text-foreground/60 col-span-full">
+            No media yet — upload your first image or video.
+          </p>
+        )}
       </div>
     </div>
   );
 }
 
 // ---------- Submissions ----------
-type Sub = { id: string; name: string; email: string | null; phone: string | null; message: string; source: string | null; created_at: string };
+type Sub = {
+  id: string;
+  name: string;
+  email: string | null;
+  phone: string | null;
+  message: string;
+  source: string | null;
+  created_at: string;
+};
 
 function SubmissionsPanel() {
   const [items, setItems] = useState<Sub[]>([]);
   const load = async () => {
-    const { data, error } = await supabase.from("contact_submissions").select("*").order("created_at", { ascending: false });
+    const { data, error } = await supabase
+      .from("contact_submissions")
+      .select("*")
+      .order("created_at", { ascending: false });
     if (error) toast.error(error.message);
     setItems((data ?? []) as Sub[]);
   };
-  useEffect(() => { load(); }, []);
+  useEffect(() => {
+    load();
+  }, []);
 
   const del = async (id: string) => {
     if (!confirm("Delete this submission?")) return;
@@ -302,11 +440,17 @@ function SubmissionsPanel() {
               <div>
                 <p className="font-serif text-lg">{s.name}</p>
                 <p className="text-xs text-foreground/60">
-                  {[s.email, s.phone].filter(Boolean).join(" · ")} · {new Date(s.created_at).toLocaleString()}
+                  {[s.email, s.phone].filter(Boolean).join(" · ")} ·{" "}
+                  {new Date(s.created_at).toLocaleString()}
                   {s.source ? ` · ${s.source}` : ""}
                 </p>
               </div>
-              <button onClick={() => del(s.id)} className="text-xs text-destructive hover:underline">Delete</button>
+              <button
+                onClick={() => del(s.id)}
+                className="text-xs text-destructive hover:underline"
+              >
+                Delete
+              </button>
             </div>
             <p className="mt-3 text-foreground/80 whitespace-pre-wrap">{s.message}</p>
           </article>

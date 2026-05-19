@@ -46,14 +46,13 @@ export function LuxeNav() {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.9, delay: 3.0, ease: [0.16, 1, 0.3, 1] }}
       className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${
-        scrolled
-          ? "bg-white shadow-md"
-          : "bg-transparent"
+        scrolled ? "bg-white shadow-md" : "bg-transparent"
       }`}
     >
       <div className="mx-auto max-w-7xl px-6">
-        <div className={`flex items-center justify-between transition-all duration-500 ${scrolled ? "h-[68px]" : "h-[80px]"}`}>
-
+        <div
+          className={`flex items-center justify-between transition-all duration-500 ${scrolled ? "h-[68px]" : "h-[80px]"}`}
+        >
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 shrink-0">
             <img
@@ -68,7 +67,9 @@ export function LuxeNav() {
               >
                 TrustOn
               </span>
-              <span className={`text-[9px] uppercase tracking-[0.35em] font-medium transition-colors duration-500 ${isTransparent ? "text-white/50" : "text-gray-400"}`}>
+              <span
+                className={`text-[9px] uppercase tracking-[0.35em] font-medium transition-colors duration-500 ${isTransparent ? "text-white/50" : "text-gray-400"}`}
+              >
                 Premium Estate
               </span>
             </div>
@@ -88,7 +89,9 @@ export function LuxeNav() {
                 activeProps={{ className: isTransparent ? "text-white" : "text-[var(--bronze)]" }}
               >
                 {l.label}
-                <span className={`absolute bottom-0 left-4 right-4 h-[2px] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left ${isTransparent ? "bg-white" : "bg-[var(--bronze)]"}`} />
+                <span
+                  className={`absolute bottom-0 left-4 right-4 h-[2px] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left ${isTransparent ? "bg-white" : "bg-[var(--bronze)]"}`}
+                />
               </Link>
             ))}
 
@@ -110,16 +113,28 @@ export function LuxeNav() {
                 Services
                 <svg
                   className={`w-3 h-3 transition-transform duration-200 ${svcOpen ? "rotate-180" : ""}`}
-                  fill="none" viewBox="0 0 10 8" xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 8"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  <path d="M1 1L5 6.5L9 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  <path
+                    d="M1 1L5 6.5L9 1"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
                 </svg>
-                <span className={`absolute bottom-0 left-4 right-4 h-[2px] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left ${isTransparent ? "bg-white" : "bg-[var(--bronze)]"}`} />
+                <span
+                  className={`absolute bottom-0 left-4 right-4 h-[2px] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left ${isTransparent ? "bg-white" : "bg-[var(--bronze)]"}`}
+                />
               </Link>
 
               <div
                 className={`absolute left-0 top-full w-56 bg-white shadow-2xl border border-gray-100 overflow-hidden transition-all duration-200 ${
-                  svcOpen ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 -translate-y-2 pointer-events-none"
+                  svcOpen
+                    ? "opacity-100 translate-y-0 pointer-events-auto"
+                    : "opacity-0 -translate-y-2 pointer-events-none"
                 }`}
               >
                 <Link
@@ -153,7 +168,9 @@ export function LuxeNav() {
                 activeProps={{ className: isTransparent ? "text-white" : "text-[var(--bronze)]" }}
               >
                 {l.label}
-                <span className={`absolute bottom-0 left-4 right-4 h-[2px] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left ${isTransparent ? "bg-white" : "bg-[var(--bronze)]"}`} />
+                <span
+                  className={`absolute bottom-0 left-4 right-4 h-[2px] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left ${isTransparent ? "bg-white" : "bg-[var(--bronze)]"}`}
+                />
               </Link>
             ))}
           </nav>
@@ -176,9 +193,15 @@ export function LuxeNav() {
             onClick={() => setOpen((v) => !v)}
             className="lg:hidden flex flex-col justify-center gap-[5px] w-9 h-9"
           >
-            <span className={`block w-6 h-[2px] transition-all duration-300 ${open ? "rotate-45 translate-y-[7px]" : ""} ${isTransparent && !open ? "bg-white" : "bg-gray-800"}`} />
-            <span className={`block w-6 h-[2px] transition-all duration-300 ${open ? "opacity-0" : ""} ${isTransparent && !open ? "bg-white" : "bg-gray-800"}`} />
-            <span className={`block w-6 h-[2px] transition-all duration-300 ${open ? "-rotate-45 -translate-y-[7px]" : ""} ${isTransparent && !open ? "bg-white" : "bg-gray-800"}`} />
+            <span
+              className={`block w-6 h-[2px] transition-all duration-300 ${open ? "rotate-45 translate-y-[7px]" : ""} ${isTransparent && !open ? "bg-white" : "bg-gray-800"}`}
+            />
+            <span
+              className={`block w-6 h-[2px] transition-all duration-300 ${open ? "opacity-0" : ""} ${isTransparent && !open ? "bg-white" : "bg-gray-800"}`}
+            />
+            <span
+              className={`block w-6 h-[2px] transition-all duration-300 ${open ? "-rotate-45 -translate-y-[7px]" : ""} ${isTransparent && !open ? "bg-white" : "bg-gray-800"}`}
+            />
           </button>
         </div>
       </div>
@@ -186,7 +209,9 @@ export function LuxeNav() {
       {/* Mobile drawer */}
       <div
         className={`lg:hidden bg-white border-t border-gray-100 overflow-hidden transition-all duration-400 ${
-          open ? "max-h-[85vh] opacity-100 overflow-y-auto" : "max-h-0 opacity-0 pointer-events-none"
+          open
+            ? "max-h-[85vh] opacity-100 overflow-y-auto"
+            : "max-h-0 opacity-0 pointer-events-none"
         }`}
       >
         <nav className="flex flex-col px-6 py-2">
@@ -209,14 +234,27 @@ export function LuxeNav() {
               Services
               <svg
                 className={`w-4 h-4 transition-transform duration-200 ${mobileServicesOpen ? "rotate-180" : ""}`}
-                fill="none" viewBox="0 0 10 8" xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 10 8"
+                xmlns="http://www.w3.org/2000/svg"
               >
-                <path d="M1 1L5 6.5L9 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                <path
+                  d="M1 1L5 6.5L9 1"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
               </svg>
             </button>
             {mobileServicesOpen && (
               <div className="pb-2 pl-3 flex flex-col gap-1">
-                <Link to="/services" className="py-2 text-[13px] text-[var(--bronze)] font-semibold">All Services →</Link>
+                <Link
+                  to="/services"
+                  className="py-2 text-[13px] text-[var(--bronze)] font-semibold"
+                >
+                  All Services →
+                </Link>
                 {services.map((s) => (
                   <Link
                     key={s.to}
