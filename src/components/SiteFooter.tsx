@@ -127,7 +127,7 @@ export function SiteFooter() {
 
       {/* Bottom bar */}
       <div className="border-t border-white/5 mx-auto max-w-7xl px-6 py-6 flex flex-wrap justify-between gap-3 text-[11px] uppercase tracking-widest text-white/25">
-        <span>© {new Date().getFullYear()} TrustOn Developers. All Rights Reserved.</span>
+        <span>© 2025 TrustOn Developers. All Rights Reserved.</span>
         <span className="flex gap-6">
           <Link to="/admin/login" className="hover:text-[var(--bronze)] transition-colors">Admin</Link>
           <span>Crafted with luxury in mind</span>

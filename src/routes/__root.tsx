@@ -102,14 +102,6 @@ function RootShell({ children }: { children: React.ReactNode }) {
     <html lang="en">
       <head>
         <HeadContent />
-        {/* Inline critical font fallback so text is visible before fonts load */}
-        <style dangerouslySetInnerHTML={{ __html: `
-          :root {
-            --font-serif: "Cormorant Garamond", Georgia, serif;
-            --font-sans: "Inter", system-ui, -apple-system, sans-serif;
-            --font-display: "Playfair Display", Georgia, serif;
-          }
-        `}} />
       </head>
       <body>
         {children}
