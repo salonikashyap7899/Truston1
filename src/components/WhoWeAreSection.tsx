@@ -22,7 +22,7 @@ export function WhoWeAreSection() {
           className="absolute inset-0"
           style={{
             backgroundImage:
-              "radial-gradient(ellipse 80% 60% at 50% 30%, rgba(191,164,106,0.12) 0%, transparent 70%)",
+              "radial-gradient(ellipse 80% 60% at 50% 30%, rgba(45,107,196,0.12) 0%, transparent 70%)",
           }}
         />
       </div>

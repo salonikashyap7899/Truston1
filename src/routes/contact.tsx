@@ -39,7 +39,7 @@ function Page() {
           <Reveal>
             <div className="bg-cream p-8 h-full">
               <p className="text-[11px] uppercase tracking-luxe text-foreground/55 mb-2">Call Us</p>
-              <a href="tel:+919616061166" className="font-serif text-2xl text-bronze">
+              <a href="tel:+919616061166" className="font-serif text-2xl text-[var(--bronze)]">
                 +91 96160-61166
               </a>
             </div>
@@ -51,7 +51,7 @@ function Page() {
               </p>
               <a
                 href="mailto:trustondevelopers01@gmail.com"
-                className="font-serif text-xl text-bronze break-all"
+                className="font-serif text-xl text-[var(--bronze)] break-all"
               >
                 trustondevelopers01@gmail.com
               </a>
@@ -81,7 +81,7 @@ function Page() {
             <div className="md:col-span-2 flex justify-end">
               <button
                 type="submit"
-                className="rounded-full bg-bronze text-cream px-10 py-4 text-[11px] uppercase tracking-luxe hover:soft-shadow transition-all"
+                className="rounded-full bg-[var(--bronze)] text-cream px-10 py-4 text-[11px] uppercase tracking-luxe hover:soft-shadow transition-all"
               >
                 Contact Us →
               </button>
@@ -105,7 +105,7 @@ function Field({
   required?: boolean;
 }) {
   const cls =
-    "w-full bg-transparent border-b border-border focus:border-bronze outline-none py-3 text-ink";
+    "w-full bg-transparent border-b border-border focus:border-[var(--bronze)] outline-none py-3 text-ink";
   return (
     <label className="block">
       <span className="text-[10px] uppercase tracking-luxe text-foreground/55">
