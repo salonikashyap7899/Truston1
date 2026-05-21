@@ -1,0 +1,778 @@
+/* Smooth Scroll Behavior */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+/* Enhanced scroll animations */
+@supports (scroll-behavior: smooth) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Smooth transitions for navbar */
+.navbar-transition {
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Smooth fade-in on scroll */
+.fade-in-scroll {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeInScroll 0.8s ease-out forwards;
+}
+
+@keyframes fadeInScroll {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Staggered animation for list items */
+.stagger-item {
+  animation: fadeInScroll 0.8s ease-out forwards;
+}
+
+.stagger-item:nth-child(1) { animation-delay: 0.1s; }
+.stagger-item:nth-child(2) { animation-delay: 0.2s; }
+.stagger-item:nth-child(3) { animation-delay: 0.3s; }
+.stagger-item:nth-child(4) { animation-delay: 0.4s; }
+.stagger-item:nth-child(5) { animation-delay: 0.5s; }
+
+/* Smooth scale animation on hover */
+.hover-scale {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+}
+
+/* Smooth color transition */
+.color-transition {
+  transition: color 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Parallax scroll effect */
+.parallax {
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* Smooth underline animation */
+.underline-animation {
+  position: relative;
+  display: inline-block;
+}
+
+.underline-animation::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--bronze);
+  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.underline-animation:hover::after {
+  width: 100%;
+}
+
+/* Smooth blur effect */
+.blur-transition {
+  transition: filter 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Smooth shadow animation */
+.shadow-transition {
+  transition: box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Smooth backdrop blur */
+.backdrop-blur-smooth {
+  backdrop-filter: blur(10px);
+  transition: backdrop-filter 0.3s ease-out;
+}
+
+/* Smooth scroll snap */
+.scroll-snap-container {
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+}
+
+.scroll-snap-item {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+/* Smooth gradient animation */
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.gradient-animate {
+  background-size: 200% 200%;
+  animation: gradientShift 6s ease infinite;
+}
+
+/* Smooth opacity fade */
+.fade-in {
+  animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Smooth slide in from left */
+.slide-in-left {
+  animation: slideInLeft 0.8s ease-out;
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Smooth slide in from right */
+.slide-in-right {
+  animation: slideInRight 0.8s ease-out;
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Smooth slide in from top */
+.slide-in-top {
+  animation: slideInTop 0.8s ease-out;
+}
+
+@keyframes slideInTop {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Smooth slide in from bottom */
+.slide-in-bottom {
+  animation: slideInBottom 0.8s ease-out;
+}
+
+@keyframes slideInBottom {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Smooth rotation animation */
+.rotate-smooth {
+  animation: rotateSmoothly 20s linear infinite;
+}
+
+@keyframes rotateSmoothly {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Smooth pulse animation */
+.pulse-smooth {
+  animation: pulseSmoothly 2s ease-in-out infinite;
+}
+
+@keyframes pulseSmoothly {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Smooth bounce animation */
+.bounce-smooth {
+  animation: bounceSmoothly 1s ease-in-out infinite;
+}
+
+@keyframes bounceSmoothly {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Smooth glow effect */
+.glow-smooth {
+  animation: glowSmoothly 3s ease-in-out infinite;
+}
+
+@keyframes glowSmoothly {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(200, 150, 100, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(200, 150, 100, 0.8);
+  }
+}
+
+/* Smooth text reveal */
+.text-reveal {
+  overflow: hidden;
+}
+
+.text-reveal-line {
+  animation: revealLine 0.8s ease-out;
+}
+
+@keyframes revealLine {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* Smooth scale and fade */
+.scale-fade-in {
+  animation: scaleFadeIn 0.8s ease-out;
+}
+
+@keyframes scaleFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Smooth letter spacing animation */
+.letter-spacing-expand {
+  animation: letterSpacingExpand 0.8s ease-out;
+}
+
+@keyframes letterSpacingExpand {
+  from {
+    letter-spacing: 0;
+  }
+  to {
+    letter-spacing: 0.1em;
+  }
+}
+
+/* Smooth width animation */
+.width-expand {
+  animation: widthExpand 0.8s ease-out;
+}
+
+@keyframes widthExpand {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+/* Smooth height animation */
+.height-expand {
+  animation: heightExpand 0.8s ease-out;
+}
+
+@keyframes heightExpand {
+  from {
+    height: 0;
+  }
+  to {
+    height: 100%;
+  }
+}
+
+/* Smooth clip-path animation */
+.clip-path-reveal {
+  animation: clipPathReveal 0.8s ease-out;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+@keyframes clipPathReveal {
+  from {
+    clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+  }
+  to {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+}
+
+/* Smooth circular reveal */
+.circular-reveal {
+  animation: circularReveal 0.8s ease-out;
+  clip-path: circle(0% at 50% 50%);
+}
+
+@keyframes circularReveal {
+  from {
+    clip-path: circle(0% at 50% 50%);
+  }
+  to {
+    clip-path: circle(100% at 50% 50%);
+  }
+}
+
+/* Smooth inset animation */
+.inset-reveal {
+  animation: insetReveal 0.8s ease-out;
+  clip-path: inset(0 100% 0 0);
+}
+
+@keyframes insetReveal {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* Smooth polygon reveal */
+.polygon-reveal {
+  animation: polygonReveal 0.8s ease-out;
+}
+
+@keyframes polygonReveal {
+  from {
+    clip-path: polygon(50% 0%, 50% 0%, 50% 100%, 50% 100%);
+  }
+  to {
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+  }
+}
+
+/* Smooth skew animation */
+.skew-smooth {
+  animation: skewSmoothly 0.8s ease-out;
+}
+
+@keyframes skewSmoothly {
+  from {
+    transform: skewX(-10deg);
+  }
+  to {
+    transform: skewX(0deg);
+  }
+}
+
+/* Smooth perspective animation */
+.perspective-smooth {
+  perspective: 1000px;
+  animation: perspectiveSmoothly 0.8s ease-out;
+}
+
+@keyframes perspectiveSmoothly {
+  from {
+    transform: rotateX(90deg);
+    opacity: 0;
+  }
+  to {
+    transform: rotateX(0deg);
+    opacity: 1;
+  }
+}
+
+/* Smooth 3D flip animation */
+.flip-smooth {
+  animation: flipSmoothly 0.8s ease-out;
+  transform-style: preserve-3d;
+}
+
+@keyframes flipSmoothly {
+  from {
+    transform: rotateY(90deg);
+    opacity: 0;
+  }
+  to {
+    transform: rotateY(0deg);
+    opacity: 1;
+  }
+}
+
+/* Smooth morphing shape animation */
+.morph-smooth {
+  animation: morphSmoothly 3s ease-in-out infinite;
+  border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+}
+
+@keyframes morphSmoothly {
+  0% {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  }
+  50% {
+    border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+  }
+  100% {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  }
+}
+
+/* Smooth line drawing animation */
+.line-draw {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: lineDraw 2s ease-out forwards;
+}
+
+@keyframes lineDraw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Smooth text shadow animation */
+.text-shadow-smooth {
+  animation: textShadowSmooth 0.8s ease-out;
+}
+
+@keyframes textShadowSmooth {
+  from {
+    text-shadow: 0 0 0 rgba(200, 150, 100, 0);
+  }
+  to {
+    text-shadow: 0 10px 20px rgba(200, 150, 100, 0.3);
+  }
+}
+
+/* Smooth filter animation */
+.filter-smooth {
+  animation: filterSmooth 0.8s ease-out;
+}
+
+@keyframes filterSmooth {
+  from {
+    filter: blur(10px) brightness(0.5);
+  }
+  to {
+    filter: blur(0px) brightness(1);
+  }
+}
+
+
+/* ============================================
+   SOBHA REALTY-INSPIRED FLOATING EFFECTS
+   ============================================ */
+
+/* Floating Card Animation - Momentum Effect */
+.floating-card {
+  animation: floatingCard 6s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes floatingCard {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+/* Enhanced Parallax Container Effect */
+.parallax-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.parallax-image {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* Multi-layer Depth Parallax */
+.parallax-layer-bg {
+  animation: parallaxLayerBg 0.1s linear;
+  will-change: transform;
+}
+
+@keyframes parallaxLayerBg {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(var(--parallax-offset, 0px));
+  }
+}
+
+.parallax-layer-mid {
+  animation: parallaxLayerMid 0.1s linear;
+  will-change: transform;
+}
+
+@keyframes parallaxLayerMid {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(calc(var(--parallax-offset, 0px) * 0.5));
+  }
+}
+
+.parallax-layer-fg {
+  animation: parallaxLayerFg 0.1s linear;
+  will-change: transform;
+}
+
+@keyframes parallaxLayerFg {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(calc(var(--parallax-offset, 0px) * 0.8));
+  }
+}
+
+/* Smooth Scroll Momentum */
+.scroll-momentum {
+  scroll-behavior: smooth;
+}
+
+html.scroll-momentum {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+/* Decorative Element Floating */
+.decorative-float {
+  animation: decorativeFloat 8s ease-in-out infinite;
+}
+
+@keyframes decorativeFloat {
+  0%, 100% {
+    opacity: 0.08;
+    transform: translateY(0px) scale(1);
+  }
+  50% {
+    opacity: 0.12;
+    transform: translateY(-20px) scale(1.02);
+  }
+}
+
+/* Smooth Stagger Animation for List Items */
+.stagger-fade-in {
+  animation: staggerFadeIn 0.8s ease-out forwards;
+}
+
+.stagger-fade-in:nth-child(1) { animation-delay: 0.1s; }
+.stagger-fade-in:nth-child(2) { animation-delay: 0.2s; }
+.stagger-fade-in:nth-child(3) { animation-delay: 0.3s; }
+.stagger-fade-in:nth-child(4) { animation-delay: 0.4s; }
+.stagger-fade-in:nth-child(5) { animation-delay: 0.5s; }
+
+@keyframes staggerFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Smooth Spring Animation */
+.spring-bounce {
+  animation: springBounce 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes springBounce {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Easing Function: Sobha Custom Ease */
+.ease-sobha {
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Smooth Hover Lift Effect */
+.hover-lift {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-lift:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Smooth Arrow Animation */
+.arrow-pulse {
+  animation: arrowPulse 2s ease-in-out infinite;
+}
+
+@keyframes arrowPulse {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(4px);
+  }
+}
+
+/* Smooth Underline Expand */
+.underline-expand {
+  position: relative;
+  display: inline-block;
+}
+
+.underline-expand::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--bronze);
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.underline-expand:hover::after {
+  width: 100%;
+}
+
+/* Smooth Gradient Shift */
+.gradient-shift {
+  background-size: 200% 200%;
+  animation: gradientShiftSmooth 8s ease-in-out infinite;
+}
+
+@keyframes gradientShiftSmooth {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Smooth Fade In with Delay */
+.fade-in-delay {
+  animation: fadeInDelay 0.8s ease-out forwards;
+  opacity: 0;
+}
+
+.fade-in-delay:nth-child(1) { animation-delay: 0.1s; }
+.fade-in-delay:nth-child(2) { animation-delay: 0.2s; }
+.fade-in-delay:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes fadeInDelay {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Smooth Scale and Rotate */
+.scale-rotate-in {
+  animation: scaleRotateIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes scaleRotateIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8) rotate(-5deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+/* Smooth Blur In */
+.blur-in {
+  animation: blurIn 0.8s ease-out;
+}
+
+@keyframes blurIn {
+  from {
+    opacity: 0;
+    filter: blur(10px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0px);
+  }
+}
+
+/* Smooth Slide and Fade */
+.slide-fade-in {
+  animation: slideFadeIn 0.8s ease-out;
+}
+
+@keyframes slideFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

@@ -1,0 +1,405 @@
+/* Premium Luxury CSS Enhancements */
+
+:root {
+  --bronze: oklch(0.5 0.155 245);
+  --amber: oklch(0.58 0.14 245);
+  --ink: oklch(0.15 0.02 280);
+  --sky: oklch(0.50 0.155 245);
+  --gold: oklch(0.65 0.12 250);
+  --glass-blur: 12px;
+}
+
+/* ============================================
+   PREMIUM GLASS MORPHISM
+   ============================================ */
+
+.glass-premium {
+  backdrop-filter: blur(var(--glass-blur));
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.15) 0%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 
+    0 8px 32px 0 rgba(31, 38, 135, 0.15),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.2);
+}
+
+.glass-premium-dark {
+  backdrop-filter: blur(var(--glass-blur));
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.3) 0%,
+    rgba(0, 0, 0, 0.1) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 
+    0 8px 32px 0 rgba(31, 38, 135, 0.2),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+}
+
+/* ============================================
+   LUXURY GRADIENTS
+   ============================================ */
+
+.gradient-luxury {
+  background: linear-gradient(135deg, var(--bronze) 0%, var(--amber) 50%, var(--gold) 100%);
+  background-size: 200% 200%;
+}
+
+.gradient-luxury-animated {
+  background: linear-gradient(135deg, var(--bronze) 0%, var(--amber) 50%, var(--gold) 100%);
+  background-size: 400% 400%;
+  animation: luxuryGradientShift 8s ease infinite;
+}
+
+@keyframes luxuryGradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ============================================
+   PREMIUM SHADOWS & DEPTH
+   ============================================ */
+
+.shadow-luxury-sm {
+  box-shadow: 
+    0 2px 8px rgba(0, 0, 0, 0.12),
+    0 4px 16px rgba(45, 107, 196, 0.08);
+}
+
+.shadow-luxury-md {
+  box-shadow: 
+    0 4px 16px rgba(0, 0, 0, 0.15),
+    0 8px 32px rgba(45, 107, 196, 0.12);
+}
+
+.shadow-luxury-lg {
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.2),
+    0 16px 64px rgba(45, 107, 196, 0.15);
+}
+
+.shadow-luxury-xl {
+  box-shadow: 
+    0 16px 64px rgba(0, 0, 0, 0.25),
+    0 32px 96px rgba(45, 107, 196, 0.2);
+}
+
+/* ============================================
+   GLOW EFFECTS
+   ============================================ */
+
+.glow-bronze {
+  filter: drop-shadow(0 0 8px rgba(45, 107, 196, 0.3));
+}
+
+.glow-bronze-bright {
+  filter: drop-shadow(0 0 16px rgba(45, 107, 196, 0.5)) drop-shadow(0 0 32px rgba(45, 107, 196, 0.2));
+}
+
+.glow-neon {
+  filter: drop-shadow(0 0 4px rgba(45, 107, 196, 0.6)) drop-shadow(0 0 8px rgba(45, 107, 196, 0.4));
+  animation: neonPulse 2s ease-in-out infinite;
+}
+
+@keyframes neonPulse {
+  0%, 100% { 
+    filter: drop-shadow(0 0 4px rgba(45, 107, 196, 0.6)) drop-shadow(0 0 8px rgba(45, 107, 196, 0.4));
+  }
+  50% { 
+    filter: drop-shadow(0 0 8px rgba(45, 107, 196, 0.8)) drop-shadow(0 0 16px rgba(45, 107, 196, 0.6));
+  }
+}
+
+/* ============================================
+   PREMIUM BORDERS
+   ============================================ */
+
+.border-luxury {
+  border: 2px solid;
+  border-image: linear-gradient(135deg, var(--bronze), var(--amber), var(--gold)) 1;
+}
+
+.border-luxury-subtle {
+  border: 1px solid rgba(45, 107, 196, 0.3);
+}
+
+.border-luxury-glow {
+  border: 2px solid rgba(45, 107, 196, 0.5);
+  box-shadow: inset 0 0 20px rgba(45, 107, 196, 0.1), 0 0 20px rgba(45, 107, 196, 0.1);
+}
+
+/* ============================================
+   PREMIUM HOVER STATES
+   ============================================ */
+
+.hover-luxury {
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-luxury:hover {
+  border-color: rgba(45, 107, 196, 0.8);
+  box-shadow: 0 0 24px rgba(45, 107, 196, 0.3);
+  transform: translateY(-4px);
+}
+
+.hover-luxury-lift {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-luxury-lift:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* ============================================
+   PREMIUM TEXT STYLES
+   ============================================ */
+
+.text-luxury {
+  background: linear-gradient(135deg, var(--bronze), var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.text-luxury-shimmer {
+  position: relative;
+  background: linear-gradient(135deg, var(--bronze), var(--amber), var(--gold));
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmerText 4s ease infinite;
+}
+
+@keyframes shimmerText {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* ============================================
+   PREMIUM TRANSITIONS
+   ============================================ */
+
+.transition-luxury {
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.transition-luxury-fast {
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.transition-luxury-slow {
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ============================================
+   PREMIUM ANIMATIONS
+   ============================================ */
+
+@keyframes floatLuxury {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+.float-luxury {
+  animation: floatLuxury 6s ease-in-out infinite;
+}
+
+@keyframes glimmer {
+  0%, 100% {
+    opacity: 0.3;
+    filter: brightness(1);
+  }
+  50% {
+    opacity: 0.8;
+    filter: brightness(1.2);
+  }
+}
+
+.glimmer {
+  animation: glimmer 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.shimmer-effect {
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.2) 20%, transparent 40%);
+  background-size: 200% 200%;
+  animation: shimmer 3s infinite;
+}
+
+/* ============================================
+   PREMIUM BLUR EFFECTS
+   ============================================ */
+
+.blur-premium-xs {
+  backdrop-filter: blur(2px);
+}
+
+.blur-premium-sm {
+  backdrop-filter: blur(4px);
+}
+
+.blur-premium-md {
+  backdrop-filter: blur(8px);
+}
+
+.blur-premium-lg {
+  backdrop-filter: blur(12px);
+}
+
+.blur-premium-xl {
+  backdrop-filter: blur(16px);
+}
+
+.blur-premium-2xl {
+  backdrop-filter: blur(24px);
+}
+
+/* ============================================
+   PREMIUM OVERLAYS
+   ============================================ */
+
+.overlay-luxury {
+  position: relative;
+}
+
+.overlay-luxury::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(45, 107, 196, 0.1) 0%, transparent 50%, rgba(45, 107, 196, 0.05) 100%);
+  pointer-events: none;
+}
+
+.overlay-luxury-dark::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.1) 100%);
+  pointer-events: none;
+}
+
+/* ============================================
+   PREMIUM SCROLLBAR
+   ============================================ */
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--bronze), var(--amber));
+  border-radius: 6px;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--amber), var(--gold));
+}
+
+/* ============================================
+   PREMIUM INPUTS & FORMS
+   ============================================ */
+
+.input-luxury {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(45, 107, 196, 0.2);
+  border-radius: 8px;
+  padding: 12px 16px;
+  color: white;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.input-luxury:focus {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(45, 107, 196, 0.6);
+  box-shadow: 0 0 20px rgba(45, 107, 196, 0.2);
+  outline: none;
+}
+
+.input-luxury::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* ============================================
+   PREMIUM BREAKPOINTS
+   ============================================ */
+
+@media (max-width: 768px) {
+  :root {
+    --glass-blur: 8px;
+  }
+
+  .glass-premium {
+    backdrop-filter: blur(var(--glass-blur));
+  }
+
+  .float-luxury {
+    animation: floatLuxury 8s ease-in-out infinite;
+  }
+}
+
+@media (max-width: 480px) {
+  .shadow-luxury-lg {
+    box-shadow: 
+      0 4px 16px rgba(0, 0, 0, 0.15),
+      0 8px 32px rgba(45, 107, 196, 0.1);
+  }
+
+  .glow-bronze-bright {
+    filter: drop-shadow(0 0 8px rgba(45, 107, 196, 0.4)) drop-shadow(0 0 16px rgba(45, 107, 196, 0.15));
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .float-luxury,
+  .glimmer,
+  .shimmer-effect,
+  .glow-neon {
+    animation: none !important;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .glass-premium {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.08) 0%,
+      rgba(255, 255, 255, 0.02) 100%
+    );
+    border: 1px solid rgba(45, 107, 196, 0.15);
+  }
+}

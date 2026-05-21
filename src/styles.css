@@ -1,0 +1,631 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 4px);
+  --radius-xl: calc(var(--radius) + 12px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-cream: var(--cream);
+  --color-sand: var(--sand);
+  --color-bronze: var(--bronze);
+  --color-ink: var(--ink);
+  --font-serif: "Cormorant Garamond", "Playfair Display", serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-display: "Playfair Display", "Cormorant Garamond", serif;
+}
+
+:root {
+  --radius: 0.125rem;
+  --background: oklch(0.98 0.004 240);
+  --foreground: oklch(0.14 0.018 250);
+  --ink: oklch(0.13 0.02 250);
+  --cream: oklch(0.98 0.004 240);
+  --sand: oklch(0.94 0.008 240);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.14 0.018 250);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.14 0.018 250);
+  --primary: oklch(0.14 0.018 250);
+  --primary-foreground: oklch(0.98 0.004 240);
+  --bronze: #2d6bc4; /* hex fallback — forces royal blue on any engine */
+  --bronze: oklch(0.5 0.155 245); /* oklch override for modern browsers */
+  --secondary: oklch(0.93 0.008 240);
+  --secondary-foreground: oklch(0.18 0.018 250);
+  --muted: oklch(0.93 0.008 240);
+  --muted-foreground: oklch(0.42 0.015 250);
+  --accent: oklch(0.55 0.14 245);
+  --accent-foreground: oklch(0.99 0.004 240);
+  --destructive: oklch(0.55 0.18 25);
+  --destructive-foreground: oklch(0.99 0.004 240);
+  --border: oklch(0.18 0.018 250 / 0.1);
+  --input: oklch(0.18 0.018 250 / 0.12);
+  --ring: oklch(0.5 0.155 245);
+
+  --gradient-bronze: linear-gradient(135deg, #3b89e8, #1a55b0); /* hex fallback */
+  --gradient-bronze: linear-gradient(135deg, oklch(0.6 0.14 245), oklch(0.42 0.16 250));
+  --gradient-overlay: linear-gradient(
+    165deg,
+    oklch(0.05 0.01 250 / 0.65) 0%,
+    oklch(0.05 0.01 250 / 0.88) 60%,
+    oklch(0.04 0.01 250 / 0.95) 100%
+  );
+  --gradient-cream-fade: linear-gradient(180deg, transparent 0%, var(--cream) 100%);
+  --shadow-soft: 0 40px 80px -25px oklch(0.08 0.01 250 / 0.12);
+  --shadow-card: 0 15px 45px -20px oklch(0.08 0.01 250 / 0.08);
+  --shadow-luxe: 0 60px 100px -30px oklch(0.08 0.01 250 / 0.15);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: auto !important;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: "ss01", "cv01";
+    position: relative;
+  }
+
+  body::after {
+    content: "";
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    right: -50%;
+    bottom: -50%;
+    width: 200%;
+    height: 200%;
+    background: transparent url("https://assets.iceable.com/img/noise-transparent.png") repeat;
+    opacity: 0.12;
+    pointer-events: none;
+    z-index: 9999;
+    animation: noise 0.2s infinite;
+  }
+
+  @keyframes noise {
+    0% {
+      transform: translate(0, 0);
+    }
+    10% {
+      transform: translate(-5%, -5%);
+    }
+    20% {
+      transform: translate(-10%, 5%);
+    }
+    30% {
+      transform: translate(5%, -10%);
+    }
+    40% {
+      transform: translate(-5%, 15%);
+    }
+    50% {
+      transform: translate(-10%, 5%);
+    }
+    60% {
+      transform: translate(15%, 0);
+    }
+    70% {
+      transform: translate(0, 10%);
+    }
+    80% {
+      transform: translate(-15%, 0);
+    }
+    90% {
+      transform: translate(10%, 5%);
+    }
+    100% {
+      transform: translate(5%, 0);
+    }
+  }
+
+  /*
+   * FIX: EXIF orientation — browsers must auto-rotate images based on
+   * the EXIF orientation tag in JPEG/HEIC files. Without this, portrait
+   * images taken on a phone or uploaded via WordPress show 90° rotated.
+   */
+  img {
+    image-orientation: from-image;
+    max-width: 100%;
+  }
+
+  /* Custom luxury cursor — hide default on desktop */
+  @media (pointer: fine) {
+    *,
+    *::before,
+    *::after {
+      cursor: none !important;
+    }
+  }
+
+  ::selection {
+    background: var(--bronze);
+    color: white;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    letter-spacing: -0.015em;
+  }
+}
+
+@layer utilities {
+  .font-serif {
+    font-family: var(--font-serif);
+    font-weight: 300;
+  }
+  .font-display {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+  .text-bronze {
+    color: var(--bronze);
+  }
+  .bg-bronze {
+    background: var(--bronze);
+  }
+  .bg-cream {
+    background: var(--cream);
+  }
+  .bg-sand {
+    background: var(--sand);
+  }
+  .bg-ink {
+    background: var(--ink);
+  }
+  .text-ink {
+    color: var(--ink);
+  }
+
+  .gradient-bronze-text {
+    background: var(--gradient-bronze);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .glass-light {
+    background: oklch(1 0 0 / 0.92);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid oklch(0.18 0.018 250 / 0.08);
+  }
+  .glass-dark {
+    background: oklch(0.13 0.02 250 / 0.55);
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    border: 1px solid oklch(1 0 0 / 0.08);
+  }
+  .bronze-border {
+    border: 1px solid oklch(0.5 0.155 245 / 0.55);
+  }
+  .soft-shadow {
+    box-shadow: var(--shadow-soft);
+  }
+  .card-shadow {
+    box-shadow: var(--shadow-card);
+  }
+  .shadow-luxe {
+    box-shadow: var(--shadow-luxe);
+  }
+  .tracking-luxe {
+    letter-spacing: 0.32em;
+  }
+  .tracking-soft {
+    letter-spacing: 0.18em;
+  }
+
+  .hover-lift {
+    transition:
+      transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1),
+      box-shadow 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .hover-lift:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-soft);
+  }
+
+  /* Ken Burns slow zoom */
+  @keyframes ken-burns {
+    0% {
+      transform: scale(1.04) translate(0, 0);
+    }
+    100% {
+      transform: scale(1.18) translate(-2%, -1%);
+    }
+  }
+  .ken-burns {
+    animation: ken-burns 24s ease-out infinite alternate;
+  }
+
+  /* Horizontal marquee */
+  @keyframes marquee {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+  .marquee {
+    animation: marquee 50s linear infinite;
+  }
+
+  /* Shimmer sweep */
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+  .shimmer {
+    background: linear-gradient(90deg, transparent, oklch(0.5 0.155 245 / 0.25), transparent);
+    background-size: 200% 100%;
+    animation: shimmer 3s infinite;
+  }
+
+  /* Float up-down */
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-14px);
+    }
+  }
+  .float {
+    animation: float 5s ease-in-out infinite;
+  }
+  .float-slow {
+    animation: float 8s ease-in-out infinite;
+  }
+  .float-fast {
+    animation: float 3.5s ease-in-out infinite;
+  }
+
+  /* Pulse ring */
+  @keyframes pulse-ring {
+    0% {
+      transform: scale(1);
+      opacity: 0.6;
+    }
+    100% {
+      transform: scale(1.8);
+      opacity: 0;
+    }
+  }
+  .pulse-ring {
+    animation: pulse-ring 2.2s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+  }
+
+  /* Spin slow */
+  @keyframes spin-slow {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  .spin-slow {
+    animation: spin-slow 20s linear infinite;
+  }
+
+  /* Text reveal underline */
+  .underline-bronze {
+    position: relative;
+  }
+  .underline-bronze::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    height: 2px;
+    width: 0;
+    background: var(--bronze);
+    transition: width 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .underline-bronze:hover::after {
+    width: 100%;
+  }
+
+  .divider-bronze {
+    display: inline-block;
+    width: 40px;
+    height: 2px;
+    background: var(--bronze);
+    vertical-align: middle;
+  }
+
+  /* ── Enhanced Text Visibility ────────────────────────── */
+  .text-rich {
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    line-height: 1.7;
+  }
+
+  .text-rich-dark {
+    color: oklch(0.12 0.02 250);
+    font-weight: 500;
+  }
+
+  .text-rich-light {
+    color: oklch(0.95 0.005 240);
+    font-weight: 500;
+  }
+
+  .heading-rich {
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+
+  .heading-rich-large {
+    font-size: clamp(2rem, 5vw, 4rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  /* ── Floating Image Animations ───────────────────────── */
+  @keyframes float-gentle {
+    0%, 100% {
+      transform: translateY(0px) rotate(0deg);
+    }
+    25% {
+      transform: translateY(-8px) rotate(0.5deg);
+    }
+    50% {
+      transform: translateY(-16px) rotate(0deg);
+    }
+    75% {
+      transform: translateY(-8px) rotate(-0.5deg);
+    }
+  }
+
+  .float-gentle {
+    animation: float-gentle 6s ease-in-out infinite;
+  }
+
+  @keyframes float-dynamic {
+    0%, 100% {
+      transform: translateY(0px) scale(1);
+    }
+    50% {
+      transform: translateY(-20px) scale(1.02);
+    }
+  }
+
+  .float-dynamic {
+    animation: float-dynamic 5s cubic-bezier(0.4, 0.0, 0.2, 1) infinite;
+  }
+
+  @keyframes float-wave {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    25% {
+      transform: translateY(-12px);
+    }
+    75% {
+      transform: translateY(8px);
+    }
+  }
+
+  .float-wave {
+    animation: float-wave 7s ease-in-out infinite;
+  }
+
+  /* ── Image Container Enhancements ────────────────────── */
+  .image-float-container {
+    position: relative;
+    overflow: visible;
+  }
+
+  .image-float-container img {
+    transition: transform 0.3s ease-out, filter 0.3s ease-out;
+  }
+
+  .image-float-container:hover img {
+    transform: scale(1.03) translateY(-4px);
+    filter: brightness(1.05);
+  }
+
+  /* ── Section Visibility Enhancements ─────────────────── */
+  .section-divider {
+    position: relative;
+    padding: 4rem 0;
+    border-top: 1px solid oklch(0.18 0.018 250 / 0.1);
+  }
+
+  .section-divider::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 2px;
+    background: var(--bronze);
+    opacity: 0.6;
+  }
+
+  /* ── Rich Contrast Overlays ──────────────────────────── */
+  .overlay-rich-dark {
+    background: linear-gradient(
+      135deg,
+      oklch(0.05 0.01 250 / 0.7) 0%,
+      oklch(0.08 0.01 250 / 0.5) 100%
+    );
+  }
+
+  .overlay-rich-light {
+    background: linear-gradient(
+      135deg,
+      oklch(0.98 0.004 240 / 0.95) 0%,
+      oklch(0.95 0.005 240 / 0.9) 100%
+    );
+  }
+
+  /* ── Text Glow Effect ────────────────────────────────── */
+  .text-glow-bronze {
+    text-shadow: 0 0 20px var(--bronze) / 0.3, 0 0 40px var(--bronze) / 0.15;
+  }
+
+  .text-glow-subtle {
+    text-shadow: 0 2px 8px oklch(0.08 0.01 250 / 0.2);
+  }
+
+  /* ── Enhanced Hover Effects ──────────────────────────── */
+  .hover-glow {
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .hover-glow:hover {
+    box-shadow: 0 0 30px var(--bronze) / 0.2, 0 0 60px var(--bronze) / 0.1;
+    transform: translateY(-4px);
+  }
+
+  /* ── Smooth Scroll Snap ──────────────────────────────── */
+  .scroll-snap-section {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  /* ── Page Section Clarity ────────────────────────────── */
+  .page-section {
+    position: relative;
+    padding: 6rem 1.5rem;
+  }
+
+  .page-section-light {
+    background: var(--cream);
+    color: var(--ink);
+  }
+
+  .page-section-dark {
+    background: var(--ink);
+    color: var(--cream);
+  }
+
+  .page-section-accent {
+    background: linear-gradient(
+      135deg,
+      var(--sand) 0%,
+      var(--cream) 100%
+    );
+    color: var(--ink);
+  }
+
+  /* ── Rich Typography ─────────────────────────────────── */
+  .typography-hero {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+
+  .typography-section-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+  }
+
+  .typography-body {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.8;
+    letter-spacing: 0.3px;
+    color: oklch(0.3 0.015 250);
+  }
+
+  .typography-body-light {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.8;
+    letter-spacing: 0.3px;
+    color: oklch(0.85 0.008 240);
+  }
+
+  /* ── Image Reveal Animations ─────────────────────────── */
+  @keyframes image-reveal-blur {
+    from {
+      opacity: 0;
+      filter: blur(12px);
+    }
+    to {
+      opacity: 1;
+      filter: blur(0px);
+    }
+  }
+
+  .image-reveal-blur {
+    animation: image-reveal-blur 0.8s ease-out;
+  }
+
+  @keyframes image-reveal-scale {
+    from {
+      opacity: 0;
+      transform: scale(0.92);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .image-reveal-scale {
+    animation: image-reveal-scale 0.8s ease-out;
+  }
+
+  /* ── Scroll Progress Indicator ───────────────────────── */
+  .scroll-progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--bronze), var(--accent));
+    transform-origin: left;
+    z-index: 9998;
+  }
+}
