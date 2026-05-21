@@ -61,10 +61,10 @@ function FloatingRings() {
           <mesh rotation={[Math.PI / 2, 0, 0]} scale={1.5 + i * 0.5}>
             <torusGeometry args={[1, 0.01, 16, 100]} />
             <meshStandardMaterial
-              color={i === 1 ? "oklch(0.75 0.15 85)" : "oklch(0.65 0.12 45)"}
+              color={i === 1 ? "oklch(0.65 0.12 240)" : "oklch(0.55 0.15 250)"}
               metalness={1}
               roughness={0.1}
-              emissive={i === 1 ? "oklch(0.75 0.15 85)" : "oklch(0.65 0.12 45)"}
+              emissive={i === 1 ? "oklch(0.65 0.12 240)" : "oklch(0.55 0.15 250)"}
               emissiveIntensity={0.2}
             />
           </mesh>
@@ -101,13 +101,13 @@ function MouseResponsiveScene() {
       <ArchitecturalElement
         position={[-2, 1, -1]}
         rotation={[0.5, 0.5, 0]}
-        color="oklch(0.65 0.12 45)"
+        color="oklch(0.55 0.15 250)"
         scale={1.2}
       />
       <ArchitecturalElement
         position={[2, -1, 1]}
         rotation={[-0.5, -0.5, 0]}
-        color="oklch(0.75 0.15 85)"
+        color="oklch(0.65 0.12 240)"
         scale={0.8}
       />
 
@@ -147,7 +147,7 @@ function Particles({ count = 100 }) {
       </bufferGeometry>
       <pointsMaterial
         size={0.03}
-        color="oklch(0.75 0.15 85)"
+        color="oklch(0.65 0.12 240)"
         transparent
         opacity={0.3}
         sizeAttenuation
@@ -168,9 +168,9 @@ export function Luxury3DScene() {
           angle={0.15}
           penumbra={1}
           intensity={2}
-          color="oklch(0.75 0.15 85)"
+          color="oklch(0.65 0.12 240)"
         />
-        <pointLight position={[-10, -10, -10]} intensity={1} color="oklch(0.65 0.12 45)" />
+        <pointLight position={[-10, -10, -10]} intensity={1} color="oklch(0.55 0.15 250)" />
 
         <MouseResponsiveScene />
 

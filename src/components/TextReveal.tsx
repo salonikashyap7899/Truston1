@@ -8,6 +8,41 @@ interface TextRevealProps {
   once?: boolean;
 }
 
+/**
+ * SwipeReveal: A cinematic text reveal where a background swipe effect (overlay)
+ * slides across the text as it reveals, inspired by high-end luxury websites.
+ */
+export function SwipeReveal({ children, className, delay = 0, once = true }: TextRevealProps) {
+  return (
+    <div className={`relative overflow-hidden inline-block ${className}`}>
+      <motion.div
+        initial={{ y: "100%" }}
+        whileInView={{ y: 0 }}
+        viewport={{ once }}
+        transition={{
+          duration: 0.8,
+          delay,
+          ease: [0.16, 1, 0.3, 1],
+        }}
+      >
+        {children}
+      </motion.div>
+      <motion.div
+        initial={{ scaleY: 0 }}
+        whileInView={{ scaleY: [0, 1, 1, 0], y: ["100%", "0%", "0%", "-100%"] }}
+        viewport={{ once }}
+        transition={{
+          duration: 1.2,
+          delay,
+          times: [0, 0.4, 0.6, 1],
+          ease: "easeInOut",
+        }}
+        className="absolute inset-0 bg-[var(--primary)] z-10 origin-bottom"
+      />
+    </div>
+  );
+}
+
 export function TextReveal({ children, className, delay = 0, once = true }: TextRevealProps) {
   const words = children.split(" ");
 

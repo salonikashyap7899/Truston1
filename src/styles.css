@@ -40,33 +40,33 @@
 
 :root {
   --radius: 0.125rem;
-  /* Cinematic Dark Theme */
+  /* Cinematic Dark Theme - REBRANDED TO BLUE */
   --background: oklch(0.12 0.015 250); /* Matte Luxury Black */
   --foreground: oklch(0.98 0.004 240); /* Off-white / Cream */
   --ink: oklch(0.08 0.01 250); /* Deep Charcoal */
   --cream: oklch(0.98 0.004 240);
-  --sand: oklch(0.25 0.02 250); /* Dark sand / Bronze tint */
+  --sand: oklch(0.15 0.02 245); /* Deep Blue tint */
   --card: oklch(0.15 0.015 250 / 0.7);
   --card-foreground: oklch(0.98 0.004 240);
   --popover: oklch(0.12 0.015 250);
   --popover-foreground: oklch(0.98 0.004 240);
-  --primary: oklch(0.65 0.12 45); /* Rich Bronze */
+  --primary: oklch(0.55 0.15 250); /* Luxury Electric Blue */
   --primary-foreground: oklch(0.12 0.015 250);
-  --bronze: oklch(0.65 0.12 45);
-  --gold: oklch(0.75 0.15 85);
+  --bronze: oklch(0.55 0.15 250); /* Aliased to Blue */
+  --gold: oklch(0.65 0.12 240); /* Aliased to Lighter Blue */
   --secondary: oklch(0.2 0.02 250);
   --secondary-foreground: oklch(0.98 0.004 240);
   --muted: oklch(0.2 0.02 250);
   --muted-foreground: oklch(0.6 0.01 250);
-  --accent: oklch(0.75 0.15 85); /* Gold */
+  --accent: oklch(0.65 0.12 240); /* Blue Accent */
   --accent-foreground: oklch(0.12 0.015 250);
   --destructive: oklch(0.55 0.18 25);
   --destructive-foreground: oklch(0.99 0.004 240);
   --border: oklch(1 0 0 / 0.1);
   --input: oklch(1 0 0 / 0.05);
-  --ring: oklch(0.65 0.12 45);
+  --ring: oklch(0.55 0.15 250);
 
-  --gradient-bronze: linear-gradient(135deg, oklch(0.75 0.15 85), oklch(0.55 0.12 45));
+  --gradient-bronze: linear-gradient(135deg, oklch(0.65 0.12 240), oklch(0.45 0.15 260));
   --gradient-overlay: linear-gradient(
     165deg,
     oklch(0.08 0.01 250 / 0.4) 0%,
@@ -166,8 +166,8 @@
   }
 
   ::selection {
-    background: var(--bronze);
-    color: var(--ink);
+    background: var(--primary);
+    color: white;
   }
   h1,
   h2,
@@ -230,11 +230,11 @@
   }
 
   .bronze-border {
-    border: 1px solid oklch(0.65 0.12 45 / 0.4);
+    border: 1px solid oklch(0.55 0.15 250 / 0.4);
   }
 
   .gold-border {
-    border: 1px solid oklch(0.75 0.15 85 / 0.4);
+    border: 1px solid oklch(0.65 0.12 240 / 0.4);
   }
 
   .shadow-luxe {
@@ -325,7 +325,7 @@
   }
 
   .btn-bronze:hover {
-    box-shadow: 0 0 40px oklch(0.65 0.12 45 / 0.4);
+    box-shadow: 0 0 40px oklch(0.55 0.15 250 / 0.4);
     transform: scale(1.05);
   }
 

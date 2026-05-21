@@ -5,7 +5,7 @@ import { GalleryLightbox, type GalleryItem } from "@/components/GalleryLightbox"
 import heroImg from "@/assets/hero-estate.jpg";
 import { SobhaStyleHero } from "@/components/SobhaStyleHero";
 import { Reveal, SectionEyebrow, CountUp } from "@/components/Reveal";
-import { TextReveal, CharReveal } from "@/components/TextReveal";
+import { TextReveal, CharReveal, SwipeReveal } from "@/components/TextReveal";
 import { Testimonials } from "@/components/Testimonials";
 import { EnhancedDevelopersSection } from "@/components/DevelopersSection.Enhanced";
 import { EnhancedGallerySection } from "@/components/GallerySection.Enhanced";
@@ -48,17 +48,17 @@ function Index() {
         alt="Aerial view of Prime Estate township at twilight"
       />
 
-      {/* NEW: Luxury Highlights Section — after first section */}
-      <LuxuryHighlights />
-
       {/* Who We Are Section */}
       <WhoWeAreSection />
 
+      {/* Futuristic Projects Showcase - This contains "Prime Estate" masterpieces */}
+      <Projects3DShowcase />
+
+      {/* MOVING Luxury Highlights Section — after Prime state (Projects Showcase) */}
+      <LuxuryHighlights />
+
       {/* Futuristic Services Section */}
       <Services3DSection />
-
-      {/* Futuristic Projects Showcase */}
-      <Projects3DShowcase />
 
       {/* Enhanced Developers Section with Floating Images */}
       <EnhancedDevelopersSection />
@@ -203,7 +203,10 @@ function CTASection() {
       <div className="mx-auto max-w-4xl relative z-10 text-center">
         <BlurReveal>
           <motion.h2 style={{ y: textY }} className="typography-hero text-white mb-6">
-            Ready to Build Your <HighlightText highlightColor="var(--bronze)">Legacy</HighlightText>
+            Ready to Build Your{" "}
+            <SwipeReveal>
+              <HighlightText highlightColor="var(--primary)">Legacy</HighlightText>
+            </SwipeReveal>
             ?
           </motion.h2>
         </BlurReveal>

@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "@tanstack/react-router";
 import { Reveal } from "./Reveal";
+import { SwipeReveal } from "./TextReveal";
 
 const services = [
   {
@@ -53,7 +54,10 @@ export function Services3DSection() {
               Our Expertise
             </span>
             <h2 className="typography-section-title text-white">
-              Futuristic <em className="text-gold italic font-serif">Solutions</em>
+              <SwipeReveal>Futuristic</SwipeReveal>{" "}
+              <em className="text-gold italic font-serif">
+                <SwipeReveal delay={0.2}>Solutions</SwipeReveal>
+              </em>
             </h2>
           </div>
         </Reveal>
