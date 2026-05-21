@@ -83,8 +83,13 @@ export function WhoWeAreSection() {
 
         {/* Right Side: Floating Glass Cards */}
         <div className="relative h-[600px] flex items-center justify-center">
-          <motion.div style={{ y: glassY }} className="relative z-20 w-full max-w-md">
-            <div className="glass-premium p-12 rounded-3xl relative overflow-hidden group">
+          <motion.div
+            style={{ y: glassY }}
+            className="relative z-20 w-full max-w-md"
+            whileHover={{ rotateY: -10, rotateX: 10, scale: 1.02 }}
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+          >
+            <div className="glass-premium p-12 rounded-3xl relative overflow-hidden group border border-white/10 shadow-2xl">
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-gold to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
 
               <h3 className="font-display text-3xl text-white mb-6">Uncompromising Standards</h3>

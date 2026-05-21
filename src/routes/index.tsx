@@ -7,6 +7,7 @@ import { SobhaStyleHero } from "@/components/SobhaStyleHero";
 import { Reveal, SectionEyebrow, CountUp } from "@/components/Reveal";
 import { TextReveal, CharReveal, SwipeReveal } from "@/components/TextReveal";
 import { Testimonials } from "@/components/Testimonials";
+import { WealthCalculator } from "@/components/WealthCalculator";
 import { EnhancedDevelopersSection } from "@/components/DevelopersSection.Enhanced";
 import { EnhancedGallerySection } from "@/components/GallerySection.Enhanced";
 import { WhoWeAreSection } from "@/components/WhoWeAreSection";
@@ -65,6 +66,9 @@ function Index() {
 
       {/* Enhanced Gallery Section */}
       <EnhancedGallerySection />
+
+      {/* Wealth Calculator */}
+      <WealthCalculator />
 
       {/* Marquee */}
       <Marquee />

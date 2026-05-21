@@ -73,7 +73,7 @@ function LuxurySlider({
           className="absolute top-0 left-0 h-full rounded-full transition-all duration-100"
           style={{
             width: `${pct}%`,
-            background: "linear-gradient(90deg, oklch(0.42 0.16 250), oklch(0.60 0.14 245))",
+            background: "var(--gradient-bronze)",
           }}
         />
         <input
@@ -144,7 +144,7 @@ function GrowthBar({
               style={{
                 height: `${heightPct}%`,
                 minHeight: 8,
-                background: `linear-gradient(to top, oklch(0.50 0.155 245), oklch(0.65 0.12 240 / 0.7))`,
+                background: `linear-gradient(to top, var(--bronze), var(--gold))`,
                 opacity: 0.4 + (i / milestones.length) * 0.6,
               }}
               initial={{ scaleY: 0, originY: "bottom" }}
@@ -195,7 +195,7 @@ export function WealthCalculator() {
           <div
             className="absolute -bottom-40 right-1/4 w-[500px] h-[500px] rounded-full opacity-[0.05]"
             style={{
-              background: "radial-gradient(circle, oklch(0.50 0.155 245), transparent 70%)",
+              background: "radial-gradient(circle, var(--gold), transparent 70%)",
             }}
           />
         </div>

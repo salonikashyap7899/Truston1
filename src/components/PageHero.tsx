@@ -34,8 +34,9 @@ function Particle({
         top: y,
         width: size,
         height: size,
-        background: "oklch(0.50 0.155 245 / 0.6)",
-        boxShadow: "0 0 6px 2px oklch(0.50 0.155 245 / 0.3)",
+        background: "var(--bronze)",
+        opacity: 0.6,
+        boxShadow: "0 0 6px 2px var(--bronze)",
       }}
       animate={{
         y: ["0px", "-28px", "0px"],
@@ -130,8 +131,7 @@ export function PageHero({
       <div
         className="absolute inset-0"
         style={{
-          background:
-            "linear-gradient(165deg, oklch(0.08 0.015 250 / 0.65) 0%, oklch(0.08 0.015 250 / 0.85) 60%, oklch(0.06 0.01 250 / 0.92) 100%)",
+          background: "var(--gradient-overlay)",
         }}
       />
 

@@ -44,20 +44,20 @@ export function CursorGlow() {
       isHovering = active;
       if (active) {
         icon.innerHTML = HOUSE_SVG_FILLED;
-        icon.style.color = "oklch(0.50 0.155 245)";
-        icon.style.filter = "drop-shadow(0 0 8px oklch(0.50 0.155 245 / 0.8))";
+        icon.style.color = "var(--bronze)";
+        icon.style.filter = "drop-shadow(0 0 8px var(--bronze))";
         icon.style.transform = `translate3d(${ix - 11}px, ${iy - 11}px, 0) scale(1.3)`;
         ring.style.width = "56px";
         ring.style.height = "56px";
-        ring.style.borderColor = "oklch(0.50 0.155 245 / 0.6)";
-        ring.style.backgroundColor = "oklch(0.50 0.155 245 / 0.05)";
+        ring.style.borderColor = "var(--bronze)";
+        ring.style.backgroundColor = "rgba(184, 134, 11, 0.05)";
       } else {
         icon.innerHTML = HOUSE_SVG;
-        icon.style.color = "oklch(0.50 0.155 245)";
-        icon.style.filter = "drop-shadow(0 0 4px oklch(0.50 0.155 245 / 0.4))";
+        icon.style.color = "var(--bronze)";
+        icon.style.filter = "drop-shadow(0 0 4px var(--bronze))";
         ring.style.width = "40px";
         ring.style.height = "40px";
-        ring.style.borderColor = "oklch(0.50 0.155 245 / 0.35)";
+        ring.style.borderColor = "rgba(184, 134, 11, 0.35)";
         ring.style.backgroundColor = "transparent";
       }
     };
@@ -88,8 +88,8 @@ export function CursorGlow() {
     };
 
     icon.innerHTML = HOUSE_SVG;
-    icon.style.color = "oklch(0.50 0.155 245)";
-    icon.style.filter = "drop-shadow(0 0 4px oklch(0.50 0.155 245 / 0.4))";
+    icon.style.color = "var(--bronze)";
+    icon.style.filter = "drop-shadow(0 0 4px var(--bronze))";
 
     window.addEventListener("mousemove", onMove);
     document.addEventListener("mouseover", onOver);
@@ -110,7 +110,7 @@ export function CursorGlow() {
         aria-hidden
         className="pointer-events-none fixed top-0 left-0 z-[9985] hidden md:block w-[280px] h-[280px] rounded-full"
         style={{
-          background: "radial-gradient(circle, oklch(0.50 0.155 245 / 0.06) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(184, 134, 11, 0.06) 0%, transparent 70%)",
           filter: "blur(20px)",
           willChange: "transform",
         }}
@@ -126,7 +126,7 @@ export function CursorGlow() {
           marginLeft: -20,
           marginTop: -20,
           borderRadius: "50%",
-          border: "1px solid oklch(0.50 0.155 245 / 0.35)",
+          border: "1px solid rgba(184, 134, 11, 0.35)",
           backgroundColor: "transparent",
           transition:
             "width 0.35s cubic-bezier(0.16,1,0.3,1), height 0.35s cubic-bezier(0.16,1,0.3,1), border-color 0.3s, background-color 0.3s",

@@ -65,14 +65,14 @@ const highlights = [
 export function LuxuryHighlights() {
   return (
     <section className="relative py-24 md:py-32 px-6 overflow-hidden bg-gradient-to-b from-[var(--cream)] via-white to-[var(--sand)]">
-      {/* Background blue glow orbs */}
+      {/* Background warm luxury glow orbs */}
       <div
         className="absolute top-0 left-1/4 w-96 h-96 rounded-full pointer-events-none opacity-[0.06]"
-        style={{ background: "radial-gradient(circle, oklch(0.50 0.155 245), transparent)" }}
+        style={{ background: "radial-gradient(circle, var(--gold), transparent)" }}
       />
       <div
         className="absolute bottom-0 right-1/4 w-80 h-80 rounded-full pointer-events-none opacity-[0.05]"
-        style={{ background: "radial-gradient(circle, oklch(0.50 0.155 245), transparent)" }}
+        style={{ background: "radial-gradient(circle, var(--bronze), transparent)" }}
       />
 
       <div className="relative mx-auto max-w-7xl">
@@ -115,11 +115,11 @@ export function LuxuryHighlights() {
                   transformStyle: "preserve-3d",
                 }}
               >
-                {/* Blue gradient top accent */}
+                {/* Bronze gradient top accent */}
                 <div
                   className="absolute top-0 left-0 right-0 h-1 rounded-t-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                   style={{
-                    background: "linear-gradient(90deg, oklch(0.6 0.14 245), oklch(0.42 0.16 250))",
+                    background: "var(--gradient-bronze)",
                   }}
                 />
 
@@ -156,8 +156,7 @@ export function LuxuryHighlights() {
               href="/contact"
               whileHover={{ scale: 1.04, y: -2 }}
               whileTap={{ scale: 0.97 }}
-              className="inline-flex items-center gap-3 bg-[var(--bronze)] text-white px-10 py-4 text-[11px] uppercase tracking-widest font-semibold hover:opacity-90 transition-all duration-300"
-              style={{ boxShadow: "0 8px 30px rgba(45,107,196,0.35)" }}
+              className="inline-flex items-center gap-3 bg-[var(--bronze)] text-white px-10 py-4 text-[11px] uppercase tracking-widest font-semibold hover:opacity-90 transition-all duration-300 shadow-lg"
             >
               Explore Prime Estate
               <motion.span

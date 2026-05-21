@@ -13,7 +13,7 @@ import {
 import * as THREE from "three";
 
 function ArchitecturalElement({ position, rotation, color, scale = 1 }: any) {
-  const meshRef = useRef<THREE.Mesh>(null);
+  const meshRef = useRef<THREE.Group>(null);
 
   useFrame((state) => {
     const t = state.clock.getElapsedTime();
@@ -25,20 +25,38 @@ function ArchitecturalElement({ position, rotation, color, scale = 1 }: any) {
 
   return (
     <Float speed={2} rotationIntensity={0.5} floatIntensity={1}>
-      <mesh ref={meshRef} position={position} rotation={rotation} scale={scale}>
-        <boxGeometry args={[1, 0.05, 1]} />
-        <MeshTransmissionMaterial
-          backside
-          samples={4}
-          thickness={1}
-          chromaticAberration={0.025}
-          anisotropy={0.1}
-          distortion={0.1}
-          distortionScale={0.1}
-          temporalDistortion={0.1}
-          color={color}
-        />
-      </mesh>
+      <group ref={meshRef} position={position} rotation={rotation} scale={scale}>
+        {/* Core Slab */}
+        <mesh>
+          <boxGeometry args={[1.5, 0.05, 1.5]} />
+          <MeshTransmissionMaterial
+            backside
+            samples={4}
+            thickness={1}
+            chromaticAberration={0.025}
+            anisotropy={0.1}
+            distortion={0.1}
+            distortionScale={0.1}
+            temporalDistortion={0.1}
+            color={color}
+            transparent
+            opacity={0.8}
+          />
+        </mesh>
+        {/* Vertical Pillars / Finishes */}
+        <mesh position={[-0.7, 0.3, -0.7]}>
+          <boxGeometry args={[0.05, 0.6, 0.05]} />
+          <meshStandardMaterial color={color} metalness={1} roughness={0.1} />
+        </mesh>
+        <mesh position={[0.7, 0.3, -0.7]}>
+          <boxGeometry args={[0.05, 0.6, 0.05]} />
+          <meshStandardMaterial color={color} metalness={1} roughness={0.1} />
+        </mesh>
+        <mesh position={[0, 0.6, 0]}>
+          <boxGeometry args={[1.2, 0.03, 1.2]} />
+          <meshStandardMaterial color={color} metalness={1} roughness={0.1} />
+        </mesh>
+      </group>
     </Float>
   );
 }
@@ -61,10 +79,10 @@ function FloatingRings() {
           <mesh rotation={[Math.PI / 2, 0, 0]} scale={1.5 + i * 0.5}>
             <torusGeometry args={[1, 0.01, 16, 100]} />
             <meshStandardMaterial
-              color={i === 1 ? "oklch(0.65 0.12 240)" : "oklch(0.55 0.15 250)"}
+              color={i === 1 ? "oklch(0.75 0.15 85)" : "oklch(0.65 0.12 45)"}
               metalness={1}
               roughness={0.1}
-              emissive={i === 1 ? "oklch(0.65 0.12 240)" : "oklch(0.55 0.15 250)"}
+              emissive={i === 1 ? "oklch(0.75 0.15 85)" : "oklch(0.65 0.12 45)"}
               emissiveIntensity={0.2}
             />
           </mesh>
@@ -82,12 +100,12 @@ function MouseResponsiveScene() {
     if (groupRef.current) {
       groupRef.current.rotation.x = THREE.MathUtils.lerp(
         groupRef.current.rotation.x,
-        mouse.y * 0.1,
+        mouse.y * 0.15,
         0.1,
       );
       groupRef.current.rotation.y = THREE.MathUtils.lerp(
         groupRef.current.rotation.y,
-        mouse.x * 0.1,
+        mouse.x * 0.15,
         0.1,
       );
     }
@@ -99,19 +117,25 @@ function MouseResponsiveScene() {
 
       {/* Abstract Architectural Shapes */}
       <ArchitecturalElement
-        position={[-2, 1, -1]}
+        position={[-3, 1.5, -2]}
         rotation={[0.5, 0.5, 0]}
-        color="oklch(0.55 0.15 250)"
+        color="oklch(0.65 0.12 45)"
+        scale={1.5}
+      />
+      <ArchitecturalElement
+        position={[3, -1.5, 2]}
+        rotation={[-0.5, -0.5, 0]}
+        color="oklch(0.75 0.15 85)"
         scale={1.2}
       />
       <ArchitecturalElement
-        position={[2, -1, 1]}
-        rotation={[-0.5, -0.5, 0]}
-        color="oklch(0.65 0.12 240)"
-        scale={0.8}
+        position={[0, 0, -4]}
+        rotation={[0, Math.PI / 4, 0]}
+        color="oklch(0.65 0.12 45)"
+        scale={2.5}
       />
 
-      <Particles count={150} />
+      <Particles count={200} />
     </group>
   );
 }
@@ -147,7 +171,7 @@ function Particles({ count = 100 }) {
       </bufferGeometry>
       <pointsMaterial
         size={0.03}
-        color="oklch(0.65 0.12 240)"
+        color="oklch(0.75 0.15 85)"
         transparent
         opacity={0.3}
         sizeAttenuation
@@ -168,9 +192,9 @@ export function Luxury3DScene() {
           angle={0.15}
           penumbra={1}
           intensity={2}
-          color="oklch(0.65 0.12 240)"
+          color="oklch(0.75 0.15 85)"
         />
-        <pointLight position={[-10, -10, -10]} intensity={1} color="oklch(0.55 0.15 250)" />
+        <pointLight position={[-10, -10, -10]} intensity={1} color="oklch(0.65 0.12 45)" />
 
         <MouseResponsiveScene />
 

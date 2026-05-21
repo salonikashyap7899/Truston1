@@ -23,7 +23,7 @@ export function IntroScreen() {
         <motion.div
           key="intro"
           className="fixed inset-0 z-[9999] flex flex-col items-center justify-center overflow-hidden"
-          style={{ backgroundColor: "oklch(0.13 0.02 250)" }}
+          style={{ backgroundColor: "var(--background)" }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.4, ease: "easeInOut" }}
         >
@@ -41,11 +41,12 @@ export function IntroScreen() {
             ))}
           </div>
 
-          {/* Floating ambient blue orbs */}
+          {/* Floating ambient luxury orbs */}
           <motion.div
             className="absolute w-[500px] h-[500px] rounded-full pointer-events-none"
             style={{
-              background: "radial-gradient(circle, rgba(45,107,196,0.12) 0%, transparent 70%)",
+              background: "radial-gradient(circle, var(--gold), transparent 70%)",
+              opacity: 0.12,
               top: "5%",
               left: "15%",
             }}
@@ -55,7 +56,8 @@ export function IntroScreen() {
           <motion.div
             className="absolute w-[360px] h-[360px] rounded-full pointer-events-none"
             style={{
-              background: "radial-gradient(circle, rgba(45,107,196,0.08) 0%, transparent 70%)",
+              background: "radial-gradient(circle, var(--bronze), transparent 70%)",
+              opacity: 0.08,
               bottom: "10%",
               right: "10%",
             }}
@@ -66,7 +68,7 @@ export function IntroScreen() {
           {/* Dark ink curtain — slides UP to reveal the page beneath */}
           <motion.div
             className="absolute inset-0 origin-bottom z-10"
-            style={{ backgroundColor: "oklch(0.13 0.02 250)" }}
+            style={{ backgroundColor: "var(--background)" }}
             initial={{ scaleY: 0 }}
             animate={phase === "exit" ? { scaleY: 1 } : { scaleY: 0 }}
             transition={{ duration: 0.55, ease: [0.76, 0, 0.24, 1] }}
@@ -88,7 +90,8 @@ export function IntroScreen() {
                   style={{
                     width: 72 + ring * 32,
                     height: 72 + ring * 32,
-                    border: "1px solid rgba(45,107,196,0.18)",
+                    border: "1px solid var(--bronze)",
+                    opacity: 0.18,
                   }}
                   animate={{ scale: [1, 1.07, 1], opacity: [0.6, 0.1, 0.6] }}
                   transition={{
@@ -120,10 +123,10 @@ export function IntroScreen() {
                   fontSize: "clamp(2rem, 7vw, 4.5rem)",
                 }}
               >
-                TRUST<span style={{ color: "oklch(0.50 0.155 245)" }}>ON</span>
+                TRUST<span style={{ color: "var(--bronze)" }}>ON</span>
               </h1>
               <div className="flex items-center gap-4">
-                <div className="w-10 h-px" style={{ background: "rgba(45,107,196,0.5)" }} />
+                <div className="w-10 h-px" style={{ background: "var(--bronze)", opacity: 0.5 }} />
                 <span
                   className="text-[9px] uppercase tracking-[0.5em]"
                   style={{ color: "rgba(255,255,255,0.25)" }}
@@ -160,7 +163,7 @@ export function IntroScreen() {
               <motion.div
                 className="absolute inset-y-0 left-0"
                 style={{
-                  background: "linear-gradient(90deg, oklch(0.50 0.155 245), oklch(0.65 0.12 240))",
+                  background: "var(--gradient-bronze)",
                 }}
                 initial={{ width: "0%" }}
                 animate={{ width: "100%" }}

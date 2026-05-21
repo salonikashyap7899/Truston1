@@ -98,11 +98,11 @@ export function GallerySection() {
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div
           className="absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full opacity-[0.04]"
-          style={{ background: "radial-gradient(circle, oklch(0.50 0.155 245), transparent 70%)" }}
+          style={{ background: "radial-gradient(circle, var(--gold), transparent 70%)" }}
         />
         <div
           className="absolute -bottom-40 -right-40 w-[600px] h-[600px] rounded-full opacity-[0.04]"
-          style={{ background: "radial-gradient(circle, oklch(0.50 0.155 245), transparent 70%)" }}
+          style={{ background: "radial-gradient(circle, var(--bronze), transparent 70%)" }}
         />
       </div>
 
@@ -150,7 +150,7 @@ export function GallerySection() {
               }}
               className={`text-[10px] uppercase tracking-[0.4em] px-5 py-2.5 border transition-all duration-300 ${
                 activeTab === tab
-                  ? "border-[oklch(0.50_0.155_245)] text-[oklch(0.50_0.155_245)] bg-[oklch(0.50_0.155_245)/10]"
+                  ? "border-[var(--bronze)] text-[var(--bronze)] bg-[var(--bronze)]/10"
                   : "border-white/10 text-white/35 hover:border-white/30 hover:text-white/60"
               }`}
             >
@@ -180,7 +180,7 @@ export function GallerySection() {
           </p>
           <a
             href="tel:+919616061166"
-            className="inline-flex items-center gap-3 border border-[oklch(0.50_0.155_245)/50] text-[oklch(0.50_0.155_245)] px-8 py-4 text-[11px] uppercase tracking-widest hover:bg-[oklch(0.50_0.155_245)] hover:text-white transition-all duration-500"
+            className="inline-flex items-center gap-3 border border-[var(--bronze)]/50 text-[var(--bronze)] px-8 py-4 text-[11px] uppercase tracking-widest hover:bg-[var(--bronze)] hover:text-white transition-all duration-500"
           >
             Book a Site Visit →
           </a>
@@ -245,13 +245,13 @@ function AnimatedGrid({
           {/* Base overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
 
-          {/* Blue tint on hover */}
+          {/* Bronze tint on hover */}
           <motion.div
             className="absolute inset-0"
             initial={{ opacity: 0 }}
             whileHover={{ opacity: 1 }}
             transition={{ duration: 0.4 }}
-            style={{ background: "rgba(45,107,196,0.18)" }}
+            style={{ background: "rgba(184,134,11,0.12)" }}
           />
 
           {/* Category chip */}
@@ -276,7 +276,7 @@ function AnimatedGrid({
           {/* Bottom info */}
           <div className="absolute bottom-0 inset-x-0 p-4">
             <motion.div
-              className="h-px mb-3 bg-[oklch(0.50_0.155_245)]"
+              className="h-px mb-3 bg-[var(--bronze)]"
               initial={{ width: 16 }}
               whileHover={{ width: 40 }}
               transition={{ duration: 0.5 }}

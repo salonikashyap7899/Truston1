@@ -129,7 +129,7 @@ export function GalleryLightbox({
 
             {/* Category badge */}
             {item.category && (
-              <span className="text-[9px] uppercase tracking-[0.5em] text-[oklch(0.50_0.155_245)] border border-[oklch(0.50_0.155_245)/30] px-3 py-1 pointer-events-none">
+              <span className="text-[9px] uppercase tracking-[0.5em] text-[var(--bronze)] border border-[var(--bronze)]/30 px-3 py-1 pointer-events-none">
                 {item.category}
               </span>
             )}
@@ -156,7 +156,7 @@ export function GalleryLightbox({
               setIsZoomed(false);
               onPrev();
             }}
-            className="absolute left-3 md:left-6 z-20 w-12 h-12 flex items-center justify-center border border-white/10 text-white/35 hover:text-white hover:border-[oklch(0.50_0.155_245)] transition-all duration-300 text-xl backdrop-blur-sm bg-black/20"
+            className="absolute left-3 md:left-6 z-20 w-12 h-12 flex items-center justify-center border border-white/10 text-white/35 hover:text-white hover:border-[var(--bronze)] transition-all duration-300 text-xl backdrop-blur-sm bg-black/20"
             aria-label="Previous"
           >
             ←
@@ -170,7 +170,7 @@ export function GalleryLightbox({
               setIsZoomed(false);
               onNext();
             }}
-            className="absolute right-3 md:right-6 z-20 w-12 h-12 flex items-center justify-center border border-white/10 text-white/35 hover:text-white hover:border-[oklch(0.50_0.155_245)] transition-all duration-300 text-xl backdrop-blur-sm bg-black/20"
+            className="absolute right-3 md:right-6 z-20 w-12 h-12 flex items-center justify-center border border-white/10 text-white/35 hover:text-white hover:border-[var(--bronze)] transition-all duration-300 text-xl backdrop-blur-sm bg-black/20"
             aria-label="Next"
           >
             →
@@ -238,7 +238,7 @@ export function GalleryLightbox({
                   {/* Animated scan line on open */}
                   <motion.div
                     className="absolute inset-x-0 h-px pointer-events-none"
-                    style={{ background: "oklch(0.50 0.155 245 / 0.4)" }}
+                    style={{ background: "var(--bronze)" }}
                     initial={{ top: "0%" }}
                     animate={{ top: "100%" }}
                     transition={{ duration: 1.8, ease: "easeInOut", delay: 0.3 }}
@@ -259,7 +259,7 @@ export function GalleryLightbox({
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
                     onClick={() => setIsZoomed(false)}
-                    className="text-[9px] uppercase tracking-[0.4em] text-[oklch(0.50_0.155_245)] mt-3 hover:text-white transition-colors"
+                    className="text-[9px] uppercase tracking-[0.4em] text-[var(--bronze)] mt-3 hover:text-white transition-colors"
                   >
                     ✕ Exit zoom
                   </motion.button>
@@ -273,7 +273,7 @@ export function GalleryLightbox({
                   className="mt-5 flex items-end justify-between w-full max-w-3xl px-2"
                 >
                   <div>
-                    <p className="text-[9px] uppercase tracking-[0.5em] text-[oklch(0.50_0.155_245)] mb-1.5">
+                    <p className="text-[9px] uppercase tracking-[0.5em] text-[var(--bronze)] mb-1.5">
                       TrustOn Prime Estate
                     </p>
                     <h3 className="font-display text-2xl text-white leading-tight">{item.title}</h3>
@@ -298,7 +298,7 @@ export function GalleryLightbox({
                 onClick={() => goTo(i)}
                 className={`flex-shrink-0 w-14 h-10 overflow-hidden transition-all duration-300 ${
                   i === index
-                    ? "ring-2 ring-[oklch(0.50_0.155_245)] opacity-100 scale-105"
+                    ? "ring-2 ring-[var(--bronze)] opacity-100 scale-105"
                     : "opacity-30 hover:opacity-60 scale-100"
                 }`}
                 aria-label={`Go to image ${i + 1}`}

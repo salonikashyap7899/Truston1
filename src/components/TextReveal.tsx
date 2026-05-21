@@ -37,7 +37,7 @@ export function SwipeReveal({ children, className, delay = 0, once = true }: Tex
           times: [0, 0.4, 0.6, 1],
           ease: "easeInOut",
         }}
-        className="absolute inset-0 bg-[var(--primary)] z-10 origin-bottom"
+        className="absolute inset-0 bg-[var(--bronze)] z-10 origin-bottom"
       />
     </div>
   );
