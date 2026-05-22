@@ -25,7 +25,7 @@ function LifestylePage() {
         eyebrow="TrustOn"
         title={<span>Lifestyle</span>}
         subtitle="Every detail, captured. Experience the pinnacle of luxury living."
-        poster={heroImg}
+        poster="/attached_assets/image_1779159211927.png"
         alt="Luxury lifestyle interior"
       />
 

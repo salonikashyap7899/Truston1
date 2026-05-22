@@ -54,12 +54,12 @@ const faqs = [
 
 function ProjectPage() {
   return (
-    <div className="bg-[#0A192F] text-white overflow-hidden pt-[140px]">
+    <div className="bg-[var(--ink)] text-white overflow-hidden pt-[140px]">
       {/* Hero Section */}
       <section className="relative py-24 px-6 md:px-12 overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <img src={heroImg} alt="Prime Estate" className="w-full h-full object-cover opacity-30" />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#0A192F]/80 via-[#0A192F]/60 to-[#0A192F]" />
+          <img src="/attached_assets/image_1779159211927.png" alt="Prime Estate" className="w-full h-full object-cover opacity-30" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[var(--ink)]/80 via-[var(--ink)]/60 to-[var(--ink)]" />
         </div>
         <div className="max-w-7xl mx-auto relative z-10">
           <motion.div
@@ -200,11 +200,11 @@ function ProjectPage() {
           <Reveal>
             <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-white/5">
               <img
-                src={projectImg}
+                src="/attached_assets/image_1779159211927.png"
                 alt="Prime Estate, Lucknow"
                 className="w-full h-[400px] md:h-[600px] object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0A192F] via-transparent to-transparent opacity-70" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[var(--ink)] via-transparent to-transparent opacity-70" />
               <div className="absolute top-8 right-8 bg-luxe-blue text-white text-xs font-bold tracking-wider uppercase px-5 py-3 rounded-full">
                 JP Approved
               </div>

@@ -130,20 +130,12 @@ function RootComponent() {
 
   useEffect(() => {
     const lenis = new Lenis({
- devin/1779443260-smooth-scroll-projects-page
-      duration: 1.4,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-      lerp: 0.08,
-      wheelMultiplier: 0.8,
-      touchMultiplier: 1.5,
-
       duration: 1.5,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
-      wheelMultiplier: 1.2,
       lerp: 0.1,
- main
+      wheelMultiplier: 1.0,
+      touchMultiplier: 1.5,
     });
 
     function raf(time: number) {

@@ -31,7 +31,7 @@ function Page() {
           </>
         }
         subtitle="Experience bespoke luxury real estate consulting. Our advisors respond to global inquiries within 120 minutes."
-        poster={interiorImg}
+        poster="/attached_assets/image_1779159211927.png"
         alt="Contact TrustOn"
       />
 

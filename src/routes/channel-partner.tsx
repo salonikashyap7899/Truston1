@@ -59,7 +59,7 @@ function Page() {
           </>
         }
         subtitle="Built for elite real estate consultants who want to offer premium residential plots backed by a billion-dollar brand vision."
-        poster={projectImg}
+        poster="/attached_assets/image_1779159211927.png"
         alt="Channel Partner Program"
       />
 

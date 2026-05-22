@@ -72,7 +72,7 @@ function ServicesPage() {
           </>
         }
         subtitle="Four pillars of multi-billion dollar real estate execution. One uncompromising standard of luxury."
-        poster={heroImg}
+        poster="/attached_assets/image_1779159211927.png"
         alt="TrustOn services"
       />
 

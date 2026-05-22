@@ -90,13 +90,13 @@ function Page() {
           </>
         }
         subtitle="Premium plots. Zero compromise. Billion-dollar security."
-        poster={plotImg}
+        poster="/attached_assets/image_1779159211927.png"
         alt="Premium plot township"
       />
       <div className="relative z-10">
         <ServicePageBody
           content={content}
-          image="https://truston.advrtisinguru.com/wp-content/uploads/2026/04/First-Cut_3-Photo.jpg-scaled.jpeg"
+          image="/attached_assets/image_1779159211927.png"
         />
       </div>
     </div>

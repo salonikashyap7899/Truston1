@@ -40,7 +40,7 @@ function Page() {
           </>
         }
         subtitle="Strategic infrastructure. Global standard amenities. A multi-billion dollar foundation for your future legacy."
-        poster={projectImg}
+        poster="/attached_assets/image_1779159211927.png"
         alt="Prime Estate Lucknow"
       />
 

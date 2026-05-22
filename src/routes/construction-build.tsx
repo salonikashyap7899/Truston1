@@ -91,12 +91,12 @@ function Page() {
           </>
         }
         subtitle="We don't just build buildings. We architect multi-billion dollar promises."
-        poster={projectImg}
+        poster="/attached_assets/image_1779159211927.png"
         alt="Construction & Build"
       />
       <ServicePageBody
         content={content}
-        image="https://truston.advrtisinguru.com/wp-content/uploads/2026/04/ej-yao-D46mXLsQRJw-unsplash-scaled.jpg"
+        image="/attached_assets/image_1779159211927.png"
       />
     </div>
   );

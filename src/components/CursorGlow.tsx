@@ -70,12 +70,12 @@ export function CursorGlow() {
 
     const loop = () => {
       // Smoother "Liquid" Physics for Ring - Adjusted for high-end smoothness
-      const ease = 0.06;
+      const ease = 0.12;
       rx += (tx - rx) * ease;
       ry += (ty - ry) * ease;
 
       // Icon follows with very slight damping for premium feel
-      const iconEase = 0.15;
+      const iconEase = 0.25;
       ix += (tx - ix) * iconEase;
       iy += (ty - iy) * iconEase;
 
@@ -86,8 +86,7 @@ export function CursorGlow() {
       icon.style.transform = `translate3d(${ix + offsetX}px, ${iy + offsetY}px, 0) scale(${isHovering ? 1.4 : 1})`;
 
       // Ring follows with lag
-      ring.style.left = `${rx}px`;
-      ring.style.top = `${ry}px`;
+      ring.style.transform = `translate3d(${rx}px, ${ry}px, 0)`;
       // Glow follows ring
       glow.style.transform = `translate3d(${rx - 160}px, ${ry - 160}px, 0)`;
 
@@ -126,18 +125,18 @@ export function CursorGlow() {
       <div
         ref={ringRef}
         aria-hidden
-        className="pointer-events-none fixed z-[9989] hidden md:block rounded-full"
+        className="pointer-events-none fixed top-0 left-0 z-[9989] hidden md:block rounded-full"
         style={{
           width: 44,
           height: 44,
           marginLeft: -22,
           marginTop: -22,
           borderRadius: "50%",
-          border: "1px solid rgba(50, 100, 255, 0.4)",
+          border: "1px solid var(--luxe-blue)",
           backgroundColor: "transparent",
           transition:
             "width 0.4s cubic-bezier(0.16,1,0.3,1), height 0.4s cubic-bezier(0.16,1,0.3,1), border-color 0.4s, background-color 0.4s",
-          willChange: "left, top",
+          willChange: "transform",
         }}
       />
       {/* House icon — precise tracking */}
