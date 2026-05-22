@@ -20,32 +20,55 @@ export const Route = createFileRoute("/about-us")({
 
 function AboutPage() {
   return (
-    <div className="bg-[#0A192F] text-white overflow-x-hidden selection:bg-luxe-cyan selection:text-black">
-      {/* Immersive Intro Reveal */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 2 }}
-        className="fixed inset-0 pointer-events-none z-50 bg-[#0A192F] flex items-center justify-center animate-out fade-out fill-mode-forwards duration-1000 delay-700"
-      >
-        <motion.h1
-          initial={{ letterSpacing: "0.5em", opacity: 0, filter: "blur(10px)" }}
-          animate={{ letterSpacing: "1em", opacity: 1, filter: "blur(0px)" }}
-          transition={{ duration: 1.5, ease: "easeOut" }}
-          className="text-white text-xs font-bold uppercase tracking-[1em]"
-        >
-          TRUSTON
-        </motion.h1>
-      </motion.div>
+    <div className="bg-[#0A192F] text-white overflow-x-hidden selection:bg-luxe-cyan selection:text-black pt-[140px]">
+      {/* Hero Header for About Us */}
+      <section className="relative py-24 px-6 md:px-12">
+        <div className="max-w-7xl mx-auto text-center">
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-luxe-cyan font-bold tracking-[0.5em] uppercase text-xs mb-6"
+          >
+            Since 2018
+          </motion.p>
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="text-6xl md:text-9xl font-serif mb-12 tracking-tighter"
+          >
+            The Vision of <br />
+            <em className="text-luxe-cyan italic">Excellence</em>
+          </motion.h1>
+        </div>
+      </section>
 
       {/* 01 Lifestyle Section */}
       <LifestyleSection />
+
+      {/* Philosophy Section */}
+      <section className="py-32 px-6 bg-white/5 relative overflow-hidden">
+        <div className="max-w-5xl mx-auto text-center">
+          <h2 className="text-3xl md:text-5xl font-serif mb-8 text-white/90">
+            "We don't just build structures, we build the backdrop of your most precious memories."
+          </h2>
+          <div className="w-24 h-px bg-luxe-cyan mx-auto" />
+        </div>
+      </section>
 
       {/* 02 Nature Section */}
       <NatureSection />
 
       {/* 03 Quality Section */}
       <QualitySection />
+
+      {/* Final CTA for About Page */}
+      <section className="py-32 px-6 text-center">
+        <h2 className="text-4xl md:text-6xl font-serif mb-12">Join Our Legacy</h2>
+        <Link to="/contact" className="btn-magnetic btn-luxe px-12 py-5 inline-block rounded-full">
+          Get in Touch
+        </Link>
+      </section>
     </div>
   );
 }

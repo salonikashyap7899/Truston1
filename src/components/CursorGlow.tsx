@@ -35,8 +35,6 @@ export function CursorGlow() {
     const onMove = (e: MouseEvent) => {
       tx = e.clientX;
       ty = e.clientY;
-      ix = e.clientX;
-      iy = e.clientY;
     };
 
     const setHover = (active: boolean) => {
@@ -71,13 +69,17 @@ export function CursorGlow() {
     };
 
     const loop = () => {
-      // Smoother "Liquid" Physics for Ring
-      rx += (tx - rx) * 0.075;
-      ry += (ty - ry) * 0.075;
+      // Smoother "Liquid" Physics for Ring - Adjusted for high-end smoothness
+      const ease = 0.06;
+      rx += (tx - rx) * ease;
+      ry += (ty - ry) * ease;
 
       // Icon follows with very slight damping for premium feel
-      const dx = ix - 11;
-      const dy = isHovering ? iy - 11 : iy - 22;
+      const iconEase = 0.15;
+      ix += (tx - ix) * iconEase;
+      iy += (ty - iy) * iconEase;
+
+      const dy = isHovering ? iy - 11 : iy - 11;
 
       icon.style.transform = `translate3d(${ix - 11}px, ${dy}px, 0) scale(${isHovering ? 1.4 : 1})`;
 

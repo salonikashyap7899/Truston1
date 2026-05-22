@@ -127,9 +127,6 @@ function RootShell({ children }: { children: React.ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
-  const location = useLocation();
-  const isAboutPage = location.pathname === "/about-us";
-  const isHomePage = location.pathname === "/";
 
   useEffect(() => {
     const lenis = new Lenis({
@@ -155,11 +152,11 @@ function RootComponent() {
       <ScrollProgressBar />
       <CursorGlow />
       <IntroScreen />
-      {!isAboutPage && !isHomePage && <SobhaStyleNav />}
+      <SobhaStyleNav />
       <main className="min-h-screen">
         <Outlet />
       </main>
-      {!isAboutPage && !isHomePage && <SiteFooter />}
+      <SiteFooter />
       <WhatsAppButton />
     </QueryClientProvider>
   );

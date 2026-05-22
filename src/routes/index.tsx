@@ -44,51 +44,22 @@ function Index() {
     <div className="bg-background text-foreground overflow-x-hidden">
       {/* Hero Section - Reconstructed to match reference image 1779122082796.png */}
       <section className="relative min-h-screen flex flex-col bg-[#0A192F] overflow-hidden">
-        {/* Background Image/Video */}
+        {/* Background Video */}
         <div className="absolute inset-0 z-0">
-          <img
-            src={heroImg}
-            alt="Hero Background"
-            className="w-full h-full object-cover opacity-40 mix-blend-overlay"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#0A192F]/80 via-transparent to-[#0A192F]" />
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="w-full h-full object-cover opacity-50 mix-blend-overlay"
+          >
+            <source src="/intro-video.mp4" type="video/mp4" />
+          </video>
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0A192F]/90 via-transparent to-[#0A192F]" />
         </div>
 
-        {/* Custom Luxury Header */}
-        <header className="relative z-20 w-full px-6 md:px-12 py-8">
-          <div className="max-w-[1600px] mx-auto bg-white/10 backdrop-blur-md rounded-full px-8 py-4 flex items-center justify-between border border-white/10">
-            {/* Logo */}
-            <div className="flex items-center gap-3">
-              <div className="text-white font-bold tracking-tighter flex flex-col leading-none">
-                <span className="text-2xl tracking-widest">TRUSTON</span>
-                <span className="text-[10px] text-luxe-cyan tracking-[0.3em] font-medium">
-                  PREMIUM ESTATE
-                </span>
-              </div>
-            </div>
-
-            {/* Nav */}
-            <nav className="hidden md:flex items-center gap-8">
-              {["HOME", "ABOUT", "PROJECT", "SERVICES", "PARTNER", "CONTACT"].map((item) => (
-                <Link
-                  key={item}
-                  to={item === "HOME" ? "/" : `/${item.toLowerCase().replace(" ", "-")}`}
-                  className="text-[11px] font-bold text-white/70 hover:text-luxe-cyan tracking-[0.2em] transition-colors"
-                >
-                  {item}
-                </Link>
-              ))}
-            </nav>
-
-            {/* CTA */}
-            <button className="bg-black text-white text-[10px] font-bold tracking-[0.2em] px-8 py-3 rounded-full hover:bg-luxe-cyan hover:text-black transition-all">
-              ENQUIRE NOW
-            </button>
-          </div>
-        </header>
-
         {/* Hero Content */}
-        <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-6">
+        <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 pt-[140px]">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -149,6 +120,49 @@ function Index() {
 
       {/* Intro Highlight Section */}
       <IntroHighlightSection />
+
+      {/* Philosophy Section - Adding dummy content for "empty space" */}
+      <section className="py-24 px-6 bg-[#0A192F] relative overflow-hidden">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+            <Reveal>
+              <h2 className="text-4xl md:text-6xl font-serif text-white mb-8 leading-tight">
+                Crafting <em className="text-luxe-cyan italic">Timeless</em> Legacies
+              </h2>
+              <p className="text-white/60 text-lg leading-relaxed mb-8">
+                TrustOn stands at the intersection of architectural brilliance and strategic
+                investment. We don't just sell plots; we provide the foundation for your future
+                aspirations. Our commitment to quality and transparency ensures that every square
+                foot you own is a testament to luxury.
+              </p>
+              <div className="flex gap-8">
+                <div>
+                  <p className="text-3xl font-serif text-luxe-cyan mb-2">100%</p>
+                  <p className="text-[10px] text-white/40 uppercase tracking-widest">
+                    Transparency
+                  </p>
+                </div>
+                <div>
+                  <p className="text-3xl font-serif text-luxe-cyan mb-2">Prime</p>
+                  <p className="text-[10px] text-white/40 uppercase tracking-widest">Locations</p>
+                </div>
+              </div>
+            </Reveal>
+            <div className="relative">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 1 }}
+                className="aspect-square bg-gradient-to-br from-luxe-cyan/20 to-transparent rounded-full flex items-center justify-center border border-white/5"
+              >
+                <div className="w-3/4 h-3/4 bg-white/5 backdrop-blur-3xl rounded-full border border-white/10 flex items-center justify-center text-white/20 text-9xl font-serif">
+                  T
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Who We Are Section */}
       <WhoWeAreSection />
