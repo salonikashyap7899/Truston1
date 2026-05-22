@@ -49,31 +49,34 @@ export const Route = createFileRoute("/")({
 function Index() {
   return (
     <div className="bg-background text-foreground overflow-x-hidden">
-      {/* Hero Section with Intro Video Modal */}
+      {/* Hero Section - Clean with Embedded Video */}
       <div className="relative">
         <SobhaStyleHero
           height="full"
-          title="Architecture of the Future"
-          subtitle="Experience the pinnacle of luxury living with Lucknow's premier developer."
+          title=""
+          subtitle=""
           poster={heroImg}
           videoSources={[{ src: "/intro-video.mp4", type: "video/mp4" }]}
           alt="Aerial view of Prime Estate township at twilight"
-        />
-        
-        {/* Floating Intro Video Button - positioned over hero */}
-        <motion.div
-          className="absolute bottom-20 right-8 md:right-16 z-20"
-          initial={{ opacity: 0, scale: 0 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 2, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         >
-          <IntroVideoModal
-            videoSrc="/intro-video.mp4"
-            poster={heroImg}
-            title="Experience Prime Estate"
-            description="Discover the architectural masterpiece that redefines luxury living in Lucknow. Watch our 4-minute tour of the township that's transforming real estate."
-          />
-        </motion.div>
+          {/* Embedded Intro Video Section */}
+          <motion.div
+            className="absolute inset-0 flex items-center justify-center z-30"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.5, duration: 1 }}
+          >
+            <div className="relative w-full max-w-2xl px-6 md:px-0">
+              <IntroVideoModal
+                videoSrc="/intro-video.mp4"
+                poster={heroImg}
+                title="Experience Prime Estate"
+                description="Discover the architectural masterpiece that redefines luxury living in Lucknow. Watch our 4-minute tour of the township that's transforming real estate."
+                autoPlay={true}
+              />
+            </div>
+          </motion.div>
+        </SobhaStyleHero>
       </div>
 
       {/* Intro Highlight Section */}

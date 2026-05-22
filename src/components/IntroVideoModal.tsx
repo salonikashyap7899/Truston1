@@ -7,16 +7,17 @@ interface IntroVideoModalProps {
   poster?: string;
   title?: string;
   description?: string;
+  autoPlay?: boolean;
 }
 
-export function IntroVideoModal({ videoSrc, poster, title, description }: IntroVideoModalProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [hasAutoPlayed, setHasAutoPlayed] = useState(false);
+export function IntroVideoModal({ videoSrc, poster, title, description, autoPlay = false }: IntroVideoModalProps) {
+  const [isOpen, setIsOpen] = useState(autoPlay);
+  const [hasAutoPlayed, setHasAutoPlayed] = useState(autoPlay);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   // Auto-play on mount after a delay
   useEffect(() => {
-    if (!hasAutoPlayed) {
+    if (!hasAutoPlayed && !autoPlay) {
       const timer = setTimeout(() => {
         setIsOpen(true);
         setHasAutoPlayed(true);
@@ -24,7 +25,7 @@ export function IntroVideoModal({ videoSrc, poster, title, description }: IntroV
 
       return () => clearTimeout(timer);
     }
-  }, [hasAutoPlayed]);
+  }, [hasAutoPlayed, autoPlay]);
 
   useEffect(() => {
     if (isOpen && videoRef.current) {
