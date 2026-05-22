@@ -44,10 +44,10 @@ export const Route = createFileRoute("/")({
 function Index() {
   return (
     <div className="bg-background text-foreground overflow-x-hidden">
-      {/* Hero Section - Updated with Video and Dark Theme */}
-      <section className="relative min-h-screen flex flex-col bg-[var(--ink)] overflow-hidden">
-        {/* Background Intro Video */}
-        <div className="absolute inset-0 z-0">
+      {/* Hero Section with Video Background - Extended for scroll overlay */}
+      <section className="relative min-h-[200vh] bg-[var(--ink)] overflow-hidden">
+        {/* Fixed Background Intro Video */}
+        <div className="fixed inset-0 z-0">
           <video
             autoPlay
             muted
@@ -61,11 +61,11 @@ function Index() {
               type="video/mp4"
             />
           </video>
-          <div className="absolute inset-0 bg-gradient-to-b from-[var(--ink)]/70 via-transparent to-[var(--ink)]/90" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[var(--ink)]/60 via-[var(--ink)]/30 to-[var(--ink)]/80" />
         </div>
 
-        {/* Hero Content - Centered */}
-        <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-6">
+        {/* Hero Content - Centered at top */}
+        <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -89,10 +89,8 @@ function Index() {
               Billion Dollar Legacy
             </motion.p>
           </motion.div>
-        </div>
 
-        {/* Simple Footer/Scroll indicator */}
-        <div className="relative z-10 py-12 flex justify-center">
+          {/* Scroll indicator */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1, y: [0, 10, 0] }}
@@ -100,7 +98,7 @@ function Index() {
               opacity: { duration: 1, delay: 1 },
               y: { duration: 2, repeat: Infinity, ease: "easeInOut" }
             }}
-            className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center text-white/60 hover:border-[#00BFFF] hover:text-[#00BFFF] transition-colors duration-500 cursor-pointer"
+            className="absolute bottom-12 w-12 h-12 rounded-full border border-white/20 flex items-center justify-center text-white/60 hover:border-[#00BFFF] hover:text-[#00BFFF] transition-colors duration-500 cursor-pointer"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
@@ -112,10 +110,12 @@ function Index() {
             </svg>
           </motion.div>
         </div>
-      </section>
 
-      {/* 2. Who We Are Section (Numbered Grid) */}
-      <WhoWeAre />
+        {/* Who We Are Section - Overlays on video with scroll animation */}
+        <div className="relative z-10">
+          <WhoWeAre />
+        </div>
+      </section>
 
       {/* 3. Intro Highlight Section */}
       <IntroHighlightSection />
