@@ -89,6 +89,15 @@
 
   html {
     scroll-behavior: auto !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* GPU acceleration for animated elements */
+  [class*="motion"],
+  .scroll-progress-bar {
+    will-change: transform;
+    transform: translateZ(0);
   }
 
   body {
@@ -115,7 +124,9 @@
     opacity: 0.04;
     pointer-events: none;
     z-index: 9999;
-    animation: noise 0.2s infinite;
+    animation: noise 0.5s steps(4) infinite;
+    will-change: transform;
+    transform: translateZ(0);
   }
 
   @keyframes noise {

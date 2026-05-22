@@ -4,6 +4,7 @@ import { useRef } from "react";
 import interiorImg from "@/assets/luxury-interior.jpg";
 import natureImg from "@/assets/hero-estate.jpg";
 import qualityImg from "@/assets/project-prime.jpg";
+import { Reveal, SectionEyebrow } from "@/components/Reveal";
 
 export const Route = createFileRoute("/about-us")({
   head: () => ({
@@ -61,6 +62,68 @@ function AboutPage() {
 
       {/* 03 Quality Section */}
       <QualitySection />
+
+      {/* Our Commitment Section */}
+      <section className="py-32 px-6 bg-white/[0.02] relative">
+        <div className="max-w-7xl mx-auto relative z-10">
+          <Reveal>
+            <SectionEyebrow>Our Commitment</SectionEyebrow>
+            <h2 className="font-display text-5xl md:text-7xl text-white mb-6 leading-[0.9] tracking-tighter">
+              Building with{" "}
+              <em className="text-luxe-cyan italic font-serif">Trust & Transparency</em>
+            </h2>
+            <p className="text-white/50 text-lg font-light leading-relaxed max-w-3xl mb-16">
+              At TrustOn, every project is built on a foundation of clarity, quality, and long-term
+              value. Here's what makes us different:
+            </p>
+          </Reveal>
+
+          <div className="space-y-6">
+            {[
+              {
+                title: "Jila Panchayat Approved",
+                desc: "All our projects come with proper government approval and clear title deeds — no hidden legal complications.",
+              },
+              {
+                title: "Quality-First Development",
+                desc: "From wide internal roads to underground drainage, every detail is planned and executed to the highest standards.",
+              },
+              {
+                title: "Transparent Pricing",
+                desc: "No hidden charges or surprise costs. What you see is what you pay — complete transparency from day one.",
+              },
+              {
+                title: "Strategic Locations",
+                desc: "We choose locations in high-growth corridors with highway and metro connectivity for maximum appreciation potential.",
+              },
+              {
+                title: "End-to-End Support",
+                desc: "From plot selection to construction approval, our team guides you through every step of the journey.",
+              },
+            ].map((item, i) => (
+              <Reveal key={item.title} delay={i * 0.05}>
+                <div className="flex items-start gap-6 glass-premium p-8 rounded-2xl border border-white/5 hover:border-luxe-cyan/20 transition-all duration-500">
+                  <div className="w-10 h-10 rounded-full bg-luxe-blue/20 flex items-center justify-center shrink-0 mt-1">
+                    <svg
+                      className="w-5 h-5 text-luxe-cyan"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2.5}
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="font-display text-xl text-white mb-2">{item.title}</h3>
+                    <p className="text-white/40 text-sm leading-relaxed">{item.desc}</p>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* Final CTA for About Page */}
       <section className="py-32 px-6 text-center">
@@ -265,7 +328,7 @@ function NatureSection() {
               className="inline-flex items-center gap-4 text-xs font-bold tracking-[0.3em] uppercase group lg:flex-row-reverse"
             >
               <span className="w-12 h-px bg-white/20 group-hover:w-20 group-hover:bg-luxe-cyan transition-all duration-500" />
-              OUR COMMUNITIES
+              OUR PROJECTS
             </Link>
           </motion.div>
         </div>
