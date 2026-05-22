@@ -45,7 +45,7 @@ function Index() {
   return (
     <div className="bg-background text-foreground overflow-x-hidden">
       {/* Hero Section with Video Background - Extended for scroll overlay */}
-      <section className="relative min-h-[200vh] bg-[var(--ink)] overflow-hidden">
+      <section className="relative min-h-[160vh] bg-[var(--ink)] overflow-hidden">
         {/* Fixed Background Intro Video */}
         <div className="fixed inset-0 z-0">
           <video
