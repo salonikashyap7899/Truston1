@@ -42,19 +42,19 @@ const content: ServiceContent = {
   processHeading: "Where ideas take shape through expert construction",
   process: [
     {
-      title: "Client Understanding & Brief",
+      title: "Strategic Brief",
       body: "We begin by understanding what matters most to you — functional requirements, long-term goals, budget expectations, and project purpose.",
     },
     {
-      title: "Site Evaluation",
+      title: "Site Intelligence",
       body: "Detailed evaluation of the land — orientation, access, levels, surroundings, sunlight, airflow, and environmental conditions.",
     },
     {
-      title: "Concept Planning",
+      title: "Concept Refinement",
       body: "Multiple planning directions that respond to your requirements in different ways — compare layouts and refine intent before committing.",
     },
     {
-      title: "Design Development & Visualization",
+      title: "Visual Execution",
       body: "Plans refined, technical aspects aligned, the project visualized through 3D views and walkthroughs before execution begins.",
     },
   ],
@@ -81,16 +81,16 @@ const content: ServiceContent = {
 
 function Page() {
   return (
-    <>
+    <div className="bg-background">
       <InnerHero
-        eyebrow="Service · 03"
+        eyebrow="Empire Construction"
         title={
           <>
-            Construction <span className="font-serif italic">&amp;</span>{" "}
-            <em className="gradient-bronze-text not-italic font-serif italic">Build.</em>
+            Engineering <span className="font-serif italic">&amp;</span>{" "}
+            <em className="text-luxe-cyan not-italic font-serif italic">Build.</em>
           </>
         }
-        subtitle="We don't just build buildings. We build promises."
+        subtitle="We don't just build buildings. We architect multi-billion dollar promises."
         poster={projectImg}
         alt="Construction & Build"
       />
@@ -98,6 +98,6 @@ function Page() {
         content={content}
         image="https://truston.advrtisinguru.com/wp-content/uploads/2026/04/ej-yao-D46mXLsQRJw-unsplash-scaled.jpg"
       />
-    </>
+    </div>
   );
 }

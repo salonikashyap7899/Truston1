@@ -55,15 +55,15 @@ export function SobhaStyleHero({
       } bg-background`}
     >
       {/* Cinematic Video/Image Background */}
-      <motion.div style={{ y, scale, opacity: 0.4 }} className="absolute inset-0 z-[-1]">
+      <motion.div style={{ y, scale, opacity: 0.5 }} className="absolute inset-0 z-[-1]">
         <LazyVideo
           sources={videoSources}
           poster={poster}
           alt={alt}
           className="w-full h-full"
-          mediaClassName="ken-burns object-cover"
+          mediaClassName="ken-burns object-cover brightness-[0.7] contrast-[1.1]"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/50 to-background" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/60 to-background" />
       </motion.div>
 
       {/* Hero Content */}
@@ -79,7 +79,7 @@ export function SobhaStyleHero({
             initial={{ opacity: 0, letterSpacing: "0.2em" }}
             animate={{ opacity: 1, letterSpacing: "0.5em" }}
             transition={{ duration: 2, delay: 0.2 }}
-            className="text-gold text-[10px] md:text-xs uppercase font-medium mb-8 tracking-widest block"
+            className="text-luxe-cyan text-[10px] md:text-xs uppercase font-medium mb-8 tracking-[0.6em] block"
           >
             TrustOn Luxury Real Estate
           </motion.span>
@@ -109,7 +109,7 @@ export function SobhaStyleHero({
           {subtitle && (
             <motion.p
               initial={{ opacity: 0 }}
-              animate={{ opacity: 0.7 }}
+              animate={{ opacity: 0.8 }}
               transition={{ duration: 1.5, delay: 1.2 }}
               className="text-white text-lg md:text-xl max-w-2xl font-light leading-relaxed mb-12"
             >
@@ -132,14 +132,14 @@ export function SobhaStyleHero({
               <motion.button
                 animate={{ x: buttonPos.x, y: buttonPos.y }}
                 transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
-                className="btn-magnetic btn-bronze min-w-[220px]"
+                className="btn-magnetic btn-luxe min-w-[240px] px-10 py-5 rounded-full"
               >
                 Explore Projects
-                <span className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
+                <span className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
               </motion.button>
             </div>
 
-            <button className="text-white/60 hover:text-white text-[11px] uppercase tracking-widest font-semibold transition-colors duration-300 border-b border-white/20 hover:border-white pb-1">
+            <button className="text-white/60 hover:text-luxe-cyan text-[11px] uppercase tracking-widest font-semibold transition-colors duration-300 border-b border-white/20 hover:border-luxe-cyan pb-1">
               Book Consultation
             </button>
           </motion.div>
@@ -173,7 +173,7 @@ export function SobhaStyleHero({
             <motion.div
               animate={{ y: ["-100%", "100%"] }}
               transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute inset-0 bg-gold"
+              className="absolute inset-0 bg-luxe-cyan"
             />
           </div>
         </motion.div>

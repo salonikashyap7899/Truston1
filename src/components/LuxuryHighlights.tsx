@@ -1,6 +1,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
-import { Reveal, SectionEyebrow } from "@/components/Reveal";
+import { Reveal, SectionEyebrow } from "./Reveal";
+import { Section3DBackground } from "./Section3DBackground";
 
 function AnimatedNumber({ to, suffix = "" }: { to: number; suffix?: string }) {
   const ref = useRef<HTMLSpanElement>(null);
@@ -65,39 +66,39 @@ const highlights = [
 export function LuxuryHighlights() {
   return (
     <section className="relative py-24 md:py-32 px-6 overflow-hidden bg-background">
+      <Section3DBackground opacity={0.2} />
+
       {/* Background luxury blue glow orbs */}
       <div
-        className="absolute top-0 left-1/4 w-96 h-96 rounded-full pointer-events-none opacity-[0.08]"
+        className="absolute top-0 left-1/4 w-[600px] h-[600px] rounded-full pointer-events-none opacity-[0.1]"
         style={{ background: "radial-gradient(circle, var(--luxe-cyan), transparent)" }}
       />
       <div
-        className="absolute bottom-0 right-1/4 w-80 h-80 rounded-full pointer-events-none opacity-[0.06]"
+        className="absolute bottom-0 right-1/4 w-[500px] h-[500px] rounded-full pointer-events-none opacity-[0.08]"
         style={{ background: "radial-gradient(circle, var(--luxe-blue), transparent)" }}
       />
 
-      <div className="relative mx-auto max-w-7xl">
+      <div className="relative mx-auto max-w-7xl z-10">
         {/* Section Header */}
         <Reveal>
-          <SectionEyebrow>Why Choose TrustOn</SectionEyebrow>
-          <h2 className="font-display text-4xl md:text-6xl text-center leading-tight mb-4 max-w-3xl mx-auto text-foreground">
-            Built on <em className="gradient-bronze-text not-italic">Trust & Excellence</em>
+          <SectionEyebrow>Billion Dollar Standards</SectionEyebrow>
+          <h2 className="font-display text-5xl md:text-7xl text-center leading-none mb-6 max-w-4xl mx-auto text-white tracking-tight">
+            Built on <em className="text-luxe-cyan italic font-serif">Trust & Excellence</em>
           </h2>
-          <p className="text-center text-foreground/50 max-w-xl mx-auto mb-16 text-base leading-relaxed">
+          <p className="text-center text-white/40 max-w-2xl mx-auto mb-20 text-lg leading-relaxed font-light">
             Prime Estate by TrustOn — where every number tells a story of commitment, quality, and
             lasting value.
           </p>
         </Reveal>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {highlights.map((item, idx) => (
             <Reveal key={item.label} delay={item.delay}>
               <motion.div
                 whileHover={{
                   y: -12,
                   scale: 1.03,
-                  boxShadow:
-                    "0 40px 80px -20px rgba(45,107,196,0.25), 0 0 0 1px rgba(45,107,196,0.1)",
                 }}
                 animate={{ y: [0, -6, 0] }}
                 transition={{
@@ -109,41 +110,41 @@ export function LuxuryHighlights() {
                   },
                   hover: { duration: 0.5, ease: [0.2, 0.8, 0.2, 1] },
                 }}
-                className="group relative bg-ink/40 backdrop-blur-sm rounded-2xl p-8 border border-white/5 hover:border-[var(--luxe-blue)]/30 transition-colors duration-500 cursor-default overflow-hidden"
+                className="group relative glass-premium rounded-[32px] p-10 border border-white/5 hover:border-luxe-cyan/30 transition-all duration-500 cursor-default overflow-hidden h-full"
                 style={{
-                  boxShadow: "0 15px 45px -20px rgba(0,0,0,0.3)",
                   transformStyle: "preserve-3d",
                 }}
               >
                 {/* Blue gradient top accent */}
                 <div
-                  className="absolute top-0 left-0 right-0 h-1 rounded-t-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                  className="absolute top-0 left-0 right-0 h-1 opacity-0 group-hover:opacity-100 transition-opacity duration-700"
                   style={{
-                    background: "var(--gradient-bronze)",
+                    background: "var(--gradient-luxe)",
                   }}
                 />
 
                 {/* Icon */}
-                <div className="text-4xl mb-4">{item.icon}</div>
+                <div className="text-5xl mb-6 group-hover:scale-110 transition-transform duration-500 origin-left">
+                  {item.icon}
+                </div>
 
                 {/* Number */}
-                <div className="font-display text-5xl md:text-6xl font-bold mb-2 gradient-bronze-text">
+                <div className="font-display text-5xl md:text-6xl font-bold mb-4 gradient-luxe-text tracking-tighter">
                   <AnimatedNumber to={item.number} suffix={item.suffix} />
                 </div>
 
                 {/* Label */}
-                <p className="font-semibold text-foreground text-lg mb-3 group-hover:text-[var(--luxe-blue)] transition-colors duration-300">
+                <p className="font-display text-2xl text-white mb-4 group-hover:text-luxe-cyan transition-colors duration-300">
                   {item.label}
                 </p>
 
                 {/* Description */}
-                <p className="text-sm text-foreground/60 leading-relaxed">{item.description}</p>
+                <p className="text-sm text-white/40 leading-relaxed font-light">
+                  {item.description}
+                </p>
 
                 {/* Bottom accent line */}
-                <div
-                  className="absolute bottom-0 left-0 right-0 h-0.5 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"
-                  style={{ background: "var(--luxe-blue)" }}
-                />
+                <div className="absolute bottom-0 left-0 right-0 h-1 scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left bg-luxe-cyan" />
               </motion.div>
             </Reveal>
           ))}
@@ -151,21 +152,11 @@ export function LuxuryHighlights() {
 
         {/* Bottom CTA */}
         <Reveal delay={0.4}>
-          <div className="mt-16 text-center">
-            <motion.a
-              href="/contact"
-              whileHover={{ scale: 1.04, y: -2 }}
-              whileTap={{ scale: 0.97 }}
-              className="inline-flex items-center gap-3 bg-[var(--bronze)] text-white px-10 py-4 text-[11px] uppercase tracking-widest font-semibold hover:opacity-90 transition-all duration-300 shadow-lg"
-            >
+          <div className="mt-24 text-center">
+            <button className="btn-magnetic btn-luxe px-12 py-5">
               Explore Prime Estate
-              <motion.span
-                animate={{ x: [0, 5, 0] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
-              >
-                →
-              </motion.span>
-            </motion.a>
+              <span className="ml-3">→</span>
+            </button>
           </div>
         </Reveal>
       </div>

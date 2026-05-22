@@ -44,20 +44,20 @@ export function CursorGlow() {
       isHovering = active;
       if (active) {
         icon.innerHTML = HOUSE_SVG_FILLED;
-        icon.style.color = "var(--gold)";
-        icon.style.filter = "drop-shadow(0 0 8px var(--gold))";
-        icon.style.transform = `translate3d(${ix - 11}px, ${iy - 11}px, 0) scale(1.3)`;
-        ring.style.width = "56px";
-        ring.style.height = "56px";
-        ring.style.borderColor = "var(--gold)";
-        ring.style.backgroundColor = "rgba(218, 165, 32, 0.05)";
+        icon.style.color = "var(--luxe-cyan)";
+        icon.style.filter = "drop-shadow(0 0 12px var(--luxe-cyan))";
+        icon.style.transform = `translate3d(${ix - 11}px, ${iy - 11}px, 0) scale(1.4)`;
+        ring.style.width = "64px";
+        ring.style.height = "64px";
+        ring.style.borderColor = "var(--luxe-cyan)";
+        ring.style.backgroundColor = "rgba(100, 200, 255, 0.1)";
       } else {
         icon.innerHTML = HOUSE_SVG;
-        icon.style.color = "var(--bronze)";
-        icon.style.filter = "drop-shadow(0 0 4px var(--bronze))";
-        ring.style.width = "40px";
-        ring.style.height = "40px";
-        ring.style.borderColor = "rgba(205, 127, 50, 0.35)";
+        icon.style.color = "var(--luxe-blue)";
+        icon.style.filter = "drop-shadow(0 0 6px var(--luxe-blue))";
+        ring.style.width = "44px";
+        ring.style.height = "44px";
+        ring.style.borderColor = "rgba(50, 100, 255, 0.4)";
         ring.style.backgroundColor = "transparent";
       }
     };
@@ -71,25 +71,25 @@ export function CursorGlow() {
     };
 
     const loop = () => {
-      rx += (tx - rx) * 0.11;
-      ry += (ty - ry) * 0.11;
+      rx += (tx - rx) * 0.12;
+      ry += (ty - ry) * 0.12;
 
       // Icon follows precisely
       if (!isHovering) {
-        icon.style.transform = `translate3d(${ix - 11}px, ${iy - 20}px, 0) scale(1)`;
+        icon.style.transform = `translate3d(${ix - 11}px, ${iy - 22}px, 0) scale(1)`;
       }
       // Ring follows with lag
       ring.style.left = `${rx}px`;
       ring.style.top = `${ry}px`;
       // Glow follows ring
-      glow.style.transform = `translate3d(${rx - 140}px, ${ry - 140}px, 0)`;
+      glow.style.transform = `translate3d(${rx - 160}px, ${ry - 160}px, 0)`;
 
       raf = requestAnimationFrame(loop);
     };
 
     icon.innerHTML = HOUSE_SVG;
-    icon.style.color = "var(--bronze)";
-    icon.style.filter = "drop-shadow(0 0 4px var(--bronze))";
+    icon.style.color = "var(--luxe-blue)";
+    icon.style.filter = "drop-shadow(0 0 6px var(--luxe-blue))";
 
     window.addEventListener("mousemove", onMove);
     document.addEventListener("mouseover", onOver);
@@ -108,10 +108,10 @@ export function CursorGlow() {
       <div
         ref={glowRef}
         aria-hidden
-        className="pointer-events-none fixed top-0 left-0 z-[9985] hidden md:block w-[280px] h-[280px] rounded-full"
+        className="pointer-events-none fixed top-0 left-0 z-[9985] hidden md:block w-[320px] h-[320px] rounded-full"
         style={{
-          background: "radial-gradient(circle, rgba(205, 127, 50, 0.06) 0%, transparent 70%)",
-          filter: "blur(20px)",
+          background: "radial-gradient(circle, rgba(50, 100, 255, 0.08) 0%, transparent 75%)",
+          filter: "blur(30px)",
           willChange: "transform",
         }}
       />
@@ -121,15 +121,15 @@ export function CursorGlow() {
         aria-hidden
         className="pointer-events-none fixed z-[9989] hidden md:block rounded-full"
         style={{
-          width: 40,
-          height: 40,
-          marginLeft: -20,
-          marginTop: -20,
+          width: 44,
+          height: 44,
+          marginLeft: -22,
+          marginTop: -22,
           borderRadius: "50%",
-          border: "1px solid rgba(205, 127, 50, 0.35)",
+          border: "1px solid rgba(50, 100, 255, 0.4)",
           backgroundColor: "transparent",
           transition:
-            "width 0.35s cubic-bezier(0.16,1,0.3,1), height 0.35s cubic-bezier(0.16,1,0.3,1), border-color 0.3s, background-color 0.3s",
+            "width 0.4s cubic-bezier(0.16,1,0.3,1), height 0.4s cubic-bezier(0.16,1,0.3,1), border-color 0.4s, background-color 0.4s",
           willChange: "left, top",
         }}
       />
@@ -141,7 +141,7 @@ export function CursorGlow() {
         style={{
           width: 22,
           height: 22,
-          transition: "transform 0.15s cubic-bezier(0.16,1,0.3,1), filter 0.3s, color 0.3s",
+          transition: "transform 0.18s cubic-bezier(0.16,1,0.3,1), filter 0.4s, color 0.4s",
           willChange: "transform",
         }}
       />

@@ -17,18 +17,6 @@ function AnimatedValue({ value }: { value: number }) {
   return <span>₹{inr(display)}</span>;
 }
 
-function AnimatedPercent({ value }: { value: number }) {
-  const spring = useSpring(value, { stiffness: 60, damping: 18 });
-  const [display, setDisplay] = useState(value);
-
-  useEffect(() => {
-    spring.set(value);
-  }, [value, spring]);
-  useEffect(() => spring.on("change", (v) => setDisplay(Math.round(v))), [spring]);
-
-  return <span>+{display}%</span>;
-}
-
 function LuxurySlider({
   label,
   sublabel,
@@ -54,26 +42,28 @@ function LuxurySlider({
     <div className="group">
       <div className="flex items-end justify-between mb-4">
         <div>
-          <p className="text-[11px] uppercase tracking-widest text-white/35">{label}</p>
+          <p className="text-[11px] uppercase tracking-widest text-white/35 font-medium group-hover:text-luxe-cyan transition-colors duration-300">
+            {label}
+          </p>
           {sublabel && <p className="text-[10px] text-white/20 mt-0.5">{sublabel}</p>}
         </div>
         <motion.p
           key={displayValue}
           initial={{ opacity: 0.5, y: -4 }}
           animate={{ opacity: 1, y: 0 }}
-          className="font-display text-2xl text-[var(--bronze)] font-light"
+          className="font-display text-2xl text-luxe-cyan font-light"
         >
           {displayValue}
         </motion.p>
       </div>
 
       {/* Track */}
-      <div className="relative h-1 bg-white/8 rounded-full">
+      <div className="relative h-1 bg-white/5 rounded-full overflow-hidden">
         <div
-          className="absolute top-0 left-0 h-full rounded-full transition-all duration-100"
+          className="absolute top-0 left-0 h-full rounded-full transition-all duration-300 ease-out"
           style={{
             width: `${pct}%`,
-            background: "var(--gradient-bronze)",
+            background: "var(--gradient-luxe)", // Now blue-cyan
           }}
         />
         <input
@@ -83,18 +73,23 @@ function LuxurySlider({
           step={step}
           value={value}
           onChange={(e) => onChange(Number(e.target.value))}
-          className="absolute inset-0 w-full opacity-0 cursor-pointer h-full"
+          className="absolute inset-0 w-full opacity-0 cursor-pointer h-full z-10"
           style={{ margin: 0 }}
         />
-        {/* Thumb */}
-        <div
-          className="absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-[var(--bronze)] shadow-lg shadow-[var(--bronze)]/40 pointer-events-none transition-all duration-100 border-2 border-white/20"
-          style={{ left: `calc(${pct}% - 8px)` }}
+      </div>
+
+      {/* Visual Thumb */}
+      <div className="relative mt-[-4px]">
+        <motion.div
+          className="absolute w-3 h-3 rounded-full bg-white shadow-[0_0_15px_rgba(255,255,255,0.5)] pointer-events-none border border-luxe-cyan"
+          animate={{ left: `${pct}%` }}
+          transition={{ type: "spring", stiffness: 300, damping: 30 }}
+          style={{ x: "-50%" }}
         />
       </div>
 
       {/* Min/Max labels */}
-      <div className="flex justify-between mt-2">
+      <div className="flex justify-between mt-4">
         <span className="text-[9px] text-white/15 uppercase tracking-widest">Min</span>
         <span className="text-[9px] text-white/15 uppercase tracking-widest">Max</span>
       </div>
@@ -126,11 +121,11 @@ function GrowthBar({
   const maxVal = milestones[milestones.length - 1]?.val || 1;
 
   return (
-    <div className="flex items-end gap-2 h-24">
+    <div className="flex items-end gap-2 h-32">
       {/* Investment baseline */}
-      <div className="flex flex-col items-center gap-1 flex-1">
+      <div className="flex flex-col items-center gap-2 flex-1">
         <div
-          className="w-full rounded-sm bg-white/10"
+          className="w-full rounded-sm bg-white/5 border border-white/5"
           style={{ height: `${(investment / maxVal) * 100}%`, minHeight: 8 }}
         />
         <span className="text-[8px] text-white/20 uppercase tracking-wider">Now</span>
@@ -138,23 +133,24 @@ function GrowthBar({
       {milestones.map((m, i) => {
         const heightPct = (m.val / maxVal) * 100;
         return (
-          <div key={m.yr} className="flex flex-col items-center gap-1 flex-1 group/bar">
+          <div key={m.yr} className="flex flex-col items-center gap-2 flex-1 group/bar">
             <motion.div
-              className="w-full rounded-sm relative overflow-hidden"
+              className="w-full rounded-sm relative overflow-hidden group-hover/bar:brightness-125 transition-all duration-300"
               style={{
                 height: `${heightPct}%`,
                 minHeight: 8,
-                background: `linear-gradient(to top, var(--bronze), var(--gold))`,
-                opacity: 0.4 + (i / milestones.length) * 0.6,
+                background: `linear-gradient(to top, var(--luxe-blue), var(--luxe-cyan))`,
+                opacity: 0.3 + (i / milestones.length) * 0.7,
               }}
               initial={{ scaleY: 0, originY: "bottom" }}
-              whileInView={{ scaleY: 1 }}
-              viewport={{ once: false }}
-              transition={{ duration: 0.6, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
+              animate={{ scaleY: 1 }}
+              transition={{ duration: 0.8, delay: i * 0.05, ease: [0.16, 1, 0.3, 1] }}
             >
-              <div className="absolute inset-0 shimmer opacity-50" />
+              <div className="absolute inset-0 bg-white/10 opacity-0 group-hover/bar:opacity-100 transition-opacity" />
             </motion.div>
-            <span className="text-[8px] text-white/20 uppercase tracking-wider">{m.yr}y</span>
+            <span className="text-[8px] text-white/20 uppercase tracking-wider group-hover/bar:text-luxe-cyan transition-colors">
+              {m.yr}y
+            </span>
           </div>
         );
       })}
@@ -183,189 +179,184 @@ export function WealthCalculator() {
   ];
 
   return (
-    <section id="wealth" className="relative py-0 overflow-hidden">
-      {/* Full-bleed dark section */}
-      <div className="bg-[var(--ink)] relative">
-        {/* Ambient glow */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div
-            className="absolute -top-40 left-1/4 w-[600px] h-[600px] rounded-full opacity-[0.07]"
-            style={{ background: "radial-gradient(circle, var(--bronze), transparent 70%)" }}
-          />
-          <div
-            className="absolute -bottom-40 right-1/4 w-[500px] h-[500px] rounded-full opacity-[0.05]"
-            style={{
-              background: "radial-gradient(circle, var(--gold), transparent 70%)",
-            }}
-          />
-        </div>
-
-        {/* Grid texture */}
+    <section id="wealth" className="relative py-0 overflow-hidden bg-ink">
+      <div className="absolute inset-0 pointer-events-none">
         <div
-          className="absolute inset-0 opacity-[0.025]"
+          className="absolute -top-40 left-1/4 w-[800px] h-[800px] rounded-full opacity-[0.1]"
+          style={{ background: "radial-gradient(circle, var(--luxe-blue), transparent 70%)" }}
+        />
+        <div
+          className="absolute -bottom-40 right-1/4 w-[600px] h-[600px] rounded-full opacity-[0.08]"
           style={{
-            backgroundImage:
-              "linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)",
-            backgroundSize: "80px 80px",
+            background: "radial-gradient(circle, var(--luxe-cyan), transparent 70%)",
           }}
         />
+      </div>
 
-        <div className="relative max-w-7xl mx-auto px-6 py-32">
-          {/* Header */}
-          <Reveal>
-            <SectionEyebrow light>Wealth Planner</SectionEyebrow>
-            <h2 className="font-display text-5xl md:text-7xl text-center text-white mb-4">
-              Calculate your <em className="gradient-bronze-text not-italic">returns</em>
-            </h2>
-            <p className="text-center text-white/35 mb-20 max-w-xl mx-auto">
-              See how your investment in Prime Estate compounds over time.
-            </p>
-          </Reveal>
+      <div
+        className="absolute inset-0 opacity-[0.03]"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)",
+          backgroundSize: "100px 100px",
+        }}
+      />
 
-          {/* Main calculator grid */}
-          <div className="grid lg:grid-cols-5 gap-px bg-white/5 mb-px">
-            {/* Left: Sliders — 3 cols */}
-            <Reveal className="lg:col-span-3" direction="left">
-              <div className="bg-white/[0.02] p-10 md:p-14 h-full flex flex-col justify-between gap-14">
-                <div className="space-y-12">
-                  <LuxurySlider
-                    label="Initial Investment"
-                    sublabel="Minimum ₹5 Lakh"
-                    value={investment}
-                    displayValue={`₹${inr(investment)}`}
-                    min={500000}
-                    max={20000000}
-                    step={100000}
-                    onChange={setInvestment}
-                  />
-                  <LuxurySlider
-                    label="Holding Period"
-                    sublabel="In years"
-                    value={years}
-                    displayValue={`${years} Years`}
-                    min={1}
-                    max={25}
-                    step={1}
-                    onChange={setYears}
-                  />
-                  <LuxurySlider
-                    label="Expected Annual Growth"
-                    sublabel="Lucknow prime avg: 12–18%"
-                    value={rate}
-                    displayValue={`${rate}% / yr`}
-                    min={5}
-                    max={25}
-                    step={1}
-                    onChange={setRate}
-                  />
-                </div>
+      <div className="relative max-w-7xl mx-auto px-6 py-32">
+        <Reveal>
+          <SectionEyebrow light>Wealth Architecture</SectionEyebrow>
+          <h2 className="font-display text-5xl md:text-8xl text-center text-white mb-6 tracking-tight">
+            Predict Your <em className="gradient-luxe-text not-italic">Legacy</em>
+          </h2>
+          <p className="text-center text-white/40 mb-20 max-w-2xl mx-auto font-light text-lg">
+            Experience the power of compounding in India's most prestigious real estate markets.
+          </p>
+        </Reveal>
 
-                {/* Growth bar chart */}
-                <div>
-                  <p className="text-[10px] uppercase tracking-widest text-white/20 mb-4">
-                    Projected Growth Milestones
-                  </p>
-                  <GrowthBar years={years} investment={investment} rate={rate} />
-                </div>
-              </div>
-            </Reveal>
+        <div className="grid lg:grid-cols-5 gap-px bg-white/5 border border-white/5 rounded-3xl overflow-hidden shadow-2xl">
+          {/* Input Section */}
+          <div className="lg:col-span-3 bg-white/[0.01] backdrop-blur-xl p-10 md:p-16 flex flex-col justify-between gap-16">
+            <div className="space-y-16">
+              <LuxurySlider
+                label="Strategic Investment"
+                sublabel="Minimum allocation: ₹5 Lakh"
+                value={investment}
+                displayValue={`₹${inr(investment)}`}
+                min={500000}
+                max={20000000}
+                step={100000}
+                onChange={setInvestment}
+              />
+              <LuxurySlider
+                label="Investment Horizon"
+                sublabel="Time in years"
+                value={years}
+                displayValue={`${years} Years`}
+                min={1}
+                max={25}
+                step={1}
+                onChange={setYears}
+              />
+              <LuxurySlider
+                label="Target Appreciation"
+                sublabel="Historical average: 12% – 18%"
+                value={rate}
+                displayValue={`${rate}% p.a.`}
+                min={5}
+                max={25}
+                step={1}
+                onChange={setRate}
+              />
+            </div>
 
-            {/* Right: Results — 2 cols */}
-            <Reveal className="lg:col-span-2" direction="right" delay={0.1}>
-              <div className="relative bg-white/[0.04] p-10 md:p-14 h-full flex flex-col gap-10 overflow-hidden">
-                {/* Watermark logo */}
-                <div className="absolute bottom-6 right-6 opacity-[0.06] pointer-events-none">
-                  <img
-                    src="/logo.png"
-                    alt=""
-                    className="w-28 h-28 object-contain grayscale brightness-200"
-                  />
-                </div>
-
-                {/* Main output */}
-                <div>
-                  <p className="text-[10px] uppercase tracking-widest text-white/30 mb-3">
-                    Estimated Maturity Value
-                  </p>
-                  <div className="font-display text-4xl md:text-5xl gradient-bronze-text font-light leading-tight">
-                    <AnimatedValue value={maturity} />
-                  </div>
-                  <div className="flex items-center gap-2 mt-3">
-                    <span className="inline-block w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-                    <p className="text-[10px] text-green-400/70 uppercase tracking-widest">
-                      Live projection
-                    </p>
-                  </div>
-                </div>
-
-                {/* Stat cards */}
-                <div className="grid grid-cols-2 gap-px bg-white/5">
-                  {stats.map((s, i) => (
-                    <motion.div
-                      key={s.label}
-                      initial={{ opacity: 0, y: 12 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: i * 0.07, duration: 0.5 }}
-                      className="bg-white/[0.03] hover:bg-white/[0.07] p-5 transition-all duration-300 group"
-                    >
-                      <p className="text-[9px] uppercase tracking-widest text-white/25 mb-2">
-                        {s.label}
-                      </p>
-                      <p
-                        className={`font-serif text-lg font-medium ${s.highlight ? "text-[var(--bronze)]" : "text-white/70"}`}
-                      >
-                        {s.value}
-                      </p>
-                    </motion.div>
-                  ))}
-                </div>
-
-                {/* Summary line */}
-                <div className="border-t border-white/5 pt-8 mt-auto">
-                  <p className="font-serif italic text-lg text-white/60 leading-relaxed">
-                    ₹{(investment / 100000).toFixed(0)}L →{" "}
-                    <span className="text-[var(--bronze)]">₹{(maturity / 100000).toFixed(0)}L</span>{" "}
-                    in {years} years
-                  </p>
-                  <p className="text-[9px] uppercase tracking-widest text-white/20 mt-3">
-                    Based on Lucknow prime land historical appreciation
-                  </p>
-                  <a
-                    href="tel:+919616061166"
-                    className="inline-flex items-center gap-3 mt-8 bg-[var(--bronze)] text-white px-7 py-3.5 text-[11px] uppercase tracking-widest hover:opacity-90 transition-opacity w-full justify-center"
-                  >
-                    Book a Consultation →
-                  </a>
-                </div>
-              </div>
-            </Reveal>
+            <div>
+              <p className="text-[10px] uppercase tracking-[0.3em] text-white/20 mb-6 font-bold">
+                Projected Appreciation Timeline
+              </p>
+              <GrowthBar years={years} investment={investment} rate={rate} />
+            </div>
           </div>
 
-          {/* Bottom strip */}
-          <Reveal>
-            <div className="bg-white/[0.02] px-10 py-6 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-white/5">
-              <div className="flex items-center gap-6">
-                <span className="text-[10px] uppercase tracking-widest text-white/20">
-                  Disclaimer:
-                </span>
-                <span className="text-[11px] text-white/25">
-                  Conservative estimate. Actual returns may vary based on market conditions.
-                </span>
+          {/* Results Section */}
+          <div className="lg:col-span-2 bg-white/[0.03] backdrop-blur-2xl p-10 md:p-16 flex flex-col gap-12 relative overflow-hidden border-l border-white/5">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-luxe-cyan/10 blur-[100px] -translate-y-1/2 translate-x-1/2" />
+
+            <div className="relative z-10">
+              <p className="text-[11px] uppercase tracking-[0.4em] text-luxe-cyan mb-4 font-bold">
+                Maturity Valuation
+              </p>
+              <div className="font-display text-5xl md:text-7xl text-white font-light leading-none tracking-tighter">
+                <AnimatedValue value={maturity} />
               </div>
-              <div className="flex gap-8">
-                {[
-                  { n: "₹50Cr+", l: "Land Value Managed" },
-                  { n: "150+", l: "Plots Developed" },
-                ].map((b) => (
-                  <div key={b.l} className="text-center">
-                    <p className="font-display text-xl gradient-bronze-text">{b.n}</p>
-                    <p className="text-[9px] uppercase tracking-widest text-white/25 mt-1">{b.l}</p>
-                  </div>
-                ))}
+              <div className="flex items-center gap-3 mt-6">
+                <div className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-luxe-cyan opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-luxe-cyan"></span>
+                </div>
+                <p className="text-[10px] text-luxe-cyan/80 uppercase tracking-widest font-bold">
+                  Real-time Data Processing
+                </p>
               </div>
             </div>
-          </Reveal>
+
+            <div className="grid grid-cols-2 gap-4 relative z-10">
+              {stats.map((s, i) => (
+                <div
+                  key={s.label}
+                  className="bg-white/[0.03] border border-white/5 p-6 rounded-2xl hover:bg-white/[0.06] transition-all duration-500 group"
+                >
+                  <p className="text-[9px] uppercase tracking-widest text-white/30 mb-3 group-hover:text-luxe-cyan transition-colors">
+                    {s.label}
+                  </p>
+                  <p
+                    className={`font-display text-xl ${s.highlight ? "text-luxe-cyan" : "text-white/80"}`}
+                  >
+                    {s.value}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-auto pt-10 border-t border-white/10 relative z-10">
+              <div className="flex items-center justify-between mb-8">
+                <div className="space-y-1">
+                  <p className="text-[11px] text-white/40 uppercase tracking-widest">
+                    Portfolio Growth
+                  </p>
+                  <p className="font-serif italic text-2xl text-white/80">
+                    {multiplier.toFixed(1)}
+                    <span className="text-luxe-cyan">x</span> Yield
+                  </p>
+                </div>
+                <div className="text-right">
+                  <p className="text-[11px] text-white/40 uppercase tracking-widest">Efficiency</p>
+                  <p className="font-serif italic text-2xl text-white/80">High</p>
+                </div>
+              </div>
+
+              <a
+                href="tel:+919616061166"
+                className="btn-magnetic btn-luxe w-full py-5 rounded-2xl shadow-luxe group overflow-hidden"
+              >
+                <span className="relative z-10 flex items-center justify-center gap-3">
+                  Secure Consultation
+                  <svg
+                    width="15"
+                    height="15"
+                    viewBox="0 0 15 15"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="group-hover:translate-x-1 transition-transform"
+                  >
+                    <path
+                      d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"
+                      fill="currentColor"
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                    ></path>
+                  </svg>
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-12 flex flex-col md:flex-row items-center justify-between gap-8 opacity-40 grayscale group hover:grayscale-0 hover:opacity-100 transition-all duration-1000">
+          <div className="flex gap-12">
+            <div>
+              <p className="text-[10px] uppercase tracking-widest text-white mb-2">
+                Assets Managed
+              </p>
+              <p className="font-display text-2xl text-luxe-cyan">₹500Cr+</p>
+            </div>
+            <div>
+              <p className="text-[10px] uppercase tracking-widest text-white mb-2">Annual Growth</p>
+              <p className="font-display text-2xl text-luxe-cyan">18.4%</p>
+            </div>
+          </div>
+          <p className="text-[10px] uppercase tracking-[0.3em] text-white max-w-xs text-center md:text-right leading-relaxed">
+            Truston Wealth Management Systems <br /> © 2024 Proprietary Algorithm
+          </p>
         </div>
       </div>
     </section>

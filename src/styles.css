@@ -30,8 +30,6 @@
   --color-ring: var(--ring);
   --color-cream: var(--cream);
   --color-sand: var(--sand);
-  --color-bronze: var(--bronze);
-  --color-gold: var(--gold);
   --color-luxe-blue: var(--luxe-blue);
   --color-luxe-cyan: var(--luxe-cyan);
   --color-ink: var(--ink);
@@ -42,35 +40,36 @@
 
 :root {
   --radius: 0.125rem;
-  /* Cinematic Dark Theme - LUXURY BRONZE & GOLD */
-  --background: oklch(0.12 0.01 250); /* Matte Luxury Black */
+  /* Cinematic Dark Theme - LUXURY BLUE & CYAN */
+  --background: oklch(0.1 0.01 250); /* Deep Matte Navy Black */
   --foreground: oklch(0.98 0.004 240); /* Off-white / Cream */
-  --ink: oklch(0.08 0.01 250); /* Deep Charcoal */
+  --ink: oklch(0.06 0.01 250); /* Even deeper charcoal navy */
   --cream: oklch(0.98 0.004 240);
-  --sand: oklch(0.25 0.02 45); /* Dark sand / Bronze tint */
-  --card: oklch(0.15 0.01 250 / 0.7);
+  --sand: oklch(0.2 0.04 250); /* Dark navy tint */
+  --card: oklch(0.12 0.02 250 / 0.7);
   --card-foreground: oklch(0.98 0.004 240);
-  --popover: oklch(0.12 0.01 250);
+  --popover: oklch(0.1 0.01 250);
   --popover-foreground: oklch(0.98 0.004 240);
-  --primary: oklch(0.65 0.1 50); /* Luxury Bronze */
+
+  /* Primary colors - PIVOTED TO BLUE */
+  --primary: oklch(0.55 0.15 250); /* Electric Blue */
   --primary-foreground: oklch(0.98 0.004 240);
-  --bronze: oklch(0.65 0.1 50);
-  --gold: oklch(0.85 0.12 85);
-  --luxe-blue: oklch(0.2 0.05 250); /* Deep Navy instead of bright blue */
-  --luxe-cyan: oklch(0.85 0.12 85); /* Re-mapping cyan to gold */
-  --secondary: oklch(0.18 0.01 250);
+  --luxe-blue: oklch(0.55 0.15 250);
+  --luxe-cyan: oklch(0.75 0.12 220);
+
+  --secondary: oklch(0.15 0.02 250);
   --secondary-foreground: oklch(0.98 0.004 240);
-  --muted: oklch(0.18 0.01 250);
-  --muted-foreground: oklch(0.5 0.01 250);
-  --accent: oklch(0.85 0.12 85); /* Gold Accent */
-  --accent-foreground: oklch(0.12 0.01 250);
+  --muted: oklch(0.15 0.02 250);
+  --muted-foreground: oklch(0.5 0.05 250);
+  --accent: oklch(0.75 0.12 220); /* Cyan Accent */
+  --accent-foreground: oklch(0.1 0.01 250);
   --destructive: oklch(0.55 0.18 25);
   --destructive-foreground: oklch(0.99 0.004 240);
   --border: oklch(1 0 0 / 0.1);
   --input: oklch(1 0 0 / 0.05);
-  --ring: oklch(0.65 0.1 50);
+  --ring: oklch(0.55 0.15 250);
 
-  --gradient-bronze: linear-gradient(135deg, oklch(0.85 0.12 85), oklch(0.65 0.1 50));
+  --gradient-luxe: linear-gradient(135deg, oklch(0.75 0.12 220), oklch(0.55 0.15 250));
   --gradient-overlay: linear-gradient(
     165deg,
     oklch(0.08 0.01 250 / 0.4) 0%,
@@ -191,19 +190,15 @@
     font-weight: 400;
     letter-spacing: -0.01em;
   }
-  .text-bronze,
   .text-luxe-blue {
     color: var(--luxe-blue);
   }
-  .text-gold,
   .text-luxe-cyan {
     color: var(--luxe-cyan);
   }
-  .bg-bronze,
   .bg-luxe-blue {
     background: var(--luxe-blue);
   }
-  .bg-gold,
   .bg-luxe-cyan {
     background: var(--luxe-cyan);
   }
@@ -214,8 +209,8 @@
     color: var(--ink);
   }
 
-  .gradient-bronze-text {
-    background: var(--gradient-bronze);
+  .gradient-luxe-text {
+    background: var(--gradient-luxe);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -237,14 +232,12 @@
     border: 1px solid oklch(1 0 0 / 0.05);
   }
 
-  .bronze-border,
   .blue-border {
-    border: 1px solid oklch(0.6 0.16 250 / 0.4);
+    border: 1px solid oklch(0.55 0.15 250 / 0.4);
   }
 
-  .gold-border,
   .cyan-border {
-    border: 1px solid oklch(0.75 0.1 230 / 0.4);
+    border: 1px solid oklch(0.75 0.12 220 / 0.4);
   }
 
   .shadow-luxe {
@@ -325,7 +318,6 @@
     border-radius: 9999px;
   }
 
-  .btn-bronze,
   .btn-luxe {
     background: var(--luxe-blue);
     color: var(--foreground);
@@ -335,9 +327,8 @@
     font-size: 0.75rem;
   }
 
-  .btn-bronze:hover,
   .btn-luxe:hover {
-    box-shadow: 0 0 40px oklch(0.6 0.16 250 / 0.4);
+    box-shadow: 0 0 40px oklch(0.55 0.15 250 / 0.4);
     transform: scale(1.05);
   }
 
@@ -347,7 +338,7 @@
     left: 0;
     right: 0;
     height: 2px;
-    background: var(--gradient-bronze);
+    background: var(--gradient-luxe);
     transform-origin: left;
     z-index: 9998;
   }

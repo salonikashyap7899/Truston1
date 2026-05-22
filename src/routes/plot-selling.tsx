@@ -42,19 +42,19 @@ const content: ServiceContent = {
   processHeading: "Where your future begins with the right plot",
   process: [
     {
-      title: "Discovery & Brief",
+      title: "Strategic Brief",
       body: "We start by getting to know you — your purpose for the land, your budget, preferred locations, timeline, and the vision behind the purchase.",
     },
     {
-      title: "Site & Location Analysis",
+      title: "Site Intelligence",
       body: "We study each plot thoroughly — access roads, surrounding development, civic infrastructure, approved land use, and growth trajectory.",
     },
     {
-      title: "Shortlisting & Site Visits",
+      title: "Curation & Viewing",
       body: "We present a range of vetted options with full documentation and arrange accompanied site visits so you can experience each plot in person.",
     },
     {
-      title: "Due Diligence & Documentation",
+      title: "Legacy Documentation",
       body: "Independent legal review covering title verification, ownership chain, encumbrance search, and all government clearances — before a single rupee changes hands.",
     },
   ],
@@ -81,22 +81,24 @@ const content: ServiceContent = {
 
 function Page() {
   return (
-    <>
+    <div className="bg-background">
       <InnerHero
-        eyebrow="Service · 01"
+        eyebrow="Asset Acquisition"
         title={
           <>
-            Plot <em className="gradient-bronze-text not-italic font-serif italic">Selling.</em>
+            Plot <em className="text-luxe-cyan not-italic font-serif italic">Selling.</em>
           </>
         }
-        subtitle="Premium plots. Zero compromise."
+        subtitle="Premium plots. Zero compromise. Billion-dollar security."
         poster={plotImg}
         alt="Premium plot township"
       />
-      <ServicePageBody
-        content={content}
-        image="https://truston.advrtisinguru.com/wp-content/uploads/2026/04/First-Cut_3-Photo.jpg-scaled.jpeg"
-      />
-    </>
+      <div className="relative z-10">
+        <ServicePageBody
+          content={content}
+          image="https://truston.advrtisinguru.com/wp-content/uploads/2026/04/First-Cut_3-Photo.jpg-scaled.jpeg"
+        />
+      </div>
+    </div>
   );
 }

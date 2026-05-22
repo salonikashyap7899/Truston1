@@ -41,7 +41,7 @@ export function Services3DSection() {
         className="absolute inset-0 z-0 opacity-5"
         style={{
           backgroundImage:
-            "linear-gradient(var(--gold) 1px, transparent 1px), linear-gradient(90deg, var(--gold) 1px, transparent 1px)",
+            "linear-gradient(var(--luxe-blue) 1px, transparent 1px), linear-gradient(90deg, var(--luxe-blue) 1px, transparent 1px)",
           backgroundSize: "100px 100px",
         }}
       />
@@ -49,11 +49,11 @@ export function Services3DSection() {
       <div className="relative z-10 mx-auto max-w-7xl">
         <Reveal>
           <div className="text-center mb-24">
-            <span className="text-gold text-xs uppercase tracking-[0.5em] font-medium mb-4 block">
+            <span className="text-luxe-cyan text-xs uppercase tracking-[0.5em] font-medium mb-4 block">
               Our Expertise
             </span>
             <h2 className="typography-section-title text-white">
-              Futuristic <em className="text-gold italic font-serif">Solutions</em>
+              Futuristic <em className="text-luxe-cyan italic font-serif">Solutions</em>
             </h2>
           </div>
         </Reveal>
@@ -69,7 +69,7 @@ export function Services3DSection() {
                     rotateY: -10,
                   }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                  className="glass-premium p-10 h-full rounded-3xl relative overflow-hidden flex flex-col border border-white/5 hover:border-gold/30 transition-colors duration-500"
+                  className="glass-premium p-10 h-full rounded-3xl relative overflow-hidden flex flex-col border border-white/5 hover:border-luxe-blue/30 transition-colors duration-500"
                   style={{ transformStyle: "preserve-3d" }}
                 >
                   {/* Metallic Reflection Effect */}
@@ -79,11 +79,11 @@ export function Services3DSection() {
                     {service.icon}
                   </div>
 
-                  <h3 className="font-display text-2xl text-white mb-4 group-hover:text-gold transition-colors">
+                  <h3 className="font-display text-2xl text-white mb-4 group-hover:text-luxe-cyan transition-colors">
                     {service.title}
                   </h3>
 
-                  <p className="text-gold/80 text-[10px] uppercase tracking-widest font-semibold mb-6">
+                  <p className="text-luxe-cyan/80 text-[10px] uppercase tracking-widest font-semibold mb-6">
                     {service.sub}
                   </p>
 
@@ -102,7 +102,7 @@ export function Services3DSection() {
                   </div>
 
                   {/* Bottom Accent */}
-                  <div className="absolute bottom-0 left-0 w-full h-1 bg-gold scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left" />
+                  <div className="absolute bottom-0 left-0 w-full h-1 bg-luxe-blue scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left" />
                 </motion.div>
               </Link>
             </Reveal>

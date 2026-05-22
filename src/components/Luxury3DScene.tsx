@@ -1,16 +1,17 @@
-import { useRef, useMemo, useState } from "react";
+import { useRef, useMemo } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import {
   Float,
-  MeshDistortMaterial,
   MeshTransmissionMaterial,
   PerspectiveCamera,
   Environment,
-  Text,
   ContactShadows,
-  PresentationControls,
 } from "@react-three/drei";
 import * as THREE from "three";
+
+// Defining the Luxury Blue Palette for Three.js
+const LUXE_BLUE = "oklch(0.55 0.15 250)";
+const LUXE_CYAN = "oklch(0.75 0.12 220)";
 
 interface ArchitecturalElementProps {
   position: [number, number, number];
@@ -86,10 +87,10 @@ function FloatingRings() {
           <mesh rotation={[Math.PI / 2, 0, 0]} scale={1.5 + i * 0.5}>
             <torusGeometry args={[1, 0.01, 16, 100]} />
             <meshStandardMaterial
-              color={i === 1 ? "oklch(0.85 0.12 85)" : "oklch(0.65 0.1 50)"}
+              color={i === 1 ? LUXE_CYAN : LUXE_BLUE}
               metalness={1}
               roughness={0.1}
-              emissive={i === 1 ? "oklch(0.85 0.12 85)" : "oklch(0.65 0.1 50)"}
+              emissive={i === 1 ? LUXE_CYAN : LUXE_BLUE}
               emissiveIntensity={0.2}
             />
           </mesh>
@@ -100,7 +101,7 @@ function FloatingRings() {
 }
 
 function MouseResponsiveScene() {
-  const { mouse, viewport } = useThree();
+  const { mouse } = useThree();
   const groupRef = useRef<THREE.Group>(null);
 
   useFrame(() => {
@@ -126,19 +127,19 @@ function MouseResponsiveScene() {
       <ArchitecturalElement
         position={[-3, 1.5, -2]}
         rotation={[0.5, 0.5, 0]}
-        color="oklch(0.65 0.1 50)"
+        color={LUXE_BLUE}
         scale={1.5}
       />
       <ArchitecturalElement
         position={[3, -1.5, 2]}
         rotation={[-0.5, -0.5, 0]}
-        color="oklch(0.85 0.12 85)"
+        color={LUXE_CYAN}
         scale={1.2}
       />
       <ArchitecturalElement
         position={[0, 0, -4]}
         rotation={[0, Math.PI / 4, 0]}
-        color="oklch(0.65 0.1 50)"
+        color={LUXE_BLUE}
         scale={2.5}
       />
 
@@ -176,13 +177,7 @@ function Particles({ count = 100 }) {
           itemSize={3}
         />
       </bufferGeometry>
-      <pointsMaterial
-        size={0.03}
-        color="oklch(0.85 0.12 85)"
-        transparent
-        opacity={0.3}
-        sizeAttenuation
-      />
+      <pointsMaterial size={0.03} color={LUXE_CYAN} transparent opacity={0.3} sizeAttenuation />
     </points>
   );
 }
@@ -199,9 +194,9 @@ export function Luxury3DScene() {
           angle={0.15}
           penumbra={1}
           intensity={2}
-          color="oklch(0.85 0.12 85)"
+          color={LUXE_CYAN}
         />
-        <pointLight position={[-10, -10, -10]} intensity={1} color="oklch(0.65 0.1 50)" />
+        <pointLight position={[-10, -10, -10]} intensity={1} color={LUXE_BLUE} />
 
         <MouseResponsiveScene />
 

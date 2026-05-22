@@ -64,11 +64,11 @@ export function Reveal({
 export function SectionEyebrow({ children, light }: { children: ReactNode; light?: boolean }) {
   return (
     <p
-      className={`text-[11px] uppercase tracking-luxe flex items-center gap-3 justify-center mb-5 ${light ? "text-white/60" : "text-bronze"}`}
+      className={`text-[11px] uppercase tracking-luxe flex items-center gap-3 justify-center mb-5 ${light ? "text-white/60" : "text-luxe-cyan font-bold"}`}
     >
-      <span className={`inline-block w-10 h-px ${light ? "bg-white/40" : "bg-[var(--bronze)]"}`} />
+      <span className={`inline-block w-10 h-px ${light ? "bg-white/40" : "bg-luxe-cyan"}`} />
       {children}
-      <span className={`inline-block w-10 h-px ${light ? "bg-white/40" : "bg-[var(--bronze)]"}`} />
+      <span className={`inline-block w-10 h-px ${light ? "bg-white/40" : "bg-luxe-cyan"}`} />
     </p>
   );
 }

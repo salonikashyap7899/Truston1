@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
+import { motion } from "framer-motion";
 
 export const Route = createFileRoute("/admin/login")({
   head: () => ({
@@ -70,33 +71,50 @@ function AdminLoginPage() {
   };
 
   return (
-    <main className="min-h-screen flex items-center justify-center px-6 py-24 bg-cream">
-      <div className="w-full max-w-md">
-        <Link to="/" className="flex items-center justify-center gap-2 mb-10">
-          <span className="text-bronze text-3xl font-serif italic">Trust</span>
-          <span className="text-ink text-3xl font-serif">On</span>
+    <main className="min-h-screen flex items-center justify-center px-6 py-24 bg-ink relative overflow-hidden">
+      {/* Background Orbs */}
+      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-luxe-blue/10 rounded-full blur-[150px] -translate-y-1/2 translate-x-1/2" />
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-luxe-cyan/10 rounded-full blur-[150px] translate-y-1/2 -translate-x-1/2" />
+
+      <div className="w-full max-w-lg relative z-10">
+        <Link to="/" className="flex flex-col items-center justify-center gap-4 mb-16 group">
+          <img
+            src="/logo.png"
+            alt="TrustOn"
+            className="h-20 w-auto brightness-125 group-hover:scale-110 transition-transform duration-700"
+          />
+          <div className="text-center">
+            <span className="text-white text-3xl font-display tracking-tight">TrustOn</span>
+            <span className="block text-[10px] uppercase tracking-[0.6em] text-luxe-cyan font-bold mt-2">
+              Billion Dollar Empire
+            </span>
+          </div>
         </Link>
-        <div className="bg-white card-shadow rounded-md p-10">
-          <p className="text-bronze text-[11px] uppercase tracking-luxe mb-3">Admin Access</p>
-          <h1 className="font-display text-3xl mb-8">
-            {mode === "signin" ? "Sign in" : "Create admin account"}
+
+        <div className="glass-premium rounded-[40px] p-12 md:p-16 border border-white/5 shadow-luxe">
+          <p className="text-luxe-cyan text-[10px] uppercase tracking-[0.5em] mb-4 font-bold">
+            Secure Access
+          </p>
+          <h1 className="font-display text-4xl text-white mb-10 tracking-tight">
+            {mode === "signin" ? "System Authentication" : "Register Architect"}
           </h1>
-          <form onSubmit={submit} className="space-y-5">
+
+          <form onSubmit={submit} className="space-y-8">
             <div>
-              <label className="text-[11px] uppercase tracking-luxe text-foreground/70">
-                Email
+              <label className="text-[10px] uppercase tracking-[0.3em] text-white/30 font-bold mb-3 block">
+                Email Identity
               </label>
               <input
                 type="email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="mt-2 w-full border border-border rounded-sm px-4 py-3 bg-cream focus:outline-none focus:border-bronze"
+                className="w-full bg-white/[0.03] border border-white/10 rounded-full px-8 py-4 text-white focus:outline-none focus:border-luxe-cyan/50 transition-colors font-light"
               />
             </div>
             <div>
-              <label className="text-[11px] uppercase tracking-luxe text-foreground/70">
-                Password
+              <label className="text-[10px] uppercase tracking-[0.3em] text-white/30 font-bold mb-3 block">
+                Security Key
               </label>
               <input
                 type="password"
@@ -104,44 +122,55 @@ function AdminLoginPage() {
                 minLength={6}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="mt-2 w-full border border-border rounded-sm px-4 py-3 bg-cream focus:outline-none focus:border-bronze"
+                className="w-full bg-white/[0.03] border border-white/10 rounded-full px-8 py-4 text-white focus:outline-none focus:border-luxe-cyan/50 transition-colors font-light"
               />
             </div>
             <button
               type="submit"
               disabled={busy}
-              className="w-full bg-ink text-cream py-3 rounded-full text-[11px] uppercase tracking-luxe hover:bg-bronze transition-colors disabled:opacity-60"
+              className="btn-magnetic btn-luxe w-full py-5 rounded-full shadow-luxe disabled:opacity-50"
             >
-              {busy ? "Please wait…" : mode === "signin" ? "Sign in" : "Create account"}
+              {busy
+                ? "Processing..."
+                : mode === "signin"
+                  ? "Authorize Entry"
+                  : "Initialize Account"}
             </button>
           </form>
 
           {isSetupDone !== null && (
-            <p className="mt-6 text-center text-sm text-foreground/60">
-              {mode === "signin" ? "First time setup? " : "Already have access? "}
+            <p className="mt-10 text-center text-[11px] uppercase tracking-widest text-white/20 font-bold">
+              {mode === "signin" ? "Unauthorized? " : "Authorized? "}
               <button
                 onClick={() => setMode(mode === "signin" ? "signup" : "signin")}
-                className="text-bronze underline"
+                className="text-luxe-cyan hover:underline ml-2"
               >
-                {mode === "signin" ? "Create the admin account" : "Sign in"}
+                {mode === "signin" ? "Request Access" : "Authenticate"}
               </button>
             </p>
           )}
         </div>
+
         {user && !isAdmin && !loading && (
-          <div className="mt-6 p-4 bg-destructive/10 rounded-md border border-destructive/20 text-center">
-            <p className="text-sm text-destructive font-medium">Signed in but not an admin.</p>
-            <p className="mt-1 text-xs text-destructive/80">
-              If you just created this account, please wait a moment and refresh. Otherwise, contact
-              the site owner.
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mt-8 glass-premium p-8 rounded-[32px] border border-red-500/20 text-center"
+          >
+            <p className="text-sm text-red-400 font-bold uppercase tracking-widest">
+              Access Refused
+            </p>
+            <p className="mt-3 text-xs text-white/40 leading-relaxed">
+              Account recognized but lacking administrative clearance. Verify credentials or contact
+              systems administrator.
             </p>
             <button
               onClick={() => window.location.reload()}
-              className="mt-3 text-xs font-bold uppercase tracking-wider text-destructive hover:underline"
+              className="mt-6 text-[10px] font-bold uppercase tracking-widest text-luxe-cyan hover:underline"
             >
-              Refresh Now
+              Re-Sync System
             </button>
-          </div>
+          </motion.div>
         )}
       </div>
     </main>

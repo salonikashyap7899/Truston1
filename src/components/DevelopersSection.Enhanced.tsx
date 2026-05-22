@@ -1,9 +1,10 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
-import { Reveal, SectionEyebrow } from "@/components/Reveal";
-import { FloatingImageScroll, SlideInOnScroll, BlurReveal } from "@/components/ScrollAnimations";
+import { Reveal, SectionEyebrow } from "./Reveal";
+import { FloatingImageScroll, SlideInOnScroll, BlurReveal } from "./ScrollAnimations";
 import { SwipeReveal } from "./TextReveal";
 import { Luxury3DScene } from "./Luxury3DScene";
+import { Section3DBackground } from "./Section3DBackground";
 
 /**
  * Enhanced DevelopersSection with scroll animations and floating images
@@ -29,7 +30,7 @@ export function EnhancedDevelopersSection() {
           <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background" />
         </div>
 
-        <div className="mx-auto max-w-7xl">
+        <div className="mx-auto max-w-7xl relative z-10">
           {/* Eyebrow */}
           <Reveal delay={0}>
             <SectionEyebrow>Flagship Project</SectionEyebrow>
@@ -39,7 +40,7 @@ export function EnhancedDevelopersSection() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center mt-12">
             {/* Floating Image */}
             <Reveal direction="left" delay={0.1}>
-              <div className="relative h-96 md:h-[500px] rounded-2xl overflow-hidden shadow-luxe">
+              <div className="relative h-96 md:h-[500px] rounded-[40px] overflow-hidden shadow-luxe border border-white/5">
                 <FloatingImageScroll
                   src="https://truston.advrtisinguru.com/wp-content/uploads/2026/04/luxury-interior-design-600x800.jpg"
                   alt="Prime Estate Luxury Interior"
@@ -61,10 +62,10 @@ export function EnhancedDevelopersSection() {
                   <SwipeReveal>
                     <h2 className="typography-section-title text-white mb-4">
                       Prime Estate <br />
-                      <span className="text-gold italic font-serif">Luxury Living</span>
+                      <span className="text-luxe-cyan italic font-serif">Luxury Living</span>
                     </h2>
                   </SwipeReveal>
-                  <p className="typography-body text-white/80 leading-relaxed">
+                  <p className="typography-body text-white/70 leading-relaxed font-light text-lg">
                     Experience the pinnacle of luxury living in Lucknow's most coveted location.
                     Prime Estate represents a new era of sophisticated urban development with
                     world-class amenities and architectural excellence.
@@ -77,7 +78,7 @@ export function EnhancedDevelopersSection() {
                   whileInView={{ opacity: 1 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.8, delay: 0.4 }}
-                  className="space-y-4 border-l-2 border-gold pl-6"
+                  className="space-y-6 border-l-2 border-luxe-cyan pl-6"
                 >
                   {[
                     { title: "150+ Premium Plots", desc: "Carefully curated land parcels" },
@@ -91,31 +92,26 @@ export function EnhancedDevelopersSection() {
                       viewport={{ once: true }}
                       transition={{ delay: 0.5 + idx * 0.1 }}
                     >
-                      <p className="font-semibold text-white text-sm md:text-base">
+                      <p className="font-semibold text-white text-sm md:text-base uppercase tracking-wider">
                         {feature.title}
                       </p>
-                      <p className="text-xs md:text-sm text-white/60 mt-1">{feature.desc}</p>
+                      <p className="text-xs md:text-sm text-white/40 mt-1">{feature.desc}</p>
                     </motion.div>
                   ))}
                 </motion.div>
 
                 {/* CTA Button */}
-                <motion.button
+                <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.8 }}
-                  whileHover={{ x: 8 }}
-                  className="inline-flex items-center gap-3 text-bronze font-semibold text-sm md:text-base uppercase tracking-widest hover:gap-4 transition-all duration-300"
                 >
-                  Explore Prime Estate
-                  <motion.span
-                    animate={{ x: [0, 4, 0] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                  >
-                    →
-                  </motion.span>
-                </motion.button>
+                  <button className="btn-magnetic btn-luxe px-10">
+                    Explore Prime Estate
+                    <span className="ml-3">→</span>
+                  </button>
+                </motion.div>
               </div>
             </Reveal>
           </div>
@@ -123,20 +119,23 @@ export function EnhancedDevelopersSection() {
       </section>
 
       {/* Services Grid Section */}
-      <section className="relative py-24 md:py-32 px-6 bg-background">
-        <div className="mx-auto max-w-7xl">
+      <section className="relative py-24 md:py-32 px-6 bg-ink overflow-hidden">
+        <Section3DBackground opacity={0.2} />
+
+        <div className="mx-auto max-w-7xl relative z-10">
           <Reveal delay={0}>
-            <SectionEyebrow>Our Services</SectionEyebrow>
+            <SectionEyebrow light>Our Services</SectionEyebrow>
           </Reveal>
 
           <SwipeReveal className="flex justify-center">
-            <h2 className="typography-section-title text-center text-white mt-8 mb-16">
-              Comprehensive Real Estate Solutions
+            <h2 className="typography-section-title text-center text-white mt-8 mb-20 tracking-tight">
+              Comprehensive Real Estate{" "}
+              <em className="text-luxe-cyan italic font-serif">Mastery</em>
             </h2>
           </SwipeReveal>
 
           {/* Services Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
             {[
               {
                 icon: "🏗️",
@@ -166,33 +165,35 @@ export function EnhancedDevelopersSection() {
                 delay={idx * 0.15}
               >
                 <motion.div
-                  whileHover={{ y: -12, rotateY: 3, rotateX: -2 }}
-                  style={{ transformStyle: "preserve-3d", perspective: "1000px" }}
-                  className="group relative overflow-hidden rounded-xl shadow-card hover:shadow-luxe transition-all duration-500 h-full"
+                  whileHover={{ y: -12, scale: 1.02 }}
+                  className="group relative overflow-hidden rounded-[32px] shadow-card hover:shadow-luxe transition-all duration-500 h-[500px] border border-white/5"
                 >
                   {/* Background Image */}
                   <div className="absolute inset-0 overflow-hidden">
                     <motion.img
                       src={service.image}
                       alt={service.title}
-                      className="w-full h-full object-cover"
-                      whileHover={{ scale: 1.08 }}
-                      transition={{ duration: 0.6 }}
+                      className="w-full h-full object-cover brightness-50"
+                      whileHover={{ scale: 1.1, filter: "brightness(0.7)" }}
+                      transition={{ duration: 0.8 }}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/20 to-transparent" />
                   </div>
 
                   {/* Content */}
-                  <div className="relative h-full flex flex-col justify-end p-8 text-white">
-                    <div className="text-4xl mb-3 group-hover:scale-110 transition-transform duration-300">
+                  <div className="relative h-full flex flex-col justify-end p-10 text-white">
+                    <div className="text-5xl mb-6 group-hover:scale-110 transition-transform duration-500 origin-left">
                       {service.icon}
                     </div>
-                    <h3 className="text-xl md:text-2xl font-semibold mb-3 group-hover:text-bronze transition-colors duration-300">
+                    <h3 className="font-display text-2xl md:text-3xl mb-4 group-hover:text-luxe-cyan transition-colors duration-300">
                       {service.title}
                     </h3>
-                    <p className="text-sm md:text-base text-white/90 leading-relaxed">
+                    <p className="text-sm md:text-base text-white/50 leading-relaxed font-light">
                       {service.desc}
                     </p>
+                    <div className="mt-8 flex items-center gap-3 text-luxe-cyan text-[10px] uppercase tracking-widest font-bold opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0">
+                      View Expertise <span>→</span>
+                    </div>
                   </div>
                 </motion.div>
               </SlideInOnScroll>
@@ -202,25 +203,25 @@ export function EnhancedDevelopersSection() {
       </section>
 
       {/* Why TrustOn Section */}
-      <section className="relative py-24 md:py-32 px-6 bg-gradient-to-br from-ink via-ink/95 to-ink">
-        <motion.div style={{ y: bgY }} className="absolute inset-0 opacity-5 pointer-events-none">
-          <div className="absolute top-20 right-20 w-96 h-96 bg-bronze rounded-full blur-3xl" />
-          <div className="absolute bottom-20 left-20 w-96 h-96 bg-bronze rounded-full blur-3xl" />
+      <section className="relative py-24 md:py-32 px-6 bg-background">
+        <motion.div style={{ y: bgY }} className="absolute inset-0 opacity-10 pointer-events-none">
+          <div className="absolute top-20 right-20 w-[600px] h-[600px] bg-luxe-blue rounded-full blur-[120px]" />
+          <div className="absolute bottom-20 left-20 w-[600px] h-[600px] bg-luxe-cyan rounded-full blur-[120px]" />
         </motion.div>
 
-        <div className="mx-auto max-w-5xl relative z-10">
+        <div className="mx-auto max-w-6xl relative z-10">
           <BlurReveal>
-            <SectionEyebrow light>Why Choose TrustOn</SectionEyebrow>
+            <SectionEyebrow>Why Choose TrustOn</SectionEyebrow>
           </BlurReveal>
 
           <BlurReveal>
-            <h2 className="typography-section-title text-center text-white mt-8 mb-16">
-              Trusted by Thousands of Investors
+            <h2 className="typography-section-title text-center text-white mt-8 mb-20 tracking-tight">
+              Elite Standard of <em className="text-luxe-cyan italic font-serif">Trust</em>
             </h2>
           </BlurReveal>
 
           {/* Trust Pillars */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12">
             {[
               {
                 num: "01",
@@ -249,19 +250,19 @@ export function EnhancedDevelopersSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: idx * 0.15, duration: 0.8 }}
-                className="group"
+                className="group border-b border-white/5 pb-10"
               >
-                <div className="flex gap-6">
+                <div className="flex gap-8">
                   <div className="flex-shrink-0">
-                    <span className="inline-flex items-center justify-center h-12 w-12 rounded-lg bg-bronze/20 text-bronze text-xl font-bold group-hover:bg-bronze/30 transition-colors duration-300">
+                    <span className="inline-flex items-center justify-center h-16 w-16 rounded-2xl bg-luxe-blue/10 text-luxe-cyan text-2xl font-display group-hover:bg-luxe-blue group-hover:text-white transition-all duration-500 border border-luxe-cyan/20">
                       {pillar.num}
                     </span>
                   </div>
                   <div>
-                    <h3 className="text-lg md:text-xl font-semibold text-white mb-2 group-hover:text-bronze transition-colors duration-300">
+                    <h3 className="font-display text-2xl text-white mb-3 group-hover:text-luxe-cyan transition-colors duration-300">
                       {pillar.title}
                     </h3>
-                    <p className="text-sm md:text-base text-white/80 leading-relaxed">
+                    <p className="text-sm md:text-base text-white/50 leading-relaxed font-light">
                       {pillar.desc}
                     </p>
                   </div>
@@ -273,28 +274,31 @@ export function EnhancedDevelopersSection() {
       </section>
 
       {/* CTA Strip */}
-      <section className="relative py-16 md:py-20 px-6 bg-gradient-to-r from-bronze to-blue-600">
-        <div className="mx-auto max-w-4xl text-center">
+      <section className="relative py-24 md:py-32 px-6 bg-ink overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-luxe-blue/20 to-luxe-cyan/20 opacity-30" />
+        <Section3DBackground opacity={0.15} />
+
+        <div className="mx-auto max-w-4xl text-center relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <h3 className="text-2xl md:text-4xl font-bold text-white mb-6">
-              Ready to Build Your Legacy?
+            <h3 className="font-display text-4xl md:text-6xl text-white mb-8 tracking-tight">
+              Ready to Build Your <em className="text-luxe-cyan italic font-serif">Legacy?</em>
             </h3>
-            <p className="text-white/90 text-base md:text-lg mb-8 leading-relaxed">
-              Join thousands of satisfied investors who have chosen TrustOn for their real estate
-              investments.
+            <p className="text-white/50 text-lg md:text-xl mb-12 leading-relaxed font-light max-w-2xl mx-auto">
+              Join the elite circle of investors who have chosen TrustOn as their gateway to premium
+              real estate.
             </p>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.98 }}
-              className="inline-flex items-center gap-2 px-8 py-4 bg-white text-bronze font-bold rounded-lg hover:bg-cream transition-all duration-300 shadow-lg hover:shadow-2xl"
+              className="btn-magnetic btn-luxe px-12 py-5"
             >
-              Get Started Today
-              <span>→</span>
+              Secure Your Future
+              <span className="ml-3">→</span>
             </motion.button>
           </motion.div>
         </div>

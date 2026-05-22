@@ -2,6 +2,7 @@ import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { GalleryLightbox, type GalleryItem } from "./GalleryLightbox";
 import { SectionEyebrow } from "./Reveal";
+import { Section3DBackground } from "./Section3DBackground";
 
 const ALL_IMAGES: GalleryItem[] = [
   {
@@ -93,50 +94,52 @@ export function GallerySection() {
   const goTo = (i: number) => setLightboxIndex(i);
 
   return (
-    <section ref={sectionRef} className="relative py-32 px-6 bg-[var(--ink)] overflow-hidden">
+    <section ref={sectionRef} className="relative py-32 px-6 bg-ink overflow-hidden">
+      <Section3DBackground opacity={0.2} />
+
       {/* ── Ambient glow orbs ── */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div
-          className="absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full opacity-[0.04]"
-          style={{ background: "radial-gradient(circle, var(--gold), transparent 70%)" }}
+          className="absolute -top-40 -left-40 w-[800px] h-[800px] rounded-full opacity-[0.1]"
+          style={{ background: "radial-gradient(circle, var(--luxe-cyan), transparent 70%)" }}
         />
         <div
-          className="absolute -bottom-40 -right-40 w-[600px] h-[600px] rounded-full opacity-[0.04]"
-          style={{ background: "radial-gradient(circle, var(--bronze), transparent 70%)" }}
+          className="absolute -bottom-40 -right-40 w-[800px] h-[800px] rounded-full opacity-[0.1]"
+          style={{ background: "radial-gradient(circle, var(--luxe-blue), transparent 70%)" }}
         />
       </div>
 
       {/* ── Grid texture ── */}
       <div
-        className="absolute inset-0 opacity-[0.025] pointer-events-none"
+        className="absolute inset-0 opacity-[0.03] pointer-events-none"
         style={{
           backgroundImage:
             "linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)",
-          backgroundSize: "80px 80px",
+          backgroundSize: "100px 100px",
         }}
       />
 
-      <div className="relative mx-auto max-w-7xl">
+      <div className="relative mx-auto max-w-7xl z-10">
         {/* ── Header ── */}
         <motion.div
-          className="text-center mb-14"
+          className="text-center mb-20"
           initial={{ opacity: 0, y: 40 }}
           animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
           transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
         >
           <SectionEyebrow light>Site Photography</SectionEyebrow>
-          <h2 className="font-display text-5xl md:text-7xl text-white leading-tight">
-            Every detail, <em className="gradient-bronze-text not-italic">captured.</em>
+          <h2 className="font-display text-5xl md:text-8xl text-white leading-[0.9] tracking-tighter mb-6">
+            Every detail, <em className="gradient-luxe-text not-italic">captured.</em>
           </h2>
-          <p className="text-white/35 mt-4 max-w-lg mx-auto text-sm leading-relaxed">
-            Click any image to open the cinematic viewer. Swipe or use arrow keys to explore.
-            Double-click to zoom.
+          <p className="text-white/40 mt-6 max-w-xl mx-auto text-lg leading-relaxed font-light">
+            Experience architectural brilliance in high definition. Explore our curated selection of
+            premium sites and designs.
           </p>
         </motion.div>
 
         {/* ── Filter tabs ── */}
         <motion.div
-          className="flex flex-wrap justify-center gap-2 mb-12"
+          className="flex flex-wrap justify-center gap-4 mb-16"
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
@@ -148,14 +151,14 @@ export function GallerySection() {
                 setActiveTab(tab);
                 setLightboxIndex(null);
               }}
-              className={`text-[10px] uppercase tracking-[0.4em] px-5 py-2.5 border transition-all duration-300 ${
+              className={`text-[11px] font-bold uppercase tracking-[0.4em] px-8 py-3.5 border transition-all duration-500 rounded-full ${
                 activeTab === tab
-                  ? "border-[var(--bronze)] text-[var(--bronze)] bg-[var(--bronze)]/10"
-                  : "border-white/10 text-white/35 hover:border-white/30 hover:text-white/60"
+                  ? "border-luxe-cyan text-luxe-cyan bg-luxe-cyan/10"
+                  : "border-white/10 text-white/30 hover:border-white/30 hover:text-white"
               }`}
             >
               {tab}
-              {tab === "All" && <span className="ml-2 text-white/20">{ALL_IMAGES.length}</span>}
+              {tab === "All" && <span className="ml-3 opacity-30">{ALL_IMAGES.length}</span>}
             </button>
           ))}
         </motion.div>
@@ -170,20 +173,15 @@ export function GallerySection() {
 
         {/* ── Bottom CTA ── */}
         <motion.div
-          className="mt-16 text-center"
+          className="mt-24 text-center"
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.7, delay: 0.4 }}
         >
-          <p className="text-white/25 text-[11px] uppercase tracking-widest mb-6">
-            {filtered.length} image{filtered.length !== 1 ? "s" : ""} in this collection
+          <p className="text-white/20 text-[11px] uppercase tracking-[0.4em] mb-10 font-bold">
+            {filtered.length} cinematic assets in this collection
           </p>
-          <a
-            href="tel:+919616061166"
-            className="inline-flex items-center gap-3 border border-[var(--bronze)]/50 text-[var(--bronze)] px-8 py-4 text-[11px] uppercase tracking-widest hover:bg-[var(--bronze)] hover:text-white transition-all duration-500"
-          >
-            Book a Site Visit →
-          </a>
+          <button className="btn-magnetic btn-luxe px-12 py-5">Request Private Tour →</button>
         </motion.div>
       </div>
 
@@ -213,18 +211,18 @@ function AnimatedGrid({
   spans: Record<number, string>;
 }) {
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 gap-2 auto-rows-[200px] md:auto-rows-[220px]">
+    <div className="grid grid-cols-2 md:grid-cols-3 gap-4 auto-rows-[250px] md:auto-rows-[300px]">
       {items.map((item, i) => (
         <motion.div
           key={`${item.title}-${i}`}
-          className={`relative overflow-hidden group cursor-pointer ${spans[i] ?? ""}`}
+          className={`relative overflow-hidden group cursor-none rounded-[32px] border border-white/5 ${spans[i] ?? ""}`}
           initial={{ opacity: 0, scale: 0.92, filter: "blur(12px)" }}
           animate={
             inView
               ? { opacity: 1, scale: 1, filter: "blur(0px)" }
               : { opacity: 0, scale: 0.92, filter: "blur(12px)" }
           }
-          transition={{ duration: 0.75, delay: i * 0.07, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.8, delay: i * 0.05, ease: [0.16, 1, 0.3, 1] }}
           onClick={() => onOpen(i)}
           role="button"
           tabIndex={0}
@@ -236,54 +234,56 @@ function AnimatedGrid({
             src={item.img}
             alt={item.title}
             loading="lazy"
-            className="absolute inset-0 w-full h-full object-cover"
-            variants={{ rest: { scale: 1 }, hovered: { scale: 1.08 } }}
+            className="absolute inset-0 w-full h-full object-cover brightness-75"
+            variants={{ rest: { scale: 1 }, hovered: { scale: 1.15, filter: "brightness(0.5)" } }}
             whileHover="hovered"
-            transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
           />
 
           {/* Base overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/20 to-transparent" />
 
-          {/* Bronze tint on hover */}
+          {/* Blue tint on hover */}
           <motion.div
             className="absolute inset-0"
             initial={{ opacity: 0 }}
             whileHover={{ opacity: 1 }}
             transition={{ duration: 0.4 }}
-            style={{ background: "rgba(184,134,11,0.12)" }}
+            style={{ background: "rgba(100,200,255,0.08)" }}
           />
 
           {/* Category chip */}
           {item.category && (
-            <div className="absolute top-3 left-3 text-[8px] uppercase tracking-[0.4em] text-white/60 border border-white/10 px-2 py-1 bg-black/30 backdrop-blur-sm">
+            <div className="absolute top-6 left-6 text-[9px] uppercase tracking-[0.3em] text-white/60 border border-white/10 px-3 py-1.5 bg-ink/50 backdrop-blur-md rounded-full font-bold">
               {item.category}
             </div>
           )}
 
           {/* Zoom icon */}
           <motion.div
-            className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center border border-white/15 bg-black/20 backdrop-blur-sm text-white/40"
+            className="absolute top-6 right-6 w-10 h-10 flex items-center justify-center border border-white/10 bg-ink/30 backdrop-blur-md text-luxe-cyan rounded-full"
             initial={{ opacity: 0, scale: 0.7 }}
-            whileHover={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.25 }}
+            whileHover={{ opacity: 1, scale: 1, backgroundColor: "rgba(100,200,255,0.2)" }}
+            transition={{ duration: 0.3 }}
           >
-            <svg viewBox="0 0 20 20" className="w-4 h-4 fill-current">
+            <svg viewBox="0 0 20 20" className="w-5 h-5 fill-current">
               <path d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" />
             </svg>
           </motion.div>
 
           {/* Bottom info */}
-          <div className="absolute bottom-0 inset-x-0 p-4">
+          <div className="absolute bottom-0 inset-x-0 p-8">
             <motion.div
-              className="h-px mb-3 bg-[var(--bronze)]"
-              initial={{ width: 16 }}
-              whileHover={{ width: 40 }}
+              className="h-1 mb-4 bg-luxe-cyan rounded-full"
+              initial={{ width: 24 }}
+              whileHover={{ width: 60 }}
               transition={{ duration: 0.5 }}
             />
-            <p className="text-white font-serif text-base leading-tight">{item.title}</p>
+            <p className="text-white font-display text-2xl tracking-tight leading-none mb-2">
+              {item.title}
+            </p>
             <motion.p
-              className="text-[9px] uppercase tracking-widest text-white/40 mt-1"
+              className="text-[10px] uppercase tracking-[0.2em] text-white/40 font-bold"
               initial={{ opacity: 0, y: 6 }}
               whileHover={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}

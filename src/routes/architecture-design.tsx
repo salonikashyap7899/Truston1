@@ -82,20 +82,20 @@ const content: ServiceContent = {
 
 function Page() {
   return (
-    <>
-      <div className="relative overflow-hidden bg-background">
+    <div className="bg-background">
+      <div className="relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none z-0">
           <Luxury3DScene />
         </div>
         <InnerHero
-          eyebrow="Service · 02"
+          eyebrow="Architectural Excellence"
           title={
             <>
               Architecture <span className="font-serif italic">&amp;</span>{" "}
-              <em className="gradient-bronze-text not-italic font-serif italic">Design.</em>
+              <em className="text-luxe-cyan not-italic font-serif italic">Design.</em>
             </>
           }
-          subtitle="Your vision, brought to life on paper first."
+          subtitle="Your vision, brought to life through futuristic 3D architectural storytelling."
           poster={interiorImg}
           alt="Architecture & Design"
         />
@@ -107,6 +107,6 @@ function Page() {
           image="https://truston.advrtisinguru.com/wp-content/uploads/2026/04/steve-driscoll-VsBl5PwVZpY-unsplash-scaled.jpg"
         />
       </div>
-    </>
+    </div>
   );
 }

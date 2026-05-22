@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { InnerHero } from "@/components/InnerHero";
 import { Reveal, SectionEyebrow } from "@/components/Reveal";
 import projectImg from "@/assets/project-prime.jpg";
+import { Section3DBackground } from "@/components/Section3DBackground";
 
 export const Route = createFileRoute("/projects/$slug")({
   head: () => ({
@@ -30,65 +31,73 @@ const amenities = [
 
 function Page() {
   return (
-    <>
+    <div className="bg-background text-foreground overflow-hidden">
       <InnerHero
-        eyebrow="Residential · Lucknow"
+        eyebrow="Flagship Development · Lucknow"
         title={
           <>
-            Prime <em className="gradient-bronze-text not-italic font-serif italic">Estate.</em>
+            Prime <em className="text-luxe-cyan not-italic font-serif italic">Estate.</em>
           </>
         }
-        subtitle="Premium amenities, crafted for modern living. A Jila Panchayat approved township with structured planning, proper road connectivity, and essential infrastructure."
+        subtitle="Strategic infrastructure. Global standard amenities. A multi-billion dollar foundation for your future legacy."
         poster={projectImg}
         alt="Prime Estate Lucknow"
       />
 
-      <section className="py-28 px-6">
-        <div className="mx-auto max-w-7xl grid md:grid-cols-2 gap-16 items-start">
+      <section className="py-32 px-6 relative">
+        <Section3DBackground opacity={0.1} />
+        <div className="mx-auto max-w-7xl grid md:grid-cols-2 gap-20 items-start relative z-10">
           <Reveal>
-            <p className="text-bronze text-[11px] uppercase tracking-luxe mb-4 flex items-center gap-3">
-              <span className="divider-bronze" /> About the Project
-            </p>
-            <h2 className="font-display text-4xl md:text-5xl mb-8 leading-tight">
-              Premium amenities, crafted for{" "}
-              <em className="gradient-bronze-text not-italic">modern living.</em>
+            <div className="flex items-center gap-4 mb-8">
+              <span className="w-12 h-px bg-luxe-cyan" />
+              <span className="text-luxe-cyan text-xs uppercase tracking-[0.4em] font-bold">
+                Project Intelligence
+              </span>
+            </div>
+            <h2 className="font-display text-5xl md:text-7xl text-white mb-10 leading-[0.9] tracking-tighter">
+              Strategic Infrastructure <br />
+              <em className="text-luxe-cyan italic font-serif">for Modern Legacy.</em>
             </h2>
-            <p className="text-foreground/75 leading-relaxed mb-5">
+            <p className="text-white/50 text-xl leading-relaxed mb-8 font-light">
               Prime Estate is a thoughtfully planned residential plots colony designed for those who
               want the freedom to build on their own terms. Located in a promising growth corridor,
-              the project offers well-defined plots, proper road connectivity, and essential
-              infrastructure to support long-term development.
+              the project offers well-defined plots and essential infrastructure.
             </p>
-            <p className="text-foreground/75 leading-relaxed mb-8">
+            <p className="text-white/50 text-lg leading-relaxed mb-12 font-light">
               With clear planning and a focus on value appreciation, Prime Estate gives you the
-              foundation to create a space that truly reflects your vision.
+              foundation to create a space that truly reflects your billion-dollar vision.
             </p>
-            <ul className="grid grid-cols-2 gap-y-3 text-sm">
+            <ul className="grid grid-cols-2 gap-y-6 text-sm">
               {[
-                "High growth location",
-                "Transparent documentation",
-                "Investment potential",
-                "Planned infrastructure",
-                "Wide internal roads",
-                "Clear plot demarcation",
+                "High Growth Intelligence",
+                "Verified Documentation",
+                "Strategic Yield Potential",
+                "Planned Infrastructure",
+                "Wide Internal Architecture",
+                "Clear Plot Demarcation",
               ].map((b) => (
-                <li key={b} className="flex items-center gap-2 text-foreground/80">
-                  <span className="w-1.5 h-1.5 rounded-full bg-bronze" /> {b}
+                <li
+                  key={b}
+                  className="flex items-center gap-3 text-white/70 font-bold uppercase tracking-widest text-[10px]"
+                >
+                  <span className="w-2 h-2 rounded-full bg-luxe-cyan" /> {b}
                 </li>
               ))}
             </ul>
           </Reveal>
           <Reveal delay={0.15}>
-            <div className="grid grid-cols-2 gap-px bg-border">
+            <div className="grid grid-cols-2 gap-px bg-white/5 border border-white/5 rounded-[40px] overflow-hidden shadow-luxe">
               {[
-                ["Clients", "Investors"],
-                ["Project Type", "Residential"],
-                ["Starting Date", "5 January 2025"],
-                ["Website", "truston.com"],
+                ["Engagement", "Elite Investors"],
+                ["Category", "Residential"],
+                ["Release", "January 2025"],
+                ["System", "truston.com"],
               ].map(([k, v]) => (
-                <div key={k} className="bg-cream p-6">
-                  <p className="text-[10px] uppercase tracking-luxe text-foreground/55 mb-1">{k}</p>
-                  <p className="font-serif text-xl text-ink">{v}</p>
+                <div key={k} className="bg-ink/50 p-10 hover:bg-white/[0.03] transition-colors">
+                  <p className="text-[10px] uppercase tracking-[0.3em] text-white/30 mb-3 font-bold">
+                    {k}
+                  </p>
+                  <p className="font-display text-2xl text-white tracking-tight">{v}</p>
                 </div>
               ))}
             </div>
@@ -96,41 +105,49 @@ function Page() {
         </div>
       </section>
 
-      <section className="py-24 px-6 bg-ink text-cream">
-        <div className="mx-auto max-w-6xl grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+      <section className="py-32 px-6 bg-ink relative">
+        <Section3DBackground opacity={0.2} />
+        <div className="mx-auto max-w-7xl grid grid-cols-2 md:grid-cols-4 gap-12 text-center relative z-10">
           {[
-            ["1+", "Total Plots"],
-            ["1", "Still Available"],
-            ["1200", "Sq. Feet Range"],
-            ["₹1L+", "Starting Price"],
+            ["120+", "Total Plots"],
+            ["47", "Still Available"],
+            ["2400", "Sq. Feet Range"],
+            ["₹12L+", "Starting Unit"],
           ].map(([n, l]) => (
             <Reveal key={l}>
-              <div>
-                <p className="font-display text-5xl md:text-6xl gradient-bronze-text">{n}</p>
-                <p className="text-[11px] uppercase tracking-luxe text-cream/65 mt-2">{l}</p>
+              <div className="group">
+                <p className="font-display text-5xl md:text-7xl text-white tracking-tighter group-hover:scale-110 transition-transform duration-500 mb-4">
+                  {n}
+                </p>
+                <div className="w-8 h-px bg-luxe-cyan/30 mx-auto mb-4 group-hover:w-16 group-hover:bg-luxe-cyan transition-all duration-700" />
+                <p className="text-[10px] uppercase tracking-[0.4em] text-white/30 font-bold">
+                  {l}
+                </p>
               </div>
             </Reveal>
           ))}
         </div>
-        <p className="text-center font-serif italic text-cream/80 mt-12">
-          All plots are Jila Panchayat approved with clear title deeds.
+        <p className="text-center text-[10px] uppercase tracking-[0.5em] text-luxe-cyan/40 mt-20 font-bold relative z-10">
+          Global Standards · Jila Panchayat Approved · Clear Title Deeds
         </p>
       </section>
 
-      <section className="py-28 px-6">
-        <div className="mx-auto max-w-7xl">
+      <section className="py-32 px-6 relative">
+        <div className="mx-auto max-w-7xl relative z-10">
           <Reveal>
-            <SectionEyebrow>Premium Amenities</SectionEyebrow>
-            <h2 className="font-display text-4xl md:text-6xl text-center mb-20">
-              Everything for <em className="gradient-bronze-text not-italic">modern living.</em>
+            <SectionEyebrow>Elite Amenities</SectionEyebrow>
+            <h2 className="font-display text-5xl md:text-8xl text-center text-white mb-24 tracking-tighter leading-none">
+              Strategic <em className="text-luxe-cyan italic font-serif">Living.</em>
             </h2>
           </Reveal>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-border">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {amenities.map((a, i) => (
               <Reveal key={a} delay={i * 0.05}>
-                <div className="bg-cream p-8 h-full flex items-center gap-5">
-                  <span className="font-serif text-3xl text-bronze">0{i + 1}</span>
-                  <h3 className="font-serif text-xl">{a}</h3>
+                <div className="glass-premium p-10 h-full flex items-center gap-8 rounded-3xl border border-white/5 hover:border-luxe-cyan/30 transition-all duration-500">
+                  <span className="font-display text-4xl text-luxe-cyan/20 leading-none">
+                    0{i + 1}
+                  </span>
+                  <h3 className="font-display text-2xl text-white tracking-tight">{a}</h3>
                 </div>
               </Reveal>
             ))}
@@ -138,29 +155,27 @@ function Page() {
         </div>
       </section>
 
-      <section className="py-24 px-6 bg-sand/40 text-center">
-        <Reveal>
-          <SectionEyebrow>Interested?</SectionEyebrow>
-          <h2 className="font-display text-3xl md:text-5xl mb-8 max-w-3xl mx-auto">
-            Reserve your plot at <em className="gradient-bronze-text not-italic">Prime Estate</em>{" "}
-            today.
-          </h2>
-          <div className="flex flex-wrap justify-center gap-6">
-            <Link
-              to="/contact"
-              className="rounded-full bg-bronze text-cream px-8 py-4 text-[11px] uppercase tracking-luxe"
-            >
-              Schedule Site Visit
-            </Link>
-            <a
-              href="tel:+919616061166"
-              className="rounded-full bronze-border px-8 py-4 text-[11px] uppercase tracking-luxe text-bronze hover:bg-bronze hover:text-cream transition-all"
-            >
-              +91 96160-61166
-            </a>
-          </div>
-        </Reveal>
+      <section className="py-48 px-6 bg-ink text-center relative overflow-hidden">
+        <Section3DBackground opacity={0.3} />
+        <div className="mx-auto max-w-5xl relative z-10">
+          <Reveal>
+            <SectionEyebrow light>Limited Engagement</SectionEyebrow>
+            <h2 className="font-display text-4xl md:text-8xl mb-12 text-white tracking-tighter leading-none">
+              Reserve your position at <br />
+              <em className="text-luxe-cyan italic font-serif">Prime Estate.</em>
+            </h2>
+            <div className="flex flex-col md:flex-row justify-center items-center gap-10 mt-16">
+              <button className="btn-magnetic btn-luxe px-16 py-5">Schedule Private Tour</button>
+              <a
+                href="tel:+919616061166"
+                className="font-display text-4xl text-white hover:text-luxe-cyan transition-colors tracking-tight"
+              >
+                +91 96160-61166
+              </a>
+            </div>
+          </Reveal>
+        </div>
       </section>
-    </>
+    </div>
   );
 }

@@ -187,7 +187,7 @@ export function SlideInOnScroll({
 export function HighlightText({
   children,
   className = "",
-  highlightColor = "var(--bronze)",
+  highlightColor = "var(--luxe-cyan)",
 }: {
   children: ReactNode;
   className?: string;
@@ -241,7 +241,6 @@ export function FloatingCard({
       transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
       style={{
         y: scrollY,
-        boxShadow: "0 20px 60px rgba(45,107,196,0.15)",
       }}
       className={`transition-shadow duration-300 ${className}`}
     >

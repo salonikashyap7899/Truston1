@@ -42,19 +42,19 @@ const content: ServiceContent = {
   processHeading: "Where every smart investment finds its direction",
   process: [
     {
-      title: "Discovery & Brief",
+      title: "Wealth Strategy",
       body: "We start by understanding your financial objectives, investment horizon, risk tolerance, and the broader wealth-building vision behind your interest in real estate.",
     },
     {
-      title: "Market & Location Analysis",
+      title: "Market Intelligence",
       body: "Thorough analysis of each opportunity — location, infrastructure, rental demand, price trends, and economic factors shaping that micro market.",
     },
     {
-      title: "Shortlisting & Due Diligence",
+      title: "Strategic Selection",
       body: "We present vetted opportunities with full documentation — ownership records, legal clearances, encumbrance certificates, and relevant approvals.",
     },
     {
-      title: "Legal Verification & Transaction",
+      title: "Legacy Preservation",
       body: "Independent legal due diligence covering title, ownership chain, encumbrance, and approvals — so you know exactly what you are buying before any commitment.",
     },
   ],
@@ -81,23 +81,24 @@ const content: ServiceContent = {
 
 function Page() {
   return (
-    <>
+    <div className="bg-background">
       <InnerHero
-        eyebrow="Service · 04"
+        eyebrow="Portfolio Management"
         title={
           <>
-            Investment{" "}
-            <em className="gradient-bronze-text not-italic font-serif italic">Consulting.</em>
+            Investment <em className="text-luxe-cyan not-italic font-serif italic">Consulting.</em>
           </>
         }
-        subtitle="Buy smart. Invest smarter."
+        subtitle="Buy smart. Invest with billion-dollar intelligence."
         poster={lucknowImg}
         alt="Investment Consulting"
       />
-      <ServicePageBody
-        content={content}
-        image="https://truston.advrtisinguru.com/wp-content/uploads/2026/04/jakub-zerdzicki-uZqmXxRLHmQ-unsplash-scaled.jpg"
-      />
-    </>
+      <div className="relative z-10">
+        <ServicePageBody
+          content={content}
+          image="https://truston.advrtisinguru.com/wp-content/uploads/2026/04/jakub-zerdzicki-uZqmXxRLHmQ-unsplash-scaled.jpg"
+        />
+      </div>
+    </div>
   );
 }

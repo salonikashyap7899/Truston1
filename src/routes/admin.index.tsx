@@ -27,7 +27,7 @@ function AdminPage() {
         <motion.div
           animate={{ scale: [1, 1.1, 1], opacity: [0.5, 1, 0.5] }}
           transition={{ duration: 2, repeat: Infinity }}
-          className="text-gold font-serif text-2xl italic"
+          className="text-luxe-cyan font-serif text-2xl italic"
         >
           TrustOn Secure Access...
         </motion.div>
@@ -36,30 +36,29 @@ function AdminPage() {
   }
 
   return (
-    <main className="min-h-screen bg-ink text-white selection:bg-gold selection:text-ink">
+    <main className="min-h-screen bg-ink text-white selection:bg-luxe-cyan selection:text-ink">
       {/* Cinematic Background */}
       <div className="fixed inset-0 z-0 opacity-20 pointer-events-none">
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gold rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2" />
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-bronze rounded-full blur-[100px] translate-y-1/2 -translate-x-1/2" />
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-luxe-blue rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-luxe-cyan rounded-full blur-[100px] translate-y-1/2 -translate-x-1/2" />
       </div>
 
       <header className="relative z-10 glass-premium border-b border-white/5">
         <div className="mx-auto max-w-7xl px-6 py-6 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-3 group">
-            <span className="text-gold text-2xl font-serif italic group-hover:scale-110 transition-transform duration-500">
-              Trust
+            <span className="text-white text-2xl font-display group-hover:scale-110 transition-transform duration-500">
+              TrustOn
             </span>
-            <span className="text-white text-2xl font-serif">On</span>
             <div className="h-4 w-px bg-white/20 mx-2" />
-            <span className="text-[10px] uppercase tracking-[0.4em] text-gold/60">
-              Elite Control
+            <span className="text-[10px] uppercase tracking-[0.4em] text-luxe-cyan font-bold">
+              Empire Control
             </span>
           </Link>
 
           <div className="flex items-center gap-6">
             <Link
               to="/"
-              className="text-[10px] uppercase tracking-widest text-white/50 hover:text-gold transition-colors"
+              className="text-[10px] uppercase tracking-widest text-white/50 hover:text-luxe-cyan transition-colors font-bold"
             >
               Live Site
             </Link>
@@ -68,7 +67,7 @@ function AdminPage() {
                 await supabase.auth.signOut();
                 navigate({ to: "/admin/login" });
               }}
-              className="text-[10px] uppercase tracking-widest bg-white/5 hover:bg-gold hover:text-ink border border-white/10 px-6 py-2.5 rounded-full transition-all duration-500"
+              className="text-[10px] uppercase tracking-widest bg-white/5 hover:bg-luxe-cyan hover:text-ink border border-white/10 px-6 py-2.5 rounded-full transition-all duration-500 font-bold"
             >
               Sign out
             </button>
@@ -80,19 +79,19 @@ function AdminPage() {
             <button
               key={t}
               onClick={() => setTab(t)}
-              className={`relative px-6 py-4 text-[10px] uppercase tracking-[0.3em] font-bold transition-all duration-500 ${
-                tab === t ? "text-gold" : "text-white/40 hover:text-white"
+              className={`relative px-8 py-5 text-[10px] uppercase tracking-[0.3em] font-bold transition-all duration-500 ${
+                tab === t ? "text-luxe-cyan" : "text-white/30 hover:text-white"
               }`}
             >
               {t === "content"
-                ? "Global Assets"
+                ? "Global Architecture"
                 : t === "media"
-                  ? "Cinematic Media"
-                  : "Investor Leads"}
+                  ? "Cinematic Assets"
+                  : "Investor Portfolio"}
               {tab === t && (
                 <motion.div
                   layoutId="admin-tab"
-                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-gold"
+                  className="absolute bottom-0 left-0 right-0 h-1 bg-luxe-cyan"
                 />
               )}
             </button>
@@ -100,14 +99,14 @@ function AdminPage() {
         </nav>
       </header>
 
-      <div className="relative z-10 mx-auto max-w-7xl px-6 py-12">
+      <div className="relative z-10 mx-auto max-w-7xl px-6 py-16">
         <AnimatePresence mode="wait">
           <motion.div
             key={tab}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           >
             {tab === "content" && <ContentPanel />}
             {tab === "media" && <MediaPanel />}
@@ -162,7 +161,7 @@ function ContentPanel() {
       .eq("id", current.id);
     setBusy(false);
     if (error) return toast.error(error.message);
-    toast.success("Empire data updated");
+    toast.success("Empire architecture updated");
     load();
   };
 
@@ -178,24 +177,24 @@ function ContentPanel() {
     : [];
 
   return (
-    <div className="grid lg:grid-cols-[300px_1fr] gap-12">
-      <aside className="space-y-2">
-        <p className="text-[10px] uppercase tracking-[0.4em] text-gold/40 mb-6 px-4">
-          Architectural Modules
+    <div className="grid lg:grid-cols-[350px_1fr] gap-16">
+      <aside className="space-y-3">
+        <p className="text-[10px] uppercase tracking-[0.5em] text-luxe-cyan/40 mb-10 px-6 font-bold">
+          System Modules
         </p>
         {rows.map((r) => (
           <button
             key={r.id}
             onClick={() => setSelected(r.key)}
-            className={`w-full text-left px-6 py-4 rounded-2xl text-sm transition-all duration-500 border ${
+            className={`w-full text-left px-8 py-6 rounded-3xl text-sm transition-all duration-500 border ${
               selected === r.key
-                ? "bg-gold text-ink border-gold shadow-[0_10px_30px_oklch(0.75_0.15_85/0.2)]"
-                : "bg-white/5 text-white/60 border-white/5 hover:bg-white/10"
+                ? "bg-luxe-cyan text-ink border-luxe-cyan shadow-luxe"
+                : "bg-white/5 text-white/50 border-white/5 hover:bg-white/10"
             }`}
           >
-            <div className="font-serif text-lg">{r.label}</div>
+            <div className="font-display text-xl">{r.label}</div>
             <div
-              className={`text-[9px] uppercase tracking-widest ${selected === r.key ? "text-ink/60" : "text-white/30"}`}
+              className={`text-[9px] uppercase tracking-widest mt-2 font-bold ${selected === r.key ? "text-ink/60" : "text-white/20"}`}
             >
               {r.key}
             </div>
@@ -204,22 +203,24 @@ function ContentPanel() {
       </aside>
 
       {current ? (
-        <section className="glass-premium rounded-[32px] p-10 border border-white/5">
-          <div className="flex items-center justify-between mb-10 pb-10 border-b border-white/5">
+        <section className="glass-premium rounded-[40px] p-12 border border-white/5">
+          <div className="flex items-center justify-between mb-12 pb-12 border-b border-white/5">
             <div>
-              <p className="text-[10px] uppercase tracking-[0.4em] text-gold mb-2">{current.key}</p>
-              <h2 className="font-display text-4xl text-white">{current.label}</h2>
+              <p className="text-[10px] uppercase tracking-[0.4em] text-luxe-cyan mb-3 font-bold">
+                {current.key}
+              </p>
+              <h2 className="font-display text-5xl text-white tracking-tight">{current.label}</h2>
             </div>
             <button
               onClick={save}
               disabled={busy}
-              className="bg-gold text-ink px-10 py-3.5 rounded-full text-[10px] uppercase tracking-[0.3em] font-bold hover:scale-105 active:scale-95 transition-all duration-500 disabled:opacity-50"
+              className="bg-luxe-cyan text-ink px-12 py-4 rounded-full text-[10px] uppercase tracking-[0.3em] font-bold hover:scale-105 active:scale-95 transition-all duration-500 disabled:opacity-50"
             >
               {busy ? "Syncing..." : "Update Asset"}
             </button>
           </div>
 
-          <div className="grid gap-8">
+          <div className="grid gap-10">
             {fields.map((k) => (
               <Field
                 key={k}
@@ -228,15 +229,15 @@ function ContentPanel() {
                 onChange={(v) => setDraft({ ...draft, [k]: v })}
               />
             ))}
-            <div className="pt-8 mt-8 border-t border-white/5">
+            <div className="pt-12 mt-12 border-t border-white/5">
               <AddField onAdd={(k) => setDraft({ ...draft, [k]: "" })} />
             </div>
           </div>
         </section>
       ) : (
-        <div className="flex items-center justify-center h-[400px] border border-dashed border-white/10 rounded-[32px]">
-          <p className="text-white/30 uppercase tracking-widest text-[11px]">
-            Select a module to edit
+        <div className="flex items-center justify-center h-[500px] border border-dashed border-white/10 rounded-[40px]">
+          <p className="text-white/20 uppercase tracking-[0.4em] text-[12px] font-bold">
+            Select a module to architect
           </p>
         </div>
       )}
@@ -258,33 +259,33 @@ function Field({
     name === "subtitle" || name === "body" || (typeof value === "string" && value.length > 80);
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-3">
-      <label className="text-[10px] uppercase tracking-[0.3em] text-white/40 flex items-center gap-2">
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-4">
+      <label className="text-[10px] uppercase tracking-[0.3em] text-white/30 flex items-center gap-3 font-bold">
         {name.replace(/_/g, " ")}
-        {isMedia && <span className="text-gold opacity-60">(Media Path)</span>}
+        {isMedia && <span className="text-luxe-cyan opacity-80">(Media Asset)</span>}
       </label>
 
       {isLong ? (
         <textarea
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          rows={4}
-          className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-gold/50 transition-colors"
+          rows={5}
+          className="w-full bg-white/[0.03] border border-white/10 rounded-[24px] px-8 py-6 text-white focus:outline-none focus:border-luxe-cyan/50 transition-colors font-light text-lg"
         />
       ) : (
         <input
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-3 text-white focus:outline-none focus:border-gold/50 transition-colors"
+          className="w-full bg-white/[0.03] border border-white/10 rounded-full px-8 py-4 text-white focus:outline-none focus:border-luxe-cyan/50 transition-colors font-light text-lg"
         />
       )}
 
       {isMedia && value && (
-        <div className="mt-4 rounded-2xl overflow-hidden border border-white/10 bg-black/40 p-2">
+        <div className="mt-6 rounded-[32px] overflow-hidden border border-white/5 bg-black/40 p-3 shadow-luxe">
           {value.match(/\.(mp4|webm|mov)$/i) ? (
-            <video src={value} className="max-h-48 w-auto rounded-xl" muted />
+            <video src={value} className="max-h-64 w-auto rounded-2xl" muted controls />
           ) : (
-            <img src={value} alt="" className="max-h-48 w-auto rounded-xl" />
+            <img src={value} alt="" className="max-h-64 w-auto rounded-2xl" />
           )}
         </div>
       )}
@@ -295,16 +296,16 @@ function Field({
 function AddField({ onAdd }: { onAdd: (k: string) => void }) {
   const [name, setName] = useState("");
   return (
-    <div className="flex items-end gap-4">
+    <div className="flex items-end gap-6">
       <div className="flex-1">
-        <label className="text-[9px] uppercase tracking-[0.3em] text-white/30 mb-3 block">
-          New Metadata Property
+        <label className="text-[10px] uppercase tracking-[0.4em] text-white/20 mb-4 block font-bold">
+          New Schema Property
         </label>
         <input
           value={name}
           onChange={(e) => setName(e.target.value.replace(/[^a-z0-9_]/gi, "_").toLowerCase())}
-          placeholder="e.g. hero_glow_color"
-          className="w-full bg-white/5 border border-white/10 rounded-full px-6 py-3 text-white focus:outline-none focus:border-gold/30 transition-colors text-sm"
+          placeholder="e.g. section_glow_intensity"
+          className="w-full bg-white/[0.03] border border-white/5 rounded-full px-8 py-4 text-white focus:outline-none focus:border-luxe-cyan/30 transition-colors text-sm font-light"
         />
       </div>
       <button
@@ -315,9 +316,9 @@ function AddField({ onAdd }: { onAdd: (k: string) => void }) {
             setName("");
           }
         }}
-        className="px-8 py-3 bg-white/5 hover:bg-gold hover:text-ink text-gold border border-gold/30 rounded-full text-[10px] uppercase tracking-widest font-bold transition-all duration-500"
+        className="px-10 py-4 bg-white/5 hover:bg-luxe-cyan hover:text-ink text-luxe-cyan border border-luxe-cyan/20 rounded-full text-[10px] uppercase tracking-widest font-bold transition-all duration-500"
       >
-        Add
+        Append
       </button>
     </div>
   );
@@ -376,7 +377,7 @@ function MediaPanel() {
         });
         if (insErr) throw insErr;
       }
-      toast.success("Assets integrated");
+      toast.success("Cinematic assets integrated");
       load();
     } catch (e) {
       toast.error((e as Error).message);
@@ -391,16 +392,16 @@ function MediaPanel() {
     if (stErr) return toast.error(stErr.message);
     const { error: dbErr } = await supabase.from("media").delete().eq("id", m.id);
     if (dbErr) return toast.error(dbErr.message);
-    toast.success("Asset removed");
+    toast.success("Asset removed from library");
     load();
   };
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-12">
-        <h2 className="font-display text-4xl text-white">Cinematic Asset Library</h2>
-        <label className="bg-gold text-ink px-8 py-3 rounded-full text-[10px] uppercase tracking-[0.3em] font-bold hover:scale-105 transition-all duration-500 cursor-pointer">
-          {uploading ? "Uploading..." : "Upload New Assets"}
+      <div className="flex items-center justify-between mb-16">
+        <h2 className="font-display text-5xl text-white tracking-tight">Cinematic Vault</h2>
+        <label className="bg-luxe-cyan text-ink px-10 py-4 rounded-full text-[10px] uppercase tracking-[0.4em] font-bold hover:scale-105 transition-all duration-500 cursor-pointer shadow-luxe">
+          {uploading ? "Ingesting..." : "Upload New Assets"}
           <input
             type="file"
             multiple
@@ -411,43 +412,45 @@ function MediaPanel() {
           />
         </label>
       </div>
-      <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+      <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
         {items.map((m) => (
           <motion.div
             key={m.id}
             layout
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="group glass-premium rounded-3xl overflow-hidden border border-white/5"
+            className="group glass-premium rounded-[32px] overflow-hidden border border-white/5"
           >
             <div className="aspect-[16/10] bg-white/5 flex items-center justify-center overflow-hidden">
               {m.type === "video" ? (
-                <video src={m.url} className="w-full h-full object-cover" muted />
+                <video src={m.url} className="w-full h-full object-cover brightness-75" muted />
               ) : (
                 <img
                   src={m.url}
                   alt={m.name}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[2s]"
+                  className="w-full h-full object-cover group-hover:scale-115 transition-transform duration-[3s] brightness-75"
                 />
               )}
             </div>
-            <div className="p-6">
-              <p className="text-xs truncate font-serif text-white/60 mb-4">{m.name}</p>
-              <div className="flex gap-2">
+            <div className="p-8">
+              <p className="text-[11px] truncate font-bold text-white/40 mb-6 uppercase tracking-widest">
+                {m.name}
+              </p>
+              <div className="flex gap-3">
                 <button
                   onClick={() => {
                     navigator.clipboard.writeText(m.url);
-                    toast.success("Path copied");
+                    toast.success("Path copied to clipboard");
                   }}
-                  className="flex-1 text-[9px] uppercase tracking-widest text-gold bg-white/5 hover:bg-gold hover:text-ink border border-gold/20 rounded-full py-2 transition-all"
+                  className="flex-1 text-[10px] uppercase tracking-widest text-luxe-cyan bg-white/5 hover:bg-luxe-cyan hover:text-ink border border-luxe-cyan/20 rounded-full py-3 transition-all font-bold"
                 >
                   Copy Path
                 </button>
                 <button
                   onClick={() => remove(m)}
-                  className="px-4 text-[9px] uppercase tracking-widest text-white/30 hover:text-destructive transition-colors"
+                  className="px-5 text-[10px] uppercase tracking-widest text-white/20 hover:text-destructive transition-colors font-bold"
                 >
-                  Remove
+                  Delete
                 </button>
               </div>
             </div>
@@ -493,48 +496,52 @@ function SubmissionsPanel() {
 
   return (
     <div>
-      <h2 className="font-display text-4xl text-white mb-12">Exclusive Investor Leads</h2>
-      <div className="grid gap-6">
+      <h2 className="font-display text-5xl text-white mb-16 tracking-tight">
+        Exclusive Investor Intel
+      </h2>
+      <div className="grid gap-8">
         {items.map((s) => (
           <motion.article
             key={s.id}
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="glass-premium rounded-3xl p-8 border border-white/5 hover:border-gold/20 transition-all duration-500"
+            className="glass-premium rounded-[40px] p-12 border border-white/5 hover:border-luxe-cyan/30 transition-all duration-500 shadow-luxe"
           >
             <div className="flex items-start justify-between">
               <div>
-                <p className="font-display text-2xl text-gold mb-2">{s.name}</p>
-                <div className="flex flex-wrap gap-4 text-[10px] uppercase tracking-widest text-white/40">
-                  <span>{s.email}</span>
-                  <span className="w-1 h-1 rounded-full bg-white/20 mt-1.5" />
-                  <span>{s.phone}</span>
-                  <span className="w-1 h-1 rounded-full bg-white/20 mt-1.5" />
+                <p className="font-display text-3xl text-white mb-4 tracking-tight">{s.name}</p>
+                <div className="flex flex-wrap gap-6 text-[11px] uppercase tracking-[0.2em] text-white/30 font-bold">
+                  <span className="text-luxe-cyan">{s.email}</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-white/10 mt-1.5" />
+                  <span className="text-luxe-cyan">{s.phone}</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-white/10 mt-1.5" />
                   <span>{new Date(s.created_at).toLocaleString()}</span>
                   {s.source && (
                     <>
-                      <span className="w-1 h-1 rounded-full bg-white/20 mt-1.5" />
-                      <span className="text-gold/60">{s.source}</span>
+                      <span className="w-1.5 h-1.5 rounded-full bg-white/10 mt-1.5" />
+                      <span className="text-luxe-cyan/60">{s.source}</span>
                     </>
                   )}
                 </div>
               </div>
               <button
                 onClick={() => remove(s.id)}
-                className="text-[10px] uppercase tracking-widest text-white/30 hover:text-destructive transition-colors"
+                className="text-[10px] uppercase tracking-widest text-white/20 hover:text-destructive transition-colors font-bold"
               >
-                Archive
+                Archive Lead
               </button>
             </div>
-            <p className="mt-8 text-white/70 text-base font-light leading-relaxed max-w-4xl">
+            <p className="mt-10 text-white/60 text-lg font-light leading-relaxed max-w-5xl border-t border-white/5 pt-10">
               {s.message}
             </p>
           </motion.article>
         ))}
         {!items.length && (
-          <p className="text-white/30 text-center py-20 uppercase tracking-widest text-xs">
-            No leads currently available
-          </p>
+          <div className="flex flex-col items-center justify-center py-32 border border-dashed border-white/5 rounded-[40px]">
+            <p className="text-white/20 uppercase tracking-[0.5em] text-sm font-bold">
+              Awaiting Investor Engagement
+            </p>
+          </div>
         )}
       </div>
     </div>

@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageHero } from "@/components/PageHero";
 import { Reveal, SectionEyebrow } from "@/components/Reveal";
 import heroImg from "@/assets/luxury-interior.jpg";
+import { Section3DBackground } from "@/components/Section3DBackground";
 
 export const Route = createFileRoute("/services")({
   head: () => ({
@@ -60,53 +61,58 @@ const services = [
 
 function ServicesPage() {
   return (
-    <>
+    <div className="bg-background text-foreground overflow-hidden">
       <PageHero
         height="short"
-        eyebrow="Our Services"
+        eyebrow="Empire Expertise"
         title={
           <>
-            Everything you need,{" "}
-            <em className="gradient-bronze-text not-italic">under one roof.</em>
+            Strategic Disciplines.{" "}
+            <em className="text-luxe-cyan not-italic font-serif italic">Global Standards.</em>
           </>
         }
-        subtitle="Four disciplines. One uncompromising standard of luxury real estate execution."
+        subtitle="Four pillars of multi-billion dollar real estate execution. One uncompromising standard of luxury."
         poster={heroImg}
         alt="TrustOn services"
       />
 
-      <section className="py-28 px-6">
-        <div className="mx-auto max-w-7xl">
+      <section className="py-32 px-6 relative">
+        <Section3DBackground opacity={0.1} />
+        <div className="mx-auto max-w-7xl relative z-10">
           <Reveal>
-            <SectionEyebrow>Explore</SectionEyebrow>
-            <h2 className="font-display text-center text-4xl md:text-6xl mb-20 leading-tight">
-              A complete <em className="gradient-bronze-text not-italic">real estate</em> ecosystem.
+            <SectionEyebrow>The Ecosystem</SectionEyebrow>
+            <h2 className="font-display text-center text-5xl md:text-8xl text-white mb-24 tracking-tighter leading-none">
+              A Complete <em className="text-luxe-cyan italic font-serif">Architecture.</em>
             </h2>
           </Reveal>
 
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid md:grid-cols-2 gap-10">
             {services.map((s, i) => (
               <Reveal key={s.title} delay={i * 0.08}>
                 <Link
                   to={s.to}
-                  className="group block relative aspect-[16/11] rounded-md overflow-hidden hover-lift card-shadow"
+                  className="group block relative aspect-[16/11] rounded-[40px] overflow-hidden shadow-luxe border border-white/5"
                 >
                   <img
                     src={s.img}
                     alt={s.title}
                     loading="lazy"
-                    className="w-full h-full object-cover transition-transform duration-[2.2s] group-hover:scale-110 ken-burns"
+                    className="w-full h-full object-cover transition-transform duration-[2.2s] group-hover:scale-115 brightness-75 contrast-125"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/40 to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-8 md:p-10 text-cream">
-                    <p className="text-[11px] uppercase tracking-luxe text-bronze mb-3">
-                      0{i + 1} — Service
+                  <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/20 to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-10 md:p-14 text-white">
+                    <p className="text-[10px] uppercase tracking-[0.4em] text-luxe-cyan mb-4 font-bold">
+                      Module 0{i + 1}
                     </p>
-                    <h3 className="font-display text-3xl md:text-4xl mb-2">{s.title}</h3>
-                    <p className="text-cream/80 font-serif italic mb-3">{s.sub}</p>
-                    <p className="text-sm text-cream/70 max-w-md leading-relaxed">{s.blurb}</p>
-                    <span className="inline-flex items-center gap-2 mt-5 text-[11px] uppercase tracking-luxe text-bronze opacity-80 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-700">
-                      Discover →
+                    <h3 className="font-display text-4xl md:text-5xl mb-4 tracking-tight">
+                      {s.title}
+                    </h3>
+                    <p className="text-white/40 text-lg font-serif italic mb-6">{s.sub}</p>
+                    <p className="text-base text-white/50 max-w-md leading-relaxed font-light">
+                      {s.blurb}
+                    </p>
+                    <span className="inline-flex items-center gap-3 mt-8 text-[11px] uppercase tracking-[0.3em] text-luxe-cyan font-bold opacity-0 group-hover:opacity-100 group-hover:translate-x-2 transition-all duration-700">
+                      Explore Expertise →
                     </span>
                   </div>
                 </Link>
@@ -116,30 +122,31 @@ function ServicesPage() {
         </div>
       </section>
 
-      <section className="py-24 px-6 bg-ink text-cream">
-        <div className="mx-auto max-w-4xl text-center">
+      <section className="py-48 px-6 bg-ink text-white relative overflow-hidden">
+        <Section3DBackground opacity={0.3} />
+        <div className="mx-auto max-w-5xl text-center relative z-10">
           <Reveal>
-            <p className="text-bronze text-[11px] uppercase tracking-luxe mb-5">
-              Not sure where to begin?
+            <p className="text-luxe-cyan text-[11px] uppercase tracking-[0.5em] mb-8 font-bold">
+              Private Curated Intelligence
             </p>
-            <h2 className="font-display text-3xl md:text-5xl leading-tight">
-              Let our advisors curate the right{" "}
-              <em className="text-bronze font-serif italic not-italic">path for you.</em>
+            <h2 className="font-display text-4xl md:text-8xl leading-[0.9] text-white tracking-tighter mb-16">
+              Let our advisors architect <br />
+              <em className="text-luxe-cyan italic font-serif">your legacy path.</em>
             </h2>
-            <div className="mt-10 flex flex-wrap justify-center items-center gap-8">
-              <a href="tel:+919616061166" className="font-serif text-3xl text-bronze">
+            <div className="flex flex-col md:flex-row justify-center items-center gap-12">
+              <a
+                href="tel:+919616061166"
+                className="font-display text-4xl md:text-6xl text-white hover:text-luxe-cyan transition-colors tracking-tighter"
+              >
                 +91 96160-61166
               </a>
-              <Link
-                to="/contact"
-                className="rounded-full bronze-border px-7 py-3 text-[11px] uppercase tracking-luxe text-bronze hover:bg-bronze hover:text-cream transition-all"
-              >
-                Book a Consultation
+              <Link to="/contact" className="btn-magnetic btn-luxe px-12 py-5">
+                Secure Consultation
               </Link>
             </div>
           </Reveal>
         </div>
       </section>
-    </>
+    </div>
   );
 }

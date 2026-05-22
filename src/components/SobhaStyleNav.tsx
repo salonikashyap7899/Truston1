@@ -42,32 +42,33 @@ export function SobhaStyleNav() {
       <div className="mx-auto max-w-[1600px] px-6 md:px-12">
         <div className={`flex items-center justify-between transition-all duration-500 h-[140px]`}>
           {/* Left Nav */}
-          <nav className="hidden lg:flex items-center gap-8 flex-1">
+          <nav className="hidden lg:flex items-center gap-12 flex-1">
             {leftLinks.map((l) => (
               <Link
                 key={l.to}
                 to={l.to}
-                className={`text-[12px] font-semibold tracking-[0.15em] transition-colors duration-300 relative group text-white/90 hover:text-white`}
+                className={`text-[11px] font-bold tracking-[0.4em] transition-colors duration-300 relative group text-white/70 hover:text-luxe-cyan`}
               >
                 {l.label}
+                <span className="absolute -bottom-2 left-0 w-full h-px bg-luxe-cyan scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
               </Link>
             ))}
           </nav>
 
           {/* Logo - Centered */}
-          <div className="flex justify-center shrink-0 px-4">
-            <Link to="/" className="flex flex-col items-center">
+          <div className="flex justify-center shrink-0 px-8">
+            <Link to="/" className="flex flex-col items-center group">
               <img
                 src="/logo.png"
                 alt="Logo"
-                className={`w-auto h-32 object-contain brightness-110`}
+                className={`w-auto h-36 object-contain brightness-125 group-hover:scale-105 transition-transform duration-700`}
               />
             </Link>
           </div>
 
           {/* Right Nav */}
-          <div className="hidden lg:flex items-center justify-end gap-8 flex-1">
-            <nav className="flex items-center gap-8">
+          <div className="hidden lg:flex items-center justify-end gap-12 flex-1">
+            <nav className="flex items-center gap-12">
               {/* Services Dropdown */}
               <div
                 className="relative"
@@ -75,11 +76,11 @@ export function SobhaStyleNav() {
                 onMouseLeave={() => setSvcOpen(false)}
               >
                 <button
-                  className={`flex items-center gap-1 text-[12px] font-semibold tracking-[0.15em] transition-colors duration-300 relative group text-white/90 hover:text-white`}
+                  className={`flex items-center gap-2 text-[11px] font-bold tracking-[0.4em] transition-colors duration-300 relative group text-white/70 hover:text-luxe-cyan`}
                 >
                   SERVICES
                   <svg
-                    className={`w-3 h-3 transition-transform duration-200 ${
+                    className={`w-3 h-3 transition-transform duration-300 ${
                       svcOpen ? "rotate-180" : ""
                     }`}
                     fill="none"
@@ -89,33 +90,34 @@ export function SobhaStyleNav() {
                     <path
                       d="M1 1L5 6.5L9 1"
                       stroke="currentColor"
-                      strokeWidth="1.5"
+                      strokeWidth="2"
                       strokeLinecap="round"
                       strokeLinejoin="round"
                     />
                   </svg>
+                  <span className="absolute -bottom-2 left-0 w-full h-px bg-luxe-cyan scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
                 </button>
 
                 <div
-                  className={`absolute left-0 top-full w-56 bg-white shadow-2xl border border-gray-100 overflow-hidden transition-all duration-200 ${
+                  className={`absolute left-0 top-full w-64 bg-ink border border-white/10 shadow-luxe overflow-hidden transition-all duration-300 backdrop-blur-xl rounded-2xl ${
                     svcOpen
-                      ? "opacity-100 translate-y-0 pointer-events-auto"
-                      : "opacity-0 -translate-y-2 pointer-events-none"
+                      ? "opacity-100 translate-y-4 pointer-events-auto"
+                      : "opacity-0 translate-y-0 pointer-events-none"
                   }`}
                 >
                   <Link
                     to="/services"
-                    className="block px-5 py-3 text-[12px] font-semibold text-[var(--bronze)] border-b border-gray-100 hover:bg-gray-50 transition-colors"
+                    className="block px-6 py-4 text-[11px] font-bold text-luxe-cyan border-b border-white/5 hover:bg-white/5 transition-colors uppercase tracking-widest"
                   >
-                    All Services →
+                    All Expertise →
                   </Link>
                   {services.map((s) => (
                     <Link
                       key={s.to}
                       to={s.to}
-                      className="block px-5 py-3 text-[13px] text-gray-700 hover:text-[var(--bronze)] hover:bg-gray-50 border-b border-gray-50 transition-colors last:border-0"
+                      className="block px-6 py-4 text-[13px] text-white/50 hover:text-white hover:bg-white/5 border-b border-white/5 transition-colors last:border-0 font-light"
                       activeProps={{
-                        className: "text-[var(--bronze)] bg-gray-50",
+                        className: "text-luxe-cyan bg-white/5",
                       }}
                     >
                       {s.label}
@@ -128,9 +130,10 @@ export function SobhaStyleNav() {
                 <Link
                   key={l.to}
                   to={l.to}
-                  className={`text-[12px] font-semibold tracking-[0.15em] transition-colors duration-300 relative group text-white/90 hover:text-white`}
+                  className={`text-[11px] font-bold tracking-[0.4em] transition-colors duration-300 relative group text-white/70 hover:text-luxe-cyan`}
                 >
                   {l.label}
+                  <span className="absolute -bottom-2 left-0 w-full h-px bg-luxe-cyan scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
                 </Link>
               ))}
             </nav>
@@ -140,21 +143,21 @@ export function SobhaStyleNav() {
           <button
             aria-label="Open menu"
             onClick={() => setOpen((v) => !v)}
-            className="lg:hidden flex flex-col justify-center gap-[5px] w-9 h-9"
+            className="lg:hidden flex flex-col justify-center gap-[6px] w-10 h-10 items-end"
           >
             <span
-              className={`block w-6 h-[2px] transition-all duration-300 ${
-                open ? "rotate-45 translate-y-[7px]" : ""
+              className={`block w-8 h-[2px] transition-all duration-300 ${
+                open ? "rotate-45 translate-y-[8px]" : ""
               } bg-white`}
             />
             <span
-              className={`block w-6 h-[2px] transition-all duration-300 ${
+              className={`block w-5 h-[2px] transition-all duration-300 ${
                 open ? "opacity-0" : ""
               } bg-white`}
             />
             <span
-              className={`block w-6 h-[2px] transition-all duration-300 ${
-                open ? "-rotate-45 -translate-y-[7px]" : ""
+              className={`block w-8 h-[2px] transition-all duration-300 ${
+                open ? "-rotate-45 -translate-y-[8px]" : ""
               } bg-white`}
             />
           </button>
@@ -163,32 +166,32 @@ export function SobhaStyleNav() {
 
       {/* Mobile drawer */}
       <div
-        className={`lg:hidden bg-white border-t border-gray-100 overflow-hidden transition-all duration-400 ${
+        className={`lg:hidden bg-ink border-t border-white/5 overflow-hidden transition-all duration-500 ${
           open
-            ? "max-h-[85vh] opacity-100 overflow-y-auto"
+            ? "max-h-screen opacity-100 overflow-y-auto"
             : "max-h-0 opacity-0 pointer-events-none"
         }`}
       >
-        <nav className="flex flex-col px-6 py-4">
+        <nav className="flex flex-col px-10 py-12 gap-2">
           {leftLinks.map((l) => (
             <Link
               key={l.to}
               to={l.to}
-              className="py-4 text-[13px] font-bold tracking-widest text-gray-800 hover:text-[var(--bronze)] border-b border-gray-50 transition-colors"
-              activeProps={{ className: "text-[var(--bronze)]" }}
+              className="py-5 text-2xl font-display text-white border-b border-white/5 hover:text-luxe-cyan transition-colors"
+              activeProps={{ className: "text-luxe-cyan" }}
             >
               {l.label}
             </Link>
           ))}
 
-          <div className="border-b border-gray-100">
+          <div className="border-b border-white/5">
             <button
-              className="w-full flex items-center justify-between py-4 text-[13px] font-bold tracking-widest text-gray-800"
+              className="w-full flex items-center justify-between py-6 text-2xl font-display text-white"
               onClick={() => setMobileServicesOpen((v) => !v)}
             >
               SERVICES
               <svg
-                className={`w-4 h-4 transition-transform duration-200 ${
+                className={`w-5 h-5 transition-transform duration-300 ${
                   mobileServicesOpen ? "rotate-180" : ""
                 }`}
                 fill="none"
@@ -198,44 +201,53 @@ export function SobhaStyleNav() {
                 <path
                   d="M1 1L5 6.5L9 1"
                   stroke="currentColor"
-                  strokeWidth="1.5"
+                  strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 />
               </svg>
             </button>
-            {mobileServicesOpen && (
-              <div className="pb-2 pl-3 flex flex-col gap-1">
+            <motion.div
+              initial={false}
+              animate={{
+                height: mobileServicesOpen ? "auto" : 0,
+                opacity: mobileServicesOpen ? 1 : 0,
+              }}
+              className="overflow-hidden pl-6 flex flex-col gap-2"
+            >
+              <Link
+                to="/services"
+                className="py-3 text-[14px] text-luxe-cyan font-bold uppercase tracking-[0.4em]"
+              >
+                All Expertise →
+              </Link>
+              {services.map((s) => (
                 <Link
-                  to="/services"
-                  className="py-2 text-[13px] text-[var(--bronze)] font-semibold"
+                  key={s.to}
+                  to={s.to}
+                  className="py-3 text-[18px] text-white/40 hover:text-white transition-colors font-light"
+                  activeProps={{ className: "text-white" }}
                 >
-                  All Services →
+                  — {s.label}
                 </Link>
-                {services.map((s) => (
-                  <Link
-                    key={s.to}
-                    to={s.to}
-                    className="py-2 text-[13px] text-gray-600 hover:text-[var(--bronze)] transition-colors"
-                    activeProps={{ className: "text-[var(--bronze)]" }}
-                  >
-                    — {s.label}
-                  </Link>
-                ))}
-              </div>
-            )}
+              ))}
+            </motion.div>
           </div>
 
           {rightLinks.map((l) => (
             <Link
               key={l.to}
               to={l.to}
-              className="py-4 text-[13px] font-bold tracking-widest text-gray-800 hover:text-[var(--bronze)] border-b border-gray-50 last:border-0 transition-colors"
-              activeProps={{ className: "text-[var(--bronze)]" }}
+              className="py-5 text-2xl font-display text-white border-b border-white/5 last:border-0 hover:text-luxe-cyan transition-colors"
+              activeProps={{ className: "text-luxe-cyan" }}
             >
               {l.label}
             </Link>
           ))}
+
+          <Link to="/contact" className="mt-12 btn-magnetic btn-luxe py-5 rounded-2xl text-center">
+            Enquire Now
+          </Link>
         </nav>
       </div>
     </motion.header>

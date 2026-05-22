@@ -109,7 +109,7 @@ export function GalleryLightbox({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.35 }}
+          transition={{ duration: 0.4 }}
           onClick={() => {
             if (!isZoomed) onClose();
           }}
@@ -117,19 +117,19 @@ export function GalleryLightbox({
           {/* Backdrop */}
           <div
             className="absolute inset-0"
-            style={{ background: "rgba(6,8,18,0.97)", backdropFilter: "blur(16px)" }}
+            style={{ background: "rgba(5,7,15,0.98)", backdropFilter: "blur(24px)" }}
           />
 
           {/* ── Top bar ── */}
-          <div className="absolute top-0 inset-x-0 z-20 flex items-center justify-between px-6 py-5 pointer-events-none">
+          <div className="absolute top-0 inset-x-0 z-20 flex items-center justify-between px-8 py-8 pointer-events-none">
             {/* Counter */}
-            <span className="text-[10px] uppercase tracking-[0.4em] text-white/30 pointer-events-none">
-              {(index ?? 0) + 1} <span className="text-white/15">/ {items.length}</span>
+            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/30 pointer-events-none">
+              {(index ?? 0) + 1} <span className="text-white/10">/ {items.length}</span>
             </span>
 
             {/* Category badge */}
             {item.category && (
-              <span className="text-[9px] uppercase tracking-[0.5em] text-[var(--bronze)] border border-[var(--bronze)]/30 px-3 py-1 pointer-events-none">
+              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-luxe-cyan border border-luxe-cyan/30 px-4 py-1.5 pointer-events-none rounded-full">
                 {item.category}
               </span>
             )}
@@ -141,7 +141,7 @@ export function GalleryLightbox({
                 setIsZoomed(false);
                 onClose();
               }}
-              className="pointer-events-auto w-10 h-10 flex items-center justify-center border border-white/10 text-white/40 hover:text-white hover:border-white/30 transition-all duration-300 text-lg backdrop-blur-sm bg-white/5"
+              className="pointer-events-auto w-12 h-12 flex items-center justify-center border border-white/10 text-white/40 hover:text-white hover:border-white/30 transition-all duration-300 text-xl backdrop-blur-xl bg-white/5 rounded-full"
               aria-label="Close"
             >
               ✕
@@ -156,7 +156,7 @@ export function GalleryLightbox({
               setIsZoomed(false);
               onPrev();
             }}
-            className="absolute left-3 md:left-6 z-20 w-12 h-12 flex items-center justify-center border border-white/10 text-white/35 hover:text-white hover:border-[var(--bronze)] transition-all duration-300 text-xl backdrop-blur-sm bg-black/20"
+            className="absolute left-6 md:left-12 z-20 w-16 h-16 flex items-center justify-center border border-white/10 text-white/30 hover:text-luxe-cyan hover:border-luxe-cyan transition-all duration-500 text-2xl backdrop-blur-xl bg-white/5 rounded-full"
             aria-label="Previous"
           >
             ←
@@ -170,7 +170,7 @@ export function GalleryLightbox({
               setIsZoomed(false);
               onNext();
             }}
-            className="absolute right-3 md:right-6 z-20 w-12 h-12 flex items-center justify-center border border-white/10 text-white/35 hover:text-white hover:border-[var(--bronze)] transition-all duration-300 text-xl backdrop-blur-sm bg-black/20"
+            className="absolute right-6 md:right-12 z-20 w-16 h-16 flex items-center justify-center border border-white/10 text-white/30 hover:text-luxe-cyan hover:border-luxe-cyan transition-all duration-500 text-2xl backdrop-blur-xl bg-white/5 rounded-full"
             aria-label="Next"
           >
             →
@@ -178,7 +178,7 @@ export function GalleryLightbox({
 
           {/* ── Main image area ── */}
           <div
-            className="relative z-10 w-full h-full flex flex-col items-center justify-center px-16 md:px-28 pb-28 pt-16"
+            className="relative z-10 w-full h-full flex flex-col items-center justify-center px-20 md:px-32 pb-32 pt-20"
             onClick={(e) => e.stopPropagation()}
           >
             <AnimatePresence mode="wait" custom={direction}>
@@ -188,37 +188,37 @@ export function GalleryLightbox({
                 variants={{
                   enter: (d: number) => ({
                     opacity: 0,
-                    x: d * 80,
-                    scale: 0.93,
-                    filter: "blur(10px)",
+                    x: d * 100,
+                    scale: 0.9,
+                    filter: "blur(15px)",
                   }),
                   center: { opacity: 1, x: 0, scale: 1, filter: "blur(0px)" },
                   exit: (d: number) => ({
                     opacity: 0,
-                    x: d * -60,
-                    scale: 0.96,
-                    filter: "blur(6px)",
+                    x: d * -100,
+                    scale: 0.95,
+                    filter: "blur(10px)",
                   }),
                 }}
                 initial="enter"
                 animate="center"
                 exit="exit"
-                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 className="relative w-full flex flex-col items-center"
-                style={{ maxHeight: "calc(100vh - 180px)" }}
+                style={{ maxHeight: "calc(100vh - 200px)" }}
               >
                 {/* Swipeable / zoomable image wrapper */}
                 <motion.div
                   drag={isZoomed ? true : "x"}
                   dragConstraints={
                     isZoomed
-                      ? { left: -300, right: 300, top: -200, bottom: 200 }
+                      ? { left: -400, right: 400, top: -300, bottom: 300 }
                       : { left: 0, right: 0 }
                   }
-                  dragElastic={isZoomed ? 0.1 : 0.25}
+                  dragElastic={isZoomed ? 0.15 : 0.3}
                   onDragEnd={handleDragEnd}
                   style={{ x: isZoomed ? undefined : dragX, opacity: isZoomed ? 1 : imgOpacity }}
-                  className="relative overflow-hidden shadow-2xl cursor-grab active:cursor-grabbing"
+                  className="relative overflow-hidden shadow-[0_40px_100px_rgba(0,0,0,0.8)] cursor-grab active:cursor-grabbing rounded-3xl"
                   onDoubleClick={() => setIsZoomed((z) => !z)}
                 >
                   <motion.img
@@ -226,32 +226,35 @@ export function GalleryLightbox({
                     alt={item.title}
                     className="block w-auto select-none"
                     style={{
-                      maxHeight: "calc(100vh - 200px)",
+                      maxHeight: "calc(100vh - 220px)",
                       maxWidth: "100%",
                       objectFit: "contain",
                     }}
                     animate={{ scale: isZoomed ? 2 : 1 }}
-                    transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                    transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                     draggable={false}
                   />
 
                   {/* Animated scan line on open */}
                   <motion.div
-                    className="absolute inset-x-0 h-px pointer-events-none"
-                    style={{ background: "var(--bronze)" }}
+                    className="absolute inset-x-0 h-px pointer-events-none z-10"
+                    style={{
+                      background: "var(--luxe-cyan)",
+                      boxShadow: "0 0 15px var(--luxe-cyan)",
+                    }}
                     initial={{ top: "0%" }}
                     animate={{ top: "100%" }}
-                    transition={{ duration: 1.8, ease: "easeInOut", delay: 0.3 }}
+                    transition={{ duration: 2, ease: "easeInOut", delay: 0.4 }}
                   />
 
                   {/* Bottom gradient */}
-                  <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/70 to-transparent pointer-events-none" />
+                  <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
                 </motion.div>
 
                 {/* Zoom hint */}
                 {!isZoomed && (
-                  <p className="text-[9px] uppercase tracking-[0.4em] text-white/15 mt-3">
-                    Double-click to zoom · Swipe or drag to navigate
+                  <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/10 mt-6">
+                    Double-click to zoom · Swipe to navigate
                   </p>
                 )}
                 {isZoomed && (
@@ -259,7 +262,7 @@ export function GalleryLightbox({
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
                     onClick={() => setIsZoomed(false)}
-                    className="text-[9px] uppercase tracking-[0.4em] text-[var(--bronze)] mt-3 hover:text-white transition-colors"
+                    className="text-[10px] font-bold uppercase tracking-[0.4em] text-luxe-cyan mt-6 hover:text-white transition-colors"
                   >
                     ✕ Exit zoom
                   </motion.button>
@@ -267,17 +270,19 @@ export function GalleryLightbox({
 
                 {/* Caption */}
                 <motion.div
-                  initial={{ opacity: 0, y: 10 }}
+                  initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3, duration: 0.5 }}
-                  className="mt-5 flex items-end justify-between w-full max-w-3xl px-2"
+                  transition={{ delay: 0.4, duration: 0.6 }}
+                  className="mt-8 flex items-end justify-between w-full max-w-4xl px-4"
                 >
                   <div>
-                    <p className="text-[9px] uppercase tracking-[0.5em] text-[var(--bronze)] mb-1.5">
-                      TrustOn Prime Estate
+                    <p className="text-[10px] font-bold uppercase tracking-[0.6em] text-luxe-cyan mb-3">
+                      TrustOn Luxury Empire
                     </p>
-                    <h3 className="font-display text-2xl text-white leading-tight">{item.title}</h3>
-                    <p className="text-white/35 text-sm mt-1 italic">{item.sub}</p>
+                    <h3 className="font-display text-4xl text-white tracking-tight leading-none">
+                      {item.title}
+                    </h3>
+                    <p className="text-white/30 text-lg mt-2 font-light italic">{item.sub}</p>
                   </div>
                 </motion.div>
               </motion.div>
@@ -286,9 +291,9 @@ export function GalleryLightbox({
 
           {/* ── Thumbnail strip ── */}
           <div
-            className="absolute bottom-0 inset-x-0 z-20 flex justify-center gap-1.5 pb-4 pt-3 px-4 overflow-x-auto"
+            className="absolute bottom-0 inset-x-0 z-20 flex justify-center gap-3 pb-8 pt-6 px-6 overflow-x-auto"
             style={{
-              background: "linear-gradient(to top, rgba(6,8,18,0.95) 0%, transparent 100%)",
+              background: "linear-gradient(to top, rgba(5,7,15,0.98) 0%, transparent 100%)",
             }}
             onClick={(e) => e.stopPropagation()}
           >
@@ -296,10 +301,10 @@ export function GalleryLightbox({
               <button
                 key={i}
                 onClick={() => goTo(i)}
-                className={`flex-shrink-0 w-14 h-10 overflow-hidden transition-all duration-300 ${
+                className={`flex-shrink-0 w-20 h-14 overflow-hidden transition-all duration-500 rounded-lg ${
                   i === index
-                    ? "ring-2 ring-[var(--bronze)] opacity-100 scale-105"
-                    : "opacity-30 hover:opacity-60 scale-100"
+                    ? "ring-2 ring-luxe-cyan opacity-100 scale-110 shadow-[0_0_20px_rgba(100,200,255,0.4)]"
+                    : "opacity-20 hover:opacity-50 scale-100"
                 }`}
                 aria-label={`Go to image ${i + 1}`}
               >
