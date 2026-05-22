@@ -1,28 +1,29 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
-import { SwipeReveal } from "./TextReveal";
+import { ContainerScroll } from "./ui/container-scroll-animation";
 import { Section3DBackground } from "./Section3DBackground";
 
 export function WhoWeAreSection() {
-  const ref = useRef<HTMLDivElement>(null);
-
+  const sectionRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
-    target: ref,
+    target: sectionRef,
     offset: ["start end", "end start"],
   });
 
-  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
-  const glassY = useTransform(scrollYProgress, [0, 1], ["10%", "-10%"]);
+  const bgOpacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 0.1, 0.1, 0]);
 
   return (
     <section
-      ref={ref}
-      className="relative min-h-screen py-24 px-6 overflow-hidden flex items-center bg-background"
+      ref={sectionRef}
+      className="relative bg-background overflow-hidden"
     >
-      <Section3DBackground opacity={0.3} />
+      <Section3DBackground opacity={0.2} />
 
-      {/* Background Architectural Visual */}
-      <motion.div style={{ y: bgY, opacity: 0.1 }} className="absolute inset-0 z-0">
+      {/* Background Overlay */}
+      <motion.div
+        style={{ opacity: bgOpacity }}
+        className="absolute inset-0 z-0"
+      >
         <img
           src="https://truston.advrtisinguru.com/wp-content/uploads/2026/04/aerial-photography-chinese-city-600x800.jpg"
           alt="Architectural Visual"
@@ -31,118 +32,133 @@ export function WhoWeAreSection() {
         <div className="absolute inset-0 bg-gradient-to-b from-background via-ink/90 to-background" />
       </motion.div>
 
-      <div className="relative z-10 mx-auto max-w-7xl grid lg:grid-cols-2 gap-16 items-center">
-        {/* Left Side: Storytelling Content */}
-        <motion.div
-          initial={{ opacity: 0, x: -50 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <motion.div className="flex items-center gap-4 mb-8">
-            <span className="w-12 h-px bg-luxe-cyan" />
-            <span className="text-luxe-cyan text-xs uppercase tracking-[0.4em] font-medium">
-              The Heritage
-            </span>
-          </motion.div>
+      {/* Container Scroll Animation */}
+      <div className="relative z-10">
+        <ContainerScroll
+          titleComponent={
+            <div className="flex flex-col items-center">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8 }}
+                className="flex items-center gap-4 mb-6"
+              >
+                <span className="w-12 h-px bg-luxe-cyan" />
+                <span className="text-luxe-cyan text-xs uppercase tracking-[0.4em] font-medium">
+                  The Heritage
+                </span>
+                <span className="w-12 h-px bg-luxe-cyan" />
+              </motion.div>
 
-          <SwipeReveal>
-            <h2 className="typography-section-title text-white mb-8">
-              Architecting <br />
-              <em className="text-luxe-cyan italic font-serif">the Future</em> of Luxury
-            </h2>
-          </SwipeReveal>
-
-          <div className="space-y-6 text-white/80 text-lg font-light leading-relaxed max-w-xl">
-            <p>
-              TrustOn is not just a developer; we are creators of architectural masterpieces that
-              stand as a testament to futuristic luxury and timeless elegance.
-            </p>
-            <p>
-              Every project we undertake is a cinematic journey, blending world-class design with
-              meticulous craftsmanship to create environments that evoke emotion and inspire
-              greatness.
-            </p>
-          </div>
-
-          <motion.div
-            className="mt-12 flex gap-12"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-          >
-            <div>
-              <div className="text-3xl font-display text-luxe-cyan mb-1">Billion+</div>
-              <div className="text-[10px] uppercase tracking-widest text-white/40 font-bold">
-                Portfolio Value
-              </div>
-            </div>
-            <div>
-              <div className="text-3xl font-display text-luxe-cyan mb-1">Elite</div>
-              <div className="text-[10px] uppercase tracking-widest text-white/40 font-bold">
-                Client Network
-              </div>
-            </div>
-          </motion.div>
-        </motion.div>
-
-        {/* Right Side: Floating Glass Cards */}
-        <div className="relative h-[600px] flex items-center justify-center">
-          <motion.div
-            style={{ y: glassY }}
-            className="relative z-20 w-full max-w-md"
-            whileHover={{ rotateY: -10, rotateX: 10, scale: 1.02 }}
-            transition={{ type: "spring", stiffness: 300, damping: 20 }}
-          >
-            <div className="glass-premium p-12 rounded-3xl relative overflow-hidden group border border-white/10 shadow-2xl">
-              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-luxe-cyan to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-
-              <h3 className="font-display text-3xl text-white mb-6">Uncompromising Standards</h3>
-              <p className="text-white/60 text-sm leading-relaxed mb-8">
-                Our commitment to excellence is reflected in every detail, from the selection of
-                premium materials to the integration of cutting-edge technology.
+              <h2 className="text-4xl md:text-6xl lg:text-7xl font-serif text-white mb-4">
+                Architecting{" "}
+                <em className="text-luxe-cyan italic">the Future</em>
+              </h2>
+              <p className="text-white/60 text-lg md:text-xl max-w-2xl mx-auto mt-4 font-light">
+                TrustOn is not just a developer; we are creators of architectural
+                masterpieces that stand as a testament to futuristic luxury.
               </p>
-
-              <ul className="space-y-4">
-                {[
-                  "Cinematic Architectural Design",
-                  "Futuristic Smart Living",
-                  "Elite Gated Communities",
-                  "Sustainable Master Planning",
-                ].map((item, i) => (
-                  <motion.li
-                    key={i}
-                    initial={{ opacity: 0, x: 20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.2 + i * 0.1 }}
-                    className="flex items-center gap-3 text-white/80 text-xs font-medium uppercase tracking-widest"
-                  >
-                    <span className="w-1.5 h-1.5 rounded-full bg-luxe-cyan" />
-                    {item}
-                  </motion.li>
-                ))}
-              </ul>
             </div>
-          </motion.div>
+          }
+        >
+          {/* Content Card Inside the Scroll Animation */}
+          <div className="h-full w-full bg-gradient-to-br from-[var(--ink)] via-[#1a1a2e] to-[var(--ink)] p-6 md:p-10 flex flex-col justify-between overflow-auto">
+            {/* Top Section - Main Content */}
+            <div className="space-y-8">
+              <div className="grid md:grid-cols-2 gap-8">
+                {/* Left Column */}
+                <div className="space-y-6">
+                  <h3 className="text-2xl md:text-3xl font-display text-white">
+                    Uncompromising Standards
+                  </h3>
+                  <p className="text-white/50 text-sm md:text-base leading-relaxed">
+                    Our commitment to excellence is reflected in every detail,
+                    from the selection of premium materials to the integration
+                    of cutting-edge technology. Every project we undertake is a
+                    cinematic journey.
+                  </p>
 
-          {/* Decorative Elements */}
-          <motion.div
-            animate={{
-              y: [0, -30, 0],
-              rotate: [0, 5, 0],
-            }}
-            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute top-0 right-0 w-64 h-64 glass-premium rounded-full blur-3xl opacity-20 bg-luxe-cyan"
-          />
-          <motion.div
-            animate={{
-              y: [0, 30, 0],
-              rotate: [0, -5, 0],
-            }}
-            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute bottom-0 left-0 w-80 h-80 glass-premium rounded-full blur-3xl opacity-10 bg-luxe-blue"
-          />
-        </div>
+                  <ul className="space-y-3 mt-6">
+                    {[
+                      "Cinematic Architectural Design",
+                      "Futuristic Smart Living",
+                      "Elite Gated Communities",
+                      "Sustainable Master Planning",
+                    ].map((item, i) => (
+                      <motion.li
+                        key={i}
+                        initial={{ opacity: 0, x: -20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.3 + i * 0.1 }}
+                        className="flex items-center gap-3 text-white/70 text-xs md:text-sm font-medium uppercase tracking-widest"
+                      >
+                        <span className="w-2 h-2 rounded-full bg-luxe-cyan" />
+                        {item}
+                      </motion.li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Right Column - Stats */}
+                <div className="flex flex-col justify-center space-y-8">
+                  <div className="grid grid-cols-2 gap-6">
+                    {[
+                      { value: "Billion+", label: "Portfolio Value" },
+                      { value: "Elite", label: "Client Network" },
+                      { value: "150+", label: "Premium Plots" },
+                      { value: "100%", label: "Legal Clearance" },
+                    ].map((stat, i) => (
+                      <motion.div
+                        key={i}
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.4 + i * 0.1 }}
+                        className="bg-white/5 border border-white/10 rounded-xl p-4 md:p-6 text-center hover:border-luxe-cyan/30 transition-colors duration-500"
+                      >
+                        <div className="text-2xl md:text-3xl font-display text-luxe-cyan mb-2">
+                          {stat.value}
+                        </div>
+                        <div className="text-[9px] md:text-[10px] uppercase tracking-widest text-white/40 font-bold">
+                          {stat.label}
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Bottom Section - CTA */}
+            <div className="mt-8 pt-6 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
+              <p className="text-white/40 text-xs md:text-sm text-center md:text-left">
+                Creating environments that evoke emotion and inspire greatness.
+              </p>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-6 py-3 bg-luxe-cyan/10 border border-luxe-cyan/30 text-luxe-cyan text-xs uppercase tracking-widest font-bold rounded-full hover:bg-luxe-cyan/20 transition-colors duration-300 flex items-center gap-2"
+              >
+                Explore Legacy
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M17 8l4 4m0 0l-4 4m4-4H3"
+                  />
+                </svg>
+              </motion.button>
+            </div>
+          </div>
+        </ContainerScroll>
       </div>
     </section>
   );

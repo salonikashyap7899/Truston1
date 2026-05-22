@@ -27,8 +27,20 @@ export function IntroScreen() {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5, ease: "easeInOut" }}
         >
+          {/* Video Background */}
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover z-0"
+            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/VID-20260515-WA0026-bIjcfqcc0KU7HUhsoHZDzfjIC9TT1C.mp4"
+          />
+          {/* Dark overlay to ensure content visibility */}
+          <div className="absolute inset-0 bg-black/40 z-[1]" />
+
           {/* Animated vertical grid lines */}
-          <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute inset-0 overflow-hidden z-[2]">
             {[...Array(12)].map((_, i) => (
               <motion.div
                 key={i}
@@ -43,7 +55,7 @@ export function IntroScreen() {
 
           {/* Floating ambient luxury orbs */}
           <motion.div
-            className="absolute w-[600px] h-[600px] rounded-full pointer-events-none"
+            className="absolute w-[600px] h-[600px] rounded-full pointer-events-none z-[2]"
             style={{
               background: "radial-gradient(circle, var(--luxe-cyan), transparent 75%)",
               opacity: 0.15,
@@ -54,7 +66,7 @@ export function IntroScreen() {
             transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
           />
           <motion.div
-            className="absolute w-[450px] h-[450px] rounded-full pointer-events-none"
+            className="absolute w-[450px] h-[450px] rounded-full pointer-events-none z-[2]"
             style={{
               background: "radial-gradient(circle, var(--luxe-blue), transparent 75%)",
               opacity: 0.1,
@@ -67,7 +79,7 @@ export function IntroScreen() {
 
           {/* Dark curtain — slides UP to reveal the page beneath */}
           <motion.div
-            className="absolute inset-0 origin-bottom z-10"
+            className="absolute inset-0 origin-bottom z-[10]"
             style={{ backgroundColor: "var(--background)" }}
             initial={{ scaleY: 0 }}
             animate={phase === "exit" ? { scaleY: 1 } : { scaleY: 0 }}

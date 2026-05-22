@@ -16,7 +16,6 @@ import { Services3DSection } from "@/components/Services3DSection";
 import { IntroHighlightSection } from "@/components/IntroHighlightSection";
 import { Projects3DShowcase } from "@/components/Projects3DShowcase";
 import { PlotsAndStructures } from "@/components/PlotsAndStructures";
-import { LazyVideo } from "@/components/LazyVideo";
 import {
   FloatingImageScroll,
   SlideInOnScroll,
@@ -45,74 +44,63 @@ export const Route = createFileRoute("/")({
 function Index() {
   return (
     <div className="bg-background text-foreground overflow-x-hidden">
-      {/* Hero Section - Updated with Video and Dark Theme */}
-      <section className="relative min-h-screen flex flex-col bg-[var(--ink)] overflow-hidden">
-        {/* Background Intro Video */}
-        <div className="absolute inset-0 z-0">
-          <LazyVideo
-            sources={[
-              {
-                src: "/attached_assets/video_2026-05-18_21-38-20_1779120516824.mp4",
-                type: "video/mp4",
-              },
-            ]}
-            poster="/attached_assets/image_1779159211927.png"
-            alt="Intro Video"
-            className="w-full h-full"
-            mediaClassName="object-cover opacity-60 brightness-75"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-[var(--ink)]/90 via-transparent to-[var(--ink)]" />
+      {/* Hero Section with Video Background - Extended for scroll overlay */}
+      <section className="relative min-h-[160vh] bg-[var(--ink)] overflow-hidden">
+        {/* Fixed Background Intro Video */}
+        <div className="fixed inset-0 z-0">
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="w-full h-full object-cover"
+            style={{ opacity: 0.7 }}
+          >
+            <source
+              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Video%202026-05-22%20at%2010.03.14%20PM-QaTFrXd8V3Y9wkvJT59K1CIHabjmqa.mp4"
+              type="video/mp4"
+            />
+          </video>
+          <div className="absolute inset-0 bg-gradient-to-b from-[var(--ink)]/60 via-[var(--ink)]/30 to-[var(--ink)]/80" />
         </div>
 
-        {/* Hero Content */}
-        <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 pt-[140px]">
+        {/* Hero Content - Centered at top */}
+        <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1 }}
-            className="text-center mb-16"
+            transition={{ duration: 1.2, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="text-center"
           >
-            <h2 className="text-white/60 text-sm md:text-lg tracking-[0.3em] font-light mb-4">
-              Real-time availability status — updated for Phase 1 & 2
-            </h2>
+            <motion.h1
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1.5, delay: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="text-5xl md:text-7xl lg:text-8xl font-serif text-white mb-6 tracking-tight"
+            >
+              TRUST<span className="text-[#00BFFF]">ON</span>
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="text-white/60 text-sm md:text-lg tracking-[0.3em] font-light uppercase"
+            >
+              Billion Dollar Legacy
+            </motion.p>
           </motion.div>
 
-          {/* Status Grid - Darkened with glass-dark theme */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-7xl">
-            {[
-              { label: "TOTAL PLOTS", value: "150", sub: "EXQUISITE INVENTORY" },
-              { label: "SOLD", value: "45", sub: "EXCLUSIVELY OWNED" },
-              { label: "BOOKED", value: "20", sub: "IN RESERVATION" },
-              { label: "AVAILABLE", value: "85", sub: "AWAITING LEGACY" },
-            ].map((stat, i) => (
-              <motion.div
-                key={stat.label}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: i * 0.1 }}
-                className="bg-ink/80 backdrop-blur-xl border border-white/5 p-12 flex flex-col items-start justify-center shadow-2xl relative group overflow-hidden"
-              >
-                <div className="absolute top-0 left-0 w-1 h-full bg-luxe-cyan transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500" />
-                <p className="text-[10px] font-bold text-luxe-cyan tracking-[0.3em] mb-8">
-                  {stat.label}
-                </p>
-                <p className="text-7xl font-serif text-white mb-4">{stat.value}</p>
-                <p className="text-[9px] font-bold text-white/40 tracking-[0.2em]">
-                  {stat.sub}
-                </p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-
-        {/* Simple Footer/Scroll indicator */}
-        <div className="relative z-10 py-12 flex justify-center">
+          {/* Scroll indicator */}
           <motion.div
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1, y: [0, 10, 0] }}
+            transition={{ 
+              opacity: { duration: 1, delay: 1 },
+              y: { duration: 2, repeat: Infinity, ease: "easeInOut" }
+            }}
+            className="absolute bottom-12 w-12 h-12 rounded-full border border-white/20 flex items-center justify-center text-white/60 hover:border-[#00BFFF] hover:text-[#00BFFF] transition-colors duration-500 cursor-pointer"
           >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -122,10 +110,12 @@ function Index() {
             </svg>
           </motion.div>
         </div>
-      </section>
 
-      {/* 2. Who We Are Section (Numbered Grid) */}
-      <WhoWeAre />
+        {/* Who We Are Section - Overlays on video with scroll animation */}
+        <div className="relative z-10">
+          <WhoWeAre />
+        </div>
+      </section>
 
       {/* 3. Intro Highlight Section */}
       <IntroHighlightSection />

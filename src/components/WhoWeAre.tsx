@@ -1,72 +1,90 @@
-import { motion } from "framer-motion";
-import { Reveal, SectionEyebrow } from "./Reveal";
-
-const WHO_WE_ARE_ITEMS = [
-  {
-    number: "01",
-    title: "Our Heritage",
-    description: "Founded on the principles of integrity and architectural excellence, TrustOn has been at the forefront of luxury real estate development for over a decade.",
-  },
-  {
-    number: "02",
-    title: "Our Vision",
-    description: "We aim to redefine the landscape of premium living by blending futuristic technology with timeless design, creating spaces that inspire and endure.",
-  },
-  {
-    number: "03",
-    title: "Our Commitment",
-    description: "Every plot we sell and every structure we build is a testament to our commitment to quality, transparency, and the long-term success of our investors.",
-  },
-];
+"use client";
+import { ContainerScroll } from "./ui/container-scroll-animation";
 
 export function WhoWeAre() {
   return (
-    <section className="py-32 px-6 bg-[var(--ink)] relative overflow-hidden">
-      <div className="max-w-7xl mx-auto">
-        <div className="mb-20">
-          <SectionEyebrow>The TrustOn Legacy</SectionEyebrow>
-          <Reveal>
-            <h2 className="text-5xl md:text-7xl font-serif text-white mt-4 mb-8">
-              Who <em className="text-luxe-cyan italic">We Are</em>
-            </h2>
-          </Reveal>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-          {WHO_WE_ARE_ITEMS.map((item, i) => (
-            <motion.div
-              key={item.number}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: i * 0.2 }}
-              className="relative group pt-12 border-t border-white/10"
-            >
-              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-luxe-cyan to-transparent transform scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left" />
-
-              <span className="text-8xl font-serif text-white/5 absolute -top-4 left-0 select-none group-hover:text-luxe-cyan/10 transition-colors duration-500">
-                {item.number}
+    <div className="flex flex-col overflow-hidden bg-transparent">
+      <ContainerScroll
+        titleComponent={
+          <>
+            <p className="text-[10px] md:text-xs font-bold uppercase tracking-[0.4em] text-[#00BFFF] mb-4">
+              The TrustOn Legacy
+            </p>
+            <h1 className="text-4xl md:text-5xl lg:text-7xl font-serif text-white mb-4">
+              Who <em className="text-[#00BFFF] italic">We Are</em>
+            </h1>
+            <p className="text-white/50 text-sm md:text-lg max-w-2xl mx-auto font-light">
+              Building tomorrow&apos;s landmarks with integrity, innovation, and unwavering commitment to excellence.
+            </p>
+          </>
+        }
+      >
+        {/* Card Content - Who We Are Details */}
+        <div className="h-full w-full bg-[#0a0f14] p-6 md:p-10 flex flex-col justify-center">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+            {/* Item 1 */}
+            <div className="relative group">
+              <span className="text-7xl md:text-8xl font-serif text-white/5 absolute -top-2 -left-2 select-none group-hover:text-[#00BFFF]/10 transition-colors duration-500">
+                01
               </span>
-
-              <div className="relative z-10">
-                <h3 className="text-2xl font-display text-white mb-6 tracking-wide">
-                  {item.title}
+              <div className="relative z-10 pt-8 border-t border-white/10 group-hover:border-[#00BFFF]/30 transition-colors duration-500">
+                <h3 className="text-xl md:text-2xl font-display text-white mb-4 tracking-wide">
+                  Our Heritage
                 </h3>
-                <p className="text-white/40 leading-relaxed font-light">
-                  {item.description}
+                <p className="text-white/40 text-sm leading-relaxed font-light">
+                  Founded on principles of integrity and architectural excellence, TrustOn has been at the forefront of luxury real estate for over a decade.
                 </p>
               </div>
+            </div>
 
-              <div className="mt-8 flex items-center gap-2 text-luxe-cyan opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                <span className="text-[10px] font-bold uppercase tracking-[0.2em]">Explore More</span>
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
+            {/* Item 2 */}
+            <div className="relative group">
+              <span className="text-7xl md:text-8xl font-serif text-white/5 absolute -top-2 -left-2 select-none group-hover:text-[#00BFFF]/10 transition-colors duration-500">
+                02
+              </span>
+              <div className="relative z-10 pt-8 border-t border-white/10 group-hover:border-[#00BFFF]/30 transition-colors duration-500">
+                <h3 className="text-xl md:text-2xl font-display text-white mb-4 tracking-wide">
+                  Our Vision
+                </h3>
+                <p className="text-white/40 text-sm leading-relaxed font-light">
+                  We redefine premium living by blending futuristic technology with timeless design, creating spaces that inspire and endure.
+                </p>
               </div>
-            </motion.div>
-          ))}
+            </div>
+
+            {/* Item 3 */}
+            <div className="relative group">
+              <span className="text-7xl md:text-8xl font-serif text-white/5 absolute -top-2 -left-2 select-none group-hover:text-[#00BFFF]/10 transition-colors duration-500">
+                03
+              </span>
+              <div className="relative z-10 pt-8 border-t border-white/10 group-hover:border-[#00BFFF]/30 transition-colors duration-500">
+                <h3 className="text-xl md:text-2xl font-display text-white mb-4 tracking-wide">
+                  Our Commitment
+                </h3>
+                <p className="text-white/40 text-sm leading-relaxed font-light">
+                  Every plot we sell is a testament to our commitment to quality, transparency, and long-term investor success.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom Stats */}
+          <div className="mt-8 md:mt-12 flex justify-center gap-12 md:gap-20 pt-8 border-t border-white/5">
+            <div className="text-center">
+              <p className="text-3xl md:text-4xl font-serif text-[#00BFFF]">10+</p>
+              <p className="text-[10px] uppercase tracking-widest text-white/30 mt-2">Years Legacy</p>
+            </div>
+            <div className="text-center">
+              <p className="text-3xl md:text-4xl font-serif text-[#00BFFF]">150+</p>
+              <p className="text-[10px] uppercase tracking-widest text-white/30 mt-2">Premium Plots</p>
+            </div>
+            <div className="text-center">
+              <p className="text-3xl md:text-4xl font-serif text-[#00BFFF]">100%</p>
+              <p className="text-[10px] uppercase tracking-widest text-white/30 mt-2">Transparency</p>
+            </div>
+          </div>
         </div>
-      </div>
-    </section>
+      </ContainerScroll>
+    </div>
   );
 }
