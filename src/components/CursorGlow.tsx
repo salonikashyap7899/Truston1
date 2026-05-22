@@ -79,9 +79,11 @@ export function CursorGlow() {
       ix += (tx - ix) * iconEase;
       iy += (ty - iy) * iconEase;
 
-      const dy = isHovering ? iy - 11 : iy - 11;
+      // Center the 22px icon
+      const offsetX = -11;
+      const offsetY = -11;
 
-      icon.style.transform = `translate3d(${ix - 11}px, ${dy}px, 0) scale(${isHovering ? 1.4 : 1})`;
+      icon.style.transform = `translate3d(${ix + offsetX}px, ${iy + offsetY}px, 0) scale(${isHovering ? 1.4 : 1})`;
 
       // Ring follows with lag
       ring.style.left = `${rx}px`;
