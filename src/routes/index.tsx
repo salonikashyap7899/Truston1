@@ -22,6 +22,13 @@ import {
 } from "@/components/ScrollAnimations";
 import { LuxuryHighlights } from "@/components/LuxuryHighlights";
 import { Section3DBackground } from "@/components/Section3DBackground";
+import { IntroVideoModal } from "@/components/IntroVideoModal";
+import {
+  SmoothFadeIn,
+  SmoothSlideIn,
+  SmoothScale,
+  SmoothParallax,
+} from "@/components/SmoothTransitions";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -42,51 +49,92 @@ export const Route = createFileRoute("/")({
 function Index() {
   return (
     <div className="bg-background text-foreground overflow-x-hidden">
-      {/* Hero Section */}
-      <SobhaStyleHero
-        height="full"
-        title="Architecture of the Future"
-        subtitle="Experience the pinnacle of luxury living with Lucknow's premier developer."
-        poster={heroImg}
-        videoSources={[{ src: "/intro-video.mp4", type: "video/mp4" }]}
-        alt="Aerial view of Prime Estate township at twilight"
-      />
+      {/* Hero Section with Intro Video Modal */}
+      <div className="relative">
+        <SobhaStyleHero
+          height="full"
+          title="Architecture of the Future"
+          subtitle="Experience the pinnacle of luxury living with Lucknow's premier developer."
+          poster={heroImg}
+          videoSources={[{ src: "/intro-video.mp4", type: "video/mp4" }]}
+          alt="Aerial view of Prime Estate township at twilight"
+        />
+        
+        {/* Floating Intro Video Button - positioned over hero */}
+        <motion.div
+          className="absolute bottom-20 right-8 md:right-16 z-20"
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 2, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <IntroVideoModal
+            videoSrc="/intro-video.mp4"
+            poster={heroImg}
+            title="Experience Prime Estate"
+            description="Discover the architectural masterpiece that redefines luxury living in Lucknow. Watch our 4-minute tour of the township that's transforming real estate."
+          />
+        </motion.div>
+      </div>
 
       {/* Intro Highlight Section */}
-      <IntroHighlightSection />
+      <SmoothFadeIn duration={1}>
+        <IntroHighlightSection />
+      </SmoothFadeIn>
 
       {/* Who We Are Section */}
-      <WhoWeAreSection />
+      <SmoothSlideIn direction="up" duration={1.2}>
+        <WhoWeAreSection />
+      </SmoothSlideIn>
 
       {/* Futuristic Projects Showcase - This contains "Prime Estate" masterpieces */}
-      <Projects3DShowcase />
+      <SmoothFadeIn delay={0.2} duration={1}>
+        <Projects3DShowcase />
+      </SmoothFadeIn>
 
       {/* MOVING Luxury Highlights Section — after Prime state (Projects Showcase) */}
-      <LuxuryHighlights />
+      <SmoothParallax offset={40}>
+        <LuxuryHighlights />
+      </SmoothParallax>
 
       {/* Futuristic Services Section */}
-      <Services3DSection />
+      <SmoothScale delay={0.1} duration={1.2}>
+        <Services3DSection />
+      </SmoothScale>
 
       {/* Enhanced Developers Section with Floating Images */}
-      <EnhancedDevelopersSection />
+      <SmoothFadeIn duration={1} delay={0.1}>
+        <EnhancedDevelopersSection />
+      </SmoothFadeIn>
 
       {/* Enhanced Gallery Section */}
-      <EnhancedGallerySection />
+      <SmoothSlideIn direction="up" duration={1.2}>
+        <EnhancedGallerySection />
+      </SmoothSlideIn>
 
       {/* Wealth Calculator */}
-      <WealthCalculator />
+      <SmoothScale duration={1} delay={0.2}>
+        <WealthCalculator />
+      </SmoothScale>
 
       {/* Marquee */}
-      <Marquee />
+      <SmoothFadeIn duration={0.8}>
+        <Marquee />
+      </SmoothFadeIn>
 
       {/* Enhanced Stats Bar */}
-      <EnhancedStatsBar />
+      <SmoothFadeIn duration={1} delay={0.1}>
+        <EnhancedStatsBar />
+      </SmoothFadeIn>
 
       {/* Testimonials */}
-      <Testimonials />
+      <SmoothSlideIn direction="up" duration={1.2} delay={0.15}>
+        <Testimonials />
+      </SmoothSlideIn>
 
       {/* Call to Action Section */}
-      <CTASection />
+      <SmoothFadeIn duration={1} delay={0.2}>
+        <CTASection />
+      </SmoothFadeIn>
     </div>
   );
 }
@@ -187,7 +235,7 @@ function EnhancedStatsBar() {
   );
 }
 
-/* ── Call to Action Section ──────────────────────────────────────── */
+/* ── Call to Action Section ────────────���─────────────────────────── */
 function CTASection() {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({

@@ -146,34 +146,40 @@ export function SobhaStyleHero({
         </motion.div>
       </div>
 
-      {/* Side Decorative Lines */}
+      {/* Side Decorative Lines with smooth animation */}
       <motion.div
-        initial={{ scaleY: 0 }}
-        animate={{ scaleY: 1 }}
-        transition={{ duration: 2, delay: 1 }}
-        className="absolute left-8 top-1/4 bottom-1/4 w-px bg-white/10 hidden lg:block origin-top"
+        initial={{ scaleY: 0, opacity: 0 }}
+        animate={{ scaleY: 1, opacity: 1 }}
+        transition={{ duration: 2.5, delay: 1, ease: [0.16, 1, 0.3, 1] }}
+        className="absolute left-8 top-1/4 bottom-1/4 w-px bg-gradient-to-b from-transparent via-luxe-cyan/30 to-transparent hidden lg:block origin-top"
       />
       <motion.div
-        initial={{ scaleY: 0 }}
-        animate={{ scaleY: 1 }}
-        transition={{ duration: 2, delay: 1.2 }}
-        className="absolute right-8 top-1/4 bottom-1/4 w-px bg-white/10 hidden lg:block origin-bottom"
+        initial={{ scaleY: 0, opacity: 0 }}
+        animate={{ scaleY: 1, opacity: 1 }}
+        transition={{ duration: 2.5, delay: 1.2, ease: [0.16, 1, 0.3, 1] }}
+        className="absolute right-8 top-1/4 bottom-1/4 w-px bg-gradient-to-t from-transparent via-luxe-cyan/30 to-transparent hidden lg:block origin-bottom"
       />
 
-      {/* Scroll Indicator */}
+      {/* Scroll Indicator with smooth animation */}
       {isFull && (
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 2.5, duration: 1 }}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 2.5, duration: 1, ease: [0.16, 1, 0.3, 1] }}
           className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4"
         >
-          <span className="text-[9px] uppercase tracking-[0.4em] text-white/30">Scroll</span>
-          <div className="w-px h-12 bg-white/10 overflow-hidden relative">
+          <motion.span
+            animate={{ opacity: [0.5, 1, 0.5] }}
+            transition={{ duration: 2, repeat: Infinity }}
+            className="text-[9px] uppercase tracking-[0.4em] text-white/30"
+          >
+            Scroll
+          </motion.span>
+          <div className="w-px h-12 bg-gradient-to-b from-luxe-cyan/20 to-transparent overflow-hidden relative">
             <motion.div
               animate={{ y: ["-100%", "100%"] }}
-              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute inset-0 bg-luxe-cyan"
+              transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute inset-0 bg-gradient-to-b from-luxe-cyan via-luxe-cyan/50 to-transparent"
             />
           </div>
         </motion.div>

@@ -19,6 +19,7 @@ import { useEffect } from "react";
 
 import appCss from "../styles.css?url";
 import sobhaAnimationsCss from "../styles/sobha-animations.css?url";
+import smoothAnimationsCss from "../styles/smooth-animations.css?url";
 
 function NotFoundComponent() {
   return (
@@ -95,6 +96,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     links: [
       { rel: "stylesheet", href: appCss },
       { rel: "stylesheet", href: sobhaAnimationsCss },
+      { rel: "stylesheet", href: smoothAnimationsCss },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {

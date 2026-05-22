@@ -1,0 +1,342 @@
+/* ═══════════════════════════════════════════════════════════════ */
+/* SMOOTH ANIMATIONS & TRANSITIONS */
+/* ═══════════════════════════════════════════════════════════════ */
+
+/* Enhanced smooth easing function */
+:root {
+  --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-smooth-in: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-smooth-out: cubic-bezier(0.33, 0.66, 0.66, 1);
+  --ease-elastic: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Smooth page transitions */
+@keyframes page-fade-in {
+  from {
+    opacity: 0;
+    filter: blur(10px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+/* Smooth element reveals */
+@keyframes element-reveal {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Smooth text animation */
+@keyframes text-shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+/* Smooth glow effect */
+@keyframes smooth-glow-pulse {
+  0% {
+    box-shadow: 0 0 10px rgba(117, 219, 255, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(117, 219, 255, 0.6);
+  }
+  100% {
+    box-shadow: 0 0 10px rgba(117, 219, 255, 0.3);
+  }
+}
+
+/* Smooth scale animation */
+@keyframes scale-up-smooth {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Smooth rotate animation */
+@keyframes rotate-smooth {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Smooth line animation */
+@keyframes line-expand {
+  from {
+    width: 0;
+    opacity: 0;
+  }
+  to {
+    width: 100%;
+    opacity: 1;
+  }
+}
+
+/* Floating animation for buttons */
+@keyframes float-smooth {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* Smooth gradient animation */
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Smooth wave animation */
+@keyframes wave-smooth {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Smooth fade up on scroll */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Smooth fade left */
+@keyframes fade-left {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Smooth fade right */
+@keyframes fade-right {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Smooth blur in */
+@keyframes blur-in {
+  from {
+    opacity: 0;
+    filter: blur(15px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+/* Enhanced transition for links and buttons */
+a,
+button {
+  transition: all 0.4s var(--ease-smooth);
+}
+
+/* Smooth color transitions */
+.smooth-color {
+  transition: color 0.4s var(--ease-smooth), background-color 0.4s var(--ease-smooth);
+}
+
+/* Smooth transform transitions */
+.smooth-transform {
+  transition: transform 0.5s var(--ease-smooth);
+}
+
+/* Smooth opacity transitions */
+.smooth-opacity {
+  transition: opacity 0.4s var(--ease-smooth);
+}
+
+/* Smooth all transitions */
+.smooth-all {
+  transition: all 0.5s var(--ease-smooth);
+}
+
+/* Smooth hover effect base */
+.smooth-hover {
+  transition: all 0.3s var(--ease-smooth);
+}
+
+.smooth-hover:hover {
+  transform: translateY(-2px);
+}
+
+/* Smooth shadow transition */
+.smooth-shadow {
+  transition: box-shadow 0.4s var(--ease-smooth);
+}
+
+.smooth-shadow:hover {
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Floating elements */
+.float-smooth {
+  animation: float-smooth 3s ease-in-out infinite;
+}
+
+.float-smooth-slow {
+  animation: float-smooth 5s ease-in-out infinite;
+}
+
+/* Glow pulse effect */
+.glow-pulse {
+  animation: smooth-glow-pulse 2s ease-in-out infinite;
+}
+
+/* Scale up smooth */
+.scale-up-smooth {
+  animation: scale-up-smooth 0.6s var(--ease-smooth) forwards;
+}
+
+/* Smooth fade in */
+.fade-in-smooth {
+  animation: page-fade-in 0.8s var(--ease-smooth) forwards;
+}
+
+.fade-in-slow {
+  animation: page-fade-in 1.2s var(--ease-smooth) forwards;
+}
+
+/* Smooth fade up */
+.fade-up {
+  animation: fade-up 0.8s var(--ease-smooth) forwards;
+}
+
+/* Smooth fade left */
+.fade-left {
+  animation: fade-left 0.8s var(--ease-smooth) forwards;
+}
+
+/* Smooth fade right */
+.fade-right {
+  animation: fade-right 0.8s var(--ease-smooth) forwards;
+}
+
+/* Blur in smooth */
+.blur-in {
+  animation: blur-in 0.8s var(--ease-smooth) forwards;
+}
+
+/* Smooth text reveal */
+.text-reveal-smooth {
+  background: linear-gradient(
+    to right,
+    currentColor 0%,
+    currentColor 0%,
+    transparent 100%
+  );
+  background-size: 0 100%;
+  background-position: 0 0;
+  background-repeat: no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: text-shimmer 1.5s var(--ease-smooth) forwards;
+}
+
+/* Smooth underline animation */
+.underline-smooth {
+  position: relative;
+  padding-bottom: 4px;
+}
+
+.underline-smooth::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: currentColor;
+  transition: width 0.4s var(--ease-smooth);
+}
+
+.underline-smooth:hover::after {
+  width: 100%;
+}
+
+/* Smooth gradient background */
+.gradient-smooth {
+  background-size: 200% 200%;
+  animation: gradient-shift 6s ease-in-out infinite;
+}
+
+/* Smooth border animation */
+.border-smooth {
+  position: relative;
+}
+
+.border-smooth::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, transparent, currentColor, transparent);
+  opacity: 0;
+  transition: opacity 0.4s var(--ease-smooth);
+}
+
+.border-smooth:hover::before {
+  opacity: 1;
+}
+
+/* Mobile smooth scroll */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Smooth transitions for viewport changes */
+@media (max-width: 768px) {
+  .smooth-transition {
+    transition: all 0.3s var(--ease-smooth);
+  }
+}
