@@ -52,9 +52,9 @@
   --popover-foreground: oklch(0.98 0.004 240);
 
   /* Primary colors - PIVOTED TO BLUE */
-  --primary: oklch(0.55 0.15 250); /* Electric Blue */
+  --primary: #004aad; /* Truston Blue */
   --primary-foreground: oklch(0.98 0.004 240);
-  --luxe-blue: oklch(0.55 0.15 250);
+  --luxe-blue: #004aad;
   --luxe-cyan: oklch(0.75 0.12 220);
 
   --secondary: oklch(0.15 0.02 250);
@@ -69,7 +69,7 @@
   --input: oklch(1 0 0 / 0.05);
   --ring: oklch(0.55 0.15 250);
 
-  --gradient-luxe: linear-gradient(135deg, oklch(0.75 0.12 220), oklch(0.55 0.15 250));
+  --gradient-luxe: linear-gradient(135deg, oklch(0.75 0.12 220), #004aad);
   --gradient-overlay: linear-gradient(
     165deg,
     oklch(0.08 0.01 250 / 0.4) 0%,

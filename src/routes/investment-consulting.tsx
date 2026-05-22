@@ -90,13 +90,13 @@ function Page() {
           </>
         }
         subtitle="Buy smart. Invest with billion-dollar intelligence."
-        poster={lucknowImg}
+        poster="/attached_assets/image_1779159211927.png"
         alt="Investment Consulting"
       />
       <div className="relative z-10">
         <ServicePageBody
           content={content}
-          image="https://truston.advrtisinguru.com/wp-content/uploads/2026/04/jakub-zerdzicki-uZqmXxRLHmQ-unsplash-scaled.jpg"
+          image="/attached_assets/image_1779159211927.png"
         />
       </div>
     </div>

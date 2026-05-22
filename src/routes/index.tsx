@@ -43,19 +43,15 @@ function Index() {
   return (
     <div className="bg-background text-foreground overflow-x-hidden">
       {/* Hero Section - Reconstructed to match reference image 1779122082796.png */}
-      <section className="relative min-h-screen flex flex-col bg-[#0A192F] overflow-hidden">
-        {/* Background Video */}
+      <section className="relative min-h-screen flex flex-col bg-[var(--ink)] overflow-hidden">
+        {/* Background Image of 3D Building */}
         <div className="absolute inset-0 z-0">
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            className="w-full h-full object-cover opacity-50 mix-blend-overlay"
-          >
-            <source src="/intro-video.mp4" type="video/mp4" />
-          </video>
-          <div className="absolute inset-0 bg-gradient-to-b from-[#0A192F]/90 via-transparent to-[#0A192F]" />
+          <img
+            src="/attached_assets/image_1779159211927.png"
+            alt="Luxury 3D Building"
+            className="w-full h-full object-cover opacity-40 mix-blend-overlay ken-burns"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-[var(--ink)]/90 via-transparent to-[var(--ink)]" />
         </div>
 
         {/* Hero Content */}
@@ -90,8 +86,8 @@ function Index() {
                 <p className="text-[10px] font-bold text-luxe-cyan tracking-[0.3em] mb-8">
                   {stat.label}
                 </p>
-                <p className="text-7xl font-serif text-[#0A192F] mb-4">{stat.value}</p>
-                <p className="text-[9px] font-bold text-[#0A192F]/40 tracking-[0.2em]">
+                <p className="text-7xl font-serif text-[var(--ink)] mb-4">{stat.value}</p>
+                <p className="text-[9px] font-bold text-[var(--ink)]/40 tracking-[0.2em]">
                   {stat.sub}
                 </p>
               </motion.div>
@@ -122,7 +118,7 @@ function Index() {
       <IntroHighlightSection />
 
       {/* Philosophy Section - Adding dummy content for "empty space" */}
-      <section className="py-24 px-6 bg-[#0A192F] relative overflow-hidden">
+      <section className="py-24 px-6 bg-[var(--ink)] relative overflow-hidden">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
             <Reveal>

@@ -96,7 +96,7 @@ function Page() {
             </>
           }
           subtitle="Your vision, brought to life through futuristic 3D architectural storytelling."
-          poster={interiorImg}
+          poster="/attached_assets/image_1779159211927.png"
           alt="Architecture & Design"
         />
       </div>
@@ -104,7 +104,7 @@ function Page() {
       <div className="relative z-10">
         <ServicePageBody
           content={content}
-          image="https://truston.advrtisinguru.com/wp-content/uploads/2026/04/steve-driscoll-VsBl5PwVZpY-unsplash-scaled.jpg"
+          image="/attached_assets/image_1779159211927.png"
         />
       </div>
     </div>
