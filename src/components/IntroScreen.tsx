@@ -6,10 +6,10 @@ export function IntroScreen() {
   const [phase, setPhase] = useState<"logo" | "text" | "exit">("logo");
 
   useEffect(() => {
-    // Cinematic timing: total ~2.2 seconds
-    const t1 = setTimeout(() => setPhase("text"), 600); // tagline appears at 0.6s
-    const t2 = setTimeout(() => setPhase("exit"), 1600); // exit curtain at 1.6s
-    const t3 = setTimeout(() => setVisible(false), 2400); // unmount at 2.4s
+    // Cinematic but faster timing: total ~1.3 seconds
+    const t1 = setTimeout(() => setPhase("text"), 300); // tagline appears at 0.3s
+    const t2 = setTimeout(() => setPhase("exit"), 800); // exit curtain at 0.8s
+    const t3 = setTimeout(() => setVisible(false), 1300); // unmount at 1.3s
     return () => {
       clearTimeout(t1);
       clearTimeout(t2);
@@ -163,7 +163,7 @@ export function IntroScreen() {
                 className="absolute inset-y-0 left-0 bg-luxe-cyan shadow-[0_0_10px_var(--luxe-cyan)]"
                 initial={{ width: "0%" }}
                 animate={{ width: "100%" }}
-                transition={{ duration: 2, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+                transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
               />
             </div>
           </div>

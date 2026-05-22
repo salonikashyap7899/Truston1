@@ -11,7 +11,7 @@ const services = [
 
 const leftLinks = [
   { label: "ABOUT", to: "/about-us" },
-  { label: "COMMUNITIES", to: "/project" },
+  { label: "PROJECTS", to: "/project" },
   { label: "PROPERTIES", to: "/services" },
 ] as const;
 

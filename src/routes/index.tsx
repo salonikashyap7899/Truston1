@@ -34,7 +34,7 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: "TrustOn — Own the Ground. Build the Legacy." },
       { property: "og:image", content: heroImg },
     ],
-    links: [{ rel: "preload", as: "image", href: heroImg, fetchpriority: "high" } as never],
+    links: [{ rel: "preload", as: "image", href: heroImg, fetchPriority: "high" } as never],
   }),
   component: Index,
 });
