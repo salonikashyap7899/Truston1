@@ -11,9 +11,12 @@ import { WealthCalculator } from "@/components/WealthCalculator";
 import { EnhancedDevelopersSection } from "@/components/DevelopersSection.Enhanced";
 import { EnhancedGallerySection } from "@/components/GallerySection.Enhanced";
 import { WhoWeAreSection } from "@/components/WhoWeAreSection";
+import { WhoWeAre } from "@/components/WhoWeAre";
 import { Services3DSection } from "@/components/Services3DSection";
 import { IntroHighlightSection } from "@/components/IntroHighlightSection";
 import { Projects3DShowcase } from "@/components/Projects3DShowcase";
+import { PlotsAndStructures } from "@/components/PlotsAndStructures";
+import { LazyVideo } from "@/components/LazyVideo";
 import {
   FloatingImageScroll,
   SlideInOnScroll,
@@ -42,14 +45,21 @@ export const Route = createFileRoute("/")({
 function Index() {
   return (
     <div className="bg-background text-foreground overflow-x-hidden">
-      {/* Hero Section - Reconstructed to match reference image 1779122082796.png */}
+      {/* Hero Section - Updated with Video and Dark Theme */}
       <section className="relative min-h-screen flex flex-col bg-[var(--ink)] overflow-hidden">
-        {/* Background Image of 3D Building */}
+        {/* Background Intro Video */}
         <div className="absolute inset-0 z-0">
-          <img
-            src="/attached_assets/image_1779159211927.png"
-            alt="Luxury 3D Building"
-            className="w-full h-full object-cover opacity-40 mix-blend-overlay ken-burns"
+          <LazyVideo
+            sources={[
+              {
+                src: "/attached_assets/video_2026-05-18_21-38-20_1779120516824.mp4",
+                type: "video/mp4",
+              },
+            ]}
+            poster="/attached_assets/image_1779159211927.png"
+            alt="Intro Video"
+            className="w-full h-full"
+            mediaClassName="object-cover opacity-60 brightness-75"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-[var(--ink)]/90 via-transparent to-[var(--ink)]" />
         </div>
@@ -67,7 +77,7 @@ function Index() {
             </h2>
           </motion.div>
 
-          {/* Status Grid */}
+          {/* Status Grid - Darkened with glass-dark theme */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-7xl">
             {[
               { label: "TOTAL PLOTS", value: "150", sub: "EXQUISITE INVENTORY" },
@@ -80,14 +90,14 @@ function Index() {
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.6, delay: i * 0.1 }}
-                className="bg-white/95 p-12 flex flex-col items-start justify-center shadow-2xl relative group overflow-hidden"
+                className="bg-ink/80 backdrop-blur-xl border border-white/5 p-12 flex flex-col items-start justify-center shadow-2xl relative group overflow-hidden"
               >
                 <div className="absolute top-0 left-0 w-1 h-full bg-luxe-cyan transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500" />
                 <p className="text-[10px] font-bold text-luxe-cyan tracking-[0.3em] mb-8">
                   {stat.label}
                 </p>
-                <p className="text-7xl font-serif text-[var(--ink)] mb-4">{stat.value}</p>
-                <p className="text-[9px] font-bold text-[var(--ink)]/40 tracking-[0.2em]">
+                <p className="text-7xl font-serif text-white mb-4">{stat.value}</p>
+                <p className="text-[9px] font-bold text-white/40 tracking-[0.2em]">
                   {stat.sub}
                 </p>
               </motion.div>
@@ -114,12 +124,19 @@ function Index() {
         </div>
       </section>
 
-      {/* Intro Highlight Section */}
+      {/* 2. Who We Are Section (Numbered Grid) */}
+      <WhoWeAre />
+
+      {/* 3. Intro Highlight Section */}
       <IntroHighlightSection />
 
-      {/* Philosophy Section - Adding dummy content for "empty space" */}
+      {/* 4. Building Plots & Structures */}
+      <PlotsAndStructures />
+
+      {/* Philosophy Section - Darkened and Refined */}
       <section className="py-24 px-6 bg-[var(--ink)] relative overflow-hidden">
-        <div className="max-w-7xl mx-auto">
+        <Section3DBackground opacity={0.15} />
+        <div className="max-w-7xl mx-auto relative z-10">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
             <Reveal>
               <h2 className="text-4xl md:text-6xl font-serif text-white mb-8 leading-tight">
@@ -149,9 +166,9 @@ function Index() {
                 initial={{ opacity: 0, scale: 0.8 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 1 }}
-                className="aspect-square bg-gradient-to-br from-luxe-cyan/20 to-transparent rounded-full flex items-center justify-center border border-white/5"
+                className="aspect-square bg-gradient-to-br from-luxe-cyan/10 to-transparent rounded-full flex items-center justify-center border border-white/5"
               >
-                <div className="w-3/4 h-3/4 bg-white/5 backdrop-blur-3xl rounded-full border border-white/10 flex items-center justify-center text-white/20 text-9xl font-serif">
+                <div className="w-3/4 h-3/4 bg-white/5 backdrop-blur-3xl rounded-full border border-white/10 flex items-center justify-center text-white/10 text-9xl font-serif">
                   T
                 </div>
               </motion.div>
@@ -159,9 +176,6 @@ function Index() {
           </div>
         </div>
       </section>
-
-      {/* Who We Are Section */}
-      <WhoWeAreSection />
 
       {/* Futuristic Projects Showcase - This contains "Prime Estate" masterpieces */}
       <Projects3DShowcase />
