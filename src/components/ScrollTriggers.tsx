@@ -1,5 +1,5 @@
 import React, { ReactNode, useRef } from "react";
-import { motion, useScroll, useTransform, useInView } from "framer-motion";
+import { motion, useScroll, useTransform, useInView, MotionValue } from "framer-motion";
 
 export const ScrollMorphingText = ({
   text,
@@ -13,21 +13,35 @@ export const ScrollMorphingText = ({
   return (
     <div ref={ref} className={className}>
       {text.split("").map((char, i) => (
-        <motion.span
+        <MorphingChar
           key={i}
-          style={{
-            opacity: useTransform(
-              scrollYProgress,
-              [i / text.length, (i + 1) / text.length],
-              [0.3, 1],
-            ),
-          }}
-          className="inline-block"
-        >
-          {char}
-        </motion.span>
+          char={char}
+          i={i}
+          total={text.length}
+          scrollYProgress={scrollYProgress}
+        />
       ))}
     </div>
+  );
+};
+
+const MorphingChar = ({
+  char,
+  i,
+  total,
+  scrollYProgress,
+}: {
+  char: string;
+  i: number;
+  total: number;
+  scrollYProgress: MotionValue<number>;
+}) => {
+  const opacity = useTransform(scrollYProgress, [i / total, (i + 1) / total], [0.3, 1]);
+
+  return (
+    <motion.span style={{ opacity }} className="inline-block">
+      {char}
+    </motion.span>
   );
 };
 

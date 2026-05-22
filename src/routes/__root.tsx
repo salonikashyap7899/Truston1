@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useLocation,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
@@ -126,6 +127,9 @@ function RootShell({ children }: { children: React.ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const location = useLocation();
+  const isAboutPage = location.pathname === "/about-us";
+  const isHomePage = location.pathname === "/";
 
   useEffect(() => {
     const lenis = new Lenis({
@@ -151,11 +155,11 @@ function RootComponent() {
       <ScrollProgressBar />
       <CursorGlow />
       <IntroScreen />
-      <SobhaStyleNav />
+      {!isAboutPage && !isHomePage && <SobhaStyleNav />}
       <main className="min-h-screen">
         <Outlet />
       </main>
-      <SiteFooter />
+      {!isAboutPage && !isHomePage && <SiteFooter />}
       <WhatsAppButton />
     </QueryClientProvider>
   );

@@ -7,7 +7,7 @@
 **File**: `src/routes/index.tsx`
 
 ```tsx
-import { AdvancedLuxury3D } from '@/components/AdvancedLuxury3D';
+import { AdvancedLuxury3D } from "@/components/AdvancedLuxury3D";
 
 // In your SobhaStyleHero component, add:
 function Index() {
@@ -33,8 +33,8 @@ function Index() {
 ### 2. Create Premium Property Cards
 
 ```tsx
-import { InteractiveFlipCard, FlipCardGrid } from '@/components/InteractiveFlipCard';
-import { NeonGlowButton } from '@/components/PremiumButtons';
+import { InteractiveFlipCard, FlipCardGrid } from "@/components/InteractiveFlipCard";
+import { NeonGlowButton } from "@/components/PremiumButtons";
 
 function PropertyShowcase() {
   const properties = [
@@ -63,7 +63,7 @@ function PropertyShowcase() {
 ### 3. Enhanced "Who We Are" Section
 
 ```tsx
-import { PremiumGlassCard, ScrollFloat, StaggerContainer } from '@/components/PremiumAnimations';
+import { PremiumGlassCard, ScrollFloat, StaggerContainer } from "@/components/PremiumAnimations";
 
 function EnhancedWhoWeAre() {
   return (
@@ -84,7 +84,7 @@ function EnhancedWhoWeAre() {
 ### 4. Testimonials with Animations
 
 ```tsx
-import { StaggerContainer, HoverLift } from '@/components/PremiumAnimations';
+import { StaggerContainer, HoverLift } from "@/components/PremiumAnimations";
 
 function TestimonialsSection() {
   const testimonials = [
@@ -109,19 +109,19 @@ function TestimonialsSection() {
 ### 5. CTA Section with Premium Effects
 
 ```tsx
-import { NeonGlowButton, RippleButton } from '@/components/PremiumButtons';
-import { MorphingBlob } from '@/components/PremiumAnimations';
+import { NeonGlowButton, RippleButton } from "@/components/PremiumButtons";
+import { MorphingBlob } from "@/components/PremiumAnimations";
 
 function CTASection() {
   return (
     <section className="relative py-24 overflow-hidden">
       <MorphingBlob className="top-0 left-0" size="w-96 h-96" />
       <MorphingBlob className="bottom-0 right-0" size="w-72 h-72" />
-      
+
       <div className="relative z-10 max-w-2xl mx-auto text-center">
         <h2 className="text-4xl font-bold text-white mb-6">Ready to Own Your Ground?</h2>
         <p className="text-white/80 mb-8">Invest in legacy. Build your future.</p>
-        
+
         <div className="flex gap-4 justify-center">
           <NeonGlowButton>Schedule Tour</NeonGlowButton>
           <RippleButton>Learn More</RippleButton>
@@ -135,7 +135,7 @@ function CTASection() {
 ### 6. Gallery with Scroll Effects
 
 ```tsx
-import { ScrollRotate, ScrollScale } from '@/components/PremiumAnimations';
+import { ScrollRotate, ScrollScale } from "@/components/PremiumAnimations";
 
 function EnhancedGallery() {
   const images = [
@@ -167,22 +167,14 @@ function ContactForm() {
     <form className="space-y-6 max-w-xl mx-auto">
       <div>
         <label className="block text-sm font-semibold text-white mb-2">Name</label>
-        <input 
-          type="text" 
-          className="input-luxury w-full" 
-          placeholder="Your name"
-        />
+        <input type="text" className="input-luxury w-full" placeholder="Your name" />
       </div>
-      
+
       <div>
         <label className="block text-sm font-semibold text-white mb-2">Email</label>
-        <input 
-          type="email" 
-          className="input-luxury w-full" 
-          placeholder="your@email.com"
-        />
+        <input type="email" className="input-luxury w-full" placeholder="your@email.com" />
       </div>
-      
+
       <NeonGlowButton className="w-full">Send Message</NeonGlowButton>
     </form>
   );
@@ -192,7 +184,7 @@ function ContactForm() {
 ### 8. Statistics Section with Counters
 
 ```tsx
-import { ScrollCounter } from '@/components/PremiumAnimations';
+import { ScrollCounter } from "@/components/PremiumAnimations";
 
 function StatisticsSection() {
   const stats = [
@@ -205,9 +197,7 @@ function StatisticsSection() {
     <div className="grid grid-cols-3 gap-8 py-16">
       {stats.map((stat, i) => (
         <div key={i} className="text-center">
-          <h3 className="text-4xl font-bold text-luxury mb-2">
-            {stat.value}+
-          </h3>
+          <h3 className="text-4xl font-bold text-luxury mb-2">{stat.value}+</h3>
           <p className="text-white/60">{stat.label}</p>
         </div>
       ))}
@@ -219,46 +209,54 @@ function StatisticsSection() {
 ## CSS Classes Quick Reference
 
 ### Apply Glass Morphism
+
 ```jsx
 <div className="glass-premium p-8 rounded-3xl">Content</div>
 ```
 
 ### Add Luxury Shadow
+
 ```jsx
 <div className="shadow-luxury-lg rounded-2xl">Elevated Content</div>
 ```
 
 ### Glowing Effects
+
 ```jsx
 <div className="glow-neon">Neon Glowing Element</div>
 <div className="glow-bronze-bright">Bronze Glow</div>
 ```
 
 ### Text Effects
+
 ```jsx
 <p className="text-luxury">Luxury gradient text</p>
 <p className="text-luxury-shimmer">Shimmer effect text</p>
 ```
 
 ### Hover Effects
+
 ```jsx
 <div className="hover-luxury">Hover for lift effect</div>
 <div className="hover-luxury-lift">More dramatic lift</div>
 ```
 
 ### Floating Animations
+
 ```jsx
 <div className="float-luxury">Gently floating element</div>
 <div className="glimmer">Glimmering effect</div>
 ```
 
 ### Custom Borders
+
 ```jsx
 <div className="border-luxury p-6 rounded-xl">Gradient border</div>
 <div className="border-luxury-glow p-6 rounded-xl">Glowing border</div>
 ```
 
 ### Blur Effects
+
 ```jsx
 <div className="blur-premium-md">Medium blur</div>
 <div className="blur-premium-2xl">Maximum blur</div>
@@ -267,6 +265,7 @@ function StatisticsSection() {
 ## Animation Timeline
 
 All animations are:
+
 - **Performance optimized** with GPU acceleration
 - **Accessible** with prefers-reduced-motion support
 - **Mobile responsive** with adaptive settings
@@ -275,23 +274,26 @@ All animations are:
 ## Customization
 
 ### Override Colors
+
 ```css
 :root {
   --bronze: oklch(0.55 0.15 30); /* Change primary color */
-  --gold: oklch(0.65 0.20 65);   /* Change accent */
-  --glass-blur: 16px;            /* Adjust blur */
+  --gold: oklch(0.65 0.2 65); /* Change accent */
+  --glass-blur: 16px; /* Adjust blur */
 }
 ```
 
 ### Adjust Animation Speed
+
 Add to your component:
+
 ```tsx
 const variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { duration: 0.8 } // Customize here
-  }
+    transition: { duration: 0.8 }, // Customize here
+  },
 };
 ```
 
@@ -307,16 +309,19 @@ const variants = {
 ## Troubleshooting
 
 ### 3D Not Rendering?
+
 - Check WebGL support in browser
 - Verify Three.js is installed
 - Check canvas container has dimensions
 
 ### Effects Not Animating?
+
 - Verify Framer Motion import
 - Check prefers-reduced-motion setting
 - Ensure elements are in viewport
 
 ### Performance Issues?
+
 - Reduce particle count in 3D scenes
 - Simplify animations on mobile
 - Use will-change CSS property sparingly
@@ -324,6 +329,7 @@ const variants = {
 ## Support
 
 For more examples, check:
+
 - `PREMIUM_ANIMATIONS_GUIDE.md`
 - Individual component files in `src/components/`
 - CSS definitions in `src/styles/luxury-premium.css`

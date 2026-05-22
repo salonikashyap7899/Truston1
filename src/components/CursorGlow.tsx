@@ -71,13 +71,16 @@ export function CursorGlow() {
     };
 
     const loop = () => {
-      rx += (tx - rx) * 0.12;
-      ry += (ty - ry) * 0.12;
+      // Smoother "Liquid" Physics for Ring
+      rx += (tx - rx) * 0.075;
+      ry += (ty - ry) * 0.075;
 
-      // Icon follows precisely
-      if (!isHovering) {
-        icon.style.transform = `translate3d(${ix - 11}px, ${iy - 22}px, 0) scale(1)`;
-      }
+      // Icon follows with very slight damping for premium feel
+      const dx = ix - 11;
+      const dy = isHovering ? iy - 11 : iy - 22;
+
+      icon.style.transform = `translate3d(${ix - 11}px, ${dy}px, 0) scale(${isHovering ? 1.4 : 1})`;
+
       // Ring follows with lag
       ring.style.left = `${rx}px`;
       ring.style.top = `${ry}px`;

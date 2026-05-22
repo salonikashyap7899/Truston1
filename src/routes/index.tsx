@@ -42,15 +42,110 @@ export const Route = createFileRoute("/")({
 function Index() {
   return (
     <div className="bg-background text-foreground overflow-x-hidden">
-      {/* Hero Section */}
-      <SobhaStyleHero
-        height="full"
-        title="Architecture of the Future"
-        subtitle="Experience the pinnacle of luxury living with Lucknow's premier developer."
-        poster={heroImg}
-        videoSources={[{ src: "/intro-video.mp4", type: "video/mp4" }]}
-        alt="Aerial view of Prime Estate township at twilight"
-      />
+      {/* Hero Section - Reconstructed to match reference image 1779122082796.png */}
+      <section className="relative min-h-screen flex flex-col bg-[#0A192F] overflow-hidden">
+        {/* Background Image/Video */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src={heroImg}
+            alt="Hero Background"
+            className="w-full h-full object-cover opacity-40 mix-blend-overlay"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0A192F]/80 via-transparent to-[#0A192F]" />
+        </div>
+
+        {/* Custom Luxury Header */}
+        <header className="relative z-20 w-full px-6 md:px-12 py-8">
+          <div className="max-w-[1600px] mx-auto bg-white/10 backdrop-blur-md rounded-full px-8 py-4 flex items-center justify-between border border-white/10">
+            {/* Logo */}
+            <div className="flex items-center gap-3">
+              <div className="text-white font-bold tracking-tighter flex flex-col leading-none">
+                <span className="text-2xl tracking-widest">TRUSTON</span>
+                <span className="text-[10px] text-luxe-cyan tracking-[0.3em] font-medium">
+                  PREMIUM ESTATE
+                </span>
+              </div>
+            </div>
+
+            {/* Nav */}
+            <nav className="hidden md:flex items-center gap-8">
+              {["HOME", "ABOUT", "PROJECT", "SERVICES", "PARTNER", "CONTACT"].map((item) => (
+                <Link
+                  key={item}
+                  to={item === "HOME" ? "/" : `/${item.toLowerCase().replace(" ", "-")}`}
+                  className="text-[11px] font-bold text-white/70 hover:text-luxe-cyan tracking-[0.2em] transition-colors"
+                >
+                  {item}
+                </Link>
+              ))}
+            </nav>
+
+            {/* CTA */}
+            <button className="bg-black text-white text-[10px] font-bold tracking-[0.2em] px-8 py-3 rounded-full hover:bg-luxe-cyan hover:text-black transition-all">
+              ENQUIRE NOW
+            </button>
+          </div>
+        </header>
+
+        {/* Hero Content */}
+        <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-white/60 text-sm md:text-lg tracking-[0.3em] font-light mb-4">
+              Real-time availability status — updated for Phase 1 & 2
+            </h2>
+          </motion.div>
+
+          {/* Status Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-7xl">
+            {[
+              { label: "TOTAL PLOTS", value: "150", sub: "EXQUISITE INVENTORY" },
+              { label: "SOLD", value: "45", sub: "EXCLUSIVELY OWNED" },
+              { label: "BOOKED", value: "20", sub: "IN RESERVATION" },
+              { label: "AVAILABLE", value: "85", sub: "AWAITING LEGACY" },
+            ].map((stat, i) => (
+              <motion.div
+                key={stat.label}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, delay: i * 0.1 }}
+                className="bg-white/95 p-12 flex flex-col items-start justify-center shadow-2xl relative group overflow-hidden"
+              >
+                <div className="absolute top-0 left-0 w-1 h-full bg-luxe-cyan transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500" />
+                <p className="text-[10px] font-bold text-luxe-cyan tracking-[0.3em] mb-8">
+                  {stat.label}
+                </p>
+                <p className="text-7xl font-serif text-[#0A192F] mb-4">{stat.value}</p>
+                <p className="text-[9px] font-bold text-[#0A192F]/40 tracking-[0.2em]">
+                  {stat.sub}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        {/* Simple Footer/Scroll indicator */}
+        <div className="relative z-10 py-12 flex justify-center">
+          <motion.div
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 2, repeat: Infinity }}
+            className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M19 14l-7 7m0 0l-7-7m7 7V3"
+              />
+            </svg>
+          </motion.div>
+        </div>
+      </section>
 
       {/* Intro Highlight Section */}
       <IntroHighlightSection />

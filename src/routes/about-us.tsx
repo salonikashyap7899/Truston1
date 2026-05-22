@@ -1,252 +1,273 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { InnerHero } from "@/components/InnerHero";
-import { Reveal, SectionEyebrow } from "@/components/Reveal";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 import interiorImg from "@/assets/luxury-interior.jpg";
-import projectImg from "@/assets/project-prime.jpg";
-import { Section3DBackground } from "@/components/Section3DBackground";
+import natureImg from "@/assets/hero-estate.jpg";
+import qualityImg from "@/assets/project-prime.jpg";
 
 export const Route = createFileRoute("/about-us")({
   head: () => ({
     meta: [
-      { title: "About — TrustOn Developers" },
+      { title: "About Us — TrustOn Premium Estate" },
       {
         name: "description",
-        content:
-          "Trusted real-estate development in Lucknow — transparency, quality, and long-term vision behind Prime Estate.",
+        content: "Experience the ultimate luxury lifestyle with TrustOn Premium Estate.",
       },
-      { property: "og:title", content: "About TrustOn Developers" },
-      { property: "og:description", content: "The story behind Prime Estate." },
     ],
   }),
   component: AboutPage,
 });
 
-const services = [
-  {
-    title: "Plot Selling",
-    to: "/plot-selling",
-  },
-  {
-    title: "Architecture & Design",
-    to: "/architecture-design",
-  },
-  {
-    title: "Construction & Build",
-    to: "/construction-build",
-  },
-  {
-    title: "Investment Consulting",
-    to: "/investment-consulting",
-  },
-] as const;
-
 function AboutPage() {
   return (
-    <div className="bg-background text-foreground overflow-hidden">
-      <InnerHero
-        eyebrow="The Institution"
-        title={
-          <>
-            Architecture of
-            <br />a{" "}
-            <em className="gradient-luxe-text not-italic font-serif italic">
-              Billion Dollar Legacy.
-            </em>
-          </>
-        }
-        poster={interiorImg}
-        alt="TrustOn skilled team"
-      />
+    <div className="bg-[#0A192F] text-white overflow-x-hidden selection:bg-luxe-cyan selection:text-black">
+      {/* Immersive Intro Reveal */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 2 }}
+        className="fixed inset-0 pointer-events-none z-50 bg-[#0A192F] flex items-center justify-center animate-out fade-out fill-mode-forwards duration-1000 delay-700"
+      >
+        <motion.h1
+          initial={{ letterSpacing: "0.5em", opacity: 0, filter: "blur(10px)" }}
+          animate={{ letterSpacing: "1em", opacity: 1, filter: "blur(0px)" }}
+          transition={{ duration: 1.5, ease: "easeOut" }}
+          className="text-white text-xs font-bold uppercase tracking-[1em]"
+        >
+          TRUSTON
+        </motion.h1>
+      </motion.div>
 
-      <section className="py-32 px-6 relative">
-        <Section3DBackground opacity={0.1} />
-        <div className="mx-auto max-w-7xl grid md:grid-cols-2 gap-20 items-center relative z-10">
-          <Reveal>
-            <div className="relative aspect-[4/5] rounded-[40px] overflow-hidden shadow-luxe border border-white/5">
-              <img
-                src={projectImg}
-                alt="Prime Estate"
-                loading="lazy"
-                className="w-full h-full object-cover ken-burns brightness-75 contrast-125"
-              />
-            </div>
-          </Reveal>
-          <div>
-            <Reveal>
-              <div className="flex items-center gap-4 mb-8">
-                <span className="w-12 h-px bg-luxe-cyan" />
-                <span className="text-luxe-cyan text-xs uppercase tracking-[0.4em] font-bold">
-                  The Ethos
-                </span>
-              </div>
-              <h2 className="font-display text-5xl md:text-7xl text-white mb-10 leading-[0.9] tracking-tighter">
-                Prime Estate — <br />
-                <em className="text-luxe-cyan italic font-serif">A Global Vision.</em>
-              </h2>
-              <p className="text-white/50 text-xl leading-relaxed mb-12 font-light">
-                Prime Estate is a trusted name in real estate development, built on a foundation of
-                transparency, quality, and long-term vision. We don't just sell land — we craft
-                opportunities for elite wealth creation.
-              </p>
-              <div className="grid sm:grid-cols-2 gap-px bg-white/5 mb-12 rounded-3xl overflow-hidden border border-white/5">
-                <div className="bg-ink/50 p-8 hover:bg-white/[0.03] transition-colors">
-                  <p className="text-luxe-cyan text-[10px] uppercase tracking-[0.3em] mb-4 font-bold">
-                    Strategic Growth
-                  </p>
-                  <p className="text-sm text-white/40 leading-relaxed font-light">
-                    We plan every project with a long-term vision — location intelligence and future
-                    value appreciation.
-                  </p>
-                </div>
-                <div className="bg-ink/50 p-8 hover:bg-white/[0.03] transition-colors">
-                  <p className="text-luxe-cyan text-[10px] uppercase tracking-[0.3em] mb-4 font-bold">
-                    Compliance
-                  </p>
-                  <p className="text-sm text-white/40 leading-relaxed font-light">
-                    Regulatory-compliant processes ensured at every stage of land acquisition and
-                    development.
-                  </p>
-                </div>
-              </div>
-              <button className="btn-magnetic btn-luxe px-12 py-5">Secure Consultation</button>
-            </Reveal>
-          </div>
-        </div>
-      </section>
+      {/* 01 Lifestyle Section */}
+      <LifestyleSection />
 
-      <section className="py-32 px-6 bg-ink relative">
-        <Section3DBackground opacity={0.15} />
-        <div className="mx-auto max-w-7xl relative z-10">
-          <Reveal>
-            <SectionEyebrow light>Portfolio Pillars</SectionEyebrow>
-            <h2 className="font-display text-5xl md:text-8xl text-center text-white mb-24 tracking-tighter">
-              Architecture of <em className="text-luxe-cyan italic font-serif">Excellence.</em>
-            </h2>
-          </Reveal>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {services.map((s, i) => {
-              const getIcon = (title: string) => {
-                switch (title) {
-                  case "Plot Selling":
-                    return (
-                      <svg
-                        className="w-16 h-16"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="1"
-                          d="M3 12l2.393-6.823c.5-1.422 1.944-2.305 3.467-2.305h5.514c1.523 0 2.967.883 3.467 2.305L21 12M3 12a9 9 0 0118 0m-9 9v-6m-4-3h8m-4 3v6m4-3h4"
-                        />
-                      </svg>
-                    );
-                  case "Architecture & Design":
-                    return (
-                      <svg
-                        className="w-16 h-16"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="1"
-                          d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
-                        />
-                      </svg>
-                    );
-                  case "Construction & Build":
-                    return (
-                      <svg
-                        className="w-16 h-16"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="1"
-                          d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
-                        />
-                      </svg>
-                    );
-                  case "Investment Consulting":
-                    return (
-                      <svg
-                        className="w-16 h-16"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="1"
-                          d="M13 10V3L4 14h7v7l9-11h-7z"
-                        />
-                      </svg>
-                    );
-                  default:
-                    return null;
-                }
-              };
-              return (
-                <Reveal key={s.to} delay={i * 0.08}>
-                  <Link
-                    to={s.to}
-                    className="group block text-center glass-premium p-10 rounded-[32px] border border-white/5 hover:border-luxe-cyan/30 transition-all duration-500"
-                  >
-                    <div className="flex justify-center mb-10 text-luxe-cyan/40 group-hover:text-luxe-cyan group-hover:scale-110 transition-all duration-700">
-                      {getIcon(s.title)}
-                    </div>
-                    <h3 className="font-display text-2xl text-white mb-6 tracking-tight">
-                      {s.title}
-                    </h3>
-                    <span className="text-[10px] uppercase tracking-[0.3em] text-luxe-cyan font-bold opacity-0 group-hover:opacity-100 group-hover:translate-y-0 translate-y-4 transition-all duration-500 block">
-                      Get Proposal →
-                    </span>
-                  </Link>
-                </Reveal>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+      {/* 02 Nature Section */}
+      <NatureSection />
 
-      <section className="py-32 px-6 relative">
-        <div className="mx-auto max-w-7xl relative z-10">
-          <Reveal>
-            <SectionEyebrow>Leadership</SectionEyebrow>
-            <h2 className="font-display text-5xl md:text-8xl text-center text-white mb-24 tracking-tighter leading-none">
-              Strategic <em className="text-luxe-cyan italic font-serif">Architects.</em>
-            </h2>
-          </Reveal>
-          <Reveal>
-            <div className="mx-auto max-w-md text-center">
-              <div className="relative aspect-square rounded-[60px] overflow-hidden mb-10 shadow-luxe border border-white/10 group">
-                <img
-                  src="https://truston.advrtisinguru.com/wp-content/uploads/2026/04/ChatGPT-Image-Apr-25-2026-11_23_46-PM.png"
-                  alt="Meraj Husain Rizvi"
-                  loading="lazy"
-                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-ink via-transparent to-transparent opacity-60" />
-              </div>
-              <h3 className="font-display text-4xl text-white tracking-tight">
-                Meraj Husain Rizvi
-              </h3>
-              <p className="text-[10px] uppercase tracking-[0.6em] text-luxe-cyan mt-4 font-bold">
-                Principal Architect
-              </p>
-            </div>
-          </Reveal>
-        </div>
-      </section>
+      {/* 03 Quality Section */}
+      <QualitySection />
     </div>
+  );
+}
+
+function LifestyleSection() {
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
+
+  const yImage = useTransform(scrollYProgress, [0, 1], [0, -100]);
+  const yText = useTransform(scrollYProgress, [0, 1], [0, 100]);
+
+  return (
+    <section
+      ref={containerRef}
+      className="relative min-h-screen flex items-center justify-center py-24 px-6 md:px-12 overflow-hidden"
+    >
+      <div className="max-w-[1400px] w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 items-center">
+        {/* Large Image on the Left */}
+        <div className="lg:col-span-7 relative">
+          <motion.div
+            style={{ y: yImage }}
+            className="aspect-[4/5] md:aspect-[16/10] overflow-hidden rounded-2xl shadow-2xl border border-white/5"
+          >
+            <img
+              src={interiorImg}
+              alt="Luxury Lifestyle"
+              className="w-full h-full object-cover scale-110"
+            />
+          </motion.div>
+          {/* Decorative 3D elements */}
+          <div className="absolute -bottom-12 -right-12 w-64 h-64 bg-luxe-cyan/10 blur-[100px] rounded-full" />
+        </div>
+
+        {/* Content on the Right */}
+        <div className="lg:col-span-5 relative z-10">
+          <motion.div style={{ y: yText }}>
+            <div className="flex items-baseline gap-4 mb-6">
+              <span className="text-8xl md:text-[12rem] font-serif text-luxe-cyan/20 leading-none">
+                01
+              </span>
+              <span className="text-luxe-cyan font-bold tracking-[0.5em] uppercase text-xs">
+                Lifestyle
+              </span>
+            </div>
+
+            <h2 className="text-5xl md:text-7xl font-serif mb-8 leading-[0.9] tracking-tighter">
+              Redefining <br />
+              <em className="text-luxe-cyan italic">Modern Living</em>
+            </h2>
+
+            <p className="text-white/50 text-lg md:text-xl font-light leading-relaxed mb-12 max-w-md">
+              At TrustOn, we believe your home should be an extension of your soul. Every corner of
+              our developments is designed with a "Quality First" philosophy, ensuring a lifestyle
+              that is as premium as it is purposeful.
+            </p>
+
+            <Link
+              to="/"
+              className="inline-flex items-center gap-4 text-xs font-bold tracking-[0.3em] uppercase group"
+            >
+              <span className="w-12 h-px bg-white/20 group-hover:w-20 group-hover:bg-luxe-cyan transition-all duration-500" />
+              BACK TO HOME
+            </Link>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Floating 3D Background Text */}
+      <div className="absolute top-1/4 right-0 pointer-events-none opacity-[0.02] select-none translate-x-1/3">
+        <h2 className="text-[20rem] font-serif leading-none">LIFESTYLE</h2>
+      </div>
+    </section>
+  );
+}
+
+function QualitySection() {
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
+
+  const yImage = useTransform(scrollYProgress, [0, 1], [0, -100]);
+  const yText = useTransform(scrollYProgress, [0, 1], [0, 100]);
+
+  return (
+    <section
+      ref={containerRef}
+      className="relative min-h-screen flex items-center justify-center py-24 px-6 md:px-12 overflow-hidden"
+    >
+      <div className="max-w-[1400px] w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 items-center">
+        {/* Large Image on the Left */}
+        <div className="lg:col-span-7 relative">
+          <motion.div
+            style={{ y: yImage }}
+            className="aspect-[4/5] md:aspect-[16/10] overflow-hidden rounded-2xl shadow-2xl border border-white/5"
+          >
+            <img
+              src={qualityImg}
+              alt="Quality Craftsmanship"
+              className="w-full h-full object-cover scale-110"
+            />
+          </motion.div>
+          {/* Decorative 3D elements */}
+          <div className="absolute -bottom-12 -right-12 w-64 h-64 bg-luxe-cyan/10 blur-[100px] rounded-full" />
+        </div>
+
+        {/* Content on the Right */}
+        <div className="lg:col-span-5 relative z-10">
+          <motion.div style={{ y: yText }}>
+            <div className="flex items-baseline gap-4 mb-6">
+              <span className="text-8xl md:text-[12rem] font-serif text-luxe-cyan/20 leading-none">
+                03
+              </span>
+              <span className="text-luxe-cyan font-bold tracking-[0.5em] uppercase text-xs">
+                Quality
+              </span>
+            </div>
+
+            <h2 className="text-5xl md:text-7xl font-serif mb-8 leading-[0.9] tracking-tighter">
+              Crafted for <br />
+              <em className="text-luxe-cyan italic">The Generations</em>
+            </h2>
+
+            <p className="text-white/50 text-lg md:text-xl font-light leading-relaxed mb-12 max-w-md">
+              Quality is not an act, it is a habit. From Jila Panchayat approval to the finest
+              architectural details, we ensure that every TrustOn project stands as a legacy for you
+              and your family.
+            </p>
+
+            <Link
+              to="/contact"
+              className="inline-flex items-center gap-4 text-xs font-bold tracking-[0.3em] uppercase group"
+            >
+              <span className="w-12 h-px bg-white/20 group-hover:w-20 group-hover:bg-luxe-cyan transition-all duration-500" />
+              START YOUR LEGACY
+            </Link>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Floating 3D Background Text */}
+      <div className="absolute top-1/4 right-0 pointer-events-none opacity-[0.02] select-none translate-x-1/3">
+        <h2 className="text-[20rem] font-serif leading-none">QUALITY</h2>
+      </div>
+    </section>
+  );
+}
+
+function NatureSection() {
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
+
+  const yImage = useTransform(scrollYProgress, [0, 1], [0, -120]);
+  const yText = useTransform(scrollYProgress, [0, 1], [0, 80]);
+
+  return (
+    <section
+      ref={containerRef}
+      className="relative min-h-screen flex items-center justify-center py-24 px-6 md:px-12 overflow-hidden bg-white/5"
+    >
+      <div className="max-w-[1400px] w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 items-center">
+        {/* Content on the Left */}
+        <div className="lg:col-span-5 order-2 lg:order-1 relative z-10">
+          <motion.div style={{ y: yText }} className="lg:text-right">
+            <div className="flex items-baseline gap-4 mb-6 lg:justify-end">
+              <span className="text-luxe-cyan font-bold tracking-[0.5em] uppercase text-xs">
+                Nature
+              </span>
+              <span className="text-8xl md:text-[12rem] font-serif text-luxe-cyan/20 leading-none">
+                02
+              </span>
+            </div>
+
+            <h2 className="text-5xl md:text-7xl font-serif mb-8 leading-[0.9] tracking-tighter">
+              Harmony with <br />
+              <em className="text-luxe-cyan italic">The Earth</em>
+            </h2>
+
+            <p className="text-white/50 text-lg md:text-xl font-light leading-relaxed mb-12 max-w-md lg:ml-auto">
+              We curate landscapes that breathe. Our projects integrate lush greenery and
+              sustainable architecture to create a sanctuary where urban luxury meets the
+              tranquility of nature.
+            </p>
+
+            <Link
+              to="/"
+              className="inline-flex items-center gap-4 text-xs font-bold tracking-[0.3em] uppercase group lg:flex-row-reverse"
+            >
+              <span className="w-12 h-px bg-white/20 group-hover:w-20 group-hover:bg-luxe-cyan transition-all duration-500" />
+              OUR COMMUNITIES
+            </Link>
+          </motion.div>
+        </div>
+
+        {/* Large Image on the Right */}
+        <div className="lg:col-span-7 order-1 lg:order-2 relative">
+          <motion.div
+            style={{ y: yImage }}
+            className="aspect-[4/5] md:aspect-[16/10] overflow-hidden rounded-2xl shadow-2xl border border-white/5"
+          >
+            <img
+              src={natureImg}
+              alt="Nature Harmony"
+              className="w-full h-full object-cover scale-110"
+            />
+          </motion.div>
+          {/* Decorative 3D elements */}
+          <div className="absolute top-12 left-12 w-64 h-64 bg-luxe-blue/10 blur-[100px] rounded-full" />
+        </div>
+      </div>
+
+      {/* Floating 3D Background Text */}
+      <div className="absolute bottom-1/4 left-0 pointer-events-none opacity-[0.02] select-none -translate-x-1/3">
+        <h2 className="text-[20rem] font-serif leading-none">NATURE</h2>
+      </div>
+    </section>
   );
 }

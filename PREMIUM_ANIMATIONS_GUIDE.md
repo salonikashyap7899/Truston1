@@ -7,6 +7,7 @@ This document outlines the new premium 3D animations, luxury effects, and high-e
 ### 3D & Visual Effects
 
 #### `AdvancedLuxury3D` Component
+
 - **Location**: `src/components/AdvancedLuxury3D.tsx`
 - **Purpose**: Advanced 3D scene with luxury materials and lighting
 - **Features**:
@@ -19,13 +20,15 @@ This document outlines the new premium 3D animations, luxury effects, and high-e
   - Performance-optimized with adjustable intensity
 
 **Usage**:
-```tsx
-import { AdvancedLuxury3D } from '@/components/AdvancedLuxury3D';
 
-<AdvancedLuxury3D intensity={0.4} interactive={false} />
+```tsx
+import { AdvancedLuxury3D } from "@/components/AdvancedLuxury3D";
+
+<AdvancedLuxury3D intensity={0.4} interactive={false} />;
 ```
 
 #### `InteractiveFlipCard` Component
+
 - **Location**: `src/components/InteractiveFlipCard.tsx`
 - **Purpose**: 3D flip cards with mouse-tracking parallax
 - **Features**:
@@ -36,18 +39,17 @@ import { AdvancedLuxury3D } from '@/components/AdvancedLuxury3D';
   - Customizable front and back content
 
 **Usage**:
-```tsx
-import { InteractiveFlipCard, FlipCardGrid } from '@/components/InteractiveFlipCard';
 
-<InteractiveFlipCard 
-  frontContent={<h3>Front</h3>}
-  backContent={<p>Back Content</p>}
-/>
+```tsx
+import { InteractiveFlipCard, FlipCardGrid } from "@/components/InteractiveFlipCard";
+
+<InteractiveFlipCard frontContent={<h3>Front</h3>} backContent={<p>Back Content</p>} />;
 ```
 
 ### Animation & Effects Library
 
 #### `PremiumAnimations` Component
+
 - **Location**: `src/components/PremiumAnimations.tsx`
 - **Exports**:
   - `PremiumGlassCard` - Glass morphism cards with blur effect
@@ -66,6 +68,7 @@ import { InteractiveFlipCard, FlipCardGrid } from '@/components/InteractiveFlipC
   - `NeonGlowButton` - Neon glow button effect
 
 #### `PremiumButtons` Component
+
 - **Location**: `src/components/PremiumButtons.tsx`
 - **Exports**:
   - `MagneticButton` - Button that follows mouse
@@ -79,6 +82,7 @@ import { InteractiveFlipCard, FlipCardGrid } from '@/components/InteractiveFlipC
 ### Scroll Animations
 
 #### `ScrollTriggers` Component
+
 - **Location**: `src/components/ScrollTriggers.tsx`
 - **Exports**:
   - `ScrollMorphingText` - Text morphs on scroll
@@ -88,10 +92,12 @@ import { InteractiveFlipCard, FlipCardGrid } from '@/components/InteractiveFlipC
 ## 🎭 Global Luxury Styles
 
 ### `luxury-premium.css`
+
 - **Location**: `src/styles/luxury-premium.css`
 - **Size**: ~10KB
 
 #### Classes Available:
+
 - **Glass Morphism**: `.glass-premium`, `.glass-premium-dark`
 - **Gradients**: `.gradient-luxury`, `.gradient-luxury-animated`
 - **Shadows**: `.shadow-luxury-sm`, `.shadow-luxury-md`, `.shadow-luxury-lg`, `.shadow-luxury-xl`
@@ -105,18 +111,20 @@ import { InteractiveFlipCard, FlipCardGrid } from '@/components/InteractiveFlipC
 - **Overlays**: `.overlay-luxury`, `.overlay-luxury-dark`
 
 #### CSS Variables:
+
 ```css
 --bronze: oklch(0.55 0.15 30);
---amber: oklch(0.60 0.18 50);
+--amber: oklch(0.6 0.18 50);
 --ink: oklch(0.15 0.02 280);
---sky: oklch(0.50 0.155 245);
---gold: oklch(0.65 0.20 65);
+--sky: oklch(0.5 0.155 245);
+--gold: oklch(0.65 0.2 65);
 --glass-blur: 12px;
 ```
 
 ## 🔧 Integration
 
 ### Global Integration
+
 The luxury CSS is automatically loaded in `src/routes/__root.tsx`:
 
 ```tsx
@@ -127,9 +135,11 @@ import luxuryPremiumCss from "../styles/luxury-premium.css?url";
 ```
 
 ### Page Transitions
+
 Existing `PageTransition` component in `src/components/globals/PageTransition.tsx` provides cinematic page transitions automatically.
 
 ### Smooth Scrolling
+
 Lenis smooth scroll is configured in `src/routes/__root.tsx` for fluid scrolling experience.
 
 ## 📊 Performance Considerations
@@ -143,16 +153,16 @@ Lenis smooth scroll is configured in `src/routes/__root.tsx` for fluid scrolling
 ## 🎯 Usage Examples
 
 ### Hero Section with 3D Background
+
 ```tsx
 <div className="relative h-screen">
   <AdvancedLuxury3D intensity={0.5} />
-  <div className="relative z-10">
-    {/* Your content */}
-  </div>
+  <div className="relative z-10">{/* Your content */}</div>
 </div>
 ```
 
 ### Premium Card Section
+
 ```tsx
 <div className="glass-premium p-8 rounded-3xl">
   <h2 className="text-luxury text-3xl font-bold">Luxury Heading</h2>
@@ -161,6 +171,7 @@ Lenis smooth scroll is configured in `src/routes/__root.tsx` for fluid scrolling
 ```
 
 ### Animated Gallery
+
 ```tsx
 <StaggerContainer staggerDelay={0.1}>
   {images.map((img, i) => (
@@ -170,10 +181,9 @@ Lenis smooth scroll is configured in `src/routes/__root.tsx` for fluid scrolling
 ```
 
 ### CTA with Effects
+
 ```tsx
-<NeonGlowButton glowColor="from-bronze to-amber-600">
-  Explore Properties
-</NeonGlowButton>
+<NeonGlowButton glowColor="from-bronze to-amber-600">Explore Properties</NeonGlowButton>
 ```
 
 ## 🚀 Next Steps
@@ -202,6 +212,7 @@ Lenis smooth scroll is configured in `src/routes/__root.tsx` for fluid scrolling
 ## 🎨 Color Palette
 
 The luxury CSS uses an advanced OKLch color space for perceptually uniform colors:
+
 - **Bronze (Primary)**: oklch(0.55 0.15 30)
 - **Amber (Accent)**: oklch(0.60 0.18 50)
 - **Gold (Highlight)**: oklch(0.65 0.20 65)
