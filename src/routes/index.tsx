@@ -38,8 +38,8 @@ function Index() {
   return (
     <div className="bg-[#04090f] text-foreground overflow-x-hidden">
 
-      {/* ── Hero — Full-screen video ── */}
-      <section className="relative min-h-screen bg-[#04090f] overflow-hidden">
+      {/* ── Hero — Full-screen video (sticky so Who We Are overlays it) ── */}
+      <section className="sticky top-0 h-screen bg-[#04090f] overflow-hidden z-0">
         <div className="absolute inset-0 z-0">
           <video
             autoPlay
@@ -202,7 +202,10 @@ const whoWeAreStats = [
 
 function WhoWeAreScrollSection() {
   return (
-    <section className="bg-[#060c16] overflow-hidden relative">
+    <section className="relative z-10 overflow-hidden" style={{ background: "#060c16" }}>
+      {/* Gradient blends this section over the sticky hero video above */}
+      <div className="absolute top-0 left-0 right-0 h-40 pointer-events-none z-20"
+        style={{ background: "linear-gradient(to bottom, transparent 0%, #060c16 100%)" }} />
       <ContainerScroll
         titleComponent={
           <div className="mb-6 text-center">

@@ -44,7 +44,7 @@ export function IntroScreen() {
         exit={{ opacity: 0 }}
         transition={{ duration: 0.5 }}
       >
-        {/* Full-screen video — plays once, no loop */}
+        {/* Full-screen video */}
         <video
           autoPlay
           muted
@@ -59,10 +59,64 @@ export function IntroScreen() {
           />
         </video>
 
-        {/* Subtle overlay — keeps text readable */}
+        {/* Subtle overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-[#080807]/80 via-transparent to-[#080807]/30 pointer-events-none" />
 
-        {/* Exit curtain — slides up on exit */}
+        {/* ── TRUSTON CIRCLE LOGO (top center) ── */}
+        <motion.div
+          className="absolute top-[12%] left-1/2 -translate-x-1/2 flex flex-col items-center z-20"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+        >
+          {/* Concentric rings */}
+          <div className="relative flex items-center justify-center" style={{ width: 160, height: 160 }}>
+            {[160, 120, 84].map((size, i) => (
+              <motion.div
+                key={size}
+                className="absolute rounded-full border"
+                style={{
+                  width: size,
+                  height: size,
+                  borderColor: `rgba(0,191,255,${0.18 - i * 0.05})`,
+                }}
+                animate={{ rotate: i % 2 === 0 ? 360 : -360 }}
+                transition={{ duration: 18 + i * 7, repeat: Infinity, ease: "linear" }}
+              />
+            ))}
+            {/* Centre badge */}
+            <div className="relative z-10 flex flex-col items-center justify-center w-16 h-16 rounded-full border border-[#00BFFF]/40 bg-[#080807]/60"
+              style={{ backdropFilter: "blur(8px)" }}>
+              <span className="text-white font-serif text-[10px] uppercase tracking-[0.15em] leading-none">
+                TRUST
+              </span>
+              <span className="text-[#00BFFF] font-serif text-[10px] uppercase tracking-[0.15em] leading-none">
+                ON
+              </span>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* ── TRUSTON BIG HEADING (center) ── */}
+        <motion.div
+          className="relative z-20 text-center"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.2, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <h1 className="font-serif text-6xl md:text-8xl lg:text-9xl text-white leading-none tracking-tight">
+            TRUST<span style={{ color: "#00BFFF" }}>ON</span>
+          </h1>
+          <div className="flex items-center justify-center gap-4 mt-3">
+            <span className="w-8 h-px bg-white/30" />
+            <p className="text-white/50 text-[10px] md:text-xs tracking-[0.4em] uppercase font-light">
+              Billion Dollar Legacy
+            </p>
+            <span className="w-8 h-px bg-white/30" />
+          </div>
+        </motion.div>
+
+        {/* Exit curtain */}
         <motion.div
           className="absolute inset-0 bg-[#080807] origin-bottom pointer-events-none"
           initial={{ scaleY: 0 }}
@@ -72,7 +126,7 @@ export function IntroScreen() {
 
         {/* Bottom content — explore button */}
         <motion.div
-          className="absolute bottom-16 left-0 right-0 flex flex-col items-center gap-6 z-10"
+          className="absolute bottom-16 left-0 right-0 flex flex-col items-center gap-6 z-20"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
@@ -90,11 +144,9 @@ export function IntroScreen() {
             >
               →
             </motion.span>
-            {/* Hover fill */}
             <span className="absolute inset-0 bg-[#00BFFF]/10 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left rounded-full" />
           </button>
 
-          {/* Skip text */}
           <motion.p
             className="text-white/20 text-[10px] uppercase tracking-[0.25em]"
             animate={{ opacity: [0.4, 0.8, 0.4] }}
