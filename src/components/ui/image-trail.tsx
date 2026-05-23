@@ -133,6 +133,12 @@ const TrailItemComponent = ({ item, onComplete }: TrailItemProps) => {
   const [scope, animate] = useAnimate();
 
   useEffect(() => {
+    // Ensure scope.current exists before animating
+    if (!scope.current) {
+      onComplete(item.id);
+      return;
+    }
+    
     const sequence = item.animationSequence.map((segment: TrailSegment) => [
       scope.current,
       ...segment,
@@ -140,8 +146,11 @@ const TrailItemComponent = ({ item, onComplete }: TrailItemProps) => {
 
     animate(sequence as AnimationSequence).then(() => {
       onComplete(item.id);
+    }).catch(() => {
+      // Handle animation errors gracefully
+      onComplete(item.id);
     });
-  }, []);
+  }, [animate, item.animationSequence, item.id, onComplete, scope]);
 
   return (
     <motion.div

@@ -5,8 +5,15 @@ export const useMouseVector = (
 ) => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [vector, setVector] = useState({ dx: 0, dy: 0 });
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isMounted) return;
+    
     let lastPosition = { x: 0, y: 0 };
 
     const updatePosition = (x: number, y: number) => {
@@ -47,7 +54,7 @@ export const useMouseVector = (
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("touchmove", handleTouchMove);
     };
-  }, [containerRef]);
+  }, [containerRef, isMounted]);
 
   return { position, vector };
 };

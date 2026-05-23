@@ -44,7 +44,7 @@ export function ImageTrailGallery() {
         className="relative w-full h-[60vh] flex justify-center items-center overflow-hidden cursor-none"
         ref={ref}
       >
-        <div className="absolute inset-0 z-0" ref={ref}>
+        <div className="absolute inset-0 z-0">
           <ImageTrail 
             containerRef={ref}
             rotationRange={20}
