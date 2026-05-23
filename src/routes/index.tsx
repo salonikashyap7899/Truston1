@@ -1,29 +1,29 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { motion, useScroll, useTransform, useInView } from "framer-motion";
-import { useRef, useState } from "react";
-import { GalleryLightbox, type GalleryItem } from "@/components/GalleryLightbox";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 import heroImg from "@/assets/hero-estate.jpg";
-import { SobhaStyleHero } from "@/components/SobhaStyleHero";
 import { Reveal, SectionEyebrow, CountUp } from "@/components/Reveal";
-import { TextReveal, CharReveal } from "@/components/TextReveal";
 import { Testimonials } from "@/components/Testimonials";
 import { WealthCalculator } from "@/components/WealthCalculator";
 import { EnhancedDevelopersSection } from "@/components/DevelopersSection.Enhanced";
-import { EnhancedGallerySection } from "@/components/GallerySection.Enhanced";
-import { WhoWeAreSection } from "@/components/WhoWeAreSection";
 import { WhoWeAre } from "@/components/WhoWeAre";
 import { Services3DSection } from "@/components/Services3DSection";
 import { IntroHighlightSection } from "@/components/IntroHighlightSection";
 import { Projects3DShowcase } from "@/components/Projects3DShowcase";
 import { PlotsAndStructures } from "@/components/PlotsAndStructures";
 import {
-  FloatingImageScroll,
   SlideInOnScroll,
   BlurReveal,
-  HighlightText,
 } from "@/components/ScrollAnimations";
 import { LuxuryHighlights } from "@/components/LuxuryHighlights";
 import { Section3DBackground } from "@/components/Section3DBackground";
+import { 
+  TrustonWhoWeAreSection, 
+  TrustonServicesSection, 
+  TrustonWhySection, 
+  TrustonCTAStrip 
+} from "@/components/TrustonDevelopersSection";
+import { ImageTrailGallery } from "@/components/ImageTrailGallery";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -44,17 +44,22 @@ export const Route = createFileRoute("/")({
 function Index() {
   return (
     <div className="bg-background text-foreground overflow-x-hidden">
-      {/* Hero Section with Video Background - Extended for scroll overlay */}
+      {/* Hero Section with Video Background - Optimized for smoothness */}
       <section className="relative min-h-[160vh] bg-[var(--ink)] overflow-hidden">
-        {/* Fixed Background Intro Video */}
-        <div className="fixed inset-0 z-0">
+        {/* Fixed Background Intro Video - Optimized with will-change and GPU acceleration */}
+        <div className="fixed inset-0 z-0 will-change-transform">
           <video
             autoPlay
             muted
             loop
             playsInline
-            className="w-full h-full object-cover"
-            style={{ opacity: 0.7 }}
+            preload="auto"
+            className="w-full h-full object-cover will-change-transform"
+            style={{ 
+              opacity: 0.7, 
+              transform: 'translateZ(0)',
+              backfaceVisibility: 'hidden'
+            }}
           >
             <source
               src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Video%202026-05-22%20at%2010.03.14%20PM-QaTFrXd8V3Y9wkvJT59K1CIHabjmqa.mp4"
@@ -117,6 +122,12 @@ function Index() {
         </div>
       </section>
 
+      {/* Truston Developers - Who We Are Section (from HTML file) */}
+      <TrustonWhoWeAreSection />
+
+      {/* Truston Services Section (from HTML file) */}
+      <TrustonServicesSection />
+
       {/* 3. Intro Highlight Section */}
       <IntroHighlightSection />
 
@@ -134,7 +145,7 @@ function Index() {
               </h2>
               <p className="text-white/60 text-lg leading-relaxed mb-8">
                 TrustOn stands at the intersection of architectural brilliance and strategic
-                investment. We don't just sell plots; we provide the foundation for your future
+                investment. We don&apos;t just sell plots; we provide the foundation for your future
                 aspirations. Our commitment to quality and transparency ensures that every square
                 foot you own is a testament to luxury.
               </p>
@@ -173,14 +184,17 @@ function Index() {
       {/* MOVING Luxury Highlights Section — after Prime state (Projects Showcase) */}
       <LuxuryHighlights />
 
+      {/* Why Truston Section (from HTML file) */}
+      <TrustonWhySection />
+
       {/* Futuristic Services Section */}
       <Services3DSection />
 
       {/* Enhanced Developers Section with Floating Images */}
       <EnhancedDevelopersSection />
 
-      {/* Enhanced Gallery Section */}
-      <EnhancedGallerySection />
+      {/* Image Trail Gallery Section */}
+      <ImageTrailGallery />
 
       {/* Wealth Calculator */}
       <WealthCalculator />
@@ -193,6 +207,9 @@ function Index() {
 
       {/* Testimonials */}
       <Testimonials />
+
+      {/* Truston CTA Strip (from HTML file) */}
+      <TrustonCTAStrip />
 
       {/* Call to Action Section */}
       <CTASection />

@@ -1,10 +1,11 @@
 import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Reveal, SectionEyebrow } from "./Reveal";
 import { Section3DBackground } from "./Section3DBackground";
 
 /**
- * Enhanced Gallery Section with floating images and scroll animations
+ * Enhanced Gallery Section with scroll-expand transitions
+ * "Prime State Visual Excellence"
  */
 
 export function EnhancedGallerySection() {
@@ -20,13 +21,29 @@ export function EnhancedGallerySection() {
   const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "40%"]);
   const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
 
+  // Scroll-expansion state for featured media
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [isInView, setIsInView] = useState(false);
+
+  useEffect(() => {
+    const unsubscribe = scrollYProgress.on("change", (latest) => {
+      setScrollProgress(latest);
+      setIsInView(latest > 0.1 && latest < 0.9);
+    });
+    return () => unsubscribe();
+  }, [scrollYProgress]);
+
+  // Calculate expansion based on scroll
+  const mediaScale = 1 + scrollProgress * 0.15;
+  const mediaOpacity = Math.min(1, 0.3 + scrollProgress * 0.7);
+
   const galleryItems = [
     {
       id: 1,
       title: "Aerial View",
       category: "Landscape",
       image:
-        "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/aerial-photography-chinese-city-600x800.jpg",
+        "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80",
       description: "Stunning aerial perspective of Prime Estate township",
     },
     {
@@ -34,7 +51,7 @@ export function EnhancedGallerySection() {
       title: "Luxury Interior",
       category: "Design",
       image:
-        "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/luxury-interior-design-600x800.jpg",
+        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
       description: "Premium interior design with modern aesthetics",
     },
     {
@@ -42,14 +59,15 @@ export function EnhancedGallerySection() {
       title: "Plot Showcase",
       category: "Property",
       image:
-        "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/plot-tracker-600x800.jpg",
+        "https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=800&q=80",
       description: "Premium plot selection and layout",
     },
     {
       id: 4,
       title: "Evening Ambiance",
       category: "Landscape",
-      image: "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/hero-estate-600x800.jpg",
+      image:
+        "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80",
       description: "Beautiful twilight view of the estate",
     },
   ];
@@ -70,7 +88,7 @@ export function EnhancedGallerySection() {
       <div className="mx-auto max-w-7xl relative z-10">
         {/* Header */}
         <Reveal delay={0}>
-          <SectionEyebrow>Gallery</SectionEyebrow>
+          <SectionEyebrow>Prime State</SectionEyebrow>
         </Reveal>
 
         <Reveal delay={0.1}>
@@ -82,6 +100,50 @@ export function EnhancedGallerySection() {
             curated collection of premium imagery.
           </p>
         </Reveal>
+
+        {/* Featured Image with Scroll-Expand Effect */}
+        <motion.div
+          className="relative mb-16 rounded-2xl overflow-hidden"
+          style={{
+            scale: mediaScale,
+            opacity: mediaOpacity,
+          }}
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
+          <div className="aspect-video relative overflow-hidden rounded-2xl">
+            <motion.img
+              src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1920&q=80"
+              alt="Prime Estate Featured"
+              className="w-full h-full object-cover"
+              style={{
+                scale: 1 + scrollProgress * 0.1,
+              }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/20 to-transparent" />
+            
+            {/* Overlay Content */}
+            <motion.div
+              className="absolute bottom-0 left-0 right-0 p-8 md:p-12"
+              style={{
+                opacity: 0.5 + scrollProgress * 0.5,
+                y: (1 - scrollProgress) * 20,
+              }}
+            >
+              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-luxe-cyan bg-luxe-blue/20 px-4 py-1.5 rounded-full border border-luxe-cyan/20 inline-block mb-4">
+                Featured
+              </span>
+              <h3 className="font-display text-3xl md:text-5xl text-white mb-3">
+                Prime Estate Masterpiece
+              </h3>
+              <p className="text-white/60 text-lg max-w-xl">
+                Experience the pinnacle of luxury living in Lucknow&apos;s most prestigious address.
+              </p>
+            </motion.div>
+          </div>
+        </motion.div>
 
         {/* Gallery Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -185,6 +247,7 @@ function GalleryCard({ item, idx, isHovered, setHovered, clearHovered }: Gallery
             className="w-full h-full object-cover brightness-75"
             whileHover={{ scale: 1.15, filter: "brightness(0.5)" }}
             transition={{ duration: 0.8 }}
+            crossOrigin="anonymous"
           />
 
           {/* Overlay Gradient */}

@@ -93,10 +93,26 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* GPU acceleration for animated elements */
+  /* GPU acceleration for animated elements - optimized for smoothness */
   [class*="motion"],
-  .scroll-progress-bar {
+  .scroll-progress-bar,
+  video,
+  .fixed,
+  [data-framer-motion-optimized] {
     will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  /* Reduce repaints for fixed elements */
+  .fixed video {
+    contain: strict;
+  }
+
+  /* Optimize transitions */
+  * {
+    -webkit-transform: translateZ(0);
     transform: translateZ(0);
   }
 
