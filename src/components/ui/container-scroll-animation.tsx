@@ -30,14 +30,13 @@ export const ContainerScroll = ({
     return isMobile ? [0.7, 0.9] : [1.05, 1];
   };
 
-  // Use 60% scroll range for smoother animation
-  const rotate = useTransform(scrollYProgress, [0, 0.6], [20, 0]);
-  const scale = useTransform(scrollYProgress, [0, 0.6], scaleDimensions());
-  const translate = useTransform(scrollYProgress, [0, 0.6], [0, -100]);
+  const rotate = useTransform(scrollYProgress, [0, 1], [20, 0]);
+  const scale = useTransform(scrollYProgress, [0, 1], scaleDimensions());
+  const translate = useTransform(scrollYProgress, [0, 1], [0, -100]);
 
   return (
     <div
-      className="h-[50rem] md:h-[60rem] flex items-center justify-center relative p-2 md:p-20"
+      className="h-[80rem] md:h-[90rem] flex items-center justify-center relative p-2 md:p-20"
       ref={containerRef}
     >
       <div

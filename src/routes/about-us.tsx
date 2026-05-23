@@ -4,6 +4,8 @@ import { Reveal } from "@/components/Reveal";
 import { Section3DBackground } from "@/components/Section3DBackground";
 import { GlowCard } from "@/components/ui/spotlight-card";
 import { CountUp } from "@/components/Reveal";
+import lucknowAerialImg from "@/assets/lucknow-aerial.jpg";
+import luxuryInteriorImg from "@/assets/luxury-interior.jpg";
 
 export const Route = createFileRoute("/about-us")({
   head: () => ({
@@ -67,7 +69,7 @@ const stats = [
   { num: 100, suffix: "%", label: "Legal Clearance" },
 ];
 
-const buildingImg = "/attached_assets/image_1779159211927.png";
+const buildingImg = lucknowAerialImg;
 
 function AboutPage() {
   return (
