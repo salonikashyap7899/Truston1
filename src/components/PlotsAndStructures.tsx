@@ -2,106 +2,131 @@ import { motion } from "framer-motion";
 import { Reveal, SectionEyebrow } from "./Reveal";
 import { Section3DBackground } from "./Section3DBackground";
 
+const BUILDINGS = [
+  { h: 55, w: 14, delay: 0.0, accent: false, windows: [[1,0,1],[0,1,1],[1,0,0]] },
+  { h: 80, w: 18, delay: 0.1, accent: true,  windows: [[1,1,0],[1,0,1],[0,1,1]] },
+  { h: 100, w: 22, delay: 0.2, accent: false, windows: [[0,1,1,0],[1,0,0,1],[1,1,0,1],[0,1,1,0]] },
+  { h: 68, w: 16, delay: 0.15, accent: false, windows: [[1,0,1],[0,1,0],[1,1,0]] },
+  { h: 42, w: 12, delay: 0.25, accent: true,  windows: [[1,0],[0,1],[1,1]] },
+  { h: 88, w: 20, delay: 0.05, accent: false, windows: [[1,0,1,0],[0,1,0,1],[1,1,0,1],[0,0,1,0]] },
+  { h: 52, w: 14, delay: 0.3,  accent: false, windows: [[0,1,1],[1,0,1],[0,1,0]] },
+] as const;
+
 function CssBuildingScene() {
-  const buildings = [
-    { h: "60%", w: 14, x: 20, delay: 0, accent: false },
-    { h: "85%", w: 18, x: 38, delay: 0.1, accent: true },
-    { h: "100%", w: 22, x: 62, delay: 0.2, accent: false },
-    { h: "70%", w: 16, x: 88, delay: 0.15, accent: false },
-    { h: "45%", w: 12, x: 108, delay: 0.25, accent: true },
-    { h: "90%", w: 20, x: 130, delay: 0.05, accent: false },
-    { h: "55%", w: 14, x: 154, delay: 0.3, accent: false },
-  ];
+  const maxH = 100;
 
   return (
-    <div className="relative w-full h-full flex items-end justify-center overflow-hidden rounded-2xl border border-white/5"
-      style={{ background: "linear-gradient(180deg, #050b12 0%, #0a1a2a 100%)" }}
+    <div
+      className="relative w-full h-full flex items-end justify-center overflow-hidden rounded-2xl border border-white/5"
+      style={{ background: "linear-gradient(180deg, #020810 0%, #050f1c 60%, #071422 100%)" }}
     >
-      {/* Ambient glow */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[80%] h-32 rounded-full"
-        style={{ background: "radial-gradient(ellipse, rgba(0,191,255,0.12) 0%, transparent 70%)" }}
+      {/* Stars */}
+      {[
+        { top: "15%", left: "10%", size: 1.5, delay: 0 },
+        { top: "25%", left: "30%", size: 1, delay: 0.5 },
+        { top: "10%", left: "55%", size: 2, delay: 1 },
+        { top: "20%", left: "75%", size: 1.5, delay: 0.3 },
+        { top: "35%", left: "88%", size: 1, delay: 0.8 },
+        { top: "8%",  left: "42%", size: 1, delay: 1.2 },
+      ].map((star, i) => (
+        <motion.div
+          key={i}
+          className="absolute rounded-full bg-white"
+          style={{ top: star.top, left: star.left, width: star.size, height: star.size }}
+          animate={{ opacity: [0.2, 0.8, 0.2] }}
+          transition={{ duration: 2 + i * 0.7, repeat: Infinity, delay: star.delay, ease: "easeInOut" }}
+        />
+      ))}
+
+      {/* Glow from city below */}
+      <div
+        className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[90%] h-24 rounded-full pointer-events-none"
+        style={{ background: "radial-gradient(ellipse, rgba(0,191,255,0.08) 0%, transparent 70%)", filter: "blur(10px)" }}
       />
 
-      {/* Grid lines on ground */}
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-[#00BFFF]/20" />
-      <div className="absolute bottom-8 left-0 right-0 h-px bg-white/5" />
+      {/* Ground line */}
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-[#00BFFF]/15" />
 
       {/* Buildings */}
-      <div className="relative flex items-end gap-0 h-[85%] px-8 pb-0">
-        {buildings.map((b, i) => (
-          <motion.div
-            key={i}
-            className="relative shrink-0 rounded-t-sm"
-            style={{ width: b.w, height: b.h, marginLeft: i === 0 ? 0 : 6 }}
-            initial={{ scaleY: 0, originY: 1 }}
-            whileInView={{ scaleY: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: b.delay, ease: [0.16, 1, 0.3, 1] }}
-          >
-            {/* Building body */}
-            <div
-              className="w-full h-full rounded-t-sm"
-              style={{
-                background: b.accent
-                  ? "linear-gradient(180deg, #003a5c 0%, #001a2e 100%)"
-                  : "linear-gradient(180deg, #0a1e2f 0%, #040d14 100%)",
-                border: b.accent ? "1px solid rgba(0,191,255,0.3)" : "1px solid rgba(255,255,255,0.05)",
-                borderBottom: "none",
-                boxShadow: b.accent ? "0 0 20px rgba(0,191,255,0.1)" : "none",
-              }}
+      <div className="relative flex items-end h-[85%] px-6 pb-0 gap-1.5">
+        {BUILDINGS.map((b, bi) => {
+          const heightPct = (b.h / maxH) * 100;
+          return (
+            <motion.div
+              key={bi}
+              className="relative flex-shrink-0 rounded-t-sm"
+              style={{ width: b.w, height: `${heightPct}%` }}
+              initial={{ scaleY: 0, originY: "bottom" }}
+              whileInView={{ scaleY: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.9, delay: b.delay, ease: [0.16, 1, 0.3, 1] }}
             >
-              {/* Window lights */}
-              <div className="flex flex-col gap-1 p-1 h-full">
-                {Array.from({ length: Math.floor(parseInt(b.h) / 15) }).map((_, r) => (
-                  <div key={r} className="flex gap-[2px] justify-center">
-                    {Array.from({ length: Math.floor(b.w / 5) }).map((_, c) => (
+              {/* Building body */}
+              <div
+                className="w-full h-full rounded-t-sm flex flex-col p-1 gap-1"
+                style={{
+                  background: b.accent
+                    ? "linear-gradient(180deg, #003a5c 0%, #001828 100%)"
+                    : "linear-gradient(180deg, #081624 0%, #020a12 100%)",
+                  borderTop: b.accent ? "1px solid rgba(0,191,255,0.25)" : "1px solid rgba(255,255,255,0.04)",
+                  borderLeft: b.accent ? "1px solid rgba(0,191,255,0.25)" : "1px solid rgba(255,255,255,0.04)",
+                  borderRight: b.accent ? "1px solid rgba(0,191,255,0.25)" : "1px solid rgba(255,255,255,0.04)",
+                  borderBottom: "none",
+                  boxShadow: b.accent ? "0 0 16px rgba(0,191,255,0.08), inset 0 0 20px rgba(0,191,255,0.04)" : "none",
+                }}
+              >
+                {/* Window rows — deterministic, no Math.random() */}
+                {b.windows.map((row, ri) => (
+                  <div key={ri} className="flex gap-[2px] justify-center">
+                    {row.map((lit, ci) => (
                       <motion.div
-                        key={c}
-                        className="rounded-sm"
+                        key={ci}
+                        className="rounded-sm flex-shrink-0"
                         style={{
                           width: 2,
                           height: 3,
-                          background: Math.random() > 0.4
-                            ? (b.accent ? "rgba(0,191,255,0.7)" : "rgba(255,255,255,0.25)")
+                          background: lit
+                            ? (b.accent ? "rgba(0,191,255,0.65)" : "rgba(200,230,255,0.22)")
                             : "transparent",
                         }}
-                        animate={{ opacity: [1, Math.random() > 0.8 ? 0.3 : 1, 1] }}
-                        transition={{
-                          duration: 2 + Math.random() * 3,
+                        animate={lit ? { opacity: [1, 0.5, 1] } : {}}
+                        transition={lit ? {
+                          duration: 3 + ci * 0.5 + ri * 0.3,
                           repeat: Infinity,
-                          delay: Math.random() * 5,
-                        }}
+                          delay: bi * 0.3 + ci * 0.2,
+                        } : {}}
                       />
                     ))}
                   </div>
                 ))}
               </div>
-            </div>
 
-            {/* Antenna on tallest */}
-            {b.accent && i === 1 && (
-              <motion.div
-                className="absolute -top-4 left-1/2 -translate-x-1/2 w-px bg-[#00BFFF]/60"
-                style={{ height: 16 }}
-                animate={{ opacity: [0.4, 1, 0.4] }}
-                transition={{ duration: 2, repeat: Infinity }}
-              />
-            )}
-          </motion.div>
-        ))}
+              {/* Antenna on accent buildings */}
+              {b.accent && (
+                <motion.div
+                  className="absolute -top-3 left-1/2 -translate-x-1/2 w-px bg-[#00BFFF]/50"
+                  style={{ height: 12 }}
+                  animate={{ opacity: [0.3, 1, 0.3] }}
+                  transition={{ duration: 1.8, repeat: Infinity, delay: bi * 0.4 }}
+                />
+              )}
+            </motion.div>
+          );
+        })}
       </div>
 
-      {/* Cyan grid overlay */}
+      {/* Subtle grid overlay */}
       <div
-        className="absolute inset-0 pointer-events-none opacity-5"
+        className="absolute inset-0 pointer-events-none opacity-[0.04]"
         style={{
-          backgroundImage: "linear-gradient(rgba(0,191,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,191,255,1) 1px, transparent 1px)",
+          backgroundImage:
+            "linear-gradient(rgba(0,191,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,191,255,1) 1px, transparent 1px)",
           backgroundSize: "20px 20px",
         }}
       />
 
       {/* Label */}
-      <div className="absolute top-4 left-4 text-[9px] uppercase tracking-[0.3em] text-[#00BFFF]/40 font-bold">
+      <div className="absolute top-4 left-4 text-[8px] uppercase tracking-[0.3em] text-[#00BFFF]/35 font-bold">
         Prime Estate · Lucknow
       </div>
     </div>
@@ -110,8 +135,8 @@ function CssBuildingScene() {
 
 export function PlotsAndStructures() {
   return (
-    <section className="relative py-32 px-6 bg-background overflow-hidden">
-      <Section3DBackground opacity={0.2} />
+    <section className="relative py-32 px-6 bg-[#060c16] overflow-hidden">
+      <Section3DBackground opacity={0.15} />
 
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -120,11 +145,11 @@ export function PlotsAndStructures() {
             <SectionEyebrow>Strategic Masterpieces</SectionEyebrow>
             <Reveal>
               <h2 className="text-5xl md:text-7xl font-serif text-white mt-4 mb-8">
-                Building <em className="text-luxe-cyan italic">Plots & Structures</em>
+                Building <em className="text-[#00BFFF] italic">Plots & Structures</em>
               </h2>
             </Reveal>
 
-            <div className="space-y-8 text-white/50 text-lg font-light leading-relaxed">
+            <div className="space-y-8 text-white/60 text-lg font-light leading-relaxed">
               <Reveal delay={0.2}>
                 <p>
                   Discover the ultimate foundation for your architectural dreams. Our premium building
@@ -134,13 +159,13 @@ export function PlotsAndStructures() {
               </Reveal>
 
               <Reveal delay={0.4}>
-                <div className="flex gap-12 pt-8">
-                  <div className="border-l border-luxe-cyan/30 pl-6">
-                    <p className="text-3xl font-display text-white mb-2">150+</p>
+                <div className="flex gap-12 pt-6">
+                  <div className="border-l-2 border-[#00BFFF]/40 pl-6">
+                    <p className="text-3xl font-serif text-white mb-1">150+</p>
                     <p className="text-[10px] uppercase tracking-widest font-bold text-white/40">Premium Plots</p>
                   </div>
-                  <div className="border-l border-luxe-cyan/30 pl-6">
-                    <p className="text-3xl font-display text-white mb-2">Elite</p>
+                  <div className="border-l-2 border-[#00BFFF]/40 pl-6">
+                    <p className="text-3xl font-serif text-white mb-1">Elite</p>
                     <p className="text-[10px] uppercase tracking-widest font-bold text-white/40">Architectural Support</p>
                   </div>
                 </div>
@@ -148,8 +173,8 @@ export function PlotsAndStructures() {
             </div>
           </div>
 
-          {/* Visual Side — pure CSS building scene */}
-          <div className="order-1 lg:order-2 h-[380px] md:h-[460px] relative">
+          {/* CSS 3D Building Scene */}
+          <div className="order-1 lg:order-2 h-[380px] md:h-[480px] relative">
             <CssBuildingScene />
           </div>
         </div>

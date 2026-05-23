@@ -2,11 +2,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState, useCallback } from "react";
 
 export function IntroScreen() {
-  const [visible, setVisible] = useState(() => {
-    if (typeof window === "undefined") return false;
-    return !sessionStorage.getItem("intro_seen");
-  });
+  const [visible, setVisible] = useState(true);
   const [exiting, setExiting] = useState(false);
+
+  useEffect(() => {
+    if (sessionStorage.getItem("intro_seen")) {
+      setVisible(false);
+    }
+  }, []);
 
   const handleExit = useCallback(() => {
     if (exiting) return;
