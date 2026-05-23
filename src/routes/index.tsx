@@ -5,24 +5,21 @@ import heroImg from "@/assets/hero-estate.jpg";
 import { Reveal, SectionEyebrow, CountUp } from "@/components/Reveal";
 import { Testimonials } from "@/components/Testimonials";
 import { WealthCalculator } from "@/components/WealthCalculator";
-import { EnhancedDevelopersSection } from "@/components/DevelopersSection.Enhanced";
-import { WhoWeAre } from "@/components/WhoWeAre";
-import { Services3DSection } from "@/components/Services3DSection";
 import { IntroHighlightSection } from "@/components/IntroHighlightSection";
-import { Projects3DShowcase } from "@/components/Projects3DShowcase";
 import { PlotsAndStructures } from "@/components/PlotsAndStructures";
 import {
   SlideInOnScroll,
   BlurReveal,
 } from "@/components/ScrollAnimations";
-import { LuxuryHighlights } from "@/components/LuxuryHighlights";
 import { Section3DBackground } from "@/components/Section3DBackground";
-import { 
-  TrustonWhoWeAreSection, 
-  TrustonServicesSection, 
-  TrustonWhySection, 
-  TrustonCTAStrip 
+import {
+  TrustonWhoWeAreSection,
+  TrustonServicesSection,
+  TrustonWhySection,
+  TrustonCTAStrip,
 } from "@/components/TrustonDevelopersSection";
+import { PrimeEstateSection } from "@/components/PrimeEstateSection";
+import { Services3DSection } from "@/components/Services3DSection";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -43,21 +40,22 @@ export const Route = createFileRoute("/")({
 function Index() {
   return (
     <div className="bg-background text-foreground overflow-x-hidden">
-      {/* Hero Section with Video Background - Optimized for smoothness */}
-      <section className="relative min-h-[160vh] bg-[var(--ink)] overflow-hidden">
-        {/* Fixed Background Intro Video - Optimized with will-change and GPU acceleration */}
-        <div className="fixed inset-0 z-0 will-change-transform">
+
+      {/* ── Hero Section — Full-screen video, no overflow into next sections ── */}
+      <section className="relative min-h-screen bg-[var(--ink)] overflow-hidden">
+        {/* Video — absolute so it stays within this section only */}
+        <div className="absolute inset-0 z-0">
           <video
             autoPlay
             muted
             loop
             playsInline
             preload="auto"
-            className="w-full h-full object-cover will-change-transform"
-            style={{ 
-              opacity: 0.7, 
-              transform: 'translateZ(0)',
-              backfaceVisibility: 'hidden'
+            className="w-full h-full object-cover"
+            style={{
+              opacity: 0.7,
+              transform: "translateZ(0)",
+              backfaceVisibility: "hidden",
             }}
           >
             <source
@@ -65,10 +63,10 @@ function Index() {
               type="video/mp4"
             />
           </video>
-          <div className="absolute inset-0 bg-gradient-to-b from-[var(--ink)]/60 via-[var(--ink)]/30 to-[var(--ink)]/80" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[var(--ink)]/50 via-[var(--ink)]/20 to-[var(--ink)]/90" />
         </div>
 
-        {/* Hero Content - Centered at top */}
+        {/* Hero Content */}
         <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -98,9 +96,9 @@ function Index() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1, y: [0, 10, 0] }}
-            transition={{ 
+            transition={{
               opacity: { duration: 1, delay: 1 },
-              y: { duration: 2, repeat: Infinity, ease: "easeInOut" }
+              y: { duration: 2, repeat: Infinity, ease: "easeInOut" },
             }}
             className="absolute bottom-12 w-12 h-12 rounded-full border border-white/20 flex items-center justify-center text-white/60 hover:border-[#00BFFF] hover:text-[#00BFFF] transition-colors duration-500 cursor-pointer"
           >
@@ -114,26 +112,26 @@ function Index() {
             </svg>
           </motion.div>
         </div>
-
-        {/* Who We Are Section - Overlays on video with scroll animation */}
-        <div className="relative z-10">
-          <WhoWeAre />
-        </div>
       </section>
 
-      {/* Truston Developers - Who We Are Section (from HTML file) */}
+      {/* ── All content sections below — fully separated from the video ── */}
+
+      {/* Who We Are */}
       <TrustonWhoWeAreSection />
 
-      {/* Truston Services Section (from HTML file) */}
+      {/* Prime Estate Project */}
+      <PrimeEstateSection />
+
+      {/* Services */}
       <TrustonServicesSection />
 
-      {/* 3. Intro Highlight Section */}
+      {/* Intro Highlight */}
       <IntroHighlightSection />
 
-      {/* 4. Building Plots & Structures */}
+      {/* Plots & Structures */}
       <PlotsAndStructures />
 
-      {/* Philosophy Section - Darkened and Refined */}
+      {/* Philosophy */}
       <section className="py-24 px-6 bg-[var(--ink)] relative overflow-hidden">
         <Section3DBackground opacity={0.15} />
         <div className="max-w-7xl mx-auto relative z-10">
@@ -177,20 +175,11 @@ function Index() {
         </div>
       </section>
 
-      {/* Futuristic Projects Showcase - This contains "Prime Estate" masterpieces */}
-      <Projects3DShowcase />
-
-      {/* MOVING Luxury Highlights Section — after Prime state (Projects Showcase) */}
-      <LuxuryHighlights />
-
-      {/* Why Truston Section (from HTML file) */}
+      {/* Why Truston */}
       <TrustonWhySection />
 
-      {/* Futuristic Services Section */}
+      {/* Services 3D */}
       <Services3DSection />
-
-      {/* Enhanced Developers Section with Floating Images */}
-      <EnhancedDevelopersSection />
 
       {/* Wealth Calculator */}
       <WealthCalculator />
@@ -198,22 +187,22 @@ function Index() {
       {/* Marquee */}
       <Marquee />
 
-      {/* Enhanced Stats Bar */}
+      {/* Stats Bar */}
       <EnhancedStatsBar />
 
       {/* Testimonials */}
       <Testimonials />
 
-      {/* Truston CTA Strip (from HTML file) */}
+      {/* CTA Strip */}
       <TrustonCTAStrip />
 
-      {/* Call to Action Section */}
+      {/* Final CTA */}
       <CTASection />
     </div>
   );
 }
 
-/* ── Enhanced Marquee with Floating Text ─────────────────────────── */
+/* ── Marquee ─────────────────────────────────────────────────────── */
 function Marquee() {
   const words = [
     "Cinematic Living",
@@ -248,7 +237,7 @@ function Marquee() {
   );
 }
 
-/* ── Enhanced Stats Bar with Rich Animations ──────────────────────── */
+/* ── Stats Bar ─────────────────────────────────────────────────────── */
 function EnhancedStatsBar() {
   const stats = [
     { num: 150, suffix: "+", label: "Premium Plots", icon: "◉", desc: "Carefully selected" },
@@ -265,7 +254,6 @@ function EnhancedStatsBar() {
               whileHover={{ backgroundColor: "rgba(100, 200, 255, 0.03)" }}
               className="group flex flex-col items-center py-16 px-8 text-center border-r border-white/5 last:border-0 cursor-default transition-all duration-500 relative"
             >
-              {/* Top accent line animate */}
               <div className="absolute top-0 left-8 right-8 h-px bg-white/5 overflow-hidden">
                 <motion.div
                   className="h-full bg-luxe-cyan"
@@ -275,29 +263,19 @@ function EnhancedStatsBar() {
                   transition={{ duration: 1.2, delay: i * 0.15 }}
                 />
               </div>
-
-              {/* Icon */}
               <motion.span
                 className="text-luxe-cyan/30 text-3xl mb-6 group-hover:text-luxe-cyan transition-colors duration-500"
                 whileHover={{ scale: 1.3, rotate: 15 }}
               >
                 {s.icon}
               </motion.span>
-
-              {/* Counter */}
               <p className="font-display text-5xl md:text-7xl text-white font-bold leading-none tracking-tighter">
                 <CountUp to={s.num} suffix={s.suffix} />
               </p>
-
-              {/* Divider */}
               <motion.div className="w-8 h-px bg-white/10 my-6 group-hover:w-16 group-hover:bg-luxe-cyan transition-all duration-500" />
-
-              {/* Label */}
               <p className="text-[11px] uppercase tracking-[0.4em] text-white/30 group-hover:text-luxe-cyan transition-colors duration-500 font-bold">
                 {s.label}
               </p>
-
-              {/* Description */}
               <p className="text-[10px] text-white/20 mt-3 group-hover:text-white/50 transition-colors duration-300 font-medium">
                 {s.desc}
               </p>
@@ -309,21 +287,18 @@ function EnhancedStatsBar() {
   );
 }
 
-/* ── Call to Action Section ──────────────────────────────────────── */
+/* ── CTA Section ─────────────────────────────────────────────────── */
 function CTASection() {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
   });
-
   const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
 
   return (
     <section ref={ref} className="relative py-32 md:py-48 px-6 overflow-hidden bg-ink">
       <Section3DBackground opacity={0.2} />
-
-      {/* Animated Background */}
       <motion.div style={{ y: bgY }} className="absolute inset-0 opacity-10 pointer-events-none">
         <div className="absolute top-20 right-20 w-[800px] h-[800px] bg-luxe-blue rounded-full blur-[150px]" />
         <div className="absolute bottom-20 left-20 w-[800px] h-[800px] bg-luxe-cyan rounded-full blur-[150px]" />
@@ -357,7 +332,6 @@ function CTASection() {
           </button>
         </motion.div>
 
-        {/* Trust Badges */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -366,21 +340,15 @@ function CTASection() {
           className="mt-20 flex flex-wrap justify-center gap-10 text-white/30 text-[10px] uppercase tracking-[0.3em] font-bold"
         >
           <div className="flex items-center gap-3 group">
-            <span className="text-luxe-cyan text-xl group-hover:scale-125 transition-transform">
-              ✓
-            </span>{" "}
+            <span className="text-luxe-cyan text-xl group-hover:scale-125 transition-transform">✓</span>
             Jila Panchayat Approved
           </div>
           <div className="flex items-center gap-3 group">
-            <span className="text-luxe-cyan text-xl group-hover:scale-125 transition-transform">
-              ✓
-            </span>{" "}
+            <span className="text-luxe-cyan text-xl group-hover:scale-125 transition-transform">✓</span>
             100% Legal Clearance
           </div>
           <div className="flex items-center gap-3 group">
-            <span className="text-luxe-cyan text-xl group-hover:scale-125 transition-transform">
-              ✓
-            </span>{" "}
+            <span className="text-luxe-cyan text-xl group-hover:scale-125 transition-transform">✓</span>
             Transparent Documentation
           </div>
         </motion.div>
