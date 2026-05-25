@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import heroImg from "@/assets/hero-estate.jpg";
 import { Reveal, SectionEyebrow, CountUp } from "@/components/Reveal";
 import { Testimonials } from "@/components/Testimonials";
-import { WealthCalculator } from "@/components/WealthCalculator";
 import { IntroHighlightSection } from "@/components/IntroHighlightSection";
 import { PlotsAndStructures } from "@/components/PlotsAndStructures";
 import { Section3DBackground } from "@/components/Section3DBackground";
@@ -157,8 +156,6 @@ function Index() {
       {/* Why Truston */}
       <TrustonWhySection />
 
-      {/* Wealth Calculator */}
-      <WealthCalculator />
 
       {/* Marquee */}
       <Marquee />

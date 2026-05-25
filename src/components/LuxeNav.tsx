@@ -82,8 +82,8 @@ export function LuxeNav() {
               <Link
                 key={l.to}
                 to={l.to}
-                className={`px-5 py-2 text-[12px] font-bold uppercase tracking-widest transition-colors duration-300 relative group text-white/90 hover:text-white`}
-                activeProps={{ className: "text-white" }}
+                className={`px-5 py-2 text-[12px] font-bold uppercase tracking-widest transition-colors duration-300 relative group text-white hover:text-luxe-cyan`}
+                activeProps={{ className: "text-luxe-cyan" }}
               >
                 {l.label}
                 <span
@@ -100,8 +100,8 @@ export function LuxeNav() {
             >
               <Link
                 to="/services"
-                className={`flex items-center gap-2 px-5 py-2 text-[12px] font-bold uppercase tracking-widest transition-colors duration-300 relative group text-white/90 hover:text-white`}
-                activeProps={{ className: "text-white" }}
+                className={`flex items-center gap-2 px-5 py-2 text-[12px] font-bold uppercase tracking-widest transition-colors duration-300 relative group text-white hover:text-luxe-cyan`}
+                activeProps={{ className: "text-luxe-cyan" }}
               >
                 Services
                 <svg
@@ -153,8 +153,8 @@ export function LuxeNav() {
               <Link
                 key={l.to}
                 to={l.to}
-                className={`px-5 py-2 text-[12px] font-bold uppercase tracking-widest transition-colors duration-300 relative group text-white/90 hover:text-white`}
-                activeProps={{ className: "text-white" }}
+                className={`px-5 py-2 text-[12px] font-bold uppercase tracking-widest transition-colors duration-300 relative group text-white hover:text-luxe-cyan`}
+                activeProps={{ className: "text-luxe-cyan" }}
               >
                 {l.label}
                 <span

@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { Reveal } from "@/components/Reveal";
 import { Section3DBackground } from "@/components/Section3DBackground";
+import { WealthCalculator } from "@/components/WealthCalculator";
 import lucknowImg from "@/assets/lucknow-aerial.jpg";
 import heroImg from "@/assets/hero-estate.jpg";
 
@@ -312,6 +313,9 @@ function Page() {
           </Reveal>
         </div>
       </section>
+
+      {/* ── Predict Your Legacy — Wealth Calculator ── */}
+      <WealthCalculator />
 
       {/* ── CTA ── */}
       <section className="py-32 px-6 text-center relative overflow-hidden">
