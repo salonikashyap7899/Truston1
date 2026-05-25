@@ -15,6 +15,7 @@ import {
 } from "@/components/TrustonDevelopersSection";
 import { PrimeEstateSection } from "@/components/PrimeEstateSection";
 import { WhoWeAreSection } from "@/components/WhoWeAreSection";
+import { NewGenerationSection } from "@/components/NewGenerationSection";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -153,6 +154,9 @@ function Index() {
 
       {/* Prime Estate Project */}
       <PrimeEstateSection />
+
+      {/* New Generation */}
+      <NewGenerationSection />
 
       {/* Gallery */}
       <GallerySection />
