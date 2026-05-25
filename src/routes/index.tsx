@@ -14,6 +14,7 @@ import {
   TrustonCTAStrip,
 } from "@/components/TrustonDevelopersSection";
 import { PrimeEstateSection } from "@/components/PrimeEstateSection";
+import { WhoWeAreSection } from "@/components/WhoWeAreSection";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -54,29 +55,31 @@ function Index() {
           <div className="absolute inset-0 bg-gradient-to-r from-[#04090f]/60 via-transparent to-transparent" />
         </div>
 
-        {/* Left-aligned editorial layout */}
-        <div className="relative z-10 h-full flex flex-col justify-end pb-20 md:pb-28 px-8 md:px-16 lg:px-24 max-w-[1400px] mx-auto w-full">
+        {/* Center-aligned hero layout */}
+        <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6 md:px-16 max-w-[1200px] mx-auto w-full">
           <motion.div
+            className="w-full"
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
           >
             {/* Eyebrow */}
             <motion.div
-              className="flex items-center gap-4 mb-6"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
+              className="flex items-center justify-center gap-4 mb-8"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.3 }}
             >
               <span className="w-10 h-px bg-[#00BFFF]" />
               <p className="text-[10px] md:text-[11px] text-[#00BFFF] uppercase font-bold tracking-[0.45em]">
-                Begin Your Journey
+                Lucknow's Premier Plot Studio
               </p>
+              <span className="w-10 h-px bg-[#00BFFF]" />
             </motion.div>
 
             {/* Main headline */}
             <motion.h1
-              className="font-serif text-6xl md:text-8xl lg:text-[10rem] text-white tracking-tighter leading-[0.85] mb-6"
+              className="font-serif text-7xl md:text-9xl lg:text-[11rem] text-white tracking-tighter leading-[0.85] mb-6"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.6, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
@@ -84,49 +87,48 @@ function Index() {
               TRUST<span style={{ color: "#00BFFF" }}>ON</span>
             </motion.h1>
 
-            {/* Tagline + CTAs in a row */}
+            {/* Tagline */}
+            <motion.p
+              className="text-white/60 text-base md:text-lg font-light tracking-widest uppercase mb-3"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.75 }}
+            >
+              Own the Ground. Build the Legacy.
+            </motion.p>
+
+            <motion.p
+              className="text-white/30 text-sm font-light max-w-xl mx-auto leading-relaxed mb-10"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1, delay: 1 }}
+            >
+              Curated land, architectural mastery and construction excellence — under one roof.
+            </motion.p>
+
+            {/* CTA Buttons */}
             <motion.div
-              className="flex flex-col md:flex-row md:items-end md:justify-between gap-8"
+              className="flex flex-col sm:flex-row items-center justify-center gap-4"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.8 }}
+              transition={{ duration: 1, delay: 1.1 }}
             >
-              <div>
-                <p className="text-white/50 text-sm md:text-base tracking-[0.35em] font-light uppercase mb-1">
-                  Billion Dollar Legacy
-                </p>
-                <p className="text-white/25 text-xs font-light tracking-widest">
-                  Lucknow's Premier Real Estate Development
-                </p>
-              </div>
-
-              {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-3">
-                <Link
-                  to="/contact"
-                  className="px-8 py-3.5 text-[11px] uppercase tracking-[0.2em] font-bold rounded-full transition-all duration-500 hover:scale-105 text-center"
-                  style={{ background: "#00BFFF", color: "#04090f" }}
-                >
-                  Enquire Now →
-                </Link>
-                <a
-                  href="tel:+919616061166"
-                  className="px-8 py-3.5 border border-white/20 text-white/70 text-[11px] uppercase tracking-[0.2em] font-bold rounded-full hover:border-[#00BFFF] hover:text-[#00BFFF] transition-all duration-500 text-center"
-                >
-                  +91 96160-61166
-                </a>
-              </div>
+              <Link
+                to="/contact"
+                className="px-10 py-4 text-[11px] uppercase tracking-[0.2em] font-bold rounded-full transition-all duration-500 hover:scale-105"
+                style={{ background: "#00BFFF", color: "#04090f" }}
+              >
+                Enquire Now →
+              </Link>
+              <a
+                href="tel:+919616061166"
+                className="px-10 py-4 border border-white/20 text-white/75 text-[11px] uppercase tracking-[0.2em] font-bold rounded-full hover:border-[#00BFFF] hover:text-[#00BFFF] transition-all duration-500"
+              >
+                +91 96160-61166
+              </a>
             </motion.div>
           </motion.div>
 
-          {/* Bottom decorative line */}
-          <motion.div
-            className="absolute bottom-0 left-8 md:left-16 lg:left-24 right-8 h-px bg-white/8"
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: 1 }}
-            transition={{ duration: 1.5, delay: 1.2, ease: [0.16, 1, 0.3, 1] }}
-            style={{ transformOrigin: "left" }}
-          />
         </div>
 
         {/* Scroll indicator */}
@@ -146,14 +148,17 @@ function Index() {
         </motion.div>
       </section>
 
-      {/* Site Photography — Every detail, captured */}
+      {/* Who We Are */}
+      <WhoWeAreSection />
+
+      {/* Prime Estate Project */}
+      <PrimeEstateSection />
+
+      {/* Gallery */}
       <GallerySection />
 
       {/* Stats Bar — after gallery */}
       <EnhancedStatsBar />
-
-      {/* Prime Estate Project */}
-      <PrimeEstateSection />
 
       {/* Services */}
       <TrustonServicesSection />

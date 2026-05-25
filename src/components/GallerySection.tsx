@@ -1,8 +1,6 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { GalleryLightbox, type GalleryItem } from "./GalleryLightbox";
-import { SectionEyebrow } from "./Reveal";
-import { ImageCursorTrail } from "./ImageCursorTrail";
 
 const ALL_IMAGES: GalleryItem[] = [
   {
@@ -95,40 +93,28 @@ export function GallerySection() {
       id="gallery-section"
       className="relative bg-[#04090f] overflow-hidden"
     >
-      {/* ── Cursor Trail Hero Header ── */}
-      <ImageCursorTrail
-        items={TRAIL_IMGS}
-        maxNumberOfImages={5}
-        distance={22}
-        imgClass="w-36 h-44 sm:w-44 sm:h-52"
-        fadeAnimation
-        className="min-h-[520px] flex items-center justify-center border-b border-white/5"
+      {/* ── Section header ── */}
+      <motion.div
+        className="text-center pt-20 pb-4 px-6"
+        initial={{ opacity: 0, y: 40 }}
+        animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+        transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
       >
-        <motion.div
-          className="relative z-30 text-center px-6 max-w-4xl mx-auto"
-          initial={{ opacity: 0, y: 50 }}
-          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <SectionEyebrow light>Site Photography</SectionEyebrow>
-
-          <h2
-            className="font-serif text-6xl md:text-8xl lg:text-9xl text-white leading-[0.88] tracking-tighter mb-6"
-          >
-            Every detail,{" "}
-            <em className="text-[#00BFFF] not-italic">captured.</em>
-          </h2>
-
-          <p className="text-white/40 mt-6 max-w-lg mx-auto text-base md:text-lg leading-relaxed font-light">
-            Experience architectural brilliance in high definition — our curated collection of
-            premium sites and designs.
+        <div className="flex items-center justify-center gap-4 mb-5">
+          <span className="w-10 h-px bg-[#00BFFF]" />
+          <p className="text-[10px] uppercase tracking-[0.5em] text-[#00BFFF] font-bold">
+            Our Gallery
           </p>
-
-          <p className="text-white/20 text-[10px] uppercase tracking-[0.45em] mt-10 font-bold">
-            ✦ &nbsp; Move cursor to explore &nbsp; ✦
-          </p>
-        </motion.div>
-      </ImageCursorTrail>
+          <span className="w-10 h-px bg-[#00BFFF]" />
+        </div>
+        <h2 className="font-serif text-5xl md:text-7xl text-white leading-tight tracking-tighter mb-4">
+          Every detail,{" "}
+          <em className="text-[#00BFFF] not-italic">captured.</em>
+        </h2>
+        <p className="text-white/35 max-w-lg mx-auto text-base font-light">
+          Our curated collection of premium sites, interiors, and architectural designs.
+        </p>
+      </motion.div>
 
       {/* ── Gallery body ── */}
       <div className="relative px-4 md:px-8 py-20 max-w-[1600px] mx-auto z-10">

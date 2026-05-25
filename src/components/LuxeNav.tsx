@@ -46,7 +46,9 @@ export function LuxeNav() {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.9, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
       className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${
-        scrolled ? "bg-ink shadow-luxe border-b border-white/5" : "bg-transparent"
+        scrolled
+          ? "bg-[#04090f]/98 shadow-[0_4px_32px_rgba(0,0,0,0.6)] border-b border-white/8 backdrop-blur-xl"
+          : "bg-[#04090f]/70 backdrop-blur-md border-b border-white/5"
       }`}
     >
       <div className="mx-auto max-w-7xl px-6">
@@ -80,7 +82,7 @@ export function LuxeNav() {
               <Link
                 key={l.to}
                 to={l.to}
-                className={`px-5 py-2 text-[12px] font-bold uppercase tracking-widest transition-colors duration-300 relative group text-white/70 hover:text-white`}
+                className={`px-5 py-2 text-[12px] font-bold uppercase tracking-widest transition-colors duration-300 relative group text-white/90 hover:text-white`}
                 activeProps={{ className: "text-white" }}
               >
                 {l.label}
@@ -98,7 +100,7 @@ export function LuxeNav() {
             >
               <Link
                 to="/services"
-                className={`flex items-center gap-2 px-5 py-2 text-[12px] font-bold uppercase tracking-widest transition-colors duration-300 relative group text-white/70 hover:text-white`}
+                className={`flex items-center gap-2 px-5 py-2 text-[12px] font-bold uppercase tracking-widest transition-colors duration-300 relative group text-white/90 hover:text-white`}
                 activeProps={{ className: "text-white" }}
               >
                 Services
@@ -151,7 +153,7 @@ export function LuxeNav() {
               <Link
                 key={l.to}
                 to={l.to}
-                className={`px-5 py-2 text-[12px] font-bold uppercase tracking-widest transition-colors duration-300 relative group text-white/70 hover:text-white`}
+                className={`px-5 py-2 text-[12px] font-bold uppercase tracking-widest transition-colors duration-300 relative group text-white/90 hover:text-white`}
                 activeProps={{ className: "text-white" }}
               >
                 {l.label}
