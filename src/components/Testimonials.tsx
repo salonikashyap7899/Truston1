@@ -138,15 +138,16 @@ export function Testimonials() {
           grabCursor
           centeredSlides
           loop
+          speed={800}
           slidesPerView="auto"
           coverflowEffect={{
             rotate: 0,
             stretch: 0,
-            depth: 120,
-            modifier: 2,
+            depth: 100,
+            modifier: 2.5,
             slideShadows: false,
           }}
-          autoplay={{ delay: 3500, disableOnInteraction: false, pauseOnMouseEnter: true }}
+          autoplay={{ delay: 3000, disableOnInteraction: false, pauseOnMouseEnter: true }}
           pagination={{ clickable: true }}
           modules={[EffectCoverflow, Autoplay, Pagination]}
           className="testimonials-swiper pb-14"

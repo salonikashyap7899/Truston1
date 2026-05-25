@@ -1,4 +1,4 @@
-import { useRef, useCallback, type ReactNode } from "react";
+import { createRef, useRef, type ReactNode } from "react";
 
 const TRAIL_IMAGES = [
   "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/hotel-lobby-interior-600x800.jpg",
@@ -12,65 +12,88 @@ const TRAIL_IMAGES = [
 ];
 
 interface ImageCursorTrailProps {
-  children: ReactNode;
+  items?: string[];
+  children?: ReactNode;
   className?: string;
+  imgClass?: string;
+  distance?: number;
+  maxNumberOfImages?: number;
+  fadeAnimation?: boolean;
 }
 
-export function ImageCursorTrail({ children, className = "" }: ImageCursorTrailProps) {
+export function ImageCursorTrail({
+  items = TRAIL_IMAGES,
+  children,
+  className = "",
+  maxNumberOfImages = 5,
+  imgClass = "w-36 h-44",
+  distance = 20,
+  fadeAnimation = true,
+}: ImageCursorTrailProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const imgRefs = useRef<(HTMLImageElement | null)[]>([]);
-  const globalIndexRef = useRef(0);
-  const lastPos = useRef({ x: 0, y: 0 });
+  const refs = useRef(items.map(() => createRef<HTMLImageElement>()));
+  const currentZIndexRef = useRef(1);
 
-  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = containerRef.current?.getBoundingClientRect();
-    if (!rect) return;
+  let globalIndex = 0;
+  let last = { x: 0, y: 0 };
 
-    const dx = e.clientX - lastPos.current.x;
-    const dy = e.clientY - lastPos.current.y;
-    const dist = Math.hypot(dx, dy);
+  const activate = (image: HTMLImageElement, x: number, y: number) => {
+    const containerRect = containerRef.current?.getBoundingClientRect();
+    if (!containerRect) return;
+    const relativeX = x - containerRect.left;
+    const relativeY = y - containerRect.top;
+    image.style.left = `${relativeX}px`;
+    image.style.top = `${relativeY}px`;
 
-    if (dist < window.innerWidth / 25) return;
+    if (currentZIndexRef.current > 40) currentZIndexRef.current = 1;
+    image.style.zIndex = String(currentZIndexRef.current);
+    currentZIndexRef.current++;
 
-    lastPos.current = { x: e.clientX, y: e.clientY };
-
-    const total = imgRefs.current.length;
-    const idx = globalIndexRef.current % total;
-    const tailIdx = (globalIndexRef.current - 5 + total) % total;
-
-    const lead = imgRefs.current[idx];
-    const tail = imgRefs.current[tailIdx];
-
-    if (lead) {
-      lead.style.left = `${e.clientX - rect.left}px`;
-      lead.style.top = `${e.clientY - rect.top}px`;
-      lead.dataset.status = "active";
+    image.dataset.status = "active";
+    if (fadeAnimation) {
       setTimeout(() => {
-        if (lead) lead.dataset.status = "inactive";
-      }, 1200);
+        image.dataset.status = "inactive";
+      }, 1400);
     }
-    if (tail && tail !== lead) {
-      tail.dataset.status = "inactive";
-    }
+    last = { x, y };
+  };
 
-    globalIndexRef.current++;
-  }, []);
+  const distanceFromLast = (x: number, y: number) =>
+    Math.hypot(x - last.x, y - last.y);
+
+  const deactivate = (image: HTMLImageElement) => {
+    image.dataset.status = "inactive";
+  };
+
+  const handleOnMove = (e: MouseEvent | Touch) => {
+    if (distanceFromLast(e.clientX, e.clientY) > window.innerWidth / distance) {
+      const lead = refs.current[globalIndex % refs.current.length].current;
+      const tail =
+        refs.current[(globalIndex - maxNumberOfImages + refs.current.length) % refs.current.length]?.current;
+      if (lead) activate(lead, e.clientX, e.clientY);
+      if (tail) deactivate(tail);
+      globalIndex++;
+    }
+  };
 
   return (
     <div
       ref={containerRef}
       className={`relative overflow-hidden cursor-none ${className}`}
-      onMouseMove={handleMouseMove}
+      onMouseMove={(e) => handleOnMove(e as unknown as MouseEvent)}
+      onTouchMove={(e) => handleOnMove(e.touches[0] as unknown as Touch)}
     >
-      {TRAIL_IMAGES.map((src, i) => (
+      {items.map((src, i) => (
         <img
           key={i}
-          ref={(el) => { imgRefs.current[i] = el; }}
+          ref={refs.current[i]}
           src={src}
           alt=""
           data-status="inactive"
           aria-hidden="true"
-          className="pointer-events-none absolute z-20 w-36 h-44 object-cover rounded-2xl -translate-x-1/2 -translate-y-1/2 opacity-0 scale-50 transition-all duration-500 ease-out data-[status=active]:opacity-100 data-[status=active]:scale-100 border border-white/10 shadow-2xl"
+          className={`pointer-events-none absolute z-20 object-cover rounded-2xl -translate-x-1/2 -translate-y-1/2 scale-0 opacity-0 border border-white/10 shadow-2xl transition-all duration-500
+            data-[status=active]:scale-100 data-[status=active]:opacity-100 data-[status=active]:duration-500
+            ${imgClass}`}
           style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)" }}
         />
       ))}
