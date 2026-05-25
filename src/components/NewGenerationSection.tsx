@@ -86,9 +86,9 @@ export function NewGenerationSection() {
                 <span className="w-6 h-px bg-[#00BFFF]" /> New Generation
               </p>
               <h2 className="font-serif text-5xl md:text-7xl lg:text-8xl text-white leading-[0.88] tracking-tighter">
-                Real Estate,{" "}
+                Redefining{" "}
                 <br />
-                <em className="italic text-[#00BFFF] font-light">Reimagined.</em>
+                <em className="italic text-[#00BFFF] font-light">Luxury</em>{" "}Real Estate
               </h2>
             </motion.div>
 

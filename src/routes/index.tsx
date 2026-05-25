@@ -4,7 +4,6 @@ import heroImg from "@/assets/hero-estate.jpg";
 import { Reveal, SectionEyebrow, CountUp } from "@/components/Reveal";
 import { Testimonials } from "@/components/Testimonials";
 import { WealthCalculator } from "@/components/WealthCalculator";
-import { GallerySection } from "@/components/GallerySection";
 import { IntroHighlightSection } from "@/components/IntroHighlightSection";
 import { PlotsAndStructures } from "@/components/PlotsAndStructures";
 import { Section3DBackground } from "@/components/Section3DBackground";
@@ -80,7 +79,7 @@ function Index() {
 
             {/* Main headline */}
             <motion.h1
-              className="font-serif text-7xl md:text-9xl lg:text-[11rem] text-white tracking-tighter leading-[0.85] mb-6"
+              className="font-serif text-5xl md:text-7xl lg:text-8xl text-white tracking-tighter leading-[0.85] mb-6"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.6, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
@@ -158,10 +157,7 @@ function Index() {
       {/* New Generation */}
       <NewGenerationSection />
 
-      {/* Gallery */}
-      <GallerySection />
-
-      {/* Stats Bar — after gallery */}
+      {/* Stats Bar */}
       <EnhancedStatsBar />
 
       {/* Services */}
