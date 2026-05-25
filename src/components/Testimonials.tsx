@@ -1,4 +1,3 @@
-import { useRef } from "react";
 import { Reveal, SectionEyebrow } from "./Reveal";
 import { Section3DBackground } from "./Section3DBackground";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -65,13 +64,13 @@ function TestimonialCard({
   profileImage,
 }: (typeof testimonials)[number]) {
   return (
-    <div className="relative bg-[#0a121e] border border-white/5 rounded-[24px] overflow-hidden shadow-2xl flex h-[220px] md:h-[240px] select-none">
+    <div className="relative bg-[#0a121e] border border-white/5 rounded-[24px] overflow-hidden shadow-2xl flex h-[220px] md:h-[240px] select-none group">
       {/* Profile photo */}
       <div className="w-[160px] md:w-[200px] flex-shrink-0 relative overflow-hidden">
         <img
           src={profileImage}
           alt={name}
-          className="w-full h-full object-cover brightness-90 group-hover:scale-110 transition-transform duration-700"
+          className="w-full h-full object-cover brightness-75 group-hover:scale-110 transition-transform duration-700"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#0a121e]" />
       </div>

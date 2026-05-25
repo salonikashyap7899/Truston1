@@ -18,9 +18,11 @@ function AdminPage() {
   const [tab, setTab] = useState<Tab>("content");
 
   useEffect(() => {
-    // Only redirect if loading is finished and we are SURE there's no admin
-    if (!loading && (!user || !isAdmin)) {
-      navigate({ to: "/admin/login" });
+    // Only redirect if loading is finished
+    if (!loading) {
+      if (!user || !isAdmin) {
+        navigate({ to: "/admin/login" });
+      }
     }
   }, [user, isAdmin, loading, navigate]);
 

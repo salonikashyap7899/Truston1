@@ -157,15 +157,14 @@ function Index() {
       {/* Philosophy — Moved here as per request (third image section) */}
       <PhilosophySection />
 
+      {/* Why Truston */}
+      <TrustonWhySection />
+
       {/* Intro Highlight */}
       <IntroHighlightSection />
 
       {/* Plots & Structures — CSS building scene */}
       <PlotsAndStructures />
-
-      {/* Why Truston */}
-      <TrustonWhySection />
-
 
       {/* Marquee */}
       <Marquee />

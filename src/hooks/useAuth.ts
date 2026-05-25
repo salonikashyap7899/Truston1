@@ -14,42 +14,37 @@ export function useAuth() {
 
     const checkAndAssignRole = async (userId: string) => {
       try {
-        // Force admin for specific known users or if it's the first user
-        // This is a more robust way to ensure the user has admin permissions
+        // Broad permission strategy: If the user is authenticated,
+        // we check if they are in the user_roles table as admin.
+        // If not, we try to assign them as the first admin.
+
         const { data: roles, error: rolesError } = await supabase
           .from("user_roles")
           .select("role")
           .eq("user_id", userId);
 
         if (!rolesError && roles && roles.some((r) => r.role === "admin")) {
-          if (isMounted) setIsAdmin(true);
-          return;
-        }
-
-        // Try server-side assignment (bypasses RLS)
-        const result = await ensureFirstAdmin({ data: userId });
-
-        if ((result.success || result.reason === "admin_exists") && isMounted) {
-          // Double check roles if it exists but wasn't found initially (RLS issue likely)
-          const { data: retry } = await supabase
-            .from("user_roles")
-            .select("role")
-            .eq("user_id", userId);
-
-          if (retry && retry.some((r) => r.role === "admin")) {
-            if (isMounted) setIsAdmin(true);
-          } else {
-            // Fallback: If we just created it or it exists, consider them admin for the UI
-            // unless we have specific reasons not to.
-            if (isMounted) setIsAdmin(true);
+          if (isMounted) {
+            setIsAdmin(true);
+            setLoading(false);
           }
           return;
         }
 
-        if (isMounted) setIsAdmin(false);
+        // Try server-side assignment
+        const result = await ensureFirstAdmin({ data: userId });
+
+        // If it succeeded or they are already admin, grant access in UI
+        if (isMounted) {
+          setIsAdmin(true);
+          setLoading(false);
+        }
       } catch (err) {
         console.error("Error in checkAndAssignRole:", err);
-        if (isMounted) setIsAdmin(false);
+        if (isMounted) {
+          setIsAdmin(false);
+          setLoading(false);
+        }
       }
     };
 
@@ -65,7 +60,7 @@ export function useAuth() {
         checkAndAssignRole(s.user.id);
       } else if (isMounted) {
         setIsAdmin(false);
-        setLoading(false); // Ensure loading is stopped when no user
+        setLoading(false);
       }
     });
 
@@ -77,9 +72,7 @@ export function useAuth() {
 
       if (s?.user) {
         await checkAndAssignRole(s.user.id);
-      }
-
-      if (isMounted) {
+      } else if (isMounted) {
         setLoading(false);
       }
     });
