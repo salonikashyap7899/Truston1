@@ -63,12 +63,8 @@ export function WhoWeAreSection() {
               alt="Prime Estate — Township Overview"
               className="w-full h-full object-cover"
             />
-            {/* Scan-line shimmer */}
-            <motion.div
-              className="absolute inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#00BFFF]/60 to-transparent pointer-events-none"
-              animate={{ top: ["0%", "100%", "0%"] }}
-              transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
-            />
+            {/* Subtle static shimmer — no continuous animation */}
+            <div className="absolute inset-x-0 top-1/2 h-[1px] bg-gradient-to-r from-transparent via-[#00BFFF]/20 to-transparent pointer-events-none" />
             {/* Quote badge */}
             <div className="absolute bottom-4 left-4 right-4">
               <div className="bg-[#04090f]/75 backdrop-blur-xl border border-[#00BFFF]/20 rounded-xl p-3">

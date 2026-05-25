@@ -46,7 +46,7 @@ export function NewGenerationSection() {
       {/* ── Parallax full-bleed image ── */}
       <motion.div
         className="absolute inset-0 z-0"
-        style={{ y: bgY }}
+        style={{ y: bgY, willChange: "transform" }}
       >
         <img
           src="/assets/infrastructure-road.jpg"

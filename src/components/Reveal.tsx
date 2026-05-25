@@ -3,35 +3,32 @@ import type { ReactNode } from "react";
 import { useRef, useEffect } from "react";
 
 const variants: Variants = {
-  hidden: { opacity: 0, y: 48, filter: "blur(8px)" },
+  hidden: { opacity: 0, y: 32 },
   show: {
     opacity: 1,
     y: 0,
-    filter: "blur(0px)",
     transition: {
-      duration: 1.1,
+      duration: 0.75,
       ease: [0.16, 1, 0.3, 1],
     },
   },
 };
 
 const slideLeft: Variants = {
-  hidden: { opacity: 0, x: -60, filter: "blur(6px)" },
+  hidden: { opacity: 0, x: -40 },
   show: {
     opacity: 1,
     x: 0,
-    filter: "blur(0px)",
-    transition: { duration: 1.1, ease: [0.16, 1, 0.3, 1] },
+    transition: { duration: 0.75, ease: [0.16, 1, 0.3, 1] },
   },
 };
 
 const slideRight: Variants = {
-  hidden: { opacity: 0, x: 60, filter: "blur(6px)" },
+  hidden: { opacity: 0, x: 40 },
   show: {
     opacity: 1,
     x: 0,
-    filter: "blur(0px)",
-    transition: { duration: 1.1, ease: [0.16, 1, 0.3, 1] },
+    transition: { duration: 0.75, ease: [0.16, 1, 0.3, 1] },
   },
 };
 
@@ -53,7 +50,7 @@ export function Reveal({
       variants={v}
       initial="hidden"
       whileInView="show"
-      viewport={{ once: true, margin: "-60px" }}
+      viewport={{ once: true, margin: "-40px" }}
       transition={{ delay }}
     >
       {children}
