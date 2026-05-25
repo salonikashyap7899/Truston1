@@ -97,24 +97,6 @@ export function IntroScreen() {
           </div>
         </motion.div>
 
-        {/* ── TRUSTON BIG HEADING (center) ── */}
-        <motion.div
-          className="relative z-20 text-center"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <h1 className="font-serif text-6xl md:text-8xl lg:text-9xl text-white leading-none tracking-tight">
-            TRUST<span style={{ color: "#00BFFF" }}>ON</span>
-          </h1>
-          <div className="flex items-center justify-center gap-4 mt-3">
-            <span className="w-8 h-px bg-white/30" />
-            <p className="text-white/50 text-[10px] md:text-xs tracking-[0.4em] uppercase font-light">
-              Billion Dollar Legacy
-            </p>
-            <span className="w-8 h-px bg-white/30" />
-          </div>
-        </motion.div>
 
         {/* Exit curtain */}
         <motion.div

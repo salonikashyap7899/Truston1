@@ -4,6 +4,7 @@ import heroImg from "@/assets/hero-estate.jpg";
 import { Reveal, SectionEyebrow, CountUp } from "@/components/Reveal";
 import { Testimonials } from "@/components/Testimonials";
 import { WealthCalculator } from "@/components/WealthCalculator";
+import { GallerySection } from "@/components/GallerySection";
 import { IntroHighlightSection } from "@/components/IntroHighlightSection";
 import { PlotsAndStructures } from "@/components/PlotsAndStructures";
 import { Section3DBackground } from "@/components/Section3DBackground";
@@ -132,6 +133,9 @@ function Index() {
       {/* Who We Are — ContainerScroll */}
       <WhoWeAreScrollSection />
 
+      {/* Site Photography — Every detail, captured */}
+      <GallerySection />
+
       {/* Prime Estate Project */}
       <PrimeEstateSection />
 
@@ -195,9 +199,9 @@ const whoWeAreStats = [
 
 function WhoWeAreScrollSection() {
   return (
-    <section id="who-we-are-section" className="relative z-10 overflow-hidden" style={{ background: "#060c16" }}>
-      {/* Gradient blends this section over the sticky hero video above */}
-      <div className="absolute top-0 left-0 right-0 h-40 pointer-events-none z-20"
+    <section id="who-we-are-section" className="relative z-10 overflow-hidden" style={{ background: "#060c16", marginTop: "-50vh" }}>
+      {/* Gradient blends this section over the sticky hero video above — 50% overlap */}
+      <div className="absolute top-0 left-0 right-0 h-[50vh] pointer-events-none z-20"
         style={{ background: "linear-gradient(to bottom, transparent 0%, #060c16 100%)" }} />
       <ContainerScroll
         titleComponent={

@@ -12,7 +12,7 @@ const services = [
 const leftLinks = [
   { label: "ABOUT", to: "/about-us" },
   { label: "PROJECTS", to: "/project" },
-  { label: "PROPERTIES", to: "/services" },
+  { label: "BLOG", to: "/blog" },
 ] as const;
 
 const rightLinks = [

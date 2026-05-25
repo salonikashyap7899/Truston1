@@ -1,10 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { useState } from "react";
-import projectImg from "@/assets/project-prime.jpg";
 import heroImg from "@/assets/hero-estate.jpg";
-import { Reveal, SectionEyebrow } from "@/components/Reveal";
-import { Section3DBackground } from "@/components/Section3DBackground";
+import luxuryInteriorImg from "@/assets/luxury-interior.jpg";
+import { Reveal } from "@/components/Reveal";
 
 export const Route = createFileRoute("/project")({
   head: () => ({
@@ -13,283 +12,243 @@ export const Route = createFileRoute("/project")({
       {
         name: "description",
         content:
-          "Explore Prime Estate — Jila Panchayat approved residential plots in Lucknow. Phase 1 & 2 now selling.",
+          "Prime Estate — Jila Panchayat approved residential plots in Lucknow. Phase 1 & 2 now selling. Highway & metro connected.",
       },
     ],
   }),
   component: ProjectPage,
 });
 
-const amenities = [
-  { icon: "🛤️", name: "Wide Internal Roads" },
-  { icon: "🔒", name: "24/7 Security Guard" },
-  { icon: "💧", name: "Piped Water Supply" },
-  { icon: "⚡", name: "Electricity Connection" },
-  { icon: "🌳", name: "Landscaped Parks" },
-  { icon: "🔧", name: "Underground Drainage" },
-];
-
-const faqs = [
+const faqs: { q: string; a: string }[] = [
   {
     q: "Are the plots in Prime Estate legally approved?",
-    a: "Yes, all plots are Jila Panchayat approved with clear title deeds and proper documentation.",
+    a: "Yes — all plots are Jila Panchayat approved with clear title deeds and proper documentation. Every stage is handled with complete transparency. No hidden conditions, no fine print.",
   },
   {
     q: "Can I get construction approval to build my home?",
-    a: "Yes, with proper construction approval, you can design and build your dream home exactly as you envision it.",
+    a: "Yes. With proper construction approval, you can design and build exactly as you envision. TrustOn also offers in-house architecture and construction services if you'd like guidance through the process.",
   },
   {
-    q: "What is the starting price of plots in Prime Estate?",
-    a: "Plots start from ₹1L+ depending on the size and phase. Contact us for the latest pricing.",
+    q: "What is the starting price of plots?",
+    a: "Plots start from ₹12 Lakhs+ depending on size and phase. Pricing is fully transparent with no hidden costs. Contact our team for current availability and the latest pricing sheet.",
   },
   {
     q: "Is Phase 2 available for booking now?",
-    a: "Phase 2 is in active development. Early buyers can register interest now to secure priority booking at launch pricing.",
+    a: "Phase 2 is in active development. Early buyers can register interest now to secure priority booking at launch pricing — locking in below-market rates before the public announcement.",
   },
   {
-    q: "How is Prime Estate connected to the rest of Lucknow?",
-    a: "Prime Estate has direct highway connectivity and is close to the metro corridor, ensuring seamless access to central Lucknow and beyond.",
+    q: "How well connected is Prime Estate to Lucknow?",
+    a: "Prime Estate at Dubagga offers direct highway connectivity and close proximity to the metro corridor — ensuring seamless access to central Lucknow, airports, schools, and commercial hubs.",
   },
 ];
 
+function FAQItem({ q, a }: { q: string; a: string }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="border-b border-white/8 last:border-b-0">
+      <button
+        onClick={() => setOpen((v) => !v)}
+        className="w-full flex items-center justify-between py-7 text-left gap-6 group"
+      >
+        <span className="font-serif text-lg text-white group-hover:text-[#00BFFF] transition-colors duration-300 leading-snug">
+          {q}
+        </span>
+        <span
+          className={`w-8 h-8 rounded-full border border-white/15 flex items-center justify-center text-[#00BFFF] text-lg font-light shrink-0 transition-all duration-400 ${
+            open ? "bg-[#00BFFF]/15 border-[#00BFFF]/50 rotate-45" : "group-hover:border-[#00BFFF]/40"
+          }`}
+        >
+          +
+        </span>
+      </button>
+      <motion.div
+        initial={false}
+        animate={{ height: open ? "auto" : 0, opacity: open ? 1 : 0 }}
+        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+        className="overflow-hidden"
+      >
+        <p className="text-white/45 text-sm leading-[2] font-light pb-7 pr-12">{a}</p>
+      </motion.div>
+    </div>
+  );
+}
+
 function ProjectPage() {
   return (
-    <div className="bg-[var(--ink)] text-white overflow-hidden pt-[140px]">
-      {/* Hero Section */}
-      <section className="relative py-24 px-6 md:px-12 overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <img src="/attached_assets/image_1779159211927.png" alt="Prime Estate" className="w-full h-full object-cover opacity-30" />
-          <div className="absolute inset-0 bg-gradient-to-b from-[var(--ink)]/80 via-[var(--ink)]/60 to-[var(--ink)]" />
-        </div>
-        <div className="max-w-7xl mx-auto relative z-10">
+    <div
+      className="bg-[#04090f] text-white overflow-x-hidden selection:bg-[#00BFFF] selection:text-[#04090f]"
+      style={{ paddingTop: "140px" }}
+    >
+
+      {/* ── HERO — split layout ── */}
+      <section className="min-h-[90vh] grid lg:grid-cols-2 overflow-hidden">
+
+        {/* Left — text */}
+        <div className="flex flex-col justify-center px-8 md:px-16 py-16 bg-[#04090f] relative z-10">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/10 rounded-full px-6 py-3 mb-8"
-          >
-            <span className="text-luxe-cyan text-sm">🏡</span>
-            <span className="text-[11px] font-bold tracking-[0.3em] uppercase text-white/80">
-              Now Selling — Phase 1 & 2
-            </span>
-          </motion.div>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-white/60 tracking-[0.3em] uppercase text-xs font-bold mb-4"
-          >
-            Lucknow, Uttar Pradesh
-          </motion.p>
-
-          <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="text-6xl md:text-9xl font-serif mb-8 tracking-tighter"
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           >
-            Prime <br />
-            <em className="text-luxe-cyan italic">Estate</em>
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="text-white/60 text-lg md:text-xl font-light leading-relaxed max-w-2xl mb-10"
-          >
-            Secure your piece of Lucknow's fastest-growing corridor. Residential plots in Phase 1 &
-            2 — highway & metro connected, surrounded by greenery, Jila Panchayat approved with
-            clear title deeds.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.35 }}
-            className="flex flex-wrap gap-4 mb-10"
-          >
-            {[
-              "🏗️ Highway Connected",
-              "🚇 Metro Connectivity",
-              "🌿 Green Surroundings",
-              "✅ JP Approved",
-            ].map((tag) => (
-              <span
-                key={tag}
-                className="bg-white/5 border border-white/10 rounded-full px-5 py-2 text-sm text-white/70"
-              >
-                {tag}
+            <div className="flex items-center gap-3 mb-8">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#00BFFF] animate-pulse" />
+              <span className="text-[#00BFFF] text-[11px] uppercase tracking-[0.3em] font-bold">
+                Now Selling — Phase 1 &amp; 2
               </span>
+            </div>
+            <p className="text-white/40 text-[11px] uppercase tracking-[0.25em] font-bold mb-4">
+              Flagship Project &nbsp;·&nbsp; Dubagga, Lucknow
+            </p>
+            <h1 className="font-serif text-6xl md:text-8xl font-light leading-none tracking-tight text-white mb-8">
+              Prime<br />
+              <em className="text-[#00BFFF] italic">Estate</em>
+            </h1>
+            <p className="text-white/50 text-base leading-[1.95] font-light max-w-md mb-10">
+              Residential plots in Lucknow's fastest-growing corridor — highway &amp; metro connected,
+              Jila Panchayat approved, with clear title deeds at every stage.
+            </p>
+            <div className="flex flex-wrap gap-4">
+              <a
+                href="tel:+919616061166"
+                className="px-8 py-4 text-[12px] uppercase tracking-[0.12em] font-bold rounded-lg transition-all duration-500"
+                style={{ background: "#00BFFF", color: "#04090f" }}
+              >
+                Book a Site Visit
+              </a>
+              <a
+                href="#overview"
+                className="px-8 py-4 border border-white/20 text-white/70 text-[12px] uppercase tracking-[0.12em] font-medium rounded-lg hover:border-[#00BFFF]/50 hover:text-[#00BFFF] transition-all duration-500"
+              >
+                Explore Project ↓
+              </a>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Right — image with stats bar */}
+        <div className="relative overflow-hidden min-h-[50vh] lg:min-h-full">
+          <img
+            src={heroImg}
+            alt="Prime Estate"
+            className="w-full h-full object-cover"
+            style={{ filter: "brightness(0.55) saturate(0.7)" }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#04090f]/60 via-transparent to-transparent" />
+          {/* Stats bar at bottom */}
+          <div className="absolute bottom-0 left-0 right-0 bg-[#04090f]/85 backdrop-blur-sm grid grid-cols-4 border-t border-white/8">
+            {[
+              { num: "120+", label: "Premium Plots" },
+              { num: "47", label: "Available Now" },
+              { num: "₹12L+", label: "Starting Price" },
+              { num: "2", label: "Project Phases" },
+            ].map((s, i) => (
+              <div key={s.label} className={`py-5 px-5 ${i < 3 ? "border-r border-white/8" : ""}`}>
+                <p className="font-serif text-2xl text-white leading-none mb-1">{s.num}</p>
+                <p className="text-[10px] uppercase tracking-[0.12em] text-white/40">{s.label}</p>
+              </div>
             ))}
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="flex flex-wrap gap-6"
-          >
-            <Link to="/contact" className="btn-magnetic btn-luxe px-10 py-4 rounded-full text-sm">
-              Book a Site Visit
-            </Link>
-            <a
-              href="#project-overview"
-              className="inline-flex items-center gap-3 border border-white/20 rounded-full px-10 py-4 text-sm font-bold tracking-wider hover:bg-white/5 transition-colors"
-            >
-              Explore Project ↓
-            </a>
-          </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* Project Overview */}
-      <section id="project-overview" className="py-32 px-6 bg-white/[0.02] relative">
-        <Section3DBackground opacity={0.1} />
-        <div className="max-w-7xl mx-auto relative z-10">
-          <Reveal>
-            <SectionEyebrow>Project Overview</SectionEyebrow>
-            <h2 className="font-display text-5xl md:text-7xl text-white mb-10 leading-[0.9] tracking-tighter">
-              Premium Residential Plots{" "}
-              <em className="text-luxe-cyan italic font-serif">Crafted for Modern Living</em>
-            </h2>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <p className="text-white/50 text-lg md:text-xl font-light leading-relaxed max-w-3xl mb-12">
-              Prime Estate is a thoughtfully planned residential plots colony designed for those who
-              want the freedom to build on their own terms. Located in a promising growth corridor
-              of Lucknow, the project offers well-defined plots, proper road connectivity, and
-              essential infrastructure to support long-term development.
-            </p>
-            <p className="text-white/50 text-lg font-light leading-relaxed max-w-3xl mb-16">
-              It is an ideal choice for buyers looking to secure land in a high-potential area,
-              whether for future construction or investment. With clear planning and a focus on
-              value appreciation, Prime Estate gives you the foundation to create a space that truly
-              reflects your vision.
-            </p>
-          </Reveal>
-
-          <Reveal delay={0.15}>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-px bg-white/5 border border-white/5 rounded-[40px] overflow-hidden shadow-luxe">
-              {[
-                ["Project Type", "Residential Plots"],
-                ["Target Buyers", "Investors & End Users"],
-                ["Launch Date", "5 January 2025"],
-                ["Location", "Lucknow, U.P."],
-                ["Approval", "Jila Panchayat ✅"],
-                ["Contact", "+91 96160-61166"],
-              ].map(([k, v]) => (
-                <div
-                  key={k}
-                  className="bg-ink/50 p-8 md:p-10 hover:bg-white/[0.03] transition-colors"
-                >
-                  <p className="text-[10px] uppercase tracking-[0.3em] text-white/30 mb-3 font-bold">
-                    {k}
-                  </p>
-                  <p className="font-display text-xl md:text-2xl text-white tracking-tight">{v}</p>
-                </div>
-              ))}
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* Site Image Section */}
-      <section className="relative py-32">
-        <div className="max-w-7xl mx-auto px-6">
-          <Reveal>
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-white/5">
-              <img
-                src="/attached_assets/image_1779159211927.png"
-                alt="Prime Estate, Lucknow"
-                className="w-full h-[400px] md:h-[600px] object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[var(--ink)] via-transparent to-transparent opacity-70" />
-              <div className="absolute top-8 right-8 bg-luxe-blue text-white text-xs font-bold tracking-wider uppercase px-5 py-3 rounded-full">
-                JP Approved
+      {/* ── Overview ── */}
+      <section className="py-20 px-6 md:px-16 bg-[#060c16]" id="overview">
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-5 gap-16 items-start">
+          {/* Left — text */}
+          <div className="lg:col-span-3">
+            <Reveal>
+              <p className="text-[#00BFFF] text-[11px] uppercase tracking-[0.25em] font-bold mb-4 flex items-center gap-3">
+                <span className="w-6 h-px bg-[#00BFFF]" /> Project Overview
+              </p>
+              <h2 className="font-serif text-4xl md:text-5xl text-white leading-tight mb-8">
+                Premium Residential Plots{" "}
+                <em className="text-[#00BFFF] italic">Crafted for Modern Living</em>
+              </h2>
+              <p className="text-white/50 text-sm leading-[2] mb-5 font-light">
+                Prime Estate is a thoughtfully planned residential plots colony designed for those who want
+                the freedom to build on their own terms. Located in a promising growth corridor of Lucknow,
+                the project offers well-defined plots, proper road connectivity, and essential infrastructure
+                to support long-term development.
+              </p>
+              <p className="text-white/50 text-sm leading-[2] mb-8 font-light">
+                An ideal choice for buyers looking to secure land in a high-potential area — whether for future
+                construction or investment. With clear planning and a focus on value appreciation, Prime Estate
+                gives you the foundation to create a space that truly reflects your vision.
+              </p>
+              <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#00BFFF]/10 border border-[#00BFFF]/25 text-[#00BFFF] text-[11px] uppercase tracking-[0.15em] font-medium rounded-full">
+                ✓ &nbsp; Jila Panchayat Approved &nbsp;· &nbsp; Clear Title Deeds
               </div>
-              <div className="absolute bottom-12 left-1/2 -translate-x-1/2">
-                <span className="bg-white/10 backdrop-blur-sm border border-white/10 rounded-full px-8 py-3 text-sm text-white/80">
-                  Prime Estate, Lucknow
-                </span>
+            </Reveal>
+          </div>
+
+          {/* Right — specs table */}
+          <div className="lg:col-span-2">
+            <Reveal delay={0.1}>
+              <div className="border border-white/8 rounded-2xl overflow-hidden">
+                {[
+                  ["Project Type", "Residential Plots"],
+                  ["Target Buyers", "Investors & End Users"],
+                  ["Launch Date", "5 January 2025"],
+                  ["Location", "Dubagga, Lucknow U.P."],
+                  ["Plot Range", "1,200+ Sq. Ft."],
+                  ["Starting Price", "₹12 Lakhs onwards"],
+                  ["Approval", "Jila Panchayat ✓"],
+                  ["Contact", "+91 96160-61166"],
+                ].map(([k, v], i) => (
+                  <div key={k} className={`flex items-center ${i % 2 === 0 ? "bg-[#060c16]" : "bg-[#080d1a]"} px-6 py-4 border-b border-white/5 last:border-b-0`}>
+                    <span className="text-white/35 text-[10px] uppercase tracking-[0.15em] font-bold w-40 shrink-0">{k}</span>
+                    <span className={`text-sm font-light ${k === "Approval" ? "text-[#00BFFF]" : "text-white/80"}`}>{v}</span>
+                  </div>
+                ))}
               </div>
-            </div>
-          </Reveal>
+            </Reveal>
+          </div>
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-24 px-6 bg-white/[0.02]">
+      {/* ── Photo Break ── */}
+      <div className="relative h-[60vh] overflow-hidden group">
+        <img
+          src={luxuryInteriorImg}
+          alt="Prime Estate"
+          className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-105"
+          style={{ filter: "brightness(0.45) saturate(0.6)" }}
+          loading="lazy"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#04090f]/70 via-transparent to-[#04090f]/30" />
+        <div className="absolute bottom-12 left-8 md:left-16 right-8 md:right-16">
+          <p className="font-serif italic text-3xl md:text-4xl text-white/90 font-light leading-tight max-w-2xl">
+            "We don't merely sell plots — we help you make one of the most significant decisions of your life."
+          </p>
+          <p className="text-white/40 text-[11px] uppercase tracking-[0.2em] mt-4">— Truston Developers, Lucknow</p>
+        </div>
+      </div>
+
+      {/* ── Location Advantage ── */}
+      <section className="py-20 px-6 md:px-16 bg-[#04090f]">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-12 text-center">
-            {[
-              ["1200+", "Sq. Ft. Range"],
-              ["₹1L+", "Starting Price"],
-              ["2", "Project Phases"],
-              ["100%", "Clear Title Deeds"],
-            ].map(([n, l]) => (
-              <Reveal key={l}>
-                <div className="group">
-                  <p className="font-display text-5xl md:text-7xl text-white tracking-tighter group-hover:scale-110 transition-transform duration-500 mb-4">
-                    {n}
-                  </p>
-                  <div className="w-8 h-px bg-luxe-cyan/30 mx-auto mb-4 group-hover:w-16 group-hover:bg-luxe-cyan transition-all duration-700" />
-                  <p className="text-[10px] uppercase tracking-[0.4em] text-white/30 font-bold">
-                    {l}
-                  </p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Location Advantage */}
-      <section className="py-32 px-6 relative">
-        <Section3DBackground opacity={0.15} />
-        <div className="max-w-7xl mx-auto relative z-10">
           <Reveal>
-            <SectionEyebrow>Location Advantage</SectionEyebrow>
-            <h2 className="font-display text-5xl md:text-7xl text-white mb-6 leading-[0.9] tracking-tighter">
+            <p className="text-[#00BFFF] text-[11px] uppercase tracking-[0.25em] font-bold mb-4 flex items-center gap-3">
+              <span className="w-6 h-px bg-[#00BFFF]" /> Location Advantage
+            </p>
+            <h2 className="font-serif text-4xl md:text-5xl text-white leading-tight mb-16">
               Well Connected to{" "}
-              <em className="text-luxe-cyan italic font-serif">Every Corner of Lucknow</em>
+              <em className="text-[#00BFFF] italic">Every Corner of Lucknow</em>
             </h2>
-            <p className="text-white/50 text-lg font-light leading-relaxed max-w-3xl mb-16">
-              Prime Estate is strategically positioned for maximum convenience and future growth
-              potential — with seamless access to the city's key transport corridors.
-            </p>
           </Reveal>
-
-          <div className="grid sm:grid-cols-2 gap-8">
+          <div className="grid sm:grid-cols-2 gap-px bg-white/5 border border-white/5 rounded-2xl overflow-hidden">
             {[
-              {
-                icon: "🏗️",
-                title: "Highway Connectivity",
-                desc: "Direct access to the major highway, ensuring fast and smooth connectivity to central Lucknow and beyond.",
-              },
-              {
-                icon: "🚇",
-                title: "Metro Connectivity",
-                desc: "Close proximity to the metro corridor, making daily commutes and city travel effortless for future residents.",
-              },
-              {
-                icon: "🌿",
-                title: "Green Surroundings",
-                desc: "The project is enveloped by lush greenery, offering clean air and a peaceful environment away from urban noise.",
-              },
-              {
-                icon: "📈",
-                title: "Growth Corridor",
-                desc: "Located in a rapidly developing zone of Lucknow with rising infrastructure investment and land appreciation trends.",
-              },
+              { num: "01", title: "Highway Connectivity", desc: "Direct access to the major highway ensures fast, smooth connectivity to central Lucknow and beyond — making daily commutes completely effortless." },
+              { num: "02", title: "Metro Corridor", desc: "Close proximity to the metro corridor connects residents seamlessly to the city's commercial, educational, and healthcare districts." },
+              { num: "03", title: "Green Surroundings", desc: "Enveloped by lush greenery — offering clean air and a peaceful environment away from urban congestion. A rare luxury in today's cities." },
+              { num: "04", title: "Growth Corridor", desc: "Located in a rapidly developing zone with rising infrastructure investment and proven land appreciation trends — your wealth grows alongside the city." },
             ].map((item, i) => (
-              <Reveal key={item.title} delay={i * 0.08}>
-                <div className="glass-premium p-10 rounded-3xl border border-white/5 hover:border-luxe-cyan/30 transition-all duration-500 h-full">
-                  <span className="text-4xl mb-6 block">{item.icon}</span>
-                  <h3 className="font-display text-2xl text-white mb-4 tracking-tight">
-                    {item.title}
-                  </h3>
-                  <p className="text-white/40 text-sm leading-relaxed">{item.desc}</p>
+              <Reveal key={item.num} delay={i * 0.08}>
+                <div className="bg-[#060c16] hover:bg-[#080d1a] transition-colors duration-300 p-10 md:p-12 h-full group cursor-pointer relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#00BFFF]/0 to-[#00BFFF]/0 group-hover:from-[#00BFFF]/3 transition-all duration-700" />
+                  <p className="font-serif text-4xl text-white/6 group-hover:text-[#00BFFF]/12 leading-none mb-6 transition-colors duration-500">{item.num}</p>
+                  <h3 className="font-serif text-xl text-white mb-3 leading-snug">{item.title}</h3>
+                  <p className="text-white/40 text-sm leading-[1.9] font-light">{item.desc}</p>
                 </div>
               </Reveal>
             ))}
@@ -297,27 +256,31 @@ function ProjectPage() {
         </div>
       </section>
 
-      {/* Amenities */}
-      <section className="py-32 px-6 bg-white/[0.02] relative">
-        <div className="max-w-7xl mx-auto relative z-10">
+      {/* ── Amenities ── */}
+      <section className="py-20 px-6 md:px-16 bg-[#060c16]">
+        <div className="max-w-7xl mx-auto">
           <Reveal>
-            <SectionEyebrow>Amenities</SectionEyebrow>
-            <h2 className="font-display text-5xl md:text-7xl text-white mb-6 leading-[0.9] tracking-tighter">
+            <p className="text-[#00BFFF] text-[11px] uppercase tracking-[0.25em] font-bold mb-4 text-center flex items-center justify-center gap-3">
+              <span className="w-6 h-px bg-[#00BFFF]" /> Amenities <span className="w-6 h-px bg-[#00BFFF]" />
+            </p>
+            <h2 className="font-serif text-4xl md:text-5xl text-white leading-tight mb-16 text-center">
               Everything You Need{" "}
-              <em className="text-luxe-cyan italic font-serif">Is Already Here</em>
+              <em className="text-[#00BFFF] italic">Is Already Here</em>
             </h2>
-            <p className="text-white/50 text-lg font-light leading-relaxed max-w-3xl mb-16">
-              From security to infrastructure, Prime Estate is equipped with six premium amenities
-              ensuring a comfortable and complete residential experience.
-            </p>
           </Reveal>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {amenities.map((a, i) => (
-              <Reveal key={a.name} delay={i * 0.05}>
-                <div className="glass-premium p-10 h-full flex flex-col items-center text-center gap-4 rounded-3xl border border-white/5 hover:border-luxe-cyan/30 transition-all duration-500">
-                  <span className="text-5xl mb-2">{a.icon}</span>
-                  <h3 className="font-display text-2xl text-white tracking-tight">{a.name}</h3>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-px bg-white/5 border border-white/5 rounded-2xl overflow-hidden">
+            {[
+              { icon: "🛤️", name: "Wide Internal Roads" },
+              { icon: "🔒", name: "24/7 Security Guard" },
+              { icon: "💧", name: "Piped Water Supply" },
+              { icon: "⚡", name: "Electricity Connection" },
+              { icon: "🌳", name: "Landscaped Parks" },
+              { icon: "🔧", name: "Underground Drainage" },
+            ].map((a, i) => (
+              <Reveal key={a.name} delay={i * 0.07}>
+                <div className="bg-[#060c16] hover:bg-[#080d1a] transition-colors duration-300 p-10 flex flex-col items-center text-center gap-4 group cursor-pointer">
+                  <span className="text-4xl group-hover:scale-110 transition-transform duration-400">{a.icon}</span>
+                  <p className="text-[12px] uppercase tracking-[0.18em] text-white/60 font-medium group-hover:text-[#00BFFF] transition-colors duration-300">{a.name}</p>
                 </div>
               </Reveal>
             ))}
@@ -325,47 +288,34 @@ function ProjectPage() {
         </div>
       </section>
 
-      {/* Development Phases */}
-      <section className="py-32 px-6 relative">
-        <Section3DBackground opacity={0.1} />
-        <div className="max-w-7xl mx-auto relative z-10">
+      {/* ── Development Phases ── */}
+      <section className="py-20 px-6 md:px-16 bg-[#04090f]">
+        <div className="max-w-7xl mx-auto">
           <Reveal>
-            <SectionEyebrow>Development Phases</SectionEyebrow>
-            <h2 className="font-display text-5xl md:text-7xl text-white mb-6 leading-[0.9] tracking-tighter">
-              Structured in <em className="text-luxe-cyan italic font-serif">Two Phases</em>
-            </h2>
-            <p className="text-white/50 text-lg font-light leading-relaxed max-w-3xl mb-16">
-              Prime Estate is being developed in two well-defined phases, ensuring quality delivery
-              and consistent infrastructure development at every stage.
+            <p className="text-[#00BFFF] text-[11px] uppercase tracking-[0.25em] font-bold mb-4 flex items-center gap-3">
+              <span className="w-6 h-px bg-[#00BFFF]" /> Development Phases
             </p>
+            <h2 className="font-serif text-4xl md:text-5xl text-white leading-tight mb-16">
+              Structured in <em className="text-[#00BFFF] italic">Two Phases</em>
+            </h2>
           </Reveal>
-
-          <div className="grid md:grid-cols-2 gap-12">
+          <div className="grid md:grid-cols-2 gap-8">
             {/* Phase 1 */}
             <Reveal delay={0.05}>
-              <div className="bg-ink/50 border border-white/5 rounded-3xl p-10 md:p-12 relative overflow-hidden hover:border-luxe-cyan/20 transition-all duration-500">
-                <div className="absolute top-8 right-8 font-display text-8xl text-luxe-cyan/10 leading-none">
-                  01
-                </div>
-                <span className="inline-block bg-luxe-cyan/10 text-luxe-cyan text-[10px] font-bold tracking-[0.3em] uppercase px-4 py-2 rounded-full mb-6">
+              <div className="border-t-2 border-[#00BFFF] pt-8 bg-[#060c16] p-8 md:p-10 rounded-2xl border border-[#00BFFF]/20 relative overflow-hidden hover:border-[#00BFFF]/40 transition-colors duration-500">
+                <p className="absolute top-8 right-8 font-serif text-6xl text-[#00BFFF]/8 leading-none">01</p>
+                <span className="inline-block text-[10px] uppercase tracking-[0.2em] text-[#00BFFF] border border-[#00BFFF]/30 bg-[#00BFFF]/8 px-3 py-1.5 rounded-full mb-6 font-bold">
                   Now Available
                 </span>
-                <h3 className="font-display text-4xl text-white mb-6">Phase 1</h3>
-                <p className="text-white/50 text-base leading-relaxed mb-8">
-                  The first phase is ready for possession with complete plot demarcation, road
-                  leveling, and drainage planning executed to the highest standard. Buyers can book
-                  now and begin construction with Jila Panchayat approval.
+                <h3 className="font-serif text-3xl text-white mb-5">Phase One</h3>
+                <p className="text-white/45 text-sm leading-[1.95] mb-8 font-light">
+                  Ready for possession with complete plot demarcation, road leveling, and drainage planning.
+                  Buyers can begin construction immediately with Jila Panchayat approval in hand.
                 </p>
                 <ul className="space-y-3">
-                  {[
-                    "Fully demarcated plots",
-                    "Road leveling complete",
-                    "Drainage infrastructure ready",
-                    "Electricity & water connections",
-                    "Clear title deeds available",
-                  ].map((item) => (
-                    <li key={item} className="flex items-center gap-3 text-white/60 text-sm">
-                      <span className="w-2 h-2 rounded-full bg-luxe-cyan" />
+                  {["Fully demarcated plots", "Road leveling complete", "Drainage infrastructure ready", "Electricity & water connections live", "Clear title deeds available"].map((item) => (
+                    <li key={item} className="flex items-center gap-3 text-white/55 text-sm">
+                      <span className="w-px h-3 bg-[#00BFFF]/60 shrink-0" />
                       {item}
                     </li>
                   ))}
@@ -375,29 +325,20 @@ function ProjectPage() {
 
             {/* Phase 2 */}
             <Reveal delay={0.1}>
-              <div className="bg-ink/50 border border-white/5 rounded-3xl p-10 md:p-12 relative overflow-hidden hover:border-luxe-cyan/20 transition-all duration-500">
-                <div className="absolute top-8 right-8 font-display text-8xl text-luxe-cyan/10 leading-none">
-                  02
-                </div>
-                <span className="inline-block bg-white/5 text-white/60 text-[10px] font-bold tracking-[0.3em] uppercase px-4 py-2 rounded-full mb-6">
+              <div className="border-t-2 border-white/15 pt-8 bg-[#060c16] p-8 md:p-10 rounded-2xl border border-white/8 relative overflow-hidden hover:border-white/15 transition-colors duration-500">
+                <p className="absolute top-8 right-8 font-serif text-6xl text-white/6 leading-none">02</p>
+                <span className="inline-block text-[10px] uppercase tracking-[0.2em] text-white/40 border border-white/12 bg-white/4 px-3 py-1.5 rounded-full mb-6 font-bold">
                   Coming Soon
                 </span>
-                <h3 className="font-display text-4xl text-white mb-6">Phase 2</h3>
-                <p className="text-white/50 text-base leading-relaxed mb-8">
-                  Phase 2 is in active development, expanding the colony with additional plots and
-                  enhanced amenities. Early buyers can register interest now to secure priority
-                  booking at launch pricing.
+                <h3 className="font-serif text-3xl text-white mb-5">Phase Two</h3>
+                <p className="text-white/45 text-sm leading-[1.95] mb-8 font-light">
+                  In active development, expanding the colony with additional plots and enhanced amenities.
+                  Register interest now to secure priority booking at launch pricing.
                 </p>
                 <ul className="space-y-3">
-                  {[
-                    "Extended plot sizes available",
-                    "Landscaped green zones",
-                    "Enhanced security systems",
-                    "Community park & walkways",
-                    "Pre-booking open now",
-                  ].map((item) => (
-                    <li key={item} className="flex items-center gap-3 text-white/60 text-sm">
-                      <span className="w-2 h-2 rounded-full bg-white/20" />
+                  {["Extended plot sizes available", "Landscaped green zones", "Enhanced security systems", "Community park & walkways", "Pre-booking open now"].map((item) => (
+                    <li key={item} className="flex items-center gap-3 text-white/35 text-sm">
+                      <span className="w-px h-3 bg-white/20 shrink-0" />
                       {item}
                     </li>
                   ))}
@@ -408,59 +349,31 @@ function ProjectPage() {
         </div>
       </section>
 
-      {/* Why Prime Estate */}
-      <section className="py-32 px-6 bg-white/[0.02] relative">
-        <div className="max-w-7xl mx-auto relative z-10">
+      {/* ── Why Prime Estate ── */}
+      <section className="py-20 px-6 md:px-16 bg-[#060c16]">
+        <div className="max-w-7xl mx-auto">
           <Reveal>
-            <SectionEyebrow>Why Prime Estate</SectionEyebrow>
-            <h2 className="font-display text-5xl md:text-7xl text-white mb-6 leading-[0.9] tracking-tighter">
-              Invest with <em className="text-luxe-cyan italic font-serif">Clarity & Confidence</em>
-            </h2>
-            <p className="text-white/50 text-lg font-light leading-relaxed max-w-3xl mb-16">
-              At Prime Estate, the focus is on making property decisions simple and transparent.
-              Here's what sets us apart:
+            <p className="text-[#00BFFF] text-[11px] uppercase tracking-[0.25em] font-bold mb-4 flex items-center gap-3">
+              <span className="w-6 h-px bg-[#00BFFF]" /> Why Prime Estate
             </p>
+            <h2 className="font-serif text-4xl md:text-5xl text-white leading-tight mb-16">
+              Invest with <em className="text-[#00BFFF] italic">Clarity &amp; Confidence</em>
+            </h2>
           </Reveal>
-
-          <div className="space-y-6">
+          <div className="border-t border-white/8">
             {[
-              {
-                title: "High Growth Location",
-                desc: "Situated in Lucknow's rapidly expanding development corridor with strong land appreciation potential.",
-              },
-              {
-                title: "Transparent Documentation",
-                desc: "Clear title deeds, Jila Panchayat approval, and no hidden charges — every document provided upfront.",
-              },
-              {
-                title: "Planned Infrastructure",
-                desc: "Wide roads, drainage, water, and electricity — developed in phases for consistent quality delivery.",
-              },
-              {
-                title: "Build on Your Own Terms",
-                desc: "With proper construction approval, you design and build your dream home exactly as you envision it.",
-              },
-              {
-                title: "Strong Investment Potential",
-                desc: "Highway and metro proximity make Prime Estate a smart long-term investment with high resale value.",
-              },
+              { num: "01", title: "High Growth Location", desc: "Situated in Lucknow's rapidly expanding development corridor, Prime Estate benefits from strong land appreciation driven by proximity to highways and the metro." },
+              { num: "02", title: "Transparent Documentation", desc: "Clear title deeds, Jila Panchayat approval, and no hidden charges — every document provided upfront. Zero ambiguity at every stage of the transaction." },
+              { num: "03", title: "Planned Infrastructure", desc: "Wide roads, drainage, water, and electricity — developed in phases for consistent quality. Master-planned for long-term livability and value appreciation." },
+              { num: "04", title: "Build on Your Own Terms", desc: "With full construction approval, you design and build exactly as you envision. No forced packages, no builder lock-ins — your land, your freedom, your timeline." },
+              { num: "05", title: "Strong Investment Potential", desc: "Highway and metro proximity make Prime Estate a smart long-term investment with high resale value. Both hold-and-appreciate and build-immediately strategies are fully supported." },
             ].map((item, i) => (
-              <Reveal key={item.title} delay={i * 0.05}>
-                <div className="flex items-start gap-6 glass-premium p-8 rounded-2xl border border-white/5 hover:border-luxe-cyan/20 transition-all duration-500">
-                  <div className="w-10 h-10 rounded-full bg-luxe-blue/20 flex items-center justify-center shrink-0 mt-1">
-                    <svg
-                      className="w-5 h-5 text-luxe-cyan"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth={2.5}
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                    </svg>
-                  </div>
+              <Reveal key={item.num} delay={i * 0.07}>
+                <div className="grid grid-cols-[4rem_1fr] gap-8 py-8 border-b border-white/8 last:border-b-0 hover:pl-3 transition-all duration-400 group cursor-pointer">
+                  <p className="font-serif italic text-4xl text-white/8 group-hover:text-[#00BFFF]/20 leading-none transition-colors duration-500 text-right pt-1">{item.num}</p>
                   <div>
-                    <h3 className="font-display text-xl text-white mb-2">{item.title}</h3>
-                    <p className="text-white/40 text-sm leading-relaxed">{item.desc}</p>
+                    <h3 className="font-serif text-xl text-white mb-2 group-hover:text-[#00BFFF] transition-colors duration-300">{item.title}</h3>
+                    <p className="text-white/40 text-sm leading-[1.95] font-light">{item.desc}</p>
                   </div>
                 </div>
               </Reveal>
@@ -469,104 +382,62 @@ function ProjectPage() {
         </div>
       </section>
 
-      {/* FAQ */}
-      <FAQSection />
-
-      {/* CTA */}
-      <section className="py-32 px-6 bg-ink text-center relative overflow-hidden">
-        <Section3DBackground opacity={0.3} />
-        <div className="mx-auto max-w-5xl relative z-10">
+      {/* ── FAQ ── */}
+      <section className="py-20 px-6 md:px-16 bg-[#04090f]">
+        <div className="max-w-7xl mx-auto">
           <Reveal>
-            <SectionEyebrow light>Get Started Today</SectionEyebrow>
-            <h2 className="font-display text-4xl md:text-8xl mb-8 text-white tracking-tighter leading-none">
-              Ready to Own Your Plot in{" "}
-              <em className="text-luxe-cyan italic font-serif">Prime Estate?</em>
-            </h2>
-            <p className="text-white/50 text-lg font-light leading-relaxed max-w-2xl mx-auto mb-12">
-              Plots are limited. Secure yours now and build the life you've always envisioned — in
-              one of Lucknow's fastest-growing residential corridors.
+            <p className="text-[#00BFFF] text-[11px] uppercase tracking-[0.25em] font-bold mb-4 flex items-center gap-3">
+              <span className="w-6 h-px bg-[#00BFFF]" /> Frequently Asked
             </p>
-            <div className="flex flex-col md:flex-row justify-center items-center gap-8">
+            <h2 className="font-serif text-4xl md:text-5xl text-white leading-tight mb-12">
+              Common Questions About{" "}
+              <em className="text-[#00BFFF] italic">Prime Estate</em>
+            </h2>
+          </Reveal>
+          <div className="border border-white/8 rounded-2xl px-8 md:px-12 overflow-hidden bg-[#060c16]">
+            {faqs.map((faq) => (
+              <FAQItem key={faq.q} q={faq.q} a={faq.a} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── CTA ── */}
+      <section className="py-24 px-6 md:px-16 bg-[#060c16] text-center relative overflow-hidden">
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{ background: "radial-gradient(ellipse 80% 100% at 50% 50%, rgba(0,191,255,0.06) 0%, transparent 70%)" }}
+        />
+        <div className="relative z-10 max-w-3xl mx-auto">
+          <Reveal>
+            <p className="text-[#00BFFF] text-[11px] uppercase tracking-[0.25em] font-bold mb-6 flex items-center justify-center gap-3">
+              <span className="w-6 h-px bg-[#00BFFF]" /> 47 Plots Still Available · Prime Estate · Dubagga, Lucknow <span className="w-6 h-px bg-[#00BFFF]" />
+            </p>
+            <h2 className="font-serif text-4xl md:text-6xl text-white leading-tight mb-6">
+              Ready to Claim<br />
+              Your <em className="text-[#00BFFF] italic">Plot?</em>
+            </h2>
+            <p className="text-white/45 text-sm leading-relaxed mb-10 font-light max-w-md mx-auto">
+              Prices starting at ₹12 Lakhs. Talk to our team today — no obligations, just complete clarity about your investment.
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <a
                 href="tel:+919616061166"
-                className="btn-magnetic btn-luxe px-12 py-5 flex items-center gap-3"
+                className="px-10 py-4 text-[12px] uppercase tracking-[0.12em] font-bold rounded-full transition-all duration-500 hover:scale-105"
+                style={{ background: "#00BFFF", color: "#04090f" }}
               >
-                <span>📞</span> Call +91 96160-61166
+                +91 96160-61166
               </a>
               <Link
                 to="/contact"
-                className="inline-flex items-center gap-3 border border-white/20 rounded-full px-12 py-5 text-sm font-bold tracking-wider hover:bg-white/5 transition-colors"
+                className="px-10 py-4 border border-white/20 text-white/70 text-[12px] uppercase tracking-[0.12em] font-medium rounded-full hover:border-[#00BFFF]/50 hover:text-[#00BFFF] transition-all duration-500"
               >
-                <span>✉️</span> Email Us
+                Email Us
               </Link>
             </div>
-            <p className="text-white/30 text-sm mt-8">
-              Or reach us at{" "}
-              <a
-                href="mailto:trustondevelopers01@gmail.com"
-                className="text-luxe-cyan hover:underline"
-              >
-                trustondevelopers01@gmail.com
-              </a>
-            </p>
           </Reveal>
         </div>
       </section>
     </div>
-  );
-}
-
-function FAQSection() {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
-
-  return (
-    <section className="py-32 px-6 relative">
-      <div className="max-w-4xl mx-auto relative z-10">
-        <Reveal>
-          <SectionEyebrow>Frequently Asked Questions</SectionEyebrow>
-          <h2 className="font-display text-4xl md:text-6xl text-white mb-16 tracking-tighter">
-            Common Questions About{" "}
-            <em className="text-luxe-cyan italic font-serif">Prime Estate</em>
-          </h2>
-        </Reveal>
-
-        <div className="space-y-4">
-          {faqs.map((faq, i) => (
-            <Reveal key={i} delay={i * 0.05}>
-              <div className="border border-white/10 rounded-2xl overflow-hidden hover:border-luxe-cyan/20 transition-all duration-300">
-                <button
-                  onClick={() => setOpenIndex(openIndex === i ? null : i)}
-                  className="w-full flex items-center justify-between p-6 text-left"
-                >
-                  <span className="text-white/80 text-base font-medium pr-4">{faq.q}</span>
-                  <svg
-                    className={`w-5 h-5 text-white/40 shrink-0 transition-transform duration-300 ${
-                      openIndex === i ? "rotate-180" : ""
-                    }`}
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
-                <motion.div
-                  initial={false}
-                  animate={{
-                    height: openIndex === i ? "auto" : 0,
-                    opacity: openIndex === i ? 1 : 0,
-                  }}
-                  transition={{ duration: 0.3, ease: "easeInOut" }}
-                  className="overflow-hidden"
-                >
-                  <p className="px-6 pb-6 text-white/40 text-sm leading-relaxed">{faq.a}</p>
-                </motion.div>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </div>
-    </section>
   );
 }
