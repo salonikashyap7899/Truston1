@@ -1,6 +1,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { GalleryLightbox, type GalleryItem } from "./GalleryLightbox";
+import { ZoomParallax } from "./ui/zoom-parallax";
 
 const ALL_IMAGES: GalleryItem[] = [
   {
@@ -65,7 +66,11 @@ const ALL_IMAGES: GalleryItem[] = [
   },
 ];
 
-const TRAIL_IMGS = ALL_IMAGES.map((i) => i.img);
+/* First 7 images go into the ZoomParallax intro */
+const PARALLAX_IMAGES = ALL_IMAGES.slice(0, 7).map((i) => ({
+  src: i.img,
+  alt: i.title,
+}));
 
 const TABS = ["All", "Plots", "Interiors", "Amenities", "Design", "Investment"] as const;
 type Tab = (typeof TABS)[number];
@@ -89,35 +94,30 @@ export function GallerySection() {
 
   return (
     <section
-      ref={sectionRef}
       id="gallery-section"
       className="relative bg-[#04090f] overflow-hidden"
     >
-      {/* ── Section header ── */}
-      <motion.div
-        className="text-center pt-20 pb-4 px-6"
-        initial={{ opacity: 0, y: 40 }}
-        animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
-        transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-      >
-        <div className="flex items-center justify-center gap-4 mb-5">
-          <span className="w-10 h-px bg-[#00BFFF]" />
-          <p className="text-[10px] uppercase tracking-[0.5em] text-[#00BFFF] font-bold">
-            Our Gallery
+      {/* ── Zoom Parallax intro ── */}
+      <div className="relative">
+        {/* Eyebrow overlay — sits on top of the sticky parallax */}
+        <div className="absolute top-0 inset-x-0 z-10 flex flex-col items-center pt-16 pointer-events-none">
+          <div className="flex items-center gap-4 mb-4">
+            <span className="w-10 h-px bg-[#00BFFF]" />
+            <p className="text-[10px] uppercase tracking-[0.5em] text-[#00BFFF] font-bold">
+              Our Gallery
+            </p>
+            <span className="w-10 h-px bg-[#00BFFF]" />
+          </div>
+          <p className="text-white/30 text-sm font-light tracking-wider">
+            Scroll to explore ↓
           </p>
-          <span className="w-10 h-px bg-[#00BFFF]" />
         </div>
-        <h2 className="font-serif text-5xl md:text-7xl text-white leading-tight tracking-tighter mb-4">
-          Every detail,{" "}
-          <em className="text-[#00BFFF] not-italic">captured.</em>
-        </h2>
-        <p className="text-white/35 max-w-lg mx-auto text-base font-light">
-          Our curated collection of premium sites, interiors, and architectural designs.
-        </p>
-      </motion.div>
 
-      {/* ── Gallery body ── */}
-      <div className="relative px-4 md:px-8 py-20 max-w-[1600px] mx-auto z-10">
+        <ZoomParallax images={PARALLAX_IMAGES} />
+      </div>
+
+      {/* ── Gallery grid ── */}
+      <div ref={sectionRef} className="relative px-4 md:px-8 py-16 max-w-[1600px] mx-auto z-10">
 
         {/* Filter tabs */}
         <motion.div
@@ -144,7 +144,7 @@ export function GallerySection() {
           ))}
         </motion.div>
 
-        {/* Professional editorial grid */}
+        {/* Editorial masonry grid */}
         <EditorialGrid items={filtered} inView={inView} onOpen={open} />
 
         {/* Bottom CTA */}
@@ -180,7 +180,7 @@ export function GallerySection() {
   );
 }
 
-/* ── Editorial grid: 2 columns desktop, staggered heights ── */
+/* ── Editorial masonry grid ── */
 function EditorialGrid({
   items,
   inView,
@@ -212,7 +212,6 @@ function EditorialGrid({
             onKeyDown={(e) => e.key === "Enter" && onOpen(i)}
             aria-label={`Open ${item.title}`}
           >
-            {/* Image */}
             <motion.img
               src={item.img}
               alt={item.title}
@@ -222,10 +221,8 @@ function EditorialGrid({
               transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1] }}
             />
 
-            {/* Gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-[#04090f]/95 via-[#04090f]/20 to-transparent" />
 
-            {/* Hover tint */}
             <motion.div
               className="absolute inset-0"
               initial={{ opacity: 0 }}
@@ -234,14 +231,12 @@ function EditorialGrid({
               style={{ background: "rgba(0,191,255,0.06)" }}
             />
 
-            {/* Category chip */}
             {item.category && (
               <div className="absolute top-5 left-5 text-[9px] uppercase tracking-[0.3em] text-white/60 border border-white/10 px-3 py-1.5 bg-[#04090f]/60 backdrop-blur-md rounded-full font-bold">
                 {item.category}
               </div>
             )}
 
-            {/* Zoom icon */}
             <motion.div
               className="absolute top-5 right-5 w-9 h-9 flex items-center justify-center border border-white/10 bg-[#04090f]/40 backdrop-blur-md text-[#00BFFF] rounded-full opacity-0 group-hover:opacity-100"
               transition={{ duration: 0.3 }}
@@ -251,7 +246,6 @@ function EditorialGrid({
               </svg>
             </motion.div>
 
-            {/* Bottom info */}
             <div className="absolute bottom-0 inset-x-0 p-6">
               <motion.div
                 className="h-[1px] mb-4 bg-[#00BFFF] rounded-full"
