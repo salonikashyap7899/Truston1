@@ -16,7 +16,6 @@ const leftLinks = [
 ] as const;
 
 const rightLinks = [
-  { label: "EXPENSES", to: "/expenses" },
   { label: "CONTACT US", to: "/contact" },
 ] as const;
 

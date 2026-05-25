@@ -18,12 +18,15 @@ function AdminPage() {
   const [tab, setTab] = useState<Tab>("content");
 
   useEffect(() => {
-    if (!loading && (!user || !isAdmin)) navigate({ to: "/admin/login" });
+    // Only redirect if loading is finished and we are SURE there's no admin
+    if (!loading && (!user || !isAdmin)) {
+      navigate({ to: "/admin/login" });
+    }
   }, [user, isAdmin, loading, navigate]);
 
-  if (loading || !user || !isAdmin) {
+  if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background text-foreground/60">
+      <div className="min-h-screen flex items-center justify-center bg-ink text-white/60">
         <motion.div
           animate={{ scale: [1, 1.1, 1], opacity: [0.5, 1, 0.5] }}
           transition={{ duration: 2, repeat: Infinity }}
@@ -33,6 +36,11 @@ function AdminPage() {
         </motion.div>
       </div>
     );
+  }
+
+  // If no user or not admin, we return null as the useEffect will handle the redirect
+  if (!user || !isAdmin) {
+    return null;
   }
 
   return (
@@ -134,12 +142,19 @@ function ContentPanel() {
   const [busy, setBusy] = useState(false);
 
   const load = async () => {
-    const { data, error } = await supabase.from("site_content").select("*").order("label");
-    if (error) toast.error(error.message);
-    setRows((data ?? []) as ContentRow[]);
-    if (!selected && data && data.length) {
-      setSelected(data[0].key);
-      setDraft((data[0].data as Record<string, unknown>) ?? {});
+    try {
+      const { data, error } = await supabase.from("site_content").select("*").order("label");
+      if (error) {
+        toast.error(error.message);
+        return;
+      }
+      setRows((data ?? []) as ContentRow[]);
+      if (!selected && data && data.length) {
+        setSelected(data[0].key);
+        setDraft((data[0].data as Record<string, unknown>) ?? {});
+      }
+    } catch (e) {
+      console.error("Load error:", e);
     }
   };
   useEffect(() => {

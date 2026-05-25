@@ -65,14 +65,15 @@ function TestimonialCard({
   profileImage,
 }: (typeof testimonials)[number]) {
   return (
-    <div className="relative bg-white rounded-[24px] overflow-hidden shadow-2xl flex h-[220px] md:h-[240px] select-none">
+    <div className="relative bg-[#0a121e] border border-white/5 rounded-[24px] overflow-hidden shadow-2xl flex h-[220px] md:h-[240px] select-none">
       {/* Profile photo */}
-      <div className="w-[160px] md:w-[200px] flex-shrink-0">
+      <div className="w-[160px] md:w-[200px] flex-shrink-0 relative overflow-hidden">
         <img
           src={profileImage}
           alt={name}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover brightness-90 group-hover:scale-110 transition-transform duration-700"
         />
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#0a121e]" />
       </div>
 
       {/* Content */}
@@ -87,19 +88,19 @@ function TestimonialCard({
         </div>
 
         {/* Quote */}
-        <p className="text-gray-600 text-xs md:text-sm leading-relaxed flex-1 overflow-hidden line-clamp-4">
+        <p className="text-white/60 text-xs md:text-sm leading-relaxed flex-1 overflow-hidden line-clamp-4 font-light italic">
           &ldquo;{description}&rdquo;
         </p>
 
         {/* Author */}
-        <div className="mt-4 pt-4 border-t border-gray-100">
-          <p className="font-bold text-gray-900 text-sm">{name}</p>
-          <p className="text-gray-400 text-xs mt-0.5">{designation}</p>
+        <div className="mt-4 pt-4 border-t border-white/5">
+          <p className="font-bold text-white text-sm tracking-wide">{name}</p>
+          <p className="text-[#00BFFF]/50 text-[10px] uppercase tracking-widest mt-1 font-bold">{designation}</p>
         </div>
       </div>
 
       {/* Quote badge */}
-      <div className="absolute bottom-4 right-4 w-9 h-9 bg-[#04090f] rounded-full flex items-center justify-center text-white text-lg font-serif leading-none shadow-lg">
+      <div className="absolute bottom-4 right-4 w-9 h-9 bg-[#04090f] border border-[#00BFFF]/20 rounded-full flex items-center justify-center text-[#00BFFF] text-lg font-serif leading-none shadow-lg">
         ❝
       </div>
     </div>

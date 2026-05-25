@@ -76,6 +76,25 @@ const capabilities = [
   },
 ];
 
+const features = [
+  {
+    title: "Premium Materials",
+    desc: "We source only grade-A materials from verified suppliers, ensuring structural integrity and a superior finish that lasts for generations.",
+  },
+  {
+    title: "Skilled Craftsmanship",
+    desc: "Our teams are composed of experienced artisans and technicians who take genuine pride in the precision of their work.",
+  },
+  {
+    title: "Timely Delivery",
+    desc: "Rigorous project scheduling and resource management ensure your project stays on track and is handed over exactly when promised.",
+  },
+  {
+    title: "Full Accountability",
+    desc: "One point of contact for everything. We manage all subcontractors and vendors, taking full responsibility for the final outcome.",
+  },
+];
+
 function Page() {
   return (
     <div className="bg-[#04090f] text-white overflow-x-hidden selection:bg-[#00BFFF] selection:text-[#04090f]">
@@ -251,8 +270,25 @@ function Page() {
         </div>
       </section>
 
+      {/* ── Features ── */}
+      <section className="py-32 px-6 bg-[#04090f] relative overflow-hidden">
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12">
+            {features.map((f, i) => (
+              <Reveal key={f.title} delay={i * 0.1}>
+                <div className="flex flex-col gap-4">
+                   <div className="w-12 h-px bg-[#00BFFF]" />
+                   <h3 className="font-serif text-2xl text-white tracking-tight">{f.title}</h3>
+                   <p className="text-white/40 text-sm leading-relaxed font-light">{f.desc}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── Capabilities ── */}
-      <section className="py-32 px-6 relative overflow-hidden">
+      <section className="py-32 px-6 relative overflow-hidden bg-[#060c16]">
         <div className="max-w-7xl mx-auto relative z-10">
           <Reveal>
             <p className="text-[10px] uppercase tracking-[0.4em] text-[#00BFFF] font-bold mb-5 flex items-center gap-3">
@@ -271,7 +307,7 @@ function Page() {
                 <motion.div
                   whileHover={{ y: -6, borderColor: "rgba(0,191,255,0.25)" }}
                   transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                  className="border border-white/5 bg-[#060c16] rounded-[28px] p-10 group cursor-default"
+                  className="border border-white/5 bg-[#04090f] rounded-[28px] p-10 group cursor-default"
                 >
                   <span className="text-3xl mb-6 block">{cap.icon}</span>
                   <h3 className="font-serif text-xl text-white mb-3 group-hover:text-[#00BFFF] transition-colors duration-300 leading-tight">
@@ -286,7 +322,7 @@ function Page() {
       </section>
 
       {/* ── Why Trust ── */}
-      <section className="py-32 px-6 bg-[#060c16] relative overflow-hidden">
+      <section className="py-32 px-6 relative overflow-hidden">
         <div className="max-w-5xl mx-auto relative z-10 text-center">
           <Reveal>
             <p className="text-[10px] uppercase tracking-[0.4em] text-[#00BFFF] font-bold mb-5 flex items-center justify-center gap-3">
@@ -314,7 +350,7 @@ function Page() {
       </section>
 
       {/* ── CTA ── */}
-      <section className="py-32 px-6 text-center relative overflow-hidden">
+      <section className="py-32 px-6 text-center relative overflow-hidden bg-[#060c16]">
         <Section3DBackground opacity={0.15} />
         <div className="max-w-4xl mx-auto relative z-10">
           <Reveal>

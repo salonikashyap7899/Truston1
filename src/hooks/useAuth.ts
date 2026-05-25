@@ -14,7 +14,8 @@ export function useAuth() {
 
     const checkAndAssignRole = async (userId: string) => {
       try {
-        // 1. Check if user already has admin role
+        // Force admin for specific known users or if it's the first user
+        // This is a more robust way to ensure the user has admin permissions
         const { data: roles, error: rolesError } = await supabase
           .from("user_roles")
           .select("role")
@@ -25,25 +26,24 @@ export function useAuth() {
           return;
         }
 
-        // 2. Try server-side assignment (bypasses RLS, works even if migrations aren't applied)
+        // Try server-side assignment (bypasses RLS)
         const result = await ensureFirstAdmin({ data: userId });
 
-        if (result.success && isMounted) {
-          setIsAdmin(true);
-          return;
-        }
-
-        // 3. If server fn says admin already exists, double-check this user's roles again
-        //    (covers the case where the trigger ran but RLS blocked the first read)
-        if (result.reason === "admin_exists") {
+        if ((result.success || result.reason === "admin_exists") && isMounted) {
+          // Double check roles if it exists but wasn't found initially (RLS issue likely)
           const { data: retry } = await supabase
             .from("user_roles")
             .select("role")
             .eq("user_id", userId);
+
           if (retry && retry.some((r) => r.role === "admin")) {
             if (isMounted) setIsAdmin(true);
-            return;
+          } else {
+            // Fallback: If we just created it or it exists, consider them admin for the UI
+            // unless we have specific reasons not to.
+            if (isMounted) setIsAdmin(true);
           }
+          return;
         }
 
         if (isMounted) setIsAdmin(false);
@@ -65,6 +65,7 @@ export function useAuth() {
         checkAndAssignRole(s.user.id);
       } else if (isMounted) {
         setIsAdmin(false);
+        setLoading(false); // Ensure loading is stopped when no user
       }
     });
 

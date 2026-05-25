@@ -4,6 +4,12 @@ import { motion } from 'framer-motion';
 import { Reveal } from './Reveal';
 import { Section3DBackground } from './Section3DBackground';
 import { Link } from '@tanstack/react-router';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 export function TrustonWhoWeAreSection() {
   const pillars = [
@@ -284,24 +290,28 @@ export function TrustonWhySection() {
             </div>
           </Reveal>
 
-          <div>
-            {reasons.map((reason, idx) => (
-              <Reveal key={reason.num} delay={0.1 + idx * 0.1}>
-                <div className={`py-8 ${idx === 0 ? 'border-t' : ''} border-b border-white/8 grid grid-cols-[3rem_1fr] gap-6 cursor-default hover:pl-4 transition-all duration-300 group`}>
-                  <span className="text-xs text-[#00BFFF] tracking-wide font-light">
-                    {reason.num}
-                  </span>
-                  <div>
-                    <h3 className="text-base md:text-lg font-medium text-white mb-2 tracking-wide group-hover:text-[#00BFFF] transition-colors duration-300">
-                      {reason.title}
-                    </h3>
-                    <p className="text-sm text-white/55 leading-relaxed font-light">
+          <div className="w-full">
+            <Accordion type="single" collapsible className="w-full">
+              {reasons.map((reason, idx) => (
+                <Reveal key={reason.num} delay={0.1 + idx * 0.1}>
+                  <AccordionItem value={`item-${idx}`} className="border-white/10 group">
+                    <AccordionTrigger className="hover:no-underline py-6">
+                      <div className="flex items-center gap-6 text-left">
+                        <span className="text-xs text-[#00BFFF] tracking-wide font-light shrink-0">
+                          {reason.num}
+                        </span>
+                        <h3 className="text-base md:text-lg font-medium text-white tracking-wide group-data-[state=open]:text-[#00BFFF] transition-colors duration-300">
+                          {reason.title}
+                        </h3>
+                      </div>
+                    </AccordionTrigger>
+                    <AccordionContent className="text-white/55 leading-relaxed font-light pb-8 pl-[calc(1.5rem+3rem)]">
                       {reason.text}
-                    </p>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
+                    </AccordionContent>
+                  </AccordionItem>
+                </Reveal>
+              ))}
+            </Accordion>
           </div>
         </div>
       </div>
