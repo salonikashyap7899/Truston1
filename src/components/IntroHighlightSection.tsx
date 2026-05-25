@@ -37,8 +37,8 @@ export function IntroHighlightSection() {
             <div className="absolute inset-0 border border-luxe-cyan/20 rounded-3xl transform -rotate-3 scale-105" />
             <div className="relative h-full w-full rounded-3xl overflow-hidden shadow-luxe">
               <img
-                src="https://truston.advrtisinguru.com/wp-content/uploads/2026/04/aerial-photography-chinese-city-600x800.jpg"
-                alt="Visionary Architecture"
+                src="/assets/aerial-township.jpg"
+                alt="Prime Estate — Aerial Township View"
                 className="w-full h-full object-cover transition-transform duration-700 hover:scale-110 brightness-75"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent" />

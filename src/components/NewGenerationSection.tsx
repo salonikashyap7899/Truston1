@@ -49,8 +49,8 @@ export function NewGenerationSection() {
         style={{ y: bgY }}
       >
         <img
-          src="https://truston.advrtisinguru.com/wp-content/uploads/2026/04/aerial-photography-chinese-city-600x800.jpg"
-          alt="New generation real estate"
+          src="/assets/infrastructure-road.jpg"
+          alt="Prime Estate — Wide Internal Roads"
           className="w-full h-full object-cover scale-110"
         />
         {/* Multi-layer overlay */}

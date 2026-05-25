@@ -94,8 +94,8 @@ export function WhoWeAreSection() {
         {/* Image inside the 3D scroll card */}
         <div className="relative w-full h-full">
           <img
-            src="https://truston.advrtisinguru.com/wp-content/uploads/2026/04/april-pethybridge-nN28PjFOOLI-unsplash-scaled.jpg"
-            alt="Truston Developers — Architecture"
+            src="/assets/aerial-township.jpg"
+            alt="Prime Estate — Township Overview"
             className="w-full h-full object-cover rounded-xl"
           />
           {/* Scan-line shimmer */}

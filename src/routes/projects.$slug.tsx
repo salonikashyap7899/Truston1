@@ -132,6 +132,45 @@ function Page() {
         </p>
       </section>
 
+      {/* Gallery Section */}
+      <section className="py-24 px-6 bg-[#060c16] relative">
+        <div className="mx-auto max-w-7xl relative z-10">
+          <Reveal>
+            <div className="flex items-center gap-4 mb-4">
+              <span className="w-8 h-px bg-luxe-cyan" />
+              <span className="text-luxe-cyan text-xs uppercase tracking-[0.4em] font-bold">Project Gallery</span>
+            </div>
+            <h2 className="font-display text-4xl md:text-6xl text-white mb-12 tracking-tighter">
+              Inside Prime <em className="text-luxe-cyan italic font-serif">Estate</em>
+            </h2>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[
+              { src: "/assets/prime-estate-gate.jpg", label: "Main Entrance Gate" },
+              { src: "/assets/gate-02.jpg", label: "Prime Estate Gate-02" },
+              { src: "/assets/internal-street.jpg", label: "Internal Street Design" },
+              { src: "/assets/infrastructure-road.jpg", label: "Wide Internal Roads" },
+              { src: "/assets/green-amenities.jpg", label: "Landscaped Park & Play Area" },
+              { src: "/assets/aerial-township.jpg", label: "Aerial Township Overview" },
+            ].map((img, i) => (
+              <Reveal key={img.label} delay={i * 0.07}>
+                <div className="relative overflow-hidden rounded-2xl group aspect-[4/3]">
+                  <img
+                    src={img.src}
+                    alt={img.label}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 brightness-80"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#060c16]/80 via-transparent to-transparent" />
+                  <p className="absolute bottom-4 left-4 text-white/70 text-xs uppercase tracking-[0.2em] font-bold">
+                    {img.label}
+                  </p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="py-32 px-6 relative">
         <div className="mx-auto max-w-7xl relative z-10">
           <Reveal>

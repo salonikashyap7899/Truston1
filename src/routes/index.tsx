@@ -38,18 +38,14 @@ function Index() {
 
       {/* ── Hero — Full-screen video ── */}
       <section className="relative h-screen bg-[#04090f] overflow-hidden">
-        {/* Video background */}
+        {/* Hero image background */}
         <div className="absolute inset-0 z-0">
-          <video
-            autoPlay muted loop playsInline preload="metadata"
+          <img
+            src="/assets/prime-estate-gate.jpg"
+            alt="Prime Estate — TrustOn"
             className="w-full h-full object-cover"
-            style={{ opacity: 0.88, transform: "translateZ(0)" }}
-          >
-            <source
-              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Video%202026-05-22%20at%2010.03.14%20PM-QaTFrXd8V3Y9wkvJT59K1CIHabjmqa.mp4"
-              type="video/mp4"
-            />
-          </video>
+            style={{ opacity: 0.88 }}
+          />
           {/* Multi-layer gradient for depth */}
           <div className="absolute inset-0 bg-gradient-to-b from-[#04090f]/40 via-transparent to-[#04090f]" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#04090f]/60 via-transparent to-transparent" />

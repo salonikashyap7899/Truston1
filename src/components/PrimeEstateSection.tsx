@@ -58,27 +58,15 @@ export function PrimeEstateSection() {
           >
             {/* Left — Visual Panel */}
             <div className="relative overflow-hidden min-h-[420px] md:min-h-[600px] flex flex-col justify-end p-10 md:p-12 bg-[#161613]">
-              {/* Grid pattern */}
-              <div
-                className="absolute inset-0"
-                style={{
-                  backgroundImage:
-                    "linear-gradient(rgba(0,191,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0,191,255,0.05) 1px, transparent 1px)",
-                  backgroundSize: "50px 50px",
-                }}
+              {/* Background image */}
+              <img
+                src="/assets/internal-street.jpg"
+                alt="Prime Estate — Internal Street"
+                className="absolute inset-0 w-full h-full object-cover"
               />
 
-              {/* Architectural arch decoration */}
-              <div className="absolute top-12 left-1/2 -translate-x-1/2 w-40 h-52 border border-[#00BFFF]/12 rounded-t-full" />
-              <div className="absolute top-16 left-1/2 -translate-x-1/2 w-24 h-36 border border-[#00BFFF]/08 rounded-t-full" />
-              <div className="absolute top-[calc(16px+4.5rem)] left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-[#00BFFF]/40" />
-
-              {/* Concentric circles */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 border border-[#00BFFF]/06 rounded-full" />
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-52 h-52 border border-[#00BFFF]/05 rounded-full" />
-
               {/* Gradient overlay at bottom */}
-              <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-[#161613] via-[#161613]/60 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#161613] via-[#161613]/50 to-transparent" />
 
               {/* Text content */}
               <div className="relative z-10">

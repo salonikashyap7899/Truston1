@@ -132,24 +132,28 @@ export function TrustonServicesSection() {
       name: 'Plot Selling',
       desc: "Residential land parcels in Lucknow's high-growth corridors. Jila Panchayat approvals, clear title deeds, and complete legal documentation — every plot backed by full transparency.",
       linkText: 'Explore Plots',
+      img: '/assets/plot-selling.jpg',
     },
     {
       num: '02',
       name: 'Construction',
       desc: 'Full home construction — from foundation to finishing. Quality materials, experienced teams, and complete transparency at every phase with on-time delivery guaranteed.',
       linkText: 'Build With Us',
+      img: '/assets/internal-street.jpg',
     },
     {
       num: '03',
       name: 'Investment Consultancy',
       desc: "Expert land investment guidance for first-time buyers, NRIs, and seasoned investors. ROI assessments, location analysis, and long-term portfolio strategy crafted for Lucknow's real estate landscape.",
       linkText: 'Grow Your Assets',
+      img: '/assets/aerial-township.jpg',
     },
     {
       num: '04',
       name: 'Architecture & Design',
       desc: 'In-house architectural planning tailored to your vision. Concept layouts, elevation designs, complete blueprint documentation — bringing your idea of home to life before a single brick is laid.',
       linkText: 'Design Your Space',
+      img: '/assets/architecture-design.jpg',
     },
   ];
 
@@ -182,60 +186,31 @@ export function TrustonServicesSection() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-white/5">
           {services.map((service, idx) => (
             <Reveal key={service.num} delay={idx * 0.1}>
-              <div className="bg-[#050b14] p-8 relative overflow-hidden group cursor-pointer h-full hover:bg-[#0a1628] transition-colors duration-300 border border-transparent hover:border-[#00BFFF]/20">
-                <span className="absolute top-2 right-4 font-serif text-[6rem] font-light text-white/5 leading-none select-none pointer-events-none">
-                  {service.num}
-                </span>
-
-                <div className="w-12 h-12 mb-6 text-[#00BFFF]">
-                  <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.2">
-                    {service.num === '01' && (
-                      <>
-                        <rect x="6" y="20" width="36" height="22" rx="1"/>
-                        <polyline points="2,22 24,6 46,22"/>
-                        <rect x="18" y="30" width="12" height="12"/>
-                      </>
-                    )}
-                    {service.num === '02' && (
-                      <>
-                        <rect x="8" y="12" width="32" height="30" rx="1"/>
-                        <line x1="8" y1="20" x2="40" y2="20"/>
-                        <line x1="20" y1="20" x2="20" y2="42"/>
-                        <rect x="24" y="28" width="10" height="14"/>
-                        <polyline points="14,8 24,2 34,8"/>
-                      </>
-                    )}
-                    {service.num === '03' && (
-                      <>
-                        <circle cx="24" cy="24" r="18"/>
-                        <polyline points="24,8 24,24 32,32"/>
-                        <line x1="6" y1="24" x2="10" y2="24"/>
-                        <line x1="38" y1="24" x2="42" y2="24"/>
-                        <line x1="24" y1="6" x2="24" y2="10"/>
-                      </>
-                    )}
-                    {service.num === '04' && (
-                      <>
-                        <rect x="6" y="6" width="36" height="36" rx="1"/>
-                        <line x1="6" y1="16" x2="42" y2="16"/>
-                        <line x1="20" y1="16" x2="20" y2="42"/>
-                        <line x1="6" y1="28" x2="20" y2="28"/>
-                        <line x1="32" y1="22" x2="38" y2="28"/>
-                        <line x1="26" y1="28" x2="38" y2="28"/>
-                      </>
-                    )}
-                  </svg>
+              <div className="bg-[#050b14] relative overflow-hidden group cursor-pointer h-full hover:bg-[#0a1628] transition-colors duration-300 border border-transparent hover:border-[#00BFFF]/20 flex flex-col">
+                {/* Image thumbnail */}
+                <div className="relative h-48 overflow-hidden shrink-0">
+                  <img
+                    src={service.img}
+                    alt={service.name}
+                    className="w-full h-full object-cover brightness-75 group-hover:scale-105 transition-transform duration-700"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#050b14]" />
+                  <span className="absolute top-3 right-4 font-serif text-[3rem] font-light text-white/10 leading-none select-none pointer-events-none">
+                    {service.num}
+                  </span>
                 </div>
 
-                <h3 className="text-base font-medium text-white mb-3 tracking-wide">
-                  {service.name}
-                </h3>
-                <p className="text-sm text-white/50 leading-relaxed mb-6">
-                  {service.desc}
-                </p>
-                <span className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.15em] text-[#00BFFF] font-medium group-hover:gap-4 transition-all duration-300">
-                  {service.linkText} <span>→</span>
-                </span>
+                <div className="p-8 flex flex-col flex-1">
+                  <h3 className="text-base font-medium text-white mb-3 tracking-wide group-hover:text-[#00BFFF] transition-colors duration-300">
+                    {service.name}
+                  </h3>
+                  <p className="text-sm text-white/50 leading-relaxed mb-6 flex-1">
+                    {service.desc}
+                  </p>
+                  <span className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.15em] text-[#00BFFF] font-medium group-hover:gap-4 transition-all duration-300">
+                    {service.linkText} <span>→</span>
+                  </span>
+                </div>
               </div>
             </Reveal>
           ))}
