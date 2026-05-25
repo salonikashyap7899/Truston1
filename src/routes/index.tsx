@@ -137,13 +137,19 @@ function Index() {
       <WhoWeAreSection />
 
       {/* Prime Estate Project */}
-      <PrimeEstateSection />
+      <div className="pb-12 md:pb-20 bg-[#0F0F0D]">
+        <PrimeEstateSection />
+      </div>
 
       {/* Gallery Section — Moved here as per request */}
-      <GallerySection />
+      <div className="-mt-1">
+        <GallerySection />
+      </div>
 
       {/* Stats Bar */}
-      <EnhancedStatsBar />
+      <div className="-mt-1">
+        <EnhancedStatsBar />
+      </div>
 
       {/* Services (Four Pillars) */}
       <TrustonServicesSection />
@@ -287,9 +293,9 @@ function Marquee() {
     "Prime Location",
     "Transparent Dealings",
   ];
-  const items = [...words, ...words];
+  const items = [...words, ...words, ...words];
   return (
-    <div className="border-y border-white/5 py-6 overflow-hidden relative" style={{ background: "#04090f" }}>
+    <div className="border-y border-white/5 py-8 overflow-hidden relative" style={{ background: "#04090f" }}>
       <div
         className="flex whitespace-nowrap"
         style={{ animation: "marquee-scroll 35s linear infinite", willChange: "transform" }}
