@@ -147,13 +147,6 @@ export function IntroScreen() {
             <span className="absolute inset-0 bg-[#00BFFF]/10 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left rounded-full" />
           </button>
 
-          <motion.p
-            className="text-white/20 text-[10px] uppercase tracking-[0.25em]"
-            animate={{ opacity: [0.4, 0.8, 0.4] }}
-            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-          >
-            Press ESC to skip
-          </motion.p>
         </motion.div>
       </motion.div>
     </AnimatePresence>

@@ -13,9 +13,7 @@ import {
   TrustonCTAStrip,
 } from "@/components/TrustonDevelopersSection";
 import { PrimeEstateSection } from "@/components/PrimeEstateSection";
-import { Services3DSection } from "@/components/Services3DSection";
 import { ContainerScroll } from "@/components/ui/container-scroll-animation";
-import { GlowCard } from "@/components/ui/spotlight-card";
 import luxuryInteriorImg from "@/assets/luxury-interior.jpg";
 
 export const Route = createFileRoute("/")({
@@ -46,7 +44,7 @@ function Index() {
             muted
             loop
             playsInline
-            preload="auto"
+            preload="metadata"
             className="w-full h-full object-cover"
             style={{ opacity: 0.75, transform: "translateZ(0)", backfaceVisibility: "hidden" }}
           >
@@ -113,7 +111,7 @@ function Index() {
             </motion.div>
           </motion.div>
 
-          {/* Scroll indicator */}
+          {/* Scroll indicator — click to auto-scroll to next section */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1, y: [0, 10, 0] }}
@@ -121,6 +119,7 @@ function Index() {
               opacity: { duration: 1, delay: 1.5 },
               y: { duration: 2, repeat: Infinity, ease: "easeInOut", delay: 1.5 },
             }}
+            onClick={() => document.getElementById("who-we-are-section")?.scrollIntoView({ behavior: "smooth" })}
             className="absolute bottom-10 w-10 h-10 rounded-full border border-white/15 flex items-center justify-center text-white/40 hover:border-[#00BFFF] hover:text-[#00BFFF] transition-colors duration-500 cursor-pointer"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -139,9 +138,6 @@ function Index() {
       {/* Services */}
       <TrustonServicesSection />
 
-      {/* ── Scroll Showcase (ContainerScroll) ── */}
-      <ScrollShowcaseSection />
-
       {/* Intro Highlight */}
       <IntroHighlightSection />
 
@@ -153,9 +149,6 @@ function Index() {
 
       {/* Why Truston */}
       <TrustonWhySection />
-
-      {/* Services 3D */}
-      <Services3DSection />
 
       {/* Wealth Calculator */}
       <WealthCalculator />
@@ -202,7 +195,7 @@ const whoWeAreStats = [
 
 function WhoWeAreScrollSection() {
   return (
-    <section className="relative z-10 overflow-hidden" style={{ background: "#060c16" }}>
+    <section id="who-we-are-section" className="relative z-10 overflow-hidden" style={{ background: "#060c16" }}>
       {/* Gradient blends this section over the sticky hero video above */}
       <div className="absolute top-0 left-0 right-0 h-40 pointer-events-none z-20"
         style={{ background: "linear-gradient(to bottom, transparent 0%, #060c16 100%)" }} />
@@ -335,118 +328,6 @@ function WhoWeAreScrollSection() {
                 </p>
               </div>
             </motion.div>
-          </div>
-        </div>
-      </ContainerScroll>
-    </section>
-  );
-}
-
-/* ── Scroll Showcase ─────────────────────────────────────────────── */
-const showcaseCards = [
-  {
-    icon: "◉",
-    title: "Prime Plots",
-    desc: "Jila Panchayat approved plots in Lucknow's fastest-growing corridors. Every square foot documented.",
-    stat: "120+",
-    statLabel: "Plots",
-  },
-  {
-    icon: "◆",
-    title: "Architectural Design",
-    desc: "Luxury home designs crafted by seasoned architects — 3D walkthroughs before a single brick is laid.",
-    stat: "50+",
-    statLabel: "Designs Delivered",
-  },
-  {
-    icon: "◎",
-    title: "Construction Excellence",
-    desc: "Turnkey build service with premium materials, transparent pricing, and on-time delivery commitment.",
-    stat: "100%",
-    statLabel: "On-Schedule",
-  },
-  {
-    icon: "◈",
-    title: "Investment Consulting",
-    desc: "Market intelligence, appreciation forecasts, and personalized portfolio advisory for smart buyers.",
-    stat: "25%",
-    statLabel: "Avg. Annual Growth",
-  },
-  {
-    icon: "❖",
-    title: "Channel Partners",
-    desc: "Lucrative commission structures, co-marketing support, and a trusted brand that sells itself.",
-    stat: "200+",
-    statLabel: "Active Partners",
-  },
-  {
-    icon: "✦",
-    title: "Transparency Guarantee",
-    desc: "Clear title deeds, zero hidden charges, and a team that answers every question — before and after purchase.",
-    stat: "5+",
-    statLabel: "Years of Trust",
-  },
-];
-
-function ScrollShowcaseSection() {
-  return (
-    <section className="bg-[#04090f] overflow-hidden relative">
-      <ContainerScroll
-        titleComponent={
-          <div className="mb-8">
-            <p className="text-[10px] md:text-xs font-bold uppercase tracking-[0.4em] text-[#00BFFF] mb-4 flex items-center justify-center gap-3">
-              <span className="w-8 h-px bg-[#00BFFF]" />
-              What We Offer
-              <span className="w-8 h-px bg-[#00BFFF]" />
-            </p>
-            <h2 className="text-4xl md:text-6xl font-serif text-white tracking-tight leading-tight">
-              Every Service,{" "}
-              <em className="text-[#00BFFF] italic not-italic" style={{ fontStyle: "italic" }}>
-                One Vision
-              </em>
-            </h2>
-            <p className="text-white/40 text-base mt-4 font-light max-w-xl mx-auto">
-              From raw land to refined living — TrustOn delivers the complete journey.
-            </p>
-          </div>
-        }
-      >
-        <div className="h-full w-full overflow-y-auto p-4 md:p-6">
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 h-full">
-            {showcaseCards.map((card, i) => (
-              <GlowCard
-                key={card.title}
-                glowColor="blue"
-                customSize
-                className="p-5 md:p-6 flex flex-col justify-between min-h-[140px] md:min-h-auto"
-              >
-                <div>
-                  <motion.span
-                    className="text-[#00BFFF]/50 text-xl md:text-2xl mb-3 block"
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    transition={{ delay: i * 0.08 }}
-                    viewport={{ once: true }}
-                  >
-                    {card.icon}
-                  </motion.span>
-                  <h3 className="text-white font-serif text-base md:text-lg leading-snug mb-2">
-                    {card.title}
-                  </h3>
-                  <p className="text-white/40 text-xs leading-relaxed hidden md:block">
-                    {card.desc}
-                  </p>
-                </div>
-                <div className="mt-3 pt-3 border-t border-white/5">
-                  <span className="text-[#00BFFF] font-serif text-xl md:text-2xl font-light">
-                    {card.stat}
-                  </span>
-                  <span className="text-white/30 text-[9px] uppercase tracking-[0.2em] ml-2 font-bold">
-                    {card.statLabel}
-                  </span>
-                </div>
-              </GlowCard>
-            ))}
           </div>
         </div>
       </ContainerScroll>

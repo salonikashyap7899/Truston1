@@ -17,6 +17,7 @@ import { Route as InvestmentConsultingRouteImport } from './routes/investment-co
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as ConstructionBuildRouteImport } from './routes/construction-build'
 import { Route as ChannelPartnerRouteImport } from './routes/channel-partner'
+import { Route as BlogRouteImport } from './routes/blog'
 import { Route as ArchitectureDesignRouteImport } from './routes/architecture-design'
 import { Route as AboutUsRouteImport } from './routes/about-us'
 import { Route as IndexRouteImport } from './routes/index'
@@ -64,6 +65,11 @@ const ChannelPartnerRoute = ChannelPartnerRouteImport.update({
   path: '/channel-partner',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogRoute = BlogRouteImport.update({
+  id: '/blog',
+  path: '/blog',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ArchitectureDesignRoute = ArchitectureDesignRouteImport.update({
   id: '/architecture-design',
   path: '/architecture-design',
@@ -99,6 +105,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about-us': typeof AboutUsRoute
   '/architecture-design': typeof ArchitectureDesignRoute
+  '/blog': typeof BlogRoute
   '/channel-partner': typeof ChannelPartnerRoute
   '/construction-build': typeof ConstructionBuildRoute
   '/contact': typeof ContactRoute
@@ -115,6 +122,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about-us': typeof AboutUsRoute
   '/architecture-design': typeof ArchitectureDesignRoute
+  '/blog': typeof BlogRoute
   '/channel-partner': typeof ChannelPartnerRoute
   '/construction-build': typeof ConstructionBuildRoute
   '/contact': typeof ContactRoute
@@ -132,6 +140,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about-us': typeof AboutUsRoute
   '/architecture-design': typeof ArchitectureDesignRoute
+  '/blog': typeof BlogRoute
   '/channel-partner': typeof ChannelPartnerRoute
   '/construction-build': typeof ConstructionBuildRoute
   '/contact': typeof ContactRoute
@@ -150,6 +159,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about-us'
     | '/architecture-design'
+    | '/blog'
     | '/channel-partner'
     | '/construction-build'
     | '/contact'
@@ -166,6 +176,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about-us'
     | '/architecture-design'
+    | '/blog'
     | '/channel-partner'
     | '/construction-build'
     | '/contact'
@@ -182,6 +193,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about-us'
     | '/architecture-design'
+    | '/blog'
     | '/channel-partner'
     | '/construction-build'
     | '/contact'
@@ -199,6 +211,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutUsRoute: typeof AboutUsRoute
   ArchitectureDesignRoute: typeof ArchitectureDesignRoute
+  BlogRoute: typeof BlogRoute
   ChannelPartnerRoute: typeof ChannelPartnerRoute
   ConstructionBuildRoute: typeof ConstructionBuildRoute
   ContactRoute: typeof ContactRoute
@@ -270,6 +283,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ChannelPartnerRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blog': {
+      id: '/blog'
+      path: '/blog'
+      fullPath: '/blog'
+      preLoaderRoute: typeof BlogRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/architecture-design': {
       id: '/architecture-design'
       path: '/architecture-design'
@@ -319,6 +339,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutUsRoute: AboutUsRoute,
   ArchitectureDesignRoute: ArchitectureDesignRoute,
+  BlogRoute: BlogRoute,
   ChannelPartnerRoute: ChannelPartnerRoute,
   ConstructionBuildRoute: ConstructionBuildRoute,
   ContactRoute: ContactRoute,
