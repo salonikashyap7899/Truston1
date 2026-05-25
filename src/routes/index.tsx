@@ -13,7 +13,6 @@ import {
 } from "@/components/TrustonDevelopersSection";
 import { PrimeEstateSection } from "@/components/PrimeEstateSection";
 import { WhoWeAreSection } from "@/components/WhoWeAreSection";
-import { NewGenerationSection } from "@/components/NewGenerationSection";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -141,9 +140,6 @@ function Index() {
 
       {/* Our Philosophy */}
       <PhilosophySection />
-
-      {/* New Generation — moved here after Philosophy */}
-      <NewGenerationSection />
 
       {/* Stats Bar */}
       <EnhancedStatsBar />
