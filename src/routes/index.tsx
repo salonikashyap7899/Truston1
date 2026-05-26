@@ -37,7 +37,7 @@ function Index() {
     eyebrow: "TRUSTON",
     title: "TRUSTON",
     title_accent: "",
-    subtitle: "Build your legacy on the ground",
+    subtitle: "TRUSTON",
   });
 
   return (
