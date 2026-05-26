@@ -19,12 +19,12 @@ import { usePageContent } from "@/hooks/usePageContent";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "TrustOn — Billion Dollar Luxury Real Estate" },
+      { title: "TRUSTON},
       {
         name: "description",
         content: "Prime Estate by TrustOn — Jila Panchayat approved luxury township in Lucknow.",
       },
-      { property: "og:title", content: "TrustOn — Own the Ground. Build the Legacy." },
+      { property: "og:title", content: "TRUSTON" },
       { property: "og:image", content: heroImg },
     ],
     links: [{ rel: "preload", as: "image", href: heroImg, fetchPriority: "high" } as never],
@@ -35,7 +35,7 @@ export const Route = createFileRoute("/")({
 function Index() {
   const heroContent = usePageContent("home.hero", {
     eyebrow: "TRUSTON.",
-    title: "TRUST",
+    title: "TRUSTON",
     title_accent: "ON",
     subtitle: "Curated land, architectural mastery and construction excellence — under one roof.",
   });
