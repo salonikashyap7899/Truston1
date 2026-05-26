@@ -33,12 +33,7 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
-  const heroContent = usePageContent("home.hero", {
-      eyebrow: "BEGIN YOUR JOURNEY",
-      subtitle:
-    "Curated land, architectural mastery and construction excellence — under one roof.",
-  });
-
+ const heroContent = usePageContent("home.hero", {});
   return (
     <div className="bg-[#04090f] text-foreground overflow-x-hidden">
 
@@ -97,16 +92,6 @@ function Index() {
     Own the Ground. Build the Legacy.
   </p>
 </motion.div>
-            {/* Tagline */}
-            <motion.p
-              className="text-white/60 text-base md:text-lg font-light tracking-widest uppercase mb-3"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.75 }}
-            >
-              {heroContent.eyebrow}
-            </motion.p>
-
             <motion.p
               className="text-white/30 text-sm font-light max-w-xl mx-auto leading-relaxed mb-10"
               initial={{ opacity: 0 }}
