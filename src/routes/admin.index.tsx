@@ -177,6 +177,8 @@ function Field({
   onChange: (v: string) => void;
   type?: "text" | "textarea" | "media";
 }) {
+  const [uploading, setUploading] = useState(false);
+
   const isMedia =
     type === "media" ||
     name.includes("image") ||
@@ -190,12 +192,59 @@ function Field({
     name === "body" ||
     (typeof value === "string" && value.length > 80);
 
+  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploading(true);
+    try {
+      const ext = file.name.split(".").pop();
+      const path = `uploads/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+
+      const { error: uploadError } = await supabase.storage.from("site-media").upload(path, file);
+
+      if (uploadError) throw uploadError;
+
+      const {
+        data: { publicUrl },
+      } = supabase.storage.from("site-media").getPublicUrl(path);
+
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      await supabase.from("media").insert({
+        name: file.name,
+        type: file.type.startsWith("video") ? "video" : "image",
+        url: publicUrl,
+        storage_path: path,
+        size_bytes: file.size,
+        uploaded_by: user?.id,
+      });
+
+      onChange(publicUrl);
+      toast.success("Media uploaded and linked");
+    } catch (err: any) {
+      toast.error(err.message);
+    } finally {
+      setUploading(false);
+    }
+  };
+
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-4">
-      <label className="text-[10px] uppercase tracking-[0.3em] text-white/30 flex items-center gap-3 font-bold">
-        {name.replace(/_/g, " ")}
-        {isMedia && <span className="text-luxe-cyan opacity-80">(Media Asset)</span>}
-      </label>
+      <div className="flex items-center justify-between">
+        <label className="text-[10px] uppercase tracking-[0.3em] text-white/30 flex items-center gap-3 font-bold">
+          {name.replace(/_/g, " ")}
+          {isMedia && <span className="text-luxe-cyan opacity-80">(Media Asset)</span>}
+        </label>
+        {isMedia && (
+          <label className="text-[9px] uppercase tracking-widest text-luxe-cyan cursor-pointer hover:underline font-bold">
+            {uploading ? "Uploading..." : "Upload New"}
+            <input type="file" hidden onChange={handleUpload} disabled={uploading} />
+          </label>
+        )}
+      </div>
 
       {isLong ? (
         <textarea
@@ -214,7 +263,7 @@ function Field({
 
       {isMedia && value && (
         <div className="mt-6 rounded-[32px] overflow-hidden border border-white/5 bg-black/40 p-3 shadow-luxe max-w-md">
-          {value.match(/\.(mp4|webm|mov)$/i) ? (
+          {value.match(/\.(mp4|webm|mov)$/i) || value.includes("VID") ? (
             <video src={value} className="w-full rounded-2xl" muted controls />
           ) : (
             <img src={value} alt="" className="w-full rounded-2xl" />
@@ -539,6 +588,84 @@ function CollectionsPanel() {
                   />
                 </>
               )}
+              {active === "projects" && (
+                <>
+                  <Field
+                    name="title"
+                    value={(draft.title as string) || ""}
+                    onChange={(v) => setDraft({ ...draft, title: v })}
+                  />
+                  <Field
+                    name="slug"
+                    value={(draft.slug as string) || ""}
+                    onChange={(v) => setDraft({ ...draft, slug: v })}
+                  />
+                  <Field
+                    name="category"
+                    value={(draft.category as string) || ""}
+                    onChange={(v) => setDraft({ ...draft, category: v })}
+                  />
+                  <Field
+                    name="image_url"
+                    value={(draft.image_url as string) || ""}
+                    onChange={(v) => setDraft({ ...draft, image_url: v })}
+                  />
+                  <Field
+                    name="description"
+                    value={(draft.description as string) || ""}
+                    onChange={(v) => setDraft({ ...draft, description: v })}
+                    type="textarea"
+                  />
+
+                  <div className="pt-8 border-t border-white/5 mt-8">
+                    <p className="text-[10px] uppercase tracking-[0.4em] text-luxe-cyan mb-8 font-bold">Project Details (JSON Content)</p>
+                    <div className="grid gap-6">
+                      <Field
+                        name="Detail Title"
+                        value={draft.content_json?.detail_title || ""}
+                        onChange={(v) => setDraft({ ...draft, content_json: { ...draft.content_json, detail_title: v } })}
+                      />
+                      <Field
+                        name="Detail Accent"
+                        value={draft.content_json?.detail_title_accent || ""}
+                        onChange={(v) => setDraft({ ...draft, content_json: { ...draft.content_json, detail_title_accent: v } })}
+                      />
+                      <Field
+                        name="Body Text"
+                        value={draft.content_json?.body || ""}
+                        onChange={(v) => setDraft({ ...draft, content_json: { ...draft.content_json, body: v } })}
+                        type="textarea"
+                      />
+                      <Field
+                        name="Engagement Status"
+                        value={draft.content_json?.engagement || ""}
+                        onChange={(v) => setDraft({ ...draft, content_json: { ...draft.content_json, engagement: v } })}
+                      />
+                      <Field
+                        name="Release Date"
+                        value={draft.content_json?.release || ""}
+                        onChange={(v) => setDraft({ ...draft, content_json: { ...draft.content_json, release: v } })}
+                      />
+                      <Field
+                        name="Amenities (Comma Separated)"
+                        value={Array.isArray(draft.content_json?.amenities) ? draft.content_json.amenities.join(", ") : ""}
+                        onChange={(v) => setDraft({ ...draft, content_json: { ...draft.content_json, amenities: v.split(",").map(s => s.trim()).filter(Boolean) } })}
+                      />
+                      <Field
+                        name="Highlights (Comma Separated)"
+                        value={Array.isArray(draft.content_json?.highlights) ? draft.content_json.highlights.join(", ") : ""}
+                        onChange={(v) => setDraft({ ...draft, content_json: { ...draft.content_json, highlights: v.split(",").map(s => s.trim()).filter(Boolean) } })}
+                      />
+                    </div>
+                  </div>
+
+                  <Field
+                    name="order_index"
+                    value={(draft.order_index as string) || "0"}
+                    onChange={(v) => setDraft({ ...draft, order_index: parseInt(v) || 0 })}
+                  />
+                </>
+              )}
               {active === "plots" && (
                 <>
                   <Field
@@ -725,41 +852,6 @@ function CollectionsPanel() {
                   />
                 </>
               )}
-              {active === "projects" && (
-                <>
-                  <Field
-                    name="title"
-                    value={(draft.title as string) || ""}
-                    onChange={(v) => setDraft({ ...draft, title: v })}
-                  />
-                  <Field
-                    name="slug"
-                    value={(draft.slug as string) || ""}
-                    onChange={(v) => setDraft({ ...draft, slug: v })}
-                  />
-                  <Field
-                    name="description"
-                    value={(draft.description as string) || ""}
-                    onChange={(v) => setDraft({ ...draft, description: v })}
-                    type="textarea"
-                  />
-                  <Field
-                    name="image_url"
-                    value={(draft.image_url as string) || ""}
-                    onChange={(v) => setDraft({ ...draft, image_url: v })}
-                  />
-                  <Field
-                    name="category"
-                    value={(draft.category as string) || ""}
-                    onChange={(v) => setDraft({ ...draft, category: v })}
-                  />
-                  <Field
-                    name="order_index"
-                    value={(draft.order_index as string) || "0"}
-                    onChange={(v) => setDraft({ ...draft, order_index: parseInt(v) || 0 })}
-                  />
-                </>
-              )}
             </div>
           </div>
         )}
@@ -793,12 +885,21 @@ function GlobalPanel() {
   }, []);
 
   const saveSeo = async () => {
-    if (!selectedSeo) return;
     setBusy(true);
-    const { error } = await supabase.from("seo_configs").update(seoDraft).eq("id", selectedSeo);
+    let error;
+    if (selectedSeo) {
+      const { error: err } = await supabase.from("seo_configs").update(seoDraft).eq("id", selectedSeo);
+      error = err;
+    } else {
+      const { error: err } = await supabase.from("seo_configs").insert(seoDraft);
+      error = err;
+    }
     setBusy(false);
     if (error) toast.error(error.message);
-    else toast.success("SEO updated");
+    else {
+      toast.success("SEO updated");
+      load();
+    }
   };
 
   const saveNav = async () => {
@@ -823,15 +924,26 @@ function GlobalPanel() {
   };
 
   const saveFooter = async () => {
-    if (!selectedFooter) return;
     setBusy(true);
-    const { error } = await supabase
-      .from("footer_configs")
-      .update({ data: footerDraft })
-      .eq("id", selectedFooter);
+    let error;
+    if (selectedFooter) {
+      const { error: err } = await supabase
+        .from("footer_configs")
+        .update({ data: footerDraft })
+        .eq("id", selectedFooter);
+      error = err;
+    } else {
+      const { error: err } = await supabase
+        .from("footer_configs")
+        .insert({ section_key: "new_section", data: footerDraft });
+      error = err;
+    }
     setBusy(false);
     if (error) toast.error(error.message);
-    else toast.success("Footer updated");
+    else {
+      toast.success("Footer updated");
+      load();
+    }
   };
 
   return (

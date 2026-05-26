@@ -10,9 +10,9 @@ interface ContactData {
 }
 
 export const submitContactMessage = createServerFn({ method: "POST" })
-  .inputValidator((data: unknown) => data as ContactData)
+  .validator((data: unknown) => data as ContactData)
   .handler(async ({ data }) => {
-    // Switching to Supabase client for consistency and using contact_submissions table
+    // Using contact_submissions table for consistency
     const { error } = await supabaseAdmin.from("contact_submissions").insert({
       name: data.name,
       email: data.email || null,

@@ -13,11 +13,22 @@ type NavLink = {
 
 export function SobhaStyleNav() {
   const [open, setOpen] = useState(false);
-  const [svcOpen, setSvcOpen] = useState(true); // Control visibility via hover/click
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
   const loc = useLocation();
 
-  const { data: allLinks } = useCollection<NavLink>("navbar_links", { order: "order_index" });
+  const { data: dbLinks } = useCollection<NavLink>("navbar_links", { order: "order_index" });
+
+  const DEFAULT_LINKS: NavLink[] = [
+    { id: "1", label: "ABOUT US", to: "/about-us", parent_id: null, order_index: 0 },
+    { id: "2", label: "SERVICES", to: "/services", parent_id: null, order_index: 1 },
+    { id: "3", label: "PROJECTS", to: "/project", parent_id: null, order_index: 2 },
+    { id: "4", label: "CONTACT", to: "/contact", parent_id: null, order_index: 3 },
+    { id: "s1", label: "Property Sales", to: "/services/property-sales", parent_id: "2", order_index: 0 },
+    { id: "s2", label: "Investment", to: "/services/investment", parent_id: "2", order_index: 1 },
+    { id: "s3", label: "Plot Selling", to: "/plot-selling", parent_id: "2", order_index: 2 },
+  ];
+
+  const allLinks = dbLinks && dbLinks.length > 0 ? dbLinks : DEFAULT_LINKS;
 
   useEffect(() => {
     setOpen(false);

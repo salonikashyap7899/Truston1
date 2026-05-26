@@ -1,11 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import { Pool } from "pg";
-
-let pool: Pool | null = null;
-function getPool() {
-  if (!pool) pool = new Pool({ connectionString: process.env.DATABASE_URL });
-  return pool;
-}
+import { supabaseAdmin } from "@/integrations/supabase/client.server";
 
 interface ContactData {
   name: string;
@@ -18,17 +12,19 @@ interface ContactData {
 export const submitContactMessage = createServerFn({ method: "POST" })
   .validator((data: unknown) => data as ContactData)
   .handler(async ({ data }) => {
-    const db = getPool();
-    await db.query(
-      `INSERT INTO contact_messages (name, email, phone, service, message)
-       VALUES ($1, $2, $3, $4, $5)`,
-      [
-        data.name,
-        data.email || null,
-        data.phone || null,
-        data.service || null,
-        data.message || null,
-      ],
-    );
+    const { error } = await supabaseAdmin.from("contact_submissions").insert({
+      name: data.name,
+      email: data.email || null,
+      phone: data.phone || null,
+      service: data.service || null,
+      message: data.message || "No message provided",
+      source: "website_contact_form",
+    });
+
+    if (error) {
+      console.error("Submission error:", error);
+      throw new Error(error.message);
+    }
+
     return { success: true };
   });
