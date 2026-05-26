@@ -139,28 +139,47 @@ export function TrustonServicesSection() {
       name: 'Plot Selling',
       desc: "Residential land parcels in Lucknow's high-growth corridors. Jila Panchayat approvals, clear title deeds, and complete legal documentation — every plot backed by full transparency.",
       linkText: 'Explore Plots',
-      img: '/assets/photo_2.jpg',
+      icon: (
+        <svg className="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+          <path d="M3 21h18M9 21V10h6v11M5 21V7l7-4 7 4v14M12 7v0" strokeLinecap="round" strokeLinejoin="round"/>
+          <rect x="7" y="10" width="10" height="3" fill="currentColor" fillOpacity="0.1"/>
+        </svg>
+      ),
     },
     {
       num: '02',
       name: 'Construction',
       desc: 'Full home construction — from foundation to finishing. Quality materials, experienced teams, and complete transparency at every phase with on-time delivery guaranteed.',
       linkText: 'Build With Us',
-      img: '/assets/photo_5.jpg',
+      icon: (
+        <svg className="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+          <path d="M2 20h20M4 20V10l8-6 8 6v10M10 20v-6h4v6" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M15 10h2v2h-2z" fill="currentColor" fillOpacity="0.3"/>
+          <path d="M7 10h2v2H7z" fill="currentColor" fillOpacity="0.3"/>
+        </svg>
+      ),
     },
     {
       num: '03',
       name: 'Investment Consultancy',
       desc: "Expert land investment guidance for first-time buyers, NRIs, and seasoned investors. ROI assessments, location analysis, and long-term portfolio strategy crafted for Lucknow's real estate landscape.",
       linkText: 'Grow Your Assets',
-      img: '/assets/photo_9.jpg',
+      icon: (
+        <svg className="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+          <path d="M12 2v20M17 5H9.5a3.5 3.5 0 100 7h5a3.5 3.5 0 110 7H6" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      ),
     },
     {
       num: '04',
       name: 'Architecture & Design',
       desc: 'In-house architectural planning tailored to your vision. Concept layouts, elevation designs, complete blueprint documentation — bringing your idea of home to life before a single brick is laid.',
       linkText: 'Design Your Space',
-      img: '/assets/photo_6.jpg',
+      icon: (
+        <svg className="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+          <path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3zM13 13l6 6" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      ),
     },
   ];
 
@@ -194,14 +213,11 @@ export function TrustonServicesSection() {
           {services.map((service, idx) => (
             <Reveal key={service.num} delay={idx * 0.1}>
               <div className="bg-[#050b14] relative overflow-hidden group cursor-pointer h-full hover:bg-[#0a1628] transition-colors duration-300 border border-transparent hover:border-[#00BFFF]/20 flex flex-col">
-                {/* Image thumbnail */}
-                <div className="relative h-48 overflow-hidden shrink-0">
-                  <img
-                    src={service.img}
-                    alt={service.name}
-                    className="w-full h-full object-cover brightness-75 group-hover:scale-105 transition-transform duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#050b14]" />
+                {/* Icon section */}
+                <div className="relative h-32 flex items-center justify-center bg-gradient-to-br from-[#0a1628] to-[#050b14] shrink-0">
+                  <div className="text-[#00BFFF]/40 group-hover:text-[#00BFFF] group-hover:scale-110 transition-all duration-500">
+                    {service.icon}
+                  </div>
                   <span className="absolute top-3 right-4 font-serif text-[3rem] font-light text-white/10 leading-none select-none pointer-events-none">
                     {service.num}
                   </span>

@@ -73,8 +73,8 @@ export function GallerySection() {
   return (
     <section id="gallery-section" className="relative bg-[#04090f] w-full select-none">
       
-      {/* 150vh Scroll Timeline Track - reduced for less empty space */}
-      <div ref={containerRef} className="h-[150vh] w-full relative">
+      {/* 120vh Scroll Timeline Track - minimal space */}
+      <div ref={containerRef} className="h-[120vh] w-full relative">
         
         {/* Sticky Pinned Viewport Stage */}
         <div className="sticky top-0 h-screen w-full overflow-hidden bg-[#04090f]">

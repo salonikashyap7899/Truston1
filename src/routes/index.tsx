@@ -274,7 +274,7 @@ function PhilosophySection() {
             {/* Main image */}
             <div className="relative rounded-3xl overflow-hidden border border-white/5 shadow-2xl aspect-[4/3]">
               <img
-                src={content.image_url || "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/photo_7_2026-05-25_19-38-16-Ru25BaU6uVTKVShPzVE4zWC1f9Bomk.jpg"}
+                src={content.image_url || "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/photo_2026-05-25_23-25-53-thbQTIwazkPXtZmxwz9M0Fc8S5PCNo.jpg"}
                 alt="Prime Estate — Aerial Township Layout"
                 className="w-full h-full object-cover brightness-75"
               />
@@ -354,7 +354,7 @@ function EnhancedStatsBar() {
                   initial={{ width: 0 }}
                   whileInView={{ width: "100%" }}
                   viewport={{ once: true }}
-                  transition={{ duration: 1.2, delay: i * 0.15 }}
+                �� transition={{ duration: 1.2, delay: i * 0.15 }}
                 />
               </div>
               <motion.span

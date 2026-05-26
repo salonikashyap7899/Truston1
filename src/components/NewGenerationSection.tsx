@@ -49,8 +49,8 @@ export function NewGenerationSection() {
         style={{ y: bgY, willChange: "transform" }}
       >
         <img
-          src="/assets/photo_3.jpg"
-          alt="Prime Estate — Wide Internal Roads"
+          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/photo_2026-05-25_23-25-53-thbQTIwazkPXtZmxwz9M0Fc8S5PCNo.jpg"
+          alt="Prime Estate — Aerial Township Layout"
           className="w-full h-full object-cover scale-110"
         />
         {/* Multi-layer overlay */}
@@ -85,7 +85,7 @@ export function NewGenerationSection() {
               <p className="text-[10px] uppercase tracking-[0.55em] text-[#00BFFF] font-bold mb-5 flex items-center gap-3">
                 <span className="w-6 h-px bg-[#00BFFF]" /> New Generation
               </p>
-              <h2 className="font-serif text-5xl md:text-7xl lg:text-8xl text-white leading-[0.88] tracking-tighter">
+              <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-white leading-[0.92] tracking-tight">
                 Redefining{" "}
                 <br />
                 <em className="italic text-[#00BFFF] font-light">Luxury</em>{" "}Real Estate
