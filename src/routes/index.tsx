@@ -34,10 +34,9 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const heroContent = usePageContent("home.hero", {
-    eyebrow: "TRUSTON",
-    title: "TRUSTON",
-    title_accent: "",
-    subtitle: "TRUSTON",
+      eyebrow: "BEGIN YOUR JOURNEY",
+      subtitle:
+    "Curated land, architectural mastery and construction excellence — under one roof.",
   });
 
   return (
@@ -71,15 +70,33 @@ function Index() {
             transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
           >
             {/* Main headline */}
-            <motion.h1
-            className="font-serif text-5xl md:text-7xl lg:text-8xl text-white tracking-tighter leading-[0.85] mb-6"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-           transition={{ duration: 1.6, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-           >
-           TRUST<span style={{ color: "#00BFFF" }}>ON</span>
-           </motion.h1>
+            {/* MAIN HEADING */}
+{/* MAIN HEADING */}
+<motion.div
+  initial={{ opacity: 0, y: 80 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{
+    duration: 1.6,
+    ease: [0.16, 1, 0.3, 1],
+  }}
+  className="text-center mb-10"
+>
+  {/* TRUSTON */}
+  <h1 className="font-serif leading-[0.85] tracking-tight">
+    <span className="text-white text-6xl md:text-8xl lg:text-[10rem] font-light">
+      TRUST
+    </span>
 
+    <span className="text-[#00BFFF] text-6xl md:text-8xl lg:text-[10rem] font-light">
+      ON
+    </span>
+  </h1>
+
+  {/* SUB HEADING */}
+  <p className="mt-6 text-white/70 text-sm md:text-xl uppercase tracking-[0.35em]">
+    Own the Ground. Build the Legacy.
+  </p>
+</motion.div>
             {/* Tagline */}
             <motion.p
               className="text-white/60 text-base md:text-lg font-light tracking-widest uppercase mb-3"
