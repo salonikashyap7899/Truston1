@@ -41,18 +41,8 @@ function TestimonialCard({
 }: (typeof testimonials)[number]) {
   return (
     <div className="relative bg-[#04090f] border border-white/5 rounded-[24px] overflow-hidden shadow-2xl flex h-[220px] md:h-[240px] select-none group">
-      {/* Project plot image - smaller size */}
-      <div className="w-[100px] md:w-[120px] flex-shrink-0 relative overflow-hidden">
-        <img
-          src="/plot-project.jpg"
-          alt="Project plot"
-          className="w-full h-full object-cover brightness-75 group-hover:scale-110 transition-transform duration-700"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#0a121e]" />
-      </div>
-
       {/* Content */}
-      <div className="flex flex-col justify-between p-6 flex-1 overflow-hidden">
+      <div className="flex flex-col justify-between p-6 flex-1 overflow-hidden w-full">
         {/* Stars */}
         <div className="flex gap-1 mb-3">
           {[...Array(5)].map((_, i) => (
