@@ -3,6 +3,8 @@ import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import { Reveal } from "@/components/Reveal";
 import { Section3DBackground } from "@/components/Section3DBackground";
+import { PlotTrackerCompact } from "@/components/PlotTracker";
+import heroImg from "@/assets/hero-estate.jpg";
 
 export const Route = createFileRoute("/investment-consulting")({
   head: () => ({
@@ -199,76 +201,23 @@ function ROICalculator() {
   );
 }
 
-function PlotTracker() {
-  const plots = [
-    { id: "A1", status: "sold", growth: "+45%" },
-    { id: "A2", status: "available", growth: "+38%" },
-    { id: "A3", status: "sold", growth: "+42%" },
-    { id: "A4", status: "available", growth: "+35%" },
-    { id: "B1", status: "available", growth: "+30%" },
-    { id: "B2", status: "sold", growth: "+40%" },
-    { id: "B3", status: "available", growth: "+32%" },
-    { id: "B4", status: "available", growth: "+28%" },
-    { id: "C1", status: "sold", growth: "+50%" },
-    { id: "C2", status: "sold", growth: "+48%" },
-    { id: "C3", status: "available", growth: "+36%" },
-    { id: "C4", status: "available", growth: "+34%" },
-  ];
-
-  return (
-    <div className="bg-[#060c16] p-10 rounded-[32px] border border-white/5">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6">
-        <div>
-          <h3 className="font-serif text-3xl text-white mb-2">Interactive Plot Tracker</h3>
-          <p className="text-white/40 text-sm">Real-time availability and appreciation mapping across Prime Estate.</p>
-        </div>
-        <div className="flex gap-4">
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 bg-[#00BFFF] rounded-full" />
-            <span className="text-white/60 text-xs">Available</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 bg-white/10 rounded-full" />
-            <span className="text-white/60 text-xs">Sold</span>
-          </div>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-4 gap-4">
-        {plots.map((plot) => (
-          <motion.div
-            key={plot.id}
-            whileHover={{ scale: 1.05 }}
-            className={`aspect-square rounded-xl flex flex-col items-center justify-center border transition-all duration-300 ${
-              plot.status === "available"
-                ? "bg-[#00BFFF]/5 border-[#00BFFF]/30 hover:bg-[#00BFFF]/10"
-                : "bg-white/5 border-white/10 opacity-40"
-            }`}
-          >
-            <span className="text-white font-bold text-lg mb-1">{plot.id}</span>
-            <span className={`text-[10px] font-bold ${plot.status === "available" ? "text-[#00BFFF]" : "text-white/40"}`}>
-              {plot.growth}
-            </span>
-          </motion.div>
-        ))}
-      </div>
-
-      <div className="mt-10 p-6 bg-[#04090f] rounded-2xl border border-white/5">
-        <div className="flex items-center justify-between">
-          <p className="text-white/60 text-sm">Overall Phase 1 Appreciation</p>
-          <p className="text-[#00BFFF] font-serif text-2xl">+42.5% <span className="text-[10px] uppercase tracking-widest text-white/30 ml-2">since launch</span></p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 function InvestmentConsultingPage() {
   return (
     <div className="bg-[#04090f] text-white overflow-x-hidden selection:bg-[#00BFFF] selection:text-[#04090f]">
-      {/* Hero Section */}
+      {/* Hero Section with Background Image */}
       <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden pt-20">
-        <Section3DBackground opacity={0.15} />
+        {/* Background Image */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src={heroImg}
+            alt="Investment Consulting"
+            className="w-full h-full object-cover"
+            style={{ filter: "brightness(0.25) saturate(0.7)" }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#04090f]/60 via-transparent to-[#04090f]" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#04090f]/50 to-transparent" />
+        </div>
+        <Section3DBackground opacity={0.1} />
         <div className="relative z-10 max-w-7xl mx-auto px-6">
           <Reveal>
             <div className="text-center max-w-4xl mx-auto">
@@ -443,7 +392,7 @@ function InvestmentConsultingPage() {
               <ROICalculator />
             </Reveal>
             <Reveal direction="right" delay={0.2}>
-              <PlotTracker />
+              <PlotTrackerCompact />
             </Reveal>
           </div>
         </div>

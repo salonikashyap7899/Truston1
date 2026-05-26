@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { Reveal } from "@/components/Reveal";
 import { Section3DBackground } from "@/components/Section3DBackground";
+import heroImg from "@/assets/luxury-interior.jpg";
 
 export const Route = createFileRoute("/architecture-design")({
   head: () => ({
@@ -132,9 +133,20 @@ const testimonials = [
 function ArchitectureDesignPage() {
   return (
     <div className="bg-[#04090f] text-white overflow-x-hidden selection:bg-[#00BFFF] selection:text-[#04090f]">
-      {/* Hero Section */}
+      {/* Hero Section with Background Image */}
       <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden pt-20">
-        <Section3DBackground opacity={0.15} />
+        {/* Background Image */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src={heroImg}
+            alt="Architecture & Design"
+            className="w-full h-full object-cover"
+            style={{ filter: "brightness(0.22) saturate(0.7)" }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#04090f]/60 via-transparent to-[#04090f]" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#04090f]/40 to-transparent" />
+        </div>
+        <Section3DBackground opacity={0.08} />
         <div className="relative z-10 max-w-7xl mx-auto px-6">
           <Reveal>
             <div className="text-center max-w-4xl mx-auto">

@@ -393,4 +393,81 @@
     transform-origin: left;
     z-index: 9998;
   }
+
+  /* Premium smooth scrolling */
+  .smooth-scroll-container {
+    scroll-behavior: smooth;
+  }
+
+  /* Enhanced image transitions */
+  .premium-image {
+    transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), 
+                filter 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform;
+  }
+
+  .premium-image:hover {
+    transform: scale(1.03);
+  }
+
+  /* Smooth card hover effects */
+  .premium-card {
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.4s ease;
+  }
+
+  .premium-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 30px 60px -20px oklch(0 0 0 / 0.5);
+  }
+
+  /* Buttery smooth transitions for all interactive elements */
+  .smooth-transition {
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* Premium fade-in animation */
+  @keyframes premium-fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .premium-fade-in {
+    animation: premium-fade-in 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  /* Smooth text reveal */
+  @keyframes text-reveal {
+    from {
+      clip-path: inset(0 100% 0 0);
+    }
+    to {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+
+  .text-reveal {
+    animation: text-reveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  /* Gallery image zoom effect */
+  .gallery-image {
+    transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* Premium glow effect */
+  .premium-glow {
+    box-shadow: 0 0 60px oklch(0.55 0.15 250 / 0.15);
+  }
+
+  .premium-glow:hover {
+    box-shadow: 0 0 80px oklch(0.55 0.15 250 / 0.25);
+  }
 }

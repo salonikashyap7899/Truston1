@@ -136,34 +136,34 @@ function Index() {
       {/* Who We Are */}
       <WhoWeAreSection />
 
-      {/* Prime Estate Project */}
-      <div className="pb-12 md:pb-20 bg-[#0F0F0D]">
-        <PrimeEstateSection />
-      </div>
-
-      {/* Gallery Section — Moved here as per request */}
+      {/* Gallery Section */}
       <div className="-mt-1">
         <GallerySection />
       </div>
 
-      {/* Why Truston — Now with Accordion & specific text animation */}
-      <TrustonWhySection />
+      {/* Prime Estate Project (Building Plots & Structures) — After Gallery */}
+      <div className="pb-12 md:pb-20 bg-[#0F0F0D]">
+        <PrimeEstateSection />
+      </div>
+
+      {/* Philosophy */}
+      <PhilosophySection />
+
+      {/* Intro Highlight (New Generation) */}
+      <IntroHighlightSection />
 
       {/* Services (Four Pillars) */}
       <TrustonServicesSection />
 
-      {/* Philosophy — Moved here as per request (third image section) */}
-      <PhilosophySection />
-
-      {/* Stats Bar */}
+      {/* Stats Bar — After Four Pillars */}
       <div className="-mt-1">
         <EnhancedStatsBar />
       </div>
 
-      {/* Intro Highlight */}
-      <IntroHighlightSection />
+      {/* Why Buyers Choose Truston — Before Client Narratives */}
+      <TrustonWhySection />
 
-      {/* Testimonials */}
+      {/* Testimonials (Client Narratives) */}
       <Testimonials />
 
       {/* Plots & Structures — CSS building scene */}

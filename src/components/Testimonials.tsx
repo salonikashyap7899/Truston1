@@ -8,52 +8,28 @@ import "swiper/css/pagination";
 
 const testimonials = [
   {
-    name: "Sanjay Seth",
-    designation: "Managing Director, Shalimar Corp",
+    name: "Ramesh Verma",
+    designation: "Plot Owner, Phase 1",
     description:
-      "One of the finest developers I have worked with. Their commitment to quality construction and timely delivery is truly commendable in the Lucknow real estate landscape.",
+      "I was skeptical about buying a plot but Prime Estate's team walked me through every document. The land is approved, the location is growing, and the process was completely transparent.",
     profileImage:
       "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop",
   },
   {
-    name: "Gautam",
-    designation: "Homeowner — Phase 1",
+    name: "Anil Singh",
+    designation: "Homeowners",
     description:
-      "Impressive attention to detail and a completely transparent documentation process. TrustOn made the journey of owning my first plot simple and empowering.",
+      "We not only bought our plot from Prime Estate, but also got our home designed by their architecture team. The designs were exactly what we imagined beautiful and within budget.",
     profileImage:
       "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400&auto=format&fit=crop",
   },
   {
-    name: "Aman Preet Singh",
-    designation: "Investor — NRI Portfolio",
+    name: "Mohammed Irfan",
+    designation: "Channel Partner",
     description:
-      "A highly professional approach. Their investment consulting team provided data-backed insights that gave me the confidence to invest in Lucknow's growth corridors while abroad.",
+      "As a channel partner, I have referred over 20 clients to Prime Estate. The team is responsive, the commission structure is fair, and the product is genuinely good.",
     profileImage:
       "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=400&auto=format&fit=crop",
-  },
-  {
-    name: "Shahnawaz",
-    designation: "Land Owner",
-    description:
-      "Trustworthy and reliable. In an industry where trust is everything, TrustOn stands out for their honesty and end-to-end partnership model. Highly recommended.",
-    profileImage:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=400&auto=format&fit=crop",
-  },
-  {
-    name: "Vikram Agarwal",
-    designation: "Business Associate",
-    description:
-      "Working with TrustOn has been a pleasure. Their architectural brilliance combined with strategic investment advice creates a unique value proposition for all stakeholders.",
-    profileImage:
-      "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400&auto=format&fit=crop",
-  },
-  {
-    name: "Sunita Pandey",
-    designation: "Residential Client",
-    description:
-      "The design and construction quality exceeded my expectations. They truly transformed my vision into a beautiful reality. A seamless experience from start to finish.",
-    profileImage:
-      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=400&auto=format&fit=crop",
   },
 ];
 
