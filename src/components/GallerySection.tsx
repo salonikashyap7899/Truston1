@@ -4,32 +4,40 @@ import { ZoomParallax } from "./ui/zoom-parallax";
 
 const PARALLAX_IMAGES = [
   {
-    src: "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/hotel-lobby-interior-600x800.jpg",
-    alt: "Grand Lobby",
+    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/photo_1_2026-05-25_19-38-16-2xLo5BGzYgTB2WhGtDVtpfhhs6Eyuf.jpg",
+    alt: "Prime Estate - Main Entrance",
   },
   {
-    src: "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/modern-interior-design-interior-600x800.jpg",
-    alt: "Premium Interior",
+    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/photo_2_2026-05-25_19-38-16-1qytWEiBDD2zpBMGHDzaktRHetBxXp.jpg",
+    alt: "Modern Residential Villas",
   },
   {
-    src: "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/aerial-photography-chinese-city-600x800.jpg",
-    alt: "Aerial Township",
+    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/photo_3_2026-05-25_19-38-16-WISs3ebxL9FqkIpokhI7LPQwQn1TgL.jpg",
+    alt: "Residential Street View",
   },
   {
-    src: "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/businessman-explaining-concept-details-600x800.jpg",
-    alt: "Expert Consultation",
+    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/photo_4_2026-05-25_19-38-16-GSJIWS7vJOoTWvqNgmX3C9UBQCHkXk.jpg",
+    alt: "Premium Row Houses",
   },
   {
-    src: "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/webaliser-_TPTXZd9mOo-unsplash-1-1024x768.jpg",
-    alt: "Plot Selling",
+    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/photo_5_2026-05-25_19-38-16-X6Q1I0ZnsXrnRVo8JT1Tpql22uVZ1f.jpg",
+    alt: "Modern Building Exterior",
   },
   {
-    src: "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/april-pethybridge-nN28PjFOOLI-unsplash-scaled.jpg",
-    alt: "Architecture & Design",
+    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/photo_6_2026-05-25_19-38-16-cHiw0fhYcgbwPjPSIWj74OMTpscaTT.jpg",
+    alt: "Community Amenities & Parks",
   },
   {
-    src: "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/avi-werde-hHz4yrvxwlA-unsplash-scaled.jpg",
-    alt: "Construction Quality",
+    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/photo_7_2026-05-25_19-38-16-LD1IHVG0q7n8pPcBM4dxBLCu00JRYo.jpg",
+    alt: "Aerial Township Overview",
+  },
+  {
+    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/photo_8_2026-05-25_19-38-16-wMliSfU4l5PLFiUlOMWYi9ZzNvERfA.jpg",
+    alt: "Prime Estate Gate 02",
+  },
+  {
+    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/photo_2026-05-25_23-25-53-EUpd8pbrTS9Wb2OQCPgfPK1qro6Zdb.jpg",
+    alt: "Master Plan Layout",
   },
 ];
 
@@ -74,7 +82,7 @@ export function GallerySection() {
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
             >
-              Cinematic Gallery
+              Prime Estate Portfolio
             </motion.p>
             <motion.span 
               className="w-10 h-px bg-[#00BFFF] origin-left"
@@ -90,7 +98,7 @@ export function GallerySection() {
             viewport={{ once: true }}
             transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
           >
-            Immersive{" "}
+            Where Imagination{" "}
             <motion.em 
               className="italic text-[#00BFFF] font-light"
               initial={{ opacity: 0, x: -20 }}
@@ -98,7 +106,7 @@ export function GallerySection() {
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
             >
-              Excellence
+              Takes Shape
             </motion.em>
           </motion.h2>
 
@@ -110,7 +118,7 @@ export function GallerySection() {
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
           >
-            Experience the TrustOn Portfolio
+            Crafted for those who expect nothing less than exceptional living
           </motion.p>
 
           {/* Animated scroll indicator line */}

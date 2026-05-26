@@ -19,7 +19,7 @@ import { usePageContent } from "@/hooks/usePageContent";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "TRUSTON},
+      { title: "TRUSTON" },
       {
         name: "description",
         content: "Prime Estate by TrustOn — Jila Panchayat approved luxury township in Lucknow.",
@@ -191,7 +191,7 @@ function Index() {
   );
 }
 
-/* ── Philosophy ───────────────────────────────────────────────────── */
+/* ── Philosophy ────────────────────────���──────────────────────────── */
 function PhilosophySection() {
   const content = usePageContent("home.philosophy", {
     eyebrow: "Our Philosophy",
