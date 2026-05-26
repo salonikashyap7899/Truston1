@@ -34,10 +34,10 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const heroContent = usePageContent("home.hero", {
-    eyebrow: "TRUSTON.",
+    eyebrow: "TRUSTON",
     title: "TRUSTON",
-    title_accent: "ON",
-    subtitle: "Curated land, architectural mastery and construction excellence — under one roof.",
+    title_accent: "",
+    subtitle: "Build Your Legacy",
   });
 
   return (
@@ -191,7 +191,7 @@ function Index() {
   );
 }
 
-/* ── Philosophy ────────────────────────���──────────────────────────── */
+/* ── Philosophy ───────────────────────������──────────────────────────── */
 function PhilosophySection() {
   const content = usePageContent("home.philosophy", {
     eyebrow: "Our Philosophy",
