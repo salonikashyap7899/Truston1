@@ -148,20 +148,20 @@ function Index() {
       {/* Philosophy Section */}
       <PhilosophySection />
 
-      {/* Stats Bar */}
-      <EnhancedStatsBar />
-
-      {/* Intro Highlight */}
+      {/* Intro Highlight - Redefining Section */}
       <IntroHighlightSection />
+
+      {/* Why Truston — Before Client Narratives */}
+      <TrustonWhySection />
 
       {/* Testimonials / Client Narratives */}
       <Testimonials />
 
-      {/* Why Truston — Moved after Client Narratives */}
-      <TrustonWhySection />
-
-      {/* Services (Four Pillars) — Moved after Client Narratives */}
+      {/* Services (Four Pillars) */}
       <TrustonServicesSection />
+
+      {/* Stats Bar — After Four Pillars */}
+      <EnhancedStatsBar />
 
       {/* Marquee */}
       <Marquee />

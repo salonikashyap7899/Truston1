@@ -12,8 +12,6 @@ export function IntroHighlightSection() {
   });
 
   const y1 = useTransform(scrollYProgress, [0, 1], [0, -100]);
-  const y2 = useTransform(scrollYProgress, [0, 1], [0, 100]);
-  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.2], [0.8, 1]);
 
   return (
@@ -31,32 +29,16 @@ export function IntroHighlightSection() {
 
       <div className="relative z-10 max-w-7xl mx-auto w-full">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center">
-          {/* Visual Side */}
-          <motion.div style={{ scale, y: y1 }} className="relative aspect-[4/5] lg:aspect-square">
-            <div className="absolute inset-0 border border-white/10 rounded-3xl transform rotate-3 scale-105" />
-            <div className="absolute inset-0 border border-luxe-cyan/20 rounded-3xl transform -rotate-3 scale-105" />
-            <div className="relative h-full w-full rounded-3xl overflow-hidden shadow-luxe">
+          {/* Visual Side - Simple Circular Image like Sobha */}
+          <motion.div style={{ scale, y: y1 }} className="relative flex items-center justify-center">
+            {/* Main circular image */}
+            <div className="relative w-[400px] h-[400px] lg:w-[500px] lg:h-[500px] rounded-full overflow-hidden shadow-2xl">
               <img
                 src="/assets/aerial-township.jpg"
                 alt="Prime Estate — Aerial Township View"
-                className="w-full h-full object-cover transition-transform duration-700 hover:scale-110 brightness-75"
+                className="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent" />
             </div>
-
-            {/* Floating Detail Card */}
-            <motion.div
-              style={{ y: y2 }}
-              className="absolute -bottom-12 -right-6 lg:-right-12 glass-premium p-10 rounded-3xl max-w-xs shadow-luxe border-white/10"
-            >
-              <div className="text-luxe-cyan text-xs uppercase tracking-[0.3em] mb-4 font-bold">
-                Innovation
-              </div>
-              <p className="text-white/60 text-sm leading-relaxed font-light">
-                Pioneering futuristic living through architectural mastery and sustainable
-                development.
-              </p>
-            </motion.div>
           </motion.div>
 
           {/* Content Side */}
