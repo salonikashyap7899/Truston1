@@ -1,122 +1,127 @@
 import { motion } from "framer-motion";
-import { ContainerScroll } from "./ui/container-scroll-animation";
-
-const pillars = [
-  {
-    num: "01",
-    title: "Transparent Documentation",
-    desc: "Clear title deeds, Jila Panchayat approvals, and zero hidden conditions.",
-  },
-  {
-    num: "02",
-    title: "High-Growth Locations",
-    desc: "Projects in proven corridors with verified infrastructure and appreciation potential.",
-  },
-  {
-    num: "03",
-    title: "End-to-End Partnership",
-    desc: "From plot acquisition to construction — one trusted team, start to finish.",
-  },
-];
 
 export function WhoWeAreSection() {
   return (
-    <section className="relative bg-[#050b14] overflow-hidden">
-      {/* Background grid */}
+    <section className="relative bg-[#f8f7f4] overflow-hidden">
+      {/* Background subtle pattern */}
       <div
-        className="absolute inset-0 opacity-[0.035] pointer-events-none"
+        className="absolute inset-0 opacity-[0.03] pointer-events-none"
         style={{
           backgroundImage:
-            "linear-gradient(rgba(0,191,255,0.6) 1px, transparent 1px), linear-gradient(90deg, rgba(0,191,255,0.6) 1px, transparent 1px)",
-          backgroundSize: "60px 60px",
+            "radial-gradient(circle, #000 1px, transparent 1px)",
+          backgroundSize: "20px 20px",
         }}
       />
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full bg-[#00BFFF]/[0.04] blur-[120px] pointer-events-none" />
 
-      <ContainerScroll
-        titleComponent={
-          <div className="px-4 mb-4">
-            {/* Eyebrow */}
-            <div className="flex items-center justify-center gap-4 mb-5">
-              <span className="w-10 h-px bg-[#00BFFF]" />
-              <p className="text-[10px] uppercase tracking-[0.5em] text-[#00BFFF] font-bold">
-                Who We Are
-              </p>
-              <span className="w-10 h-px bg-[#00BFFF]" />
-            </div>
-            <h2 className="font-serif text-4xl md:text-[3.5rem] lg:text-[4.5rem] text-white leading-[0.9] tracking-tight">
-              Shaping{" "}
-              <em className="italic text-[#00BFFF] font-light">Legacies</em>
-              <br />
-              in Lucknow
-            </h2>
-          </div>
-        }
-      >
-        {/* Entire section content inside the 3D scroll card */}
-        <div className="relative w-full h-full flex flex-col md:flex-row overflow-hidden rounded-xl">
-
-          {/* Left — Image */}
-          <div className="relative w-full md:w-1/2 h-48 md:h-full shrink-0 overflow-hidden">
-            <img
-              src="/assets/aerial-township.jpg"
-              alt="Prime Estate — Township Overview"
-              className="w-full h-full object-cover"
-            />
-            {/* Subtle static shimmer — no continuous animation */}
-            <div className="absolute inset-x-0 top-1/2 h-[1px] bg-gradient-to-r from-transparent via-[#00BFFF]/20 to-transparent pointer-events-none" />
-            {/* Quote badge */}
-            <div className="absolute bottom-4 left-4 right-4">
-              <div className="bg-[#04090f]/75 backdrop-blur-xl border border-[#00BFFF]/20 rounded-xl p-3">
-                <p className="text-[8px] uppercase tracking-[0.4em] text-[#00BFFF] mb-1 font-bold">
-                  Prime Estate · 2025
-                </p>
-                <p className="font-serif text-white/90 text-sm leading-snug italic">
-                  "We build the foundation. You build the dream."
+      <div className="max-w-7xl mx-auto">
+        <div className="grid lg:grid-cols-2 min-h-[80vh]">
+          
+          {/* Left Content Side */}
+          <div className="flex flex-col justify-center px-6 md:px-12 lg:px-16 py-20 lg:py-24 order-2 lg:order-1">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            >
+              {/* Eyebrow */}
+              <div className="flex items-center gap-3 mb-6">
+                <span className="w-8 h-px bg-[#00BFFF]" />
+                <p className="text-[10px] uppercase tracking-[0.4em] text-[#00BFFF] font-bold">
+                  Redefining Excellence
                 </p>
               </div>
-            </div>
+
+              {/* Main Heading */}
+              <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-[#1a1a1a] leading-[1.1] tracking-tight mb-8">
+                Where Vision Meets{" "}
+                <em className="italic text-[#00BFFF] font-light">Reality</em>
+              </h2>
+            </motion.div>
+
+            {/* First Paragraph */}
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="text-[#4a4a4a] text-base md:text-lg leading-relaxed mb-6 font-light"
+            >
+              Planned around walkability and choice, our community brings together 
+              modern living, nature-inspired experiences, and urban convenience 
+              within one integrated township. Living options range from premium 
+              plots to expansive villas, thoughtfully positioned to offer privacy, 
+              openness, and connection to the surrounding landscape.
+            </motion.p>
+
+            {/* Second Paragraph */}
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="text-[#6a6a6a] text-base leading-relaxed mb-6 font-light"
+            >
+              With intuitively placed amenities, expansive green corridors, and 
+              architecture shaped by context and climate, the township offers a 
+              balanced way of living where nature, comfort, and everyday convenience 
+              are seamlessly connected.
+            </motion.p>
+
+            {/* Third Paragraph */}
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="text-[#6a6a6a] text-base leading-relaxed font-light"
+            >
+              Every decision we make is driven by a commitment to quality, 
+              transparency, and creating lasting value for families who choose 
+              to build their legacy with TrustOn.
+            </motion.p>
+
+            {/* CTA Button */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+              className="mt-10"
+            >
+              <a
+                href="/about-us"
+                className="inline-flex items-center gap-2 text-[#00BFFF] text-sm font-medium hover:gap-4 transition-all duration-300"
+              >
+                <span>Learn More About Us</span>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </a>
+            </motion.div>
           </div>
 
-          {/* Right — Text content */}
-          <div className="flex-1 bg-[#04090f] p-6 md:p-8 flex flex-col justify-center overflow-y-auto">
-            <p className="text-white/65 text-sm md:text-base leading-relaxed mb-3 font-light">
-              Truston Developers is a Lucknow-based property development company built on a
-              single founding principle — that buying land should be simple, transparent, and
-              deeply empowering for the buyer.
-            </p>
-            <p className="text-white/40 text-sm leading-relaxed mb-6 font-light">
-              We don't merely sell plots; we help you make one of the most significant decisions
-              of your life with complete clarity, verified documentation, and a team that stands
-              behind every commitment.
-            </p>
-
-            {/* Pillars */}
-            <div className="space-y-0">
-              {pillars.map((p) => (
-                <motion.div
-                  key={p.num}
-                  className="flex gap-4 py-4 border-b border-white/[0.07] last:border-0 group cursor-default"
-                  whileHover={{ x: 4 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <span className="font-serif text-xl text-[#00BFFF]/20 font-light leading-none shrink-0 w-8 group-hover:text-[#00BFFF]/50 transition-colors duration-500">
-                    {p.num}
-                  </span>
-                  <div>
-                    <p className="text-white font-semibold text-xs mb-1 tracking-wide group-hover:text-[#00BFFF] transition-colors duration-500 uppercase">
-                      {p.title}
-                    </p>
-                    <p className="text-white/35 text-xs leading-relaxed font-light">
-                      {p.desc}
-                    </p>
-                  </div>
-                </motion.div>
-              ))}
+          {/* Right Image Side */}
+          <motion.div
+            initial={{ opacity: 0, x: 40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+            className="relative order-1 lg:order-2 min-h-[400px] lg:min-h-full"
+          >
+            {/* Main Image */}
+            <div className="absolute inset-0 lg:inset-y-8 lg:right-0 lg:left-0">
+              <img
+                src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1200&auto=format&fit=crop"
+                alt="Premium Lifestyle Living"
+                className="w-full h-full object-cover"
+              />
+              {/* Subtle overlay */}
+              <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-[#f8f7f4]/20" />
             </div>
-          </div>
+          </motion.div>
         </div>
-      </ContainerScroll>
+      </div>
     </section>
   );
 }

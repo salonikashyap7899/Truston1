@@ -133,18 +133,17 @@ function Index() {
         </motion.div>
       </section>
 
-      {/* Who We Are */}
+      {/* Who We Are - Redefining Section */}
       <WhoWeAreSection />
 
       {/* Prime Estate Project */}
-      <div className="pb-12 md:pb-20 bg-[#0F0F0D]">
-        <PrimeEstateSection />
-      </div>
+      <PrimeEstateSection />
 
-      {/* Gallery Section — Moved here as per request */}
-      <div className="-mt-1">
-        <GallerySection />
-      </div>
+      {/* Gallery Section */}
+      <GallerySection />
+
+      {/* Plots & Structures — Now after Gallery */}
+      <PlotsAndStructures />
 
       {/* Why Truston — Now with Accordion & specific text animation */}
       <TrustonWhySection />
@@ -152,22 +151,17 @@ function Index() {
       {/* Services (Four Pillars) */}
       <TrustonServicesSection />
 
-      {/* Philosophy — Moved here as per request (third image section) */}
+      {/* Philosophy Section */}
       <PhilosophySection />
 
       {/* Stats Bar */}
-      <div className="-mt-1">
-        <EnhancedStatsBar />
-      </div>
+      <EnhancedStatsBar />
 
       {/* Intro Highlight */}
       <IntroHighlightSection />
 
       {/* Testimonials */}
       <Testimonials />
-
-      {/* Plots & Structures — CSS building scene */}
-      <PlotsAndStructures />
 
       {/* Marquee */}
       <Marquee />

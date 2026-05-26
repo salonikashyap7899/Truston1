@@ -1,184 +1,145 @@
 import { motion } from "framer-motion";
 import { Reveal, SectionEyebrow } from "./Reveal";
 import { Section3DBackground } from "./Section3DBackground";
-
-const BUILDINGS = [
-  { h: 55, w: 14, delay: 0.0, accent: false, windows: [[1,0,1],[0,1,1],[1,0,0]] },
-  { h: 80, w: 18, delay: 0.1, accent: true,  windows: [[1,1,0],[1,0,1],[0,1,1]] },
-  { h: 100, w: 22, delay: 0.2, accent: false, windows: [[0,1,1,0],[1,0,0,1],[1,1,0,1],[0,1,1,0]] },
-  { h: 68, w: 16, delay: 0.15, accent: false, windows: [[1,0,1],[0,1,0],[1,1,0]] },
-  { h: 42, w: 12, delay: 0.25, accent: true,  windows: [[1,0],[0,1],[1,1]] },
-  { h: 88, w: 20, delay: 0.05, accent: false, windows: [[1,0,1,0],[0,1,0,1],[1,1,0,1],[0,0,1,0]] },
-  { h: 52, w: 14, delay: 0.3,  accent: false, windows: [[0,1,1],[1,0,1],[0,1,0]] },
-] as const;
-
-function CssBuildingScene() {
-  const maxH = 100;
-
-  return (
-    <div
-      className="relative w-full h-full flex items-end justify-center overflow-hidden rounded-2xl border border-white/5"
-      style={{ background: "linear-gradient(180deg, #020810 0%, #050f1c 60%, #071422 100%)" }}
-    >
-      {/* Stars */}
-      {[
-        { top: "15%", left: "10%", size: 1.5, delay: 0 },
-        { top: "25%", left: "30%", size: 1, delay: 0.5 },
-        { top: "10%", left: "55%", size: 2, delay: 1 },
-        { top: "20%", left: "75%", size: 1.5, delay: 0.3 },
-        { top: "35%", left: "88%", size: 1, delay: 0.8 },
-        { top: "8%",  left: "42%", size: 1, delay: 1.2 },
-      ].map((star, i) => (
-        <motion.div
-          key={i}
-          className="absolute rounded-full bg-white"
-          style={{ top: star.top, left: star.left, width: star.size, height: star.size }}
-          animate={{ opacity: [0.2, 0.8, 0.2] }}
-          transition={{ duration: 2 + i * 0.7, repeat: Infinity, delay: star.delay, ease: "easeInOut" }}
-        />
-      ))}
-
-      {/* Glow from city below */}
-      <div
-        className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[90%] h-24 rounded-full pointer-events-none"
-        style={{ background: "radial-gradient(ellipse, rgba(0,191,255,0.08) 0%, transparent 70%)", filter: "blur(10px)" }}
-      />
-
-      {/* Ground line */}
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-[#00BFFF]/15" />
-
-      {/* Buildings */}
-      <div className="relative flex items-end h-[85%] px-6 pb-0 gap-1.5">
-        {BUILDINGS.map((b, bi) => {
-          const heightPct = (b.h / maxH) * 100;
-          return (
-            <motion.div
-              key={bi}
-              className="relative flex-shrink-0 rounded-t-sm"
-              style={{ width: b.w, height: `${heightPct}%` }}
-              initial={{ scaleY: 0, originY: "bottom" }}
-              whileInView={{ scaleY: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.9, delay: b.delay, ease: [0.16, 1, 0.3, 1] }}
-            >
-              {/* Building body */}
-              <div
-                className="w-full h-full rounded-t-sm flex flex-col p-1 gap-1"
-                style={{
-                  background: b.accent
-                    ? "linear-gradient(180deg, #003a5c 0%, #001828 100%)"
-                    : "linear-gradient(180deg, #081624 0%, #020a12 100%)",
-                  borderTop: b.accent ? "1px solid rgba(0,191,255,0.25)" : "1px solid rgba(255,255,255,0.04)",
-                  borderLeft: b.accent ? "1px solid rgba(0,191,255,0.25)" : "1px solid rgba(255,255,255,0.04)",
-                  borderRight: b.accent ? "1px solid rgba(0,191,255,0.25)" : "1px solid rgba(255,255,255,0.04)",
-                  borderBottom: "none",
-                  boxShadow: b.accent ? "0 0 16px rgba(0,191,255,0.08), inset 0 0 20px rgba(0,191,255,0.04)" : "none",
-                }}
-              >
-                {/* Window rows — deterministic, no Math.random() */}
-                {b.windows.map((row, ri) => (
-                  <div key={ri} className="flex gap-[2px] justify-center">
-                    {row.map((lit, ci) => (
-                      <motion.div
-                        key={ci}
-                        className="rounded-sm flex-shrink-0"
-                        style={{
-                          width: 2,
-                          height: 3,
-                          background: lit
-                            ? (b.accent ? "rgba(0,191,255,0.65)" : "rgba(200,230,255,0.22)")
-                            : "transparent",
-                        }}
-                        animate={lit ? { opacity: [1, 0.5, 1] } : {}}
-                        transition={lit ? {
-                          duration: 3 + ci * 0.5 + ri * 0.3,
-                          repeat: Infinity,
-                          delay: bi * 0.3 + ci * 0.2,
-                        } : {}}
-                      />
-                    ))}
-                  </div>
-                ))}
-              </div>
-
-              {/* Antenna on accent buildings */}
-              {b.accent && (
-                <motion.div
-                  className="absolute -top-3 left-1/2 -translate-x-1/2 w-px bg-[#00BFFF]/50"
-                  style={{ height: 12 }}
-                  animate={{ opacity: [0.3, 1, 0.3] }}
-                  transition={{ duration: 1.8, repeat: Infinity, delay: bi * 0.4 }}
-                />
-              )}
-            </motion.div>
-          );
-        })}
-      </div>
-
-      {/* Subtle grid overlay */}
-      <div
-        className="absolute inset-0 pointer-events-none opacity-[0.04]"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(0,191,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,191,255,1) 1px, transparent 1px)",
-          backgroundSize: "20px 20px",
-        }}
-      />
-
-      {/* Label */}
-      <div className="absolute top-4 left-4 text-[8px] uppercase tracking-[0.3em] text-[#00BFFF]/35 font-bold">
-        Prime Estate · Lucknow
-      </div>
-    </div>
-  );
-}
+import { Home } from "lucide-react";
 
 export function PlotsAndStructures() {
   return (
-    <section className="relative py-32 px-6 bg-[#060c16] overflow-hidden">
-      <Section3DBackground opacity={0.15} />
+    <section className="relative py-24 md:py-32 bg-[#060c16] overflow-hidden">
+      <Section3DBackground opacity={0.12} />
 
-      <div className="max-w-7xl mx-auto relative z-10">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          {/* Content Side */}
+      {/* Subtle grid overlay */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-[0.03]"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(0,191,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,191,255,1) 1px, transparent 1px)",
+          backgroundSize: "40px 40px",
+        }}
+      />
+
+      <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          
+          {/* Left Content Side */}
           <div className="order-2 lg:order-1">
             <SectionEyebrow>Strategic Masterpieces</SectionEyebrow>
+            
             <Reveal>
-              <h2 className="text-5xl md:text-7xl font-serif text-white mt-4 mb-8">
-                Building <em className="text-[#00BFFF] italic">Plots & Structures</em>
+              <h2 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-serif text-white mt-6 mb-8 leading-[1.05] tracking-tight">
+                Building{" "}
+                <em className="text-[#00BFFF] italic font-light">Plots &</em>
+                <br />
+                <em className="text-[#00BFFF] italic font-light">Structures</em>
               </h2>
             </Reveal>
 
-            <div className="space-y-8 text-white/60 text-lg font-light leading-relaxed">
-              <Reveal delay={0.2}>
-                <p>
-                  Discover the ultimate foundation for your architectural dreams. Our premium building
-                  plots are strategically located in Lucknow&apos;s most promising corridors, offering
-                  100% legal clearance and Jila Panchayat approval.
-                </p>
-              </Reveal>
+            <Reveal delay={0.2}>
+              <p className="text-white/60 text-base md:text-lg leading-relaxed mb-10 max-w-lg font-light">
+                Discover the ultimate foundation for your architectural dreams. Our premium building
+                plots are strategically located in Lucknow&apos;s most promising corridors, offering
+                100% legal clearance and Jila Panchayat approval.
+              </p>
+            </Reveal>
 
-              <Reveal delay={0.4}>
-                <div className="flex gap-12 pt-6">
-                  <div className="border-l-2 border-[#00BFFF]/40 pl-6">
-                    <p className="text-3xl font-serif text-white mb-1">150+</p>
-                    <p className="text-[10px] uppercase tracking-widest font-bold text-white/40">Premium Plots</p>
-                  </div>
-                  <div className="border-l-2 border-[#00BFFF]/40 pl-6">
-                    <p className="text-3xl font-serif text-white mb-1">Elite</p>
-                    <p className="text-[10px] uppercase tracking-widest font-bold text-white/40">Architectural Support</p>
-                  </div>
+            <Reveal delay={0.3}>
+              <div className="flex items-stretch gap-8 md:gap-12">
+                <div className="border-l-2 border-[#00BFFF]/50 pl-5">
+                  <p className="text-3xl md:text-4xl font-serif text-white mb-1 leading-none">150+</p>
+                  <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-white/40 mt-2">
+                    Premium Plots
+                  </p>
                 </div>
-              </Reveal>
-            </div>
+                <div className="border-l-2 border-[#00BFFF]/50 pl-5">
+                  <p className="text-3xl md:text-4xl font-serif text-white mb-1 leading-none">Elite</p>
+                  <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-white/40 mt-2">
+                    Architectural Support
+                  </p>
+                </div>
+              </div>
+            </Reveal>
           </div>
 
-          {/* CSS 3D Building Scene */}
-          <div className="order-1 lg:order-2 h-[380px] md:h-[480px] relative">
-            <CssBuildingScene />
+          {/* Right Image Side */}
+          <div className="order-1 lg:order-2 relative">
+            {/* Main Image Container */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+              className="relative"
+            >
+              {/* Decorative frame/border */}
+              <div className="absolute -inset-4 border border-[#00BFFF]/10 rounded-3xl pointer-events-none" />
+              <div className="absolute -inset-8 border border-[#00BFFF]/5 rounded-3xl pointer-events-none" />
+
+              {/* Image wrapper */}
+              <div className="relative rounded-2xl overflow-hidden border border-white/5 shadow-2xl">
+                {/* Label badge */}
+                <div className="absolute top-4 left-4 z-10">
+                  <div className="px-4 py-2 bg-[#04090f]/80 backdrop-blur-sm border border-[#00BFFF]/20 rounded-full">
+                    <p className="text-[9px] uppercase tracking-[0.3em] text-[#00BFFF] font-bold">
+                      Prime Estate · Lucknow
+                    </p>
+                  </div>
+                </div>
+
+                {/* Main plot image */}
+                <div className="aspect-[4/3] md:aspect-[16/10]">
+                  <img
+                    src="/images/plot-layout.jpg"
+                    alt="Prime Estate Plot Layout"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+
+                {/* Gradient overlays */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#060c16]/40 via-transparent to-transparent pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-r from-[#060c16]/20 via-transparent to-transparent pointer-events-none" />
+
+                {/* Grid lines overlay */}
+                <div
+                  className="absolute inset-0 pointer-events-none opacity-[0.08]"
+                  style={{
+                    backgroundImage:
+                      "linear-gradient(rgba(0,191,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,191,255,1) 1px, transparent 1px)",
+                    backgroundSize: "50px 50px",
+                  }}
+                />
+
+                {/* Floating dots/markers for visual effect */}
+                <motion.div
+                  className="absolute top-1/3 left-1/4 w-2 h-2 bg-[#00BFFF] rounded-full"
+                  animate={{ scale: [1, 1.3, 1], opacity: [0.6, 1, 0.6] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                />
+                <motion.div
+                  className="absolute top-1/2 right-1/3 w-1.5 h-1.5 bg-[#00BFFF] rounded-full"
+                  animate={{ scale: [1, 1.4, 1], opacity: [0.5, 0.9, 0.5] }}
+                  transition={{ duration: 2.5, repeat: Infinity, delay: 0.5 }}
+                />
+              </div>
+
+              {/* Floating home icon badge */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.5 }}
+                className="absolute -bottom-6 left-1/2 -translate-x-1/2 lg:left-auto lg:translate-x-0 lg:-left-6 lg:top-1/2 lg:-translate-y-1/2"
+              >
+                <div className="w-14 h-14 md:w-16 md:h-16 bg-[#00BFFF] rounded-2xl flex items-center justify-center shadow-xl shadow-[#00BFFF]/20">
+                  <Home className="w-7 h-7 md:w-8 md:h-8 text-[#04090f]" />
+                </div>
+              </motion.div>
+            </motion.div>
           </div>
         </div>
       </div>
+
+      {/* Bottom border accent */}
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#00BFFF]/20 to-transparent" />
     </section>
   );
 }
