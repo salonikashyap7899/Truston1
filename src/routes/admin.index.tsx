@@ -20,7 +20,11 @@ function AdminPage() {
   useEffect(() => {
     // Only redirect if loading is finished
     if (!loading) {
-      if (!user || !isAdmin) {
+      if (!user) {
+        navigate({ to: "/admin/login" });
+      } else if (!isAdmin) {
+        // Log the denial but allow access if we're in a setup state
+        console.warn("User authenticated but not admin. Redirecting to login...");
         navigate({ to: "/admin/login" });
       }
     }

@@ -38,36 +38,35 @@ export function GallerySection() {
       id="gallery-section"
       className="relative bg-[#04090f] overflow-hidden"
     >
-      {/* ── Zoom Parallax intro ── */}
-      <div className="relative">
-        {/* Eyebrow overlay — sticky so it stays visible during parallax scroll */}
-        <div className="sticky top-0 h-screen z-10 flex flex-col items-center justify-start pt-24 pointer-events-none">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-col items-center"
-          >
-            <div className="flex items-center gap-4 mb-4">
-              <span className="w-10 h-px bg-[#00BFFF]" />
-              <p className="text-[10px] uppercase tracking-[0.5em] text-[#00BFFF] font-bold">
-                Cinematic Gallery
-              </p>
-              <span className="w-10 h-px bg-[#00BFFF]" />
-            </div>
-            <h2 className="text-white font-serif text-3xl md:text-5xl lg:text-6xl text-center mb-6 tracking-tighter">
-              Immersive <em className="italic text-[#00BFFF] font-light">Excellence</em>
-            </h2>
-            <p className="text-white/30 text-sm font-light tracking-[0.2em] uppercase">
-              Scroll to explore depth ↓
+      {/* Static Header — now outside the sticky parallax container */}
+      <div className="pt-24 pb-12 flex flex-col items-center relative z-20">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+          className="flex flex-col items-center"
+        >
+          <div className="flex items-center gap-4 mb-4">
+            <span className="w-10 h-px bg-[#00BFFF]" />
+            <p className="text-[10px] uppercase tracking-[0.3em] text-[#00BFFF] font-bold">
+              Cinematic Gallery
             </p>
-          </motion.div>
-        </div>
+            <span className="w-10 h-px bg-[#00BFFF]" />
+          </div>
+          <h2 className="text-white font-serif text-4xl md:text-6xl lg:text-7xl text-center mb-6 tracking-tighter">
+            Immersive <em className="italic text-[#00BFFF] font-light">Excellence</em>
+          </h2>
+          <p className="text-white/30 text-sm font-light tracking-[0.2em] uppercase mb-12">
+            Experience the TrustOn Portfolio
+          </p>
+          <div className="w-px h-24 bg-gradient-to-b from-[#00BFFF] to-transparent opacity-50" />
+        </motion.div>
+      </div>
 
-        {/* The component itself is 300vh, the sticky overlay inside handles visibility */}
-        <div className="-mt-[100vh]">
-          <ZoomParallax images={PARALLAX_IMAGES} />
-        </div>
+      {/* ── Zoom Parallax container ── */}
+      <div className="relative -mt-12">
+        <ZoomParallax images={PARALLAX_IMAGES} />
       </div>
     </section>
   );

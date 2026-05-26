@@ -146,10 +146,8 @@ function Index() {
         <GallerySection />
       </div>
 
-      {/* Stats Bar */}
-      <div className="-mt-1">
-        <EnhancedStatsBar />
-      </div>
+      {/* Why Truston — Now with Accordion & specific text animation */}
+      <TrustonWhySection />
 
       {/* Services (Four Pillars) */}
       <TrustonServicesSection />
@@ -157,20 +155,22 @@ function Index() {
       {/* Philosophy — Moved here as per request (third image section) */}
       <PhilosophySection />
 
-      {/* Why Truston */}
-      <TrustonWhySection />
+      {/* Stats Bar */}
+      <div className="-mt-1">
+        <EnhancedStatsBar />
+      </div>
 
       {/* Intro Highlight */}
       <IntroHighlightSection />
+
+      {/* Testimonials */}
+      <Testimonials />
 
       {/* Plots & Structures — CSS building scene */}
       <PlotsAndStructures />
 
       {/* Marquee */}
       <Marquee />
-
-      {/* Testimonials */}
-      <Testimonials />
 
       {/* CTA Strip */}
       <TrustonCTAStrip />
