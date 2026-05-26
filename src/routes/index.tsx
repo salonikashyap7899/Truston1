@@ -142,14 +142,8 @@ function Index() {
       {/* Gallery Section */}
       <GallerySection />
 
-      {/* Plots & Structures — Now after Gallery */}
+      {/* Plots & Structures — After Gallery */}
       <PlotsAndStructures />
-
-      {/* Why Truston — Now with Accordion & specific text animation */}
-      <TrustonWhySection />
-
-      {/* Services (Four Pillars) */}
-      <TrustonServicesSection />
 
       {/* Philosophy Section */}
       <PhilosophySection />
@@ -160,8 +154,14 @@ function Index() {
       {/* Intro Highlight */}
       <IntroHighlightSection />
 
-      {/* Testimonials */}
+      {/* Testimonials / Client Narratives */}
       <Testimonials />
+
+      {/* Why Truston — Moved after Client Narratives */}
+      <TrustonWhySection />
+
+      {/* Services (Four Pillars) — Moved after Client Narratives */}
+      <TrustonServicesSection />
 
       {/* Marquee */}
       <Marquee />

@@ -101,23 +101,32 @@ export function WhoWeAreSection() {
             </motion.div>
           </div>
 
-          {/* Right Image Side */}
+          {/* Right Image Side - CIRCULAR like Sobha */}
           <motion.div
             initial={{ opacity: 0, x: 40 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-            className="relative order-1 lg:order-2 min-h-[400px] lg:min-h-full"
+            className="relative order-1 lg:order-2 flex items-center justify-center py-12 lg:py-0"
           >
-            {/* Main Image */}
-            <div className="absolute inset-0 lg:inset-y-8 lg:right-0 lg:left-0">
-              <img
-                src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1200&auto=format&fit=crop"
-                alt="Premium Lifestyle Living"
-                className="w-full h-full object-cover"
-              />
-              {/* Subtle overlay */}
-              <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-[#f8f7f4]/20" />
+            {/* Circular Image Container */}
+            <div className="relative">
+              {/* Decorative ring */}
+              <div className="absolute -inset-4 rounded-full border border-[#00BFFF]/20" />
+              <div className="absolute -inset-8 rounded-full border border-[#00BFFF]/10" />
+              
+              {/* Main circular image */}
+              <div className="w-[320px] h-[320px] md:w-[420px] md:h-[420px] lg:w-[480px] lg:h-[480px] rounded-full overflow-hidden shadow-2xl">
+                <img
+                  src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1200&auto=format&fit=crop"
+                  alt="Premium Lifestyle Living"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+
+              {/* Floating accent dot */}
+              <div className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-[#00BFFF] shadow-lg" />
+              <div className="absolute -bottom-4 -left-4 w-4 h-4 rounded-full bg-[#00BFFF]/50" />
             </div>
           </motion.div>
         </div>
