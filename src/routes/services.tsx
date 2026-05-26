@@ -1,334 +1,448 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
-import { Reveal, CountUp } from "@/components/Reveal";
-import heroImg from "@/assets/luxury-interior.jpg";
+import { motion } from "framer-motion";
+import { Reveal } from "@/components/Reveal";
+import { Section3DBackground } from "@/components/Section3DBackground";
 
 export const Route = createFileRoute("/services")({
   head: () => ({
     meta: [
-      { title: "Services — TrustOn | Plots, Architecture, Construction & Investment" },
+      { title: "Services — TrustOn Developers" },
       {
         name: "description",
         content:
-          "Explore TrustOn's full suite of premium real estate services — plot selling, architecture & design, construction & build, and investment consulting.",
+          "From land acquisition to handover, TrustOn provides a complete ecosystem of real estate services. One trusted partner, every step of your journey.",
       },
     ],
   }),
   component: ServicesPage,
 });
 
-const services = [
+const mainServices = [
   {
-    icon: "🏗️",
+    num: "01",
     title: "Plot Selling",
-    blurb:
-      "Premium residential land parcels in Lucknow's high-growth corridors with complete legal clarity.",
-    features: ["Jila Panchayat Approved", "Clear Title Deeds", "Verified Documentation", "High-Growth Locations"],
+    desc: "Premium residential plots in Lucknow's highest-growth corridors. Every plot comes with Jila Panchayat approval, clear title deeds, and complete legal transparency. Own the foundation for your legacy.",
+    features: [
+      "100+ Premium Plots Available",
+      "Jila Panchayat Approved",
+      "Clear Title Deeds",
+      "Complete Legal Documentation",
+      "Transparent Pricing",
+      "High-Growth Locations",
+    ],
     link: "/plot-selling",
-    linkLabel: "Explore Plots →",
+    linkLabel: "Explore Plots",
   },
   {
-    icon: "📐",
+    num: "02",
     title: "Architecture & Design",
-    blurb:
-      "Bespoke architectural planning tailored to your vision with 3D visualizations and blueprint documentation.",
-    features: ["Custom Layouts", "3D Visualizations", "Elevation Designs", "Complete Blueprints"],
+    desc: "Transform your vision into architectural reality. Our in-house design team creates bespoke layouts, stunning elevations, and complete blueprint documentation—each project a masterpiece.",
+    features: [
+      "Concept Design & Layouts",
+      "3D Renderings & Walkthroughs",
+      "Complete Blueprints",
+      "Material Selection Guidance",
+      "Sustainable Design Solutions",
+      "Regulatory Compliance",
+    ],
     link: "/architecture-design",
-    linkLabel: "Design Your Space →",
+    linkLabel: "View Design Services",
   },
   {
-    icon: "🏢",
+    num: "03",
     title: "Construction & Build",
-    blurb:
-      "Full-service home construction from foundation to finishing with premium craftsmanship and transparency.",
-    features: ["Premium Materials", "Expert Teams", "On-Time Delivery", "Quality Assurance"],
+    desc: "Quality construction where architectural dreams become tangible reality. Meticulous attention to detail, premium materials, and unwavering commitment to timely delivery—your home, built perfectly.",
+    features: [
+      "Complete Home Construction",
+      "100% Material Certification",
+      "50+ Structural Audits",
+      "Skilled Workforce Management",
+      "Progress Transparency",
+      "On-Time Delivery Guaranteed",
+    ],
     link: "/construction-build",
-    linkLabel: "Build With Us →",
+    linkLabel: "Learn About Building",
   },
   {
-    icon: "📈",
+    num: "04",
     title: "Investment Consulting",
-    blurb:
-      "Data-driven advisory on yield, ROI, and strategic positioning across premium real estate inventory.",
-    features: ["ROI Analysis", "Location Intelligence", "Portfolio Strategy", "Exit Planning"],
+    desc: "Strategic wealth building through data-driven land investment guidance. ROI analysis, location intelligence, portfolio strategy—all tailored to your financial goals and risk profile.",
+    features: [
+      "Location & Market Analysis",
+      "ROI Projections & Modeling",
+      "Portfolio Strategy",
+      "Legal Verification & Title Audit",
+      "NRI Investment Solutions",
+      "Tax Planning & Guidance",
+    ],
     link: "/investment-consulting",
-    linkLabel: "Grow Your Assets →",
+    linkLabel: "Investment Strategies",
   },
-] as const;
-
-const stats = [
-  { num: 120, suffix: "+", label: "Premium Plots" },
-  { num: 50, suffix: "+", label: "Architectural Designs" },
-  { num: 100, suffix: "%", label: "On-Schedule Delivery" },
-  { label: "Assets Under Mgmt", static: "₹500Cr+" },
 ];
 
-const steps = [
-  { num: "01", title: "Consultation", desc: "Meet our experts to understand your needs, budget, and vision for your investment." },
-  { num: "02", title: "Selection & Verification", desc: "Curate premium plots matched to your requirements with complete legal verification." },
-  { num: "03", title: "Architectural Design", desc: "Receive custom architectural plans and 3D visualizations of your future home." },
-  { num: "04", title: "Construction & Delivery", desc: "Professional construction with transparent progress tracking and on-time delivery guarantee." },
-  { num: "05", title: "Handover & Support", desc: "Complete handover with full documentation and ongoing support for your investment." },
+const advantages = [
+  {
+    title: "Seamless Coordination",
+    desc: "Plot selection flows directly into architectural design, then construction—no coordination gaps, no vendor confusion. Your project stays aligned throughout.",
+    benefit: "Timeline: 40–50 weeks from plot to handover",
+  },
+  {
+    title: "Unified Quality Standards",
+    desc: "Same quality philosophy across all services. Materials certified. Processes audited. Standards maintained. Consistency from first consultation to final handover.",
+    benefit: "Quality: 50+ structural audits per project",
+  },
+  {
+    title: "Complete Transparency",
+    desc: "One team manages your project end-to-end. No hidden costs. No vendor surprises. Every decision, every material, every progress update—completely transparent.",
+    benefit: "Transparency: Monthly progress reports & documentation",
+  },
+];
+
+const whyChoose = [
+  {
+    title: "Complete Transparency, Always",
+    desc: "Zero ambiguity in every transaction. Plot details, legal status, pricing, timelines, and quality standards disclosed fully upfront. No fine print. No surprises.",
+  },
+  {
+    title: "High-Growth Location Intelligence",
+    desc: "Dubagga and surrounding corridors are on a proven appreciation trajectory. We identify high-potential land before the market, passing that advantage directly to our clients.",
+  },
+  {
+    title: "Government-Approved & Legally Secure",
+    desc: "Every project carries Jila Panchayat approvals and verified title deeds. Your investment is legally clean, compliant, and protected for generations.",
+  },
+  {
+    title: "One Team, Every Step",
+    desc: "Plot acquisition, architecture, construction, investment advisory—all under one roof. No coordination between multiple agencies. One trusted partner.",
+  },
+  {
+    title: "Proven Track Record",
+    desc: "150+ premium plots sold. 50+ homes completed. Consistent on-time delivery. Years of trust from homeowners, investors, and partners.",
+  },
+  {
+    title: "Your Goals, Our Commitment",
+    desc: "Build now or hold for appreciation—both strategies are equally valid. We support your objectives with equal commitment, no pressure, no gimmicks.",
+  },
+];
+
+const selectionGuide = [
+  {
+    title: "The Home Builder",
+    desc: "You want to buy a plot in a prime location and build your dream family home. You need guidance on land selection, architectural design, and quality construction.",
+    recommended: ["Plot Selling", "Architecture & Design", "Construction & Build"],
+  },
+  {
+    title: "The Wealth Investor",
+    desc: "You're building a real estate portfolio focused on capital appreciation. You need data-driven location analysis, ROI projections, and strategic portfolio guidance.",
+    recommended: ["Investment Consulting", "Plot Selling", "Architecture & Design"],
+  },
+  {
+    title: "The Design-Forward Buyer",
+    desc: "You own or are buying a plot and want exceptional architectural design. You need a creative design partner who understands your vision and translates it to reality.",
+    recommended: ["Architecture & Design", "Construction & Build", "Plot Selling"],
+  },
+  {
+    title: "The NRI Investor",
+    desc: "You're investing from abroad seeking India's real estate growth with regulatory compliance, transparency, and distance management support.",
+    recommended: ["Investment Consulting", "Plot Selling", "Construction & Build"],
+  },
+];
+
+const testimonials = [
+  {
+    quote: "We bought our plot, got it designed by their architecture team, and are now building with them. One partner, unified vision. It's exactly how home building should feel.",
+    author: "Anil Singh",
+    role: "Homeowner — All Services",
+  },
+  {
+    quote: "The investment consulting team provided insights I couldn't find anywhere else. Their ROI projections have held up perfectly. Two years and 25% appreciation—beyond expectations.",
+    author: "Priya Sharma",
+    role: "Investor — 18 months",
+  },
+  {
+    quote: "From Dubai, managing a property investment seemed impossible. TrustOn made it seamless—documentation, construction oversight, regular updates. Completely stress-free.",
+    author: "Vikram Agarwal",
+    role: "NRI Investor",
+  },
+];
+
+const processSteps = [
+  {
+    num: "01",
+    title: "Discovery & Understanding",
+    desc: "We begin by listening. Your goals, timeline, budget, vision—all understood deeply before recommending any service path.",
+  },
+  {
+    num: "02",
+    title: "Analysis & Strategy",
+    desc: "We analyze opportunities, research market dynamics, and create a tailored strategy aligned with your objectives.",
+  },
+  {
+    num: "03",
+    title: "Execution & Transparency",
+    desc: "We execute with precision while maintaining complete transparency. Regular updates and documentation throughout the journey.",
+  },
+  {
+    num: "04",
+    title: "Delivery & Beyond",
+    desc: "We deliver excellence and remain your partner beyond handover. Long-term relationships built on trust, not transactions.",
+  },
 ];
 
 function ServicesPage() {
-  const heroRef = useRef<HTMLDivElement>(null);
-  const servicesRef = useRef<HTMLDivElement>(null);
-  const statsRef = useRef<HTMLDivElement>(null);
-  const processRef = useRef<HTMLDivElement>(null);
-  const heroInView = useInView(heroRef, { once: true });
-  const servicesInView = useInView(servicesRef, { once: true, margin: "-80px" });
-  const statsInView = useInView(statsRef, { once: true, margin: "-80px" });
-  const processInView = useInView(processRef, { once: true, margin: "-80px" });
-
   return (
-    <div className="bg-[#04090f] text-white overflow-x-hidden">
-
-      {/* ── Hero ── */}
-      <section
-        ref={heroRef}
-        className="relative min-h-[85vh] flex items-center justify-center overflow-hidden"
-        style={{ background: "linear-gradient(135deg, #04090f 0%, #060c16 50%, #04090f 100%)" }}
-      >
-        {/* Background image */}
-        <div className="absolute inset-0 z-0">
-          <img
-            src={heroImg}
-            alt="TrustOn Services"
-            className="w-full h-full object-cover opacity-20"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#04090f]/60 via-transparent to-[#04090f]" />
+    <div className="bg-[#04090f] text-white overflow-x-hidden selection:bg-[#00BFFF] selection:text-[#04090f]">
+      {/* Hero Section */}
+      <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden pt-20">
+        <Section3DBackground opacity={0.15} />
+        <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">
+          <Reveal>
+            <p className="text-[10px] uppercase tracking-[0.45em] text-[#00BFFF] font-bold mb-6">
+              Complete Real Estate Ecosystem
+            </p>
+            <h1 className="font-serif text-5xl md:text-8xl leading-tight tracking-tight mb-8">
+              Our <em className="text-[#00BFFF] italic">Services</em>
+            </h1>
+            <p className="text-white/50 text-lg md:text-xl leading-relaxed font-light max-w-3xl mx-auto mb-12">
+              From land acquisition to handover, TrustOn provides a complete ecosystem of real estate services. One trusted partner, every step of your journey—whether you're buying a plot, building your dream home, or investing strategically.
+            </p>
+          </Reveal>
         </div>
-
-        {/* Ambient orbs */}
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full opacity-[0.07] pointer-events-none"
-          style={{ background: "radial-gradient(circle, #00BFFF, transparent 70%)" }} />
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full opacity-[0.05] pointer-events-none"
-          style={{ background: "radial-gradient(circle, #0099ff, transparent 70%)" }} />
-
-        <motion.div
-          className="relative z-10 text-center px-6 max-w-4xl mx-auto"
-          initial={{ opacity: 0, y: 40 }}
-          animate={heroInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <motion.p
-            className="text-[10px] uppercase tracking-[0.45em] text-[#00BFFF] font-bold mb-6"
-            initial={{ opacity: 0, letterSpacing: "0.2em" }}
-            animate={heroInView ? { opacity: 1, letterSpacing: "0.45em" } : {}}
-            transition={{ duration: 1.2, delay: 0.15 }}
-          >
-            Empire Expertise
-          </motion.p>
-
-          <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl leading-tight tracking-tight mb-6">
-            Our Expertise In{" "}
-            <em
-              className="not-italic"
-              style={{ background: "linear-gradient(135deg, #00BFFF, #00d4ff)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}
-            >
-              Real Estate Excellence
-            </em>
-          </h1>
-
-          <p className="text-white/50 text-lg md:text-xl leading-relaxed font-light max-w-2xl mx-auto mb-12">
-            From prime plots to complete architectural solutions — comprehensive real estate services
-            that transform your vision into reality with transparency and precision.
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <a
-              href="#services"
-              className="px-10 py-4 text-[11px] uppercase tracking-[0.2em] font-bold rounded-full transition-all duration-500 hover:scale-105"
-              style={{ background: "#00BFFF", color: "#04090f" }}
-            >
-              Explore Services
-            </a>
-            <Link
-              to="/contact"
-              className="px-10 py-4 border border-white/20 text-white/70 text-[11px] uppercase tracking-[0.2em] font-bold rounded-full hover:border-[#00BFFF] hover:text-[#00BFFF] transition-all duration-500"
-            >
-              Schedule Consultation
-            </Link>
-          </div>
-        </motion.div>
       </section>
 
-      {/* ── Services Grid ── */}
-      <section
-        id="services"
-        ref={servicesRef}
-        className="py-28 px-6"
-        style={{ background: "linear-gradient(180deg, #04090f 0%, #060c16 100%)" }}
-      >
+      {/* Main Services Grid */}
+      <section className="py-32 px-6">
         <div className="max-w-7xl mx-auto">
           <Reveal>
-            <div className="text-center mb-16">
-              <p className="text-[10px] uppercase tracking-[0.45em] text-[#00BFFF] font-bold mb-4">Our Services</p>
-              <h2 className="font-serif text-4xl md:text-6xl text-white mb-4 tracking-tight">
-                Four Pillars of{" "}
-                <em className="text-[#00BFFF] italic">Excellence</em>
+            <div className="text-center mb-20">
+              <h2 className="font-serif text-4xl md:text-6xl text-white mb-6">
+                Four Pillars of <em className="text-[#00BFFF] italic">Expertise</em>
               </h2>
-              <p className="text-white/40 max-w-lg mx-auto text-base font-light">
-                Comprehensive solutions designed to guide you through every step of your real estate journey
+              <p className="text-white/40 max-w-2xl mx-auto text-lg font-light">
+                Each service is crafted to deliver excellence, whether you're a first-time buyer, experienced investor, or visionary builder.
               </p>
             </div>
           </Reveal>
 
-          <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-6">
-            {services.map((s, i) => (
-              <motion.div
-                key={s.title}
-                className="relative group rounded-[20px] border border-[#00BFFF]/20 p-8 overflow-hidden transition-all duration-500 hover:border-[#00BFFF]/60 hover:-translate-y-3 cursor-pointer"
-                style={{ background: "rgba(255,255,255,0.02)" }}
-                initial={{ opacity: 0, y: 40 }}
-                animate={servicesInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.7, delay: i * 0.12, ease: [0.16, 1, 0.3, 1] }}
-                whileHover={{ boxShadow: "0 24px 60px rgba(0,191,255,0.18)" }}
-              >
-                {/* Glow on hover */}
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-[20px]"
-                  style={{ background: "radial-gradient(circle at 70% 0%, rgba(0,191,255,0.08) 0%, transparent 70%)" }} />
-
-                <div className="text-4xl mb-5">{s.icon}</div>
-
-                <h3 className="font-serif text-xl text-white mb-3 tracking-tight">{s.title}</h3>
-                <p className="text-white/45 text-sm leading-relaxed mb-5 font-light">{s.blurb}</p>
-
-                <ul className="space-y-2 mb-6">
-                  {s.features.map((f) => (
-                    <li key={f} className="text-white/50 text-xs flex items-center gap-2">
-                      <span className="text-[#00BFFF] font-bold">✓</span>
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-
-                <Link
-                  to={s.link}
-                  className="text-[#00BFFF] text-xs font-bold uppercase tracking-[0.25em] inline-flex items-center gap-2 group-hover:gap-4 transition-all duration-300"
+          <div className="grid md:grid-cols-2 gap-8">
+            {mainServices.map((service, i) => (
+              <Reveal key={service.num} delay={i * 0.1}>
+                <motion.div
+                  whileHover={{ y: -10 }}
+                  className="bg-[#060c16] border border-white/5 p-10 rounded-[32px] group hover:border-[#00BFFF]/30 transition-all duration-500"
                 >
-                  {s.linkLabel}
-                </Link>
-              </motion.div>
+                  <div className="text-5xl font-serif text-[#00BFFF]/20 mb-6 group-hover:text-[#00BFFF]/40 transition-colors">
+                    {service.num}
+                  </div>
+                  <h3 className="font-serif text-3xl text-white mb-4">{service.title}</h3>
+                  <p className="text-white/45 text-lg leading-relaxed mb-8">{service.desc}</p>
+                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
+                    {service.features.map((f) => (
+                      <li key={f} className="text-white/60 text-sm flex items-start gap-2">
+                        <span className="text-[#00BFFF]">—</span>
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                  <Link
+                    to={service.link}
+                    className="inline-flex items-center gap-2 text-[#00BFFF] text-xs font-bold uppercase tracking-[0.2em] group-hover:gap-4 transition-all"
+                  >
+                    {service.linkLabel} <span>→</span>
+                  </Link>
+                </motion.div>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── Stats ── */}
-      <section
-        ref={statsRef}
-        className="py-20 px-6"
-        style={{ background: "linear-gradient(135deg, #060c16 0%, #04090f 100%)" }}
-      >
-        <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6">
-          {stats.map((s, i) => (
-            <motion.div
-              key={s.label}
-              className="text-center py-12 px-6 rounded-[20px] border border-[#00BFFF]/15"
-              style={{ background: "linear-gradient(135deg, rgba(0,191,255,0.06) 0%, rgba(0,153,255,0.03) 100%)" }}
-              initial={{ opacity: 0, scale: 0.88 }}
-              animate={statsInView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ duration: 0.6, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <p
-                className="font-serif text-4xl md:text-5xl mb-2"
-                style={{ background: "linear-gradient(135deg, #00BFFF, #00d4ff)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}
-              >
-                {"num" in s ? <CountUp to={s.num} suffix={s.suffix ?? ""} /> : s.static}
-              </p>
-              <p className="text-white/40 text-xs uppercase tracking-[0.3em] font-bold mt-1">{s.label}</p>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* ── Process Timeline ── */}
-      <section
-        id="process"
-        ref={processRef}
-        className="py-28 px-6"
-        style={{ background: "linear-gradient(180deg, #04090f 0%, #060c16 100%)" }}
-      >
-        <div className="max-w-4xl mx-auto">
+      {/* TrustOn Advantage (Integration) */}
+      <section className="py-32 px-6 bg-[#060c16]">
+        <div className="max-w-7xl mx-auto">
           <Reveal>
-            <div className="text-center mb-16">
-              <p className="text-[10px] uppercase tracking-[0.45em] text-[#00BFFF] font-bold mb-4">How It Works</p>
-              <h2 className="font-serif text-4xl md:text-6xl text-white mb-4 tracking-tight">
-                Your Journey{" "}
-                <em className="text-[#00BFFF] italic">With TrustOn</em>
+            <div className="text-center mb-20">
+              <h2 className="font-serif text-4xl md:text-6xl text-white mb-6">
+                The TrustOn <em className="text-[#00BFFF] italic">Advantage</em>
               </h2>
-              <p className="text-white/40 max-w-md mx-auto text-base font-light">
-                A streamlined process designed for clarity and success
+              <p className="text-white/40 max-w-2xl mx-auto text-lg font-light">
+                Unlike traditional real estate agencies that juggle multiple vendors, TrustOn brings all expertise under one roof. One vision. One team. Complete continuity.
               </p>
             </div>
           </Reveal>
 
-          <div className="relative">
-            {/* Vertical line */}
-            <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-[#00BFFF]/60 via-[#00BFFF]/20 to-transparent transform md:-translate-x-1/2" />
-
-            <div className="space-y-10">
-              {steps.map((step, i) => (
-                <motion.div
-                  key={step.num}
-                  className={`relative flex gap-8 md:gap-0 ${i % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"}`}
-                  initial={{ opacity: 0, x: i % 2 === 0 ? -30 : 30 }}
-                  animate={processInView ? { opacity: 1, x: 0 } : {}}
-                  transition={{ duration: 0.7, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                >
-                  {/* Timeline dot */}
-                  <div className="absolute left-8 md:left-1/2 top-4 w-3 h-3 rounded-full bg-[#00BFFF] border-4 border-[#04090f] transform -translate-x-1/2 z-10" />
-
-                  {/* Content */}
-                  <div className={`ml-16 md:ml-0 md:w-1/2 ${i % 2 === 0 ? "md:pr-12" : "md:pl-12"}`}>
-                    <div
-                      className="rounded-[16px] border border-[#00BFFF]/20 p-6 transition-all duration-400 hover:border-[#00BFFF]/50"
-                      style={{ background: "linear-gradient(135deg, rgba(0,191,255,0.06) 0%, rgba(0,153,255,0.03) 100%)" }}
-                    >
-                      <p className="text-[#00BFFF] text-xs font-bold uppercase tracking-[0.3em] mb-2">{step.num}</p>
-                      <h3 className="font-serif text-xl text-white mb-2">{step.title}</h3>
-                      <p className="text-white/45 text-sm leading-relaxed font-light">{step.desc}</p>
-                    </div>
+          <div className="grid md:grid-cols-3 gap-8">
+            {advantages.map((adv, i) => (
+              <Reveal key={adv.title} delay={i * 0.1}>
+                <div className="bg-[#04090f] border-t-4 border-[#00BFFF] p-10 rounded-2xl h-full flex flex-col">
+                  <h3 className="font-serif text-2xl text-white mb-4">{adv.title}</h3>
+                  <p className="text-white/45 text-sm leading-relaxed mb-8 flex-grow">{adv.desc}</p>
+                  <div className="bg-[#00BFFF]/10 p-4 rounded-lg text-[#00BFFF] text-xs font-bold text-center">
+                    {adv.benefit}
                   </div>
-                </motion.div>
-              ))}
-            </div>
+                </div>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ── CTA Strip ── */}
-      <section
-        className="py-24 px-6 text-center border-t border-white/5"
-        style={{ background: "#04090f" }}
-      >
-        <Reveal>
-          <p className="text-[10px] uppercase tracking-[0.45em] text-[#00BFFF] font-bold mb-6">Private Intelligence</p>
-          <h2 className="font-serif text-4xl md:text-6xl text-white mb-10 tracking-tight leading-tight">
-            Let our advisors architect<br />
-            <em className="text-[#00BFFF] italic">your legacy path.</em>
-          </h2>
-          <div className="flex flex-col md:flex-row justify-center items-center gap-8">
-            <a
-              href="tel:+919616061166"
-              className="font-serif text-3xl md:text-4xl text-white hover:text-[#00BFFF] transition-colors tracking-tight"
-            >
-              +91 96160-61166
-            </a>
-            <Link
-              to="/contact"
-              className="px-12 py-5 text-[11px] uppercase tracking-[0.3em] font-bold rounded-full transition-all duration-500 hover:scale-105"
-              style={{ background: "#00BFFF", color: "#04090f" }}
-            >
-              Secure Consultation →
-            </Link>
+      {/* Why Choose Section */}
+      <section className="py-32 px-6">
+        <div className="max-w-7xl mx-auto">
+          <Reveal>
+            <div className="text-center mb-20">
+              <h2 className="font-serif text-4xl md:text-6xl text-white mb-6">
+                Why Choose <em className="text-[#00BFFF] italic">TrustOn</em>
+              </h2>
+              <p className="text-white/40 max-w-2xl mx-auto text-lg font-light">
+                Five reasons TrustOn stands apart in Lucknow's real estate landscape.
+              </p>
+            </div>
+          </Reveal>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {whyChoose.map((item, i) => (
+              <Reveal key={item.title} delay={i * 0.05}>
+                <div className="bg-[#060c16] border-l-4 border-[#00BFFF] p-8 rounded-xl h-full">
+                  <h4 className="font-serif text-xl text-white mb-4">{item.title}</h4>
+                  <p className="text-white/45 text-sm leading-relaxed">{item.desc}</p>
+                </div>
+              </Reveal>
+            ))}
           </div>
-        </Reveal>
+        </div>
       </section>
 
+      {/* Selection Guide */}
+      <section className="py-32 px-6 bg-[#060c16]">
+        <div className="max-w-7xl mx-auto">
+          <Reveal>
+            <div className="text-center mb-20">
+              <h2 className="font-serif text-4xl md:text-6xl text-white mb-6">
+                Which Services Are <em className="text-[#00BFFF] italic">Right</em> for You?
+              </h2>
+              <p className="text-white/40 max-w-2xl mx-auto text-lg font-light">
+                Different journeys require different services. Find your path below.
+              </p>
+            </div>
+          </Reveal>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            {selectionGuide.map((scenario, i) => (
+              <Reveal key={scenario.title} delay={i * 0.1}>
+                <div className="bg-[#04090f] border-b-4 border-[#00BFFF] p-10 rounded-[32px] h-full flex flex-col">
+                  <h4 className="font-serif text-2xl text-white mb-4">{scenario.title}</h4>
+                  <p className="text-white/45 text-sm leading-relaxed mb-8 flex-grow">{scenario.desc}</p>
+                  <div className="bg-white/5 p-6 rounded-2xl">
+                    <p className="text-[#00BFFF] text-[10px] uppercase tracking-[0.2em] font-bold mb-4">Recommended Services</p>
+                    <ul className="space-y-3">
+                      {scenario.recommended.map((s) => (
+                        <li key={s} className="text-white/70 text-sm flex items-center gap-3">
+                          <span className="text-[#00BFFF]">✓</span> {s}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Success Stories */}
+      <section className="py-32 px-6">
+        <div className="max-w-7xl mx-auto">
+          <Reveal>
+            <div className="text-center mb-20">
+              <h2 className="font-serif text-4xl md:text-6xl text-white mb-6">
+                Client <em className="text-[#00BFFF] italic">Success</em> Stories
+              </h2>
+              <p className="text-white/40 max-w-2xl mx-auto text-lg font-light">
+                Real voices from the families and investors we've partnered with across all our services.
+              </p>
+            </div>
+          </Reveal>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {testimonials.map((t, i) => (
+              <Reveal key={t.author} delay={i * 0.1}>
+                <div className="bg-[#060c16] border-l-4 border-[#00BFFF] p-10 rounded-2xl h-full flex flex-col">
+                  <p className="text-white/60 italic text-lg leading-relaxed mb-8 flex-grow">"{t.quote}"</p>
+                  <div>
+                    <p className="text-white font-bold">{t.author}</p>
+                    <p className="text-[#00BFFF] text-xs uppercase tracking-widest mt-1">{t.role}</p>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* How We Work (Process) */}
+      <section className="py-32 px-6 bg-[#060c16]">
+        <div className="max-w-7xl mx-auto">
+          <Reveal>
+            <div className="text-center mb-20">
+              <h2 className="font-serif text-4xl md:text-6xl text-white mb-6">
+                How We <em className="text-[#00BFFF] italic">Work</em>
+              </h2>
+              <p className="text-white/40 max-w-2xl mx-auto text-lg font-light">
+                Regardless of which services you choose, our process is consistent: listen, analyze, execute, deliver.
+              </p>
+            </div>
+          </Reveal>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {processSteps.map((step, i) => (
+              <Reveal key={step.num} delay={i * 0.1}>
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-[#00BFFF] text-[#04090f] rounded-full flex items-center justify-center text-3xl font-bold mx-auto mb-6">
+                    {step.num}
+                  </div>
+                  <h4 className="font-serif text-xl text-white mb-4">{step.title}</h4>
+                  <p className="text-white/40 text-sm leading-relaxed">{step.desc}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Final CTA */}
+      <section className="py-32 px-6">
+        <div className="max-w-5xl mx-auto">
+          <Reveal>
+            <div className="bg-[#00BFFF] p-16 md:p-24 rounded-[48px] text-[#04090f] text-center relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2" />
+              <div className="relative z-10">
+                <h2 className="font-serif text-4xl md:text-6xl mb-8">
+                  Ready to Begin Your <em className="italic">Journey</em>?
+                </h2>
+                <p className="text-[#04090f]/70 text-lg md:text-xl mb-12 max-w-2xl mx-auto">
+                  Explore our services, understand which path aligns with your vision, and connect with our team for a detailed, obligation-free consultation.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-6 justify-center">
+                  <Link
+                    to="/contact"
+                    className="px-10 py-5 bg-[#04090f] text-white text-xs font-bold uppercase tracking-[0.2em] rounded-full hover:scale-105 transition-all"
+                  >
+                    Book Free Consultation
+                  </Link>
+                  <Link
+                    to="/projects"
+                    className="px-10 py-5 border-2 border-[#04090f] text-[#04090f] text-xs font-bold uppercase tracking-[0.2em] rounded-full hover:bg-[#04090f] hover:text-white transition-all"
+                  >
+                    Explore Our Projects
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
     </div>
   );
 }
