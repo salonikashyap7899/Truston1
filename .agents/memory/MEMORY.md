@@ -1,0 +1,2 @@
+- [TanStack Start createServerFn API](tanstack-server-fn-api.md) — `.validator()` does not exist; use `.inputValidator()` for input validation chaining.
+- [Contact server fn import protection](contact-server-fn.md) — `.server.ts` files are blocked by import-protection plugin; createServerFn files must be named without `.server.` to be importable from routes.

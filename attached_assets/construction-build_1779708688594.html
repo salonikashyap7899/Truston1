@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Construction & Build — Truston</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --iron:#c0a870;--iron-light:#e2d0a4;--iron-dark:#7a6840;
+  --bg:#060608;--surface:#0d0d10;--surface2:#14141a;--surface3:#1c1c24;
+  --text:#ede8df;--text-muted:#8c8680;--text-dim:#504c48;
+  --border:rgba(192,168,112,0.12);--border-strong:rgba(192,168,112,0.3);
+  --red-accent:#c45a3a;
+}
+html{scroll-behavior:smooth;cursor:none}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;overflow-x:hidden;line-height:1.7}
+.cursor{position:fixed;width:6px;height:6px;background:var(--iron);border-radius:50%;pointer-events:none;z-index:9999;mix-blend-mode:screen}
+.cursor-ring{position:fixed;width:32px;height:32px;border:1px solid var(--iron);border-radius:50%;pointer-events:none;z-index:9998;opacity:0.5;transition:transform 0.15s}
+
+/* Nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:24px 56px;display:flex;justify-content:space-between;align-items:center;background:rgba(6,6,8,0.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.logo{font-family:'Playfair Display',serif;font-size:20px;font-weight:400;letter-spacing:0.08em;text-decoration:none;color:var(--text)}
+.logo span{color:var(--iron)}
+.nav-badge{background:rgba(192,168,112,0.12);border:1px solid var(--border-strong);padding:6px 16px;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--iron)}
+.nav-right{display:flex;gap:36px;align-items:center}
+.nav-right a{font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--text-muted);text-decoration:none;transition:color 0.3s}
+.nav-right a:hover{color:var(--iron)}
+
+/* Hero */
+.hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;position:relative;overflow:hidden;padding-top:80px}
+.hero-left{padding:80px 0 80px 56px;z-index:2;position:relative}
+.hero-right{position:relative;height:100vh;overflow:hidden}
+
+/* Diagonal stripe bg */
+.hero::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 80px,rgba(192,168,112,0.015) 80px,rgba(192,168,112,0.015) 81px)}
+
+.eyebrow{display:flex;align-items:center;gap:16px;margin-bottom:40px}
+.eyebrow-line{width:48px;height:1px;background:var(--iron)}
+.eyebrow-text{font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--iron)}
+.hero-title{font-family:'Playfair Display',serif;font-size:clamp(48px,5.5vw,80px);font-weight:300;line-height:1.06;letter-spacing:-0.01em;margin-bottom:30px}
+.hero-title strong{font-weight:400;color:var(--iron)}
+.hero-subtitle{font-size:15px;color:var(--text-muted);max-width:420px;margin-bottom:52px;line-height:1.85}
+
+.btn-build{display:inline-flex;align-items:center;gap:14px;background:var(--iron);color:var(--bg);padding:15px 36px;font-size:12px;letter-spacing:0.2em;text-transform:uppercase;font-family:'DM Sans',sans-serif;cursor:none;transition:all 0.3s;border:none}
+.btn-build:hover{background:var(--iron-light)}
+.btn-outline{display:inline-flex;align-items:center;gap:14px;background:transparent;color:var(--text-muted);padding:15px 36px;font-size:12px;letter-spacing:0.2em;text-transform:uppercase;font-family:'DM Sans',sans-serif;cursor:none;transition:all 0.3s;border:1px solid var(--border-strong);margin-left:16px}
+.btn-outline:hover{color:var(--iron);border-color:var(--iron)}
+
+/* 3D Construction Scene */
+.construction-scene{width:100%;height:100%;perspective:1000px;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at 40% 50%,rgba(192,168,112,0.04) 0%,transparent 65%)}
+.scene-3d{transform-style:preserve-3d;animation:constructSway 14s ease-in-out infinite;position:relative;width:400px;height:500px}
+@keyframes constructSway{0%,100%{transform:rotateX(8deg) rotateY(-18deg)}50%{transform:rotateX(5deg) rotateY(12deg)}}
+
+/* Main structure */
+.structure{position:absolute;transform-style:preserve-3d;left:80px;top:60px}
+
+/* Floor slabs */
+.slab{position:absolute;width:200px;height:8px;background:linear-gradient(180deg,#2a2a2a,#1a1a1a);border:1px solid rgba(192,168,112,0.4);transform-style:preserve-3d}
+.slab::after{content:'';position:absolute;width:200px;height:120px;background:rgba(192,168,112,0.03);border-right:1px solid rgba(192,168,112,0.2);border-left:1px solid rgba(192,168,112,0.2);transform:rotateX(-90deg);transform-origin:top;top:8px}
+.slab-0{transform:translateZ(60px) translateY(340px)}
+.slab-1{transform:translateZ(60px) translateY(240px)}
+.slab-2{transform:translateZ(60px) translateY(140px)}
+.slab-3{transform:translateZ(60px) translateY(40px)}
+.slab-4{transform:translateZ(60px) translateY(-60px)}
+
+/* Columns */
+.col{position:absolute;width:14px;height:340px;background:linear-gradient(90deg,#2c2c2c,#1e1e1e,#2c2c2c);border:1px solid rgba(192,168,112,0.35);transform:translateZ(60px)}
+.col-1{left:0;top:40px}.col-2{left:186px;top:40px}
+.col-back-1{left:0;top:40px;transform:translateZ(-60px)}
+.col-back-2{left:186px;top:40px;transform:translateZ(-60px)}
+
+/* Scaffolding */
+.scaff{position:absolute;transform-style:preserve-3d;left:-40px;top:0}
+.scaff-v{position:absolute;width:6px;background:linear-gradient(180deg,rgba(192,168,112,0.5),rgba(192,168,112,0.2));border:1px solid rgba(192,168,112,0.4)}
+.scaff-h{position:absolute;height:6px;background:rgba(192,168,112,0.35);border:1px solid rgba(192,168,112,0.3)}
+.scaff-d{position:absolute;width:1px;background:rgba(192,168,112,0.25);transform-origin:top}
+.sv1{width:6px;height:380px;left:0;top:20px;transform:translateZ(80px)}
+.sv2{width:6px;height:380px;left:48px;top:20px;transform:translateZ(80px)}
+.sv3{width:6px;height:380px;left:96px;top:20px;transform:translateZ(80px)}
+.sh1{width:102px;left:0;top:120px;transform:translateZ(80px)}
+.sh2{width:102px;left:0;top:220px;transform:translateZ(80px)}
+.sh3{width:102px;left:0;top:320px;transform:translateZ(80px)}
+.sd1{height:140px;left:3px;top:120px;transform:translateZ(80px) rotate(25deg)}
+.sd2{height:140px;left:51px;top:120px;transform:translateZ(80px) rotate(-25deg)}
+.sd3{height:140px;left:3px;top:220px;transform:translateZ(80px) rotate(25deg)}
+.sd4{height:140px;left:51px;top:220px;transform:translateZ(80px) rotate(-25deg)}
+
+/* Crane arm */
+.crane{position:absolute;transform-style:preserve-3d;left:180px;top:-80px}
+.crane-tower{width:12px;height:180px;background:linear-gradient(90deg,rgba(192,168,112,0.4),rgba(192,168,112,0.15));border:1px solid rgba(192,168,112,0.5);transform:translateZ(60px)}
+.crane-arm{position:absolute;width:160px;height:8px;background:rgba(192,168,112,0.35);border:1px solid rgba(192,168,112,0.4);top:0;left:-130px;transform:translateZ(60px)}
+.crane-wire{position:absolute;width:1px;height:80px;background:rgba(192,168,112,0.4);top:8px;left:24px;transform:translateZ(60px)}
+.crane-block{position:absolute;width:16px;height:12px;background:rgba(192,168,112,0.3);border:1px solid rgba(192,168,112,0.5);top:90px;left:17px;transform:translateZ(60px)}
+
+/* Measurement lines */
+.meas{position:absolute;display:flex;align-items:center;gap:4px;right:-60px}
+.meas-line{width:40px;height:1px;background:rgba(192,168,112,0.4)}
+.meas-label{font-size:9px;letter-spacing:0.1em;color:rgba(192,168,112,0.6)}
+.m1{top:40px}.m2{top:140px}.m3{top:240px}
+
+/* Under-construction indicator */
+.progress-ring{position:absolute;bottom:60px;left:20px;width:80px;height:80px}
+.ring-svg{width:80px;height:80px;transform:rotate(-90deg)}
+.ring-bg{fill:none;stroke:rgba(192,168,112,0.1);stroke-width:3}
+.ring-fill{fill:none;stroke:var(--iron);stroke-width:3;stroke-dasharray:188;stroke-dashoffset:47;stroke-linecap:round;animation:ringAnim 2s ease forwards 1s}
+@keyframes ringAnim{from{stroke-dashoffset:188}to{stroke-dashoffset:47}}
+.ring-label{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring-pct{font-family:'Playfair Display',serif;font-size:16px;color:var(--iron)}
+.ring-sub{font-size:8px;letter-spacing:0.15em;color:var(--text-dim);text-transform:uppercase}
+
+/* Stats ticker */
+.ticker{border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--surface);padding:20px 56px;display:flex;gap:0;overflow:hidden}
+.tick-item{display:flex;align-items:center;gap:20px;padding:0 40px;border-right:1px solid var(--border);flex-shrink:0}
+.tick-item:last-child{border-right:none}
+.tick-num{font-family:'Playfair Display',serif;font-size:38px;color:var(--iron);line-height:1;font-weight:300}
+.tick-label{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-dim)}
+
+/* Capabilities */
+.capabilities{padding:100px 56px;display:grid;grid-template-columns:1fr 2fr;gap:80px;align-items:start}
+.cap-sidebar{position:sticky;top:100px}
+.cap-label{font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--iron);margin-bottom:20px;display:flex;align-items:center;gap:12px}
+.cap-label::before{content:'';width:24px;height:1px;background:var(--iron)}
+.cap-heading{font-family:'Playfair Display',serif;font-size:clamp(36px,4vw,56px);font-weight:300;line-height:1.1}
+.cap-heading em{font-style:italic;color:var(--iron)}
+.cap-body{margin-top:24px;font-size:15px;color:var(--text-muted);line-height:1.8}
+.cap-items{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border)}
+.cap-item{background:var(--bg);padding:44px 36px;position:relative;overflow:hidden;cursor:none;transition:background 0.4s}
+.cap-item:hover{background:var(--surface2)}
+.ci-num{font-family:'Playfair Display',serif;font-size:11px;letter-spacing:0.2em;color:var(--iron);margin-bottom:20px}
+.ci-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:400;margin-bottom:14px;line-height:1.2}
+.ci-desc{font-size:13px;color:var(--text-muted);line-height:1.8}
+.ci-hover-line{position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,var(--iron),transparent);transform:scaleX(0);transform-origin:left;transition:transform 0.5s}
+.cap-item:hover .ci-hover-line{transform:scaleX(1)}
+
+/* 3D Section — Structure cross-section */
+.section-3d{padding:100px 56px;background:var(--surface);position:relative;overflow:hidden}
+.s3d-inner{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.s3d-left{padding-right:20px}
+.s3d-right{perspective:800px;height:420px;position:relative}
+.structure-xsection{transform-style:preserve-3d;animation:xsecRotate 16s ease-in-out infinite;width:100%;height:100%;position:relative;display:flex;align-items:center;justify-content:center}
+@keyframes xsecRotate{0%,100%{transform:rotateX(20deg) rotateY(-25deg)}50%{transform:rotateX(15deg) rotateY(20deg)}}
+
+/* Beam cross sections */
+.beam-box{position:absolute;transform-style:preserve-3d}
+.bb-face{position:absolute;border:1px solid rgba(192,168,112,0.35)}
+.bb-front{width:240px;height:200px;background:linear-gradient(135deg,rgba(20,20,26,0.95),rgba(12,12,16,0.95));transform:translateZ(50px)}
+.bb-right{width:100px;height:200px;background:rgba(14,14,18,0.9);border-left:none;transform:rotateY(90deg) translateZ(240px)}
+.bb-top{width:240px;height:100px;background:linear-gradient(180deg,rgba(192,168,112,0.15),rgba(192,168,112,0.04));transform:rotateX(90deg) translateZ(200px)}
+
+/* Foundation layers */
+.foundation{position:absolute;bottom:-30px;transform:translateZ(20px)}
+.found-layer{display:flex;width:300px;height:18px;margin-bottom:2px}
+.fl{flex:1;border:1px solid rgba(192,168,112,0.15)}
+.fl-concrete{background:rgba(40,38,34,0.8)}
+.fl-rebar{background:repeating-linear-gradient(90deg,rgba(192,168,112,0.15) 0px,rgba(192,168,112,0.15) 3px,transparent 3px,transparent 12px)}
+.fl-gravel{background:repeating-radial-gradient(circle,rgba(60,58,54,0.8) 0,rgba(60,58,54,0.8) 2px,rgba(30,28,24,0.8) 2px,rgba(30,28,24,0.8) 6px)}
+
+/* Structural members on front face */
+.s-beam-h{position:absolute;height:12px;background:rgba(192,168,112,0.2);border:1px solid rgba(192,168,112,0.4);width:200px;left:20px;transform:translateZ(52px)}
+.s-beam-h-1{top:40px}.s-beam-h-2{top:100px}.s-beam-h-3{top:160px}
+.s-col-v{position:absolute;width:12px;background:rgba(192,168,112,0.2);border:1px solid rgba(192,168,112,0.4);height:170px;top:20px;transform:translateZ(52px)}
+.s-col-v-1{left:20px}.s-col-v-2{left:110px}.s-col-v-3{right:20px}
+
+/* Specs / details */
+.spec-list{margin-top:40px;display:flex;flex-direction:column;gap:0}
+.spec-row{display:grid;grid-template-columns:auto 1fr auto;gap:20px;align-items:center;padding:16px 0;border-bottom:1px solid var(--border)}
+.spec-name{font-size:13px;color:var(--text-muted);white-space:nowrap}
+.spec-dots{flex:1;border-bottom:1px dotted var(--border-strong);margin-bottom:3px}
+.spec-val{font-family:'Playfair Display',serif;font-size:15px;color:var(--iron)}
+
+/* Phases timeline */
+.phases-section{padding:100px 56px}
+.phases-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--border);margin-top:64px}
+.phase{background:var(--bg);padding:40px 28px;position:relative;transition:background 0.4s;cursor:none}
+.phase:hover{background:var(--surface)}
+.phase-num{font-family:'Playfair Display',serif;font-size:64px;color:rgba(192,168,112,0.07);font-weight:300;line-height:1;position:absolute;top:8px;right:12px;transition:color 0.4s}
+.phase:hover .phase-num{color:rgba(192,168,112,0.14)}
+.phase-dot{width:8px;height:8px;border-radius:50%;background:var(--iron);margin-bottom:24px;position:relative}
+.phase-dot::after{content:'';position:absolute;left:8px;top:3px;width:calc(100% + 60px);height:1px;background:rgba(192,168,112,0.2)}
+.phase:last-child .phase-dot::after{display:none}
+.phase-label{font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(--iron);margin-bottom:10px}
+.phase-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:400;margin-bottom:10px;line-height:1.3}
+.phase-desc{font-size:13px;color:var(--text-muted);line-height:1.7}
+
+/* Standards */
+.standards-section{background:var(--surface2);padding:80px 56px;display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:1px;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.std{padding:40px 32px;border-right:1px solid var(--border)}
+.std:last-child{border-right:none}
+.std-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:400;color:var(--iron);margin-bottom:12px}
+.std-desc{font-size:13px;color:var(--text-muted);line-height:1.7}
+
+/* CTA */
+.cta-section{padding:120px 56px;position:relative;overflow:hidden}
+.cta-inner{max-width:700px;margin:0 auto;text-align:center}
+.cta-decor{width:120px;height:1px;background:linear-gradient(90deg,transparent,var(--iron),transparent);margin:0 auto 48px}
+.cta-title{font-family:'Playfair Display',serif;font-size:clamp(38px,5.5vw,68px);font-weight:300;margin-bottom:24px;line-height:1.1}
+.cta-title em{font-style:italic;color:var(--iron)}
+.cta-sub{font-size:15px;color:var(--text-muted);margin-bottom:48px;line-height:1.8}
+.cta-row{display:flex;gap:16px;justify-content:center}
+
+/* Noise overlay */
+.noise{position:fixed;inset:0;pointer-events:none;z-index:1000;opacity:0.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+footer{border-top:1px solid var(--border);padding:40px 56px;display:flex;justify-content:space-between;align-items:center}
+.footer-logo{font-family:'Playfair Display',serif;font-size:16px;color:var(--text-muted)}
+.footer-logo span{color:var(--iron)}
+.footer-nav{display:flex;gap:28px}
+.footer-nav a{font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-dim);text-decoration:none;transition:color 0.3s}
+.footer-nav a:hover{color:var(--iron)}
+
+.reveal{opacity:0;transform:translateY(28px);transition:opacity 0.9s ease,transform 0.9s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.rd1{transition-delay:0.12s}.rd2{transition-delay:0.24s}.rd3{transition-delay:0.36s}.rd4{transition-delay:0.48s}
+</style>
+</head>
+<body>
+<div class="noise"></div>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav>
+  <a class="logo" href="#">TRUS<span>TON</span></a>
+  <div class="nav-badge">Construction & Build</div>
+  <div class="nav-right">
+    <a href="#">Portfolio</a>
+    <a href="#">Expertise</a>
+    <a href="#">Safety</a>
+    <button class="btn-build" style="padding:10px 24px;font-size:11px">Enquire</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="eyebrow">
+      <div class="eyebrow-line"></div>
+      <span class="eyebrow-text">Construction & Build</span>
+    </div>
+    <h1 class="hero-title">Building<br><strong>the World</strong><br>You Envision</h1>
+    <p class="hero-subtitle">From foundation to final finish, we deliver structures of uncompromising quality — engineered for permanence, crafted with precision.</p>
+    <button class="btn-build">Our Projects</button>
+    <button class="btn-outline">Capabilities</button>
+  </div>
+
+  <div class="hero-right">
+    <div class="construction-scene">
+      <div class="scene-3d">
+        <!-- Scaffolding -->
+        <div class="scaff">
+          <div class="scaff-v sv1"></div>
+          <div class="scaff-v sv2"></div>
+          <div class="scaff-v sv3"></div>
+          <div class="scaff-h sh1"></div>
+          <div class="scaff-h sh2"></div>
+          <div class="scaff-h sh3"></div>
+          <div class="scaff-d sd1"></div>
+          <div class="scaff-d sd2"></div>
+          <div class="scaff-d sd3"></div>
+          <div class="scaff-d sd4"></div>
+        </div>
+
+        <!-- Main structure -->
+        <div class="structure">
+          <div class="slab slab-0"></div>
+          <div class="slab slab-1"></div>
+          <div class="slab slab-2"></div>
+          <div class="slab slab-3"></div>
+          <div class="slab slab-4"></div>
+          <div class="col col-1"></div>
+          <div class="col col-2"></div>
+          <div class="col col-back-1"></div>
+          <div class="col col-back-2"></div>
+
+          <!-- Measurement annotations -->
+          <div class="meas m1" style="position:absolute;right:-70px;top:40px;display:flex;align-items:center;gap:6px">
+            <div style="width:32px;height:1px;background:rgba(192,168,112,0.4)"></div>
+            <span style="font-size:9px;letter-spacing:0.1em;color:rgba(192,168,112,0.55)">4.2m</span>
+          </div>
+          <div class="meas m2" style="position:absolute;right:-70px;top:140px;display:flex;align-items:center;gap:6px">
+            <div style="width:32px;height:1px;background:rgba(192,168,112,0.4)"></div>
+            <span style="font-size:9px;letter-spacing:0.1em;color:rgba(192,168,112,0.55)">4.2m</span>
+          </div>
+        </div>
+
+        <!-- Crane -->
+        <div class="crane">
+          <div class="crane-tower"></div>
+          <div class="crane-arm"></div>
+          <div class="crane-wire"></div>
+          <div class="crane-block"></div>
+        </div>
+
+        <!-- Progress ring -->
+        <div class="progress-ring">
+          <svg class="ring-svg" viewBox="0 0 80 80">
+            <circle class="ring-bg" cx="40" cy="40" r="30"/>
+            <circle class="ring-fill" cx="40" cy="40" r="30"/>
+          </svg>
+          <div class="ring-label">
+            <span class="ring-pct">75%</span>
+            <span class="ring-sub">Complete</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="tick-item">
+    <div class="tick-num">480+</div>
+    <div class="tick-label">Structures Built</div>
+  </div>
+  <div class="tick-item">
+    <div class="tick-num">₹12B</div>
+    <div class="tick-label">Construction Value</div>
+  </div>
+  <div class="tick-item">
+    <div class="tick-num">22</div>
+    <div class="tick-label">Years Experience</div>
+  </div>
+  <div class="tick-item">
+    <div class="tick-num">Zero</div>
+    <div class="tick-label">Major Safety Incidents</div>
+  </div>
+</div>
+
+<!-- CAPABILITIES -->
+<section class="capabilities">
+  <div class="cap-sidebar reveal">
+    <div class="cap-label">What We Build</div>
+    <h2 class="cap-heading">Built to <em>Last</em></h2>
+    <p class="cap-body">Every project is approached with the same philosophy: engineering excellence, material integrity, and an unwavering commitment to the client's vision.</p>
+  </div>
+
+  <div class="cap-items">
+    <div class="cap-item reveal">
+      <div class="ci-num">01 —</div>
+      <h3 class="ci-title">High-Rise & Commercial</h3>
+      <p class="ci-desc">Towers, office parks, and commercial complexes built with structural precision and programmatic excellence.</p>
+      <div class="ci-hover-line"></div>
+    </div>
+    <div class="cap-item reveal rd1">
+      <div class="ci-num">02 —</div>
+      <h3 class="ci-title">Residential Development</h3>
+      <p class="ci-desc">Luxury villas, apartment communities, and bespoke private homes executed to the highest standards.</p>
+      <div class="ci-hover-line"></div>
+    </div>
+    <div class="cap-item reveal rd2">
+      <div class="ci-num">03 —</div>
+      <h3 class="ci-title">Industrial & Infrastructure</h3>
+      <p class="ci-desc">Large-scale logistics facilities, manufacturing plants, and critical infrastructure projects.</p>
+      <div class="ci-hover-line"></div>
+    </div>
+    <div class="cap-item reveal rd3">
+      <div class="ci-num">04 —</div>
+      <h3 class="ci-title">Renovation & Retrofit</h3>
+      <p class="ci-desc">Sensitive transformation of existing buildings — upgrading fabric, systems, and performance without compromising heritage.</p>
+      <div class="ci-hover-line"></div>
+    </div>
+    <div class="cap-item reveal">
+      <div class="ci-num">05 —</div>
+      <h3 class="ci-title">Interior Fit-Out</h3>
+      <p class="ci-desc">Premium finish packages, joinery, M&E coordination, and handover management for turn-key delivery.</p>
+      <div class="ci-hover-line"></div>
+    </div>
+    <div class="cap-item reveal rd1">
+      <div class="ci-num">06 —</div>
+      <h3 class="ci-title">Project Management</h3>
+      <p class="ci-desc">Full programme and cost management — delivering complex builds on schedule and within budget.</p>
+      <div class="ci-hover-line"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 3D STRUCTURE SECTION -->
+<section class="section-3d">
+  <div class="s3d-inner">
+    <div class="s3d-left reveal">
+      <div class="cap-label">Engineering</div>
+      <h2 class="cap-heading" style="font-size:clamp(32px,3.5vw,48px)">Structural <em>Mastery</em></h2>
+      <p style="font-size:15px;color:var(--text-muted);margin-top:20px;line-height:1.8">Our in-house structural engineers integrate with architectural teams from concept onwards, ensuring that form and force work in perfect harmony.</p>
+      <div class="spec-list">
+        <div class="spec-row">
+          <span class="spec-name">Concrete Grade</span>
+          <div class="spec-dots"></div>
+          <span class="spec-val">M60 — M80</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-name">Steel Certification</span>
+          <div class="spec-dots"></div>
+          <span class="spec-val">IS 2062 / EN 10025</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-name">Seismic Zone</span>
+          <div class="spec-dots"></div>
+          <span class="spec-val">Zone IV Compliant</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-name">Max. Build Height</span>
+          <div class="spec-dots"></div>
+          <span class="spec-val">300+ metres</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="s3d-right reveal rd1">
+      <div class="structure-xsection">
+        <div class="beam-box">
+          <div class="bb-face bb-front">
+            <div class="s-beam-h s-beam-h-1"></div>
+            <div class="s-beam-h s-beam-h-2"></div>
+            <div class="s-beam-h s-beam-h-3"></div>
+            <div class="s-col-v s-col-v-1"></div>
+            <div class="s-col-v s-col-v-2"></div>
+            <div class="s-col-v s-col-v-3"></div>
+          </div>
+          <div class="bb-face bb-right"></div>
+          <div class="bb-face bb-top"></div>
+        </div>
+        <div class="foundation">
+          <div class="found-layer"><div class="fl fl-concrete"></div></div>
+          <div class="found-layer"><div class="fl fl-rebar"></div></div>
+          <div class="found-layer"><div class="fl fl-gravel"></div></div>
+          <div class="found-layer"><div class="fl fl-concrete" style="height:14px"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PHASES -->
+<section class="phases-section">
+  <div class="reveal">
+    <div class="cap-label">Delivery Model</div>
+    <h2 class="cap-heading" style="font-size:clamp(32px,3.5vw,50px)">Every Build, <em>Every Phase</em></h2>
+  </div>
+  <div class="phases-grid" style="margin-top:64px">
+    <div class="phase reveal">
+      <div class="phase-num">01</div>
+      <div class="phase-dot"></div>
+      <div class="phase-label">Pre-Construction</div>
+      <h3 class="phase-title">Planning & Permits</h3>
+      <p class="phase-desc">Site investigation, authority approvals, and procurement strategy locked before ground breaks.</p>
+    </div>
+    <div class="phase reveal rd1">
+      <div class="phase-num">02</div>
+      <div class="phase-dot"></div>
+      <div class="phase-label">Groundwork</div>
+      <h3 class="phase-title">Foundation & Structure</h3>
+      <p class="phase-desc">Piling, basement excavation, and concrete frame construction with continuous quality monitoring.</p>
+    </div>
+    <div class="phase reveal rd2">
+      <div class="phase-num">03</div>
+      <div class="phase-dot"></div>
+      <div class="phase-label">Shell & Core</div>
+      <h3 class="phase-title">Building Envelope</h3>
+      <p class="phase-desc">Façade, roofing, windows, and weatherproofing installed to exacting tolerances.</p>
+    </div>
+    <div class="phase reveal rd3">
+      <div class="phase-num">04</div>
+      <div class="phase-dot"></div>
+      <div class="phase-label">Services</div>
+      <h3 class="phase-title">MEP & Systems</h3>
+      <p class="phase-desc">Mechanical, electrical, plumbing and smart-building systems coordinated and commissioned.</p>
+    </div>
+    <div class="phase reveal rd4">
+      <div class="phase-num">05</div>
+      <div class="phase-dot"></div>
+      <div class="phase-label">Completion</div>
+      <h3 class="phase-title">Finish & Handover</h3>
+      <p class="phase-desc">Snagging, certification, and full documentation delivered with every key we hand over.</p>
+    </div>
+  </div>
+</section>
+
+<!-- STANDARDS -->
+<div class="standards-section">
+  <div class="std reveal">
+    <div class="std-title">ISO 9001:2015</div>
+    <p class="std-desc">Quality management systems certified across all construction operations and supply chains.</p>
+  </div>
+  <div class="std reveal rd1">
+    <div class="std-title">ISO 14001</div>
+    <p class="std-desc">Environmental management — waste reduction, resource efficiency, and biodiversity protection.</p>
+  </div>
+  <div class="std reveal rd2">
+    <div class="std-title">OHSAS 18001</div>
+    <p class="std-desc">Occupational health and safety management across all sites and subcontractor teams.</p>
+  </div>
+  <div class="std reveal rd3">
+    <div class="std-title">LEED Platinum</div>
+    <p class="std-desc">Capable of delivering Platinum-rated green buildings with net-zero carbon credentials.</p>
+  </div>
+</div>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-inner">
+    <div class="cta-decor"></div>
+    <h2 class="cta-title reveal">Ready to<br><em>Break Ground?</em></h2>
+    <p class="cta-sub reveal rd1">Tell us about your project. Our team will respond within 24 hours with preliminary insights and an introduction to your dedicated project lead.</p>
+    <div class="cta-row reveal rd2">
+      <button class="btn-build">Start a Conversation</button>
+      <button class="btn-outline">Download Capability Statement</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">TRUS<span>TON</span> — Construction & Build</div>
+  <nav class="footer-nav">
+    <a href="#">Safety</a><a href="#">Careers</a><a href="#">Press</a><a href="#">Contact</a>
+  </nav>
+  <span style="font-size:12px;color:var(--text-dim)">© 2025 Truston Group</span>
+</footer>
+
+<script>
+const cursor=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  cursor.style.transform=`translate(${mx-3}px,${my-3}px)`;
+});
+(function anim(){rx+=(mx-rx-16)*0.1;ry+=(my-ry-16)*0.1;ring.style.transform=`translate(${rx}px,${ry}px)`;requestAnimationFrame(anim)})();
+const reveals=document.querySelectorAll('.reveal');
+new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:0.12}).observe;
+const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:0.12});
+reveals.forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Architecture & Design — Truston</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c9a96e;--gold-light:#e8d5a3;--gold-dark:#8a6d3c;
+  --black:#070707;--surface:#0e0e0e;--surface2:#161616;--surface3:#1e1e1e;
+  --text:#f0ece4;--text-muted:#9a9080;--text-dim:#5a5248;
+  --border:rgba(201,169,110,0.15);--border-strong:rgba(201,169,110,0.35);
+}
+html{scroll-behavior:smooth;cursor:none}
+body{background:var(--black);color:var(--text);font-family:'Jost',sans-serif;font-weight:300;overflow-x:hidden;line-height:1.7}
+
+/* Custom cursor */
+.cursor{position:fixed;width:8px;height:8px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transition:transform 0.1s;mix-blend-mode:difference}
+.cursor-ring{position:fixed;width:36px;height:36px;border:1px solid var(--gold);border-radius:50%;pointer-events:none;z-index:9998;transition:transform 0.18s,opacity 0.2s;opacity:0.6;transform:translate(-14px,-14px)}
+
+/* Nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:28px 60px;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(to bottom,rgba(7,7,7,0.9) 0%,transparent 100%);backdrop-filter:blur(2px)}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;letter-spacing:0.12em;color:var(--text);text-decoration:none}
+.nav-logo span{color:var(--gold)}
+.nav-links{display:flex;gap:40px;list-style:none}
+.nav-links a{font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:var(--text-muted);text-decoration:none;transition:color 0.3s}
+.nav-links a:hover{color:var(--gold)}
+.nav-cta{font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);border:1px solid var(--gold-dark);padding:10px 24px;transition:all 0.3s;cursor:none}
+.nav-cta:hover{background:var(--gold);color:var(--black)}
+
+/* Hero */
+.hero{min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden;padding:0 60px}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 70% 50%,rgba(201,169,110,0.04) 0%,transparent 65%)}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(201,169,110,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(201,169,110,0.04) 1px,transparent 1px);background-size:80px 80px;animation:gridShift 20s linear infinite}
+@keyframes gridShift{0%{background-position:0 0}100%{background-position:80px 80px}}
+.hero-content{max-width:600px;z-index:2;animation:fadeUp 1.2s ease forwards}
+@keyframes fadeUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+.hero-eyebrow{font-size:11px;letter-spacing:0.35em;text-transform:uppercase;color:var(--gold);margin-bottom:32px;display:flex;align-items:center;gap:16px}
+.hero-eyebrow::before{content:'';width:40px;height:1px;background:var(--gold)}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(52px,7vw,90px);font-weight:300;line-height:1.05;letter-spacing:-0.01em;margin-bottom:28px}
+.hero-title em{font-style:italic;color:var(--gold)}
+.hero-desc{font-size:15px;color:var(--text-muted);max-width:440px;line-height:1.8;margin-bottom:48px}
+.hero-actions{display:flex;gap:24px;align-items:center}
+.btn-primary{background:var(--gold);color:var(--black);padding:16px 40px;font-size:12px;letter-spacing:0.2em;text-transform:uppercase;border:none;cursor:none;font-family:'Jost',sans-serif;font-weight:400;transition:all 0.4s;position:relative;overflow:hidden}
+.btn-primary::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,0.2);transform:translateX(-100%);transition:transform 0.4s}
+.btn-primary:hover::after{transform:translateX(0)}
+.btn-ghost{font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-muted);cursor:none;transition:color 0.3s;display:flex;align-items:center;gap:12px}
+.btn-ghost::after{content:'→';color:var(--gold);transition:transform 0.3s}
+.btn-ghost:hover{color:var(--text)}
+.btn-ghost:hover::after{transform:translateX(6px)}
+
+/* 3D Building */
+.hero-3d{position:absolute;right:-40px;top:50%;transform:translateY(-50%);width:580px;height:580px;perspective:1200px;animation:fadeIn 1.8s ease forwards 0.4s;opacity:0}
+@keyframes fadeIn{to{opacity:1}}
+.building-scene{width:100%;height:100%;transform-style:preserve-3d;animation:rotateScene 18s linear infinite}
+@keyframes rotateScene{0%{transform:rotateY(-15deg) rotateX(12deg)}50%{transform:rotateY(15deg) rotateX(8deg)}100%{transform:rotateY(-15deg) rotateX(12deg)}}
+.building{position:absolute;transform-style:preserve-3d;left:50%;top:50%}
+
+/* Tower A */
+.tower-a{transform:translate(-120px,-180px);transform-style:preserve-3d}
+.face{position:absolute;border:1px solid rgba(201,169,110,0.3)}
+.face-front{width:100px;height:260px;background:linear-gradient(180deg,rgba(30,30,30,0.9),rgba(14,14,14,0.95));transform:translateZ(40px)}
+.face-right{width:80px;height:260px;background:linear-gradient(180deg,rgba(20,20,20,0.9),rgba(10,10,10,0.95));transform:rotateY(90deg) translateZ(100px)}
+.face-left{width:80px;height:260px;background:linear-gradient(180deg,rgba(22,22,22,0.9),rgba(12,12,12,0.95));transform:rotateY(-90deg) translateZ(-0px)}
+.face-back{width:100px;height:260px;background:rgba(10,10,10,0.8);transform:rotateY(180deg) translateZ(40px)}
+.face-top{width:100px;height:80px;background:linear-gradient(135deg,rgba(201,169,110,0.25),rgba(201,169,110,0.08));transform:rotateX(90deg) translateZ(260px)}
+
+/* Windows grid on front face */
+.windows{position:absolute;inset:12px;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(9,1fr);gap:4px}
+.win{background:rgba(201,169,110,0.08);border:1px solid rgba(201,169,110,0.15);animation:winFlicker 4s ease infinite}
+.win:nth-child(3n+1){animation-delay:0.5s}.win:nth-child(3n+2){animation-delay:1.2s}.win:nth-child(3n){animation-delay:2s}
+.win.lit{background:rgba(201,169,110,0.25);animation:winLit 3s ease infinite}
+@keyframes winFlicker{0%,100%{opacity:0.6}50%{opacity:1}}
+@keyframes winLit{0%,100%{background:rgba(201,169,110,0.25)}50%{background:rgba(201,169,110,0.4)}}
+
+/* Tower B - shorter, offset */
+.tower-b{position:absolute;transform:translate(60px,-100px);transform-style:preserve-3d}
+.tb-front{position:absolute;width:80px;height:190px;background:linear-gradient(180deg,rgba(28,28,28,0.9),rgba(14,14,14,0.95));border:1px solid rgba(201,169,110,0.2);transform:translateZ(35px)}
+.tb-right{position:absolute;width:70px;height:190px;background:rgba(18,18,18,0.9);border:1px solid rgba(201,169,110,0.15);transform:rotateY(90deg) translateZ(80px)}
+.tb-top{position:absolute;width:80px;height:70px;background:linear-gradient(135deg,rgba(201,169,110,0.2),rgba(201,169,110,0.06));border:1px solid rgba(201,169,110,0.3);transform:rotateX(90deg) translateZ(190px)}
+
+/* Tower C - thin tall */
+.tower-c{position:absolute;transform:translate(-30px,-220px);transform-style:preserve-3d}
+.tc-front{position:absolute;width:50px;height:320px;background:linear-gradient(180deg,rgba(26,26,26,0.9),rgba(12,12,12,0.95));border:1px solid rgba(201,169,110,0.25);transform:translateZ(25px)}
+.tc-right{position:absolute;width:50px;height:320px;background:rgba(16,16,16,0.9);border:1px solid rgba(201,169,110,0.12);transform:rotateY(90deg) translateZ(50px)}
+.tc-top{position:absolute;width:50px;height:50px;background:rgba(201,169,110,0.3);border:1px solid rgba(201,169,110,0.5);transform:rotateX(90deg) translateZ(320px)}
+.tc-spire{position:absolute;width:4px;height:60px;background:linear-gradient(to top,var(--gold),transparent);left:23px;transform:translateZ(27px) translateY(-60px)}
+
+/* Ground plane */
+.ground{position:absolute;width:500px;height:500px;background:linear-gradient(135deg,rgba(201,169,110,0.06),transparent 50%);border:1px solid rgba(201,169,110,0.1);transform:rotateX(90deg) translateZ(-10px) translateX(-170px) translateY(-170px)}
+.ground-lines{position:absolute;width:500px;height:500px;background-image:linear-gradient(rgba(201,169,110,0.08) 1px,transparent 1px),linear-gradient(90deg,rgba(201,169,110,0.08) 1px,transparent 1px);background-size:50px 50px;transform:rotateX(90deg) translateZ(-9px) translateX(-170px) translateY(-170px)}
+
+/* Scroll line */
+.scroll-hint{position:absolute;bottom:40px;left:60px;display:flex;flex-direction:column;align-items:center;gap:12px;z-index:2;animation:fadeIn 2s ease forwards 1.5s;opacity:0}
+.scroll-line{width:1px;height:60px;background:linear-gradient(to bottom,transparent,var(--gold));animation:scrollPulse 2s ease infinite}
+@keyframes scrollPulse{0%,100%{opacity:0.4}50%{opacity:1}}
+.scroll-label{font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--text-dim);writing-mode:vertical-rl}
+
+/* Stats bar */
+.stats-bar{background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:32px 60px;display:grid;grid-template-columns:repeat(4,1fr);gap:1px}
+.stat{padding:0 40px;border-right:1px solid var(--border)}
+.stat:last-child{border-right:none}
+.stat-num{font-family:'Cormorant Garamond',serif;font-size:46px;font-weight:300;color:var(--gold);line-height:1;margin-bottom:6px}
+.stat-label{font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-dim)}
+
+/* Process Section */
+.section{padding:120px 60px;position:relative}
+.section-header{margin-bottom:80px}
+.section-tag{font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;display:flex;align-items:center;gap:12px}
+.section-tag::before{content:'';width:24px;height:1px;background:var(--gold)}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(38px,5vw,62px);font-weight:300;line-height:1.1}
+.section-title em{font-style:italic;color:var(--gold)}
+
+/* Process Steps */
+.process-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border)}
+.process-step{background:var(--black);padding:48px 36px;position:relative;overflow:hidden;transition:background 0.4s}
+.process-step:hover{background:var(--surface)}
+.step-number{font-family:'Cormorant Garamond',serif;font-size:80px;font-weight:300;color:rgba(201,169,110,0.08);position:absolute;top:-10px;right:20px;line-height:1;transition:color 0.4s}
+.process-step:hover .step-number{color:rgba(201,169,110,0.15)}
+.step-phase{font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
+.step-title{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:400;margin-bottom:16px;color:var(--text)}
+.step-desc{font-size:14px;color:var(--text-muted);line-height:1.8}
+.step-bar{position:absolute;bottom:0;left:0;height:2px;background:linear-gradient(90deg,var(--gold),transparent);width:0;transition:width 0.5s}
+.process-step:hover .step-bar{width:100%}
+
+/* 3D Blueprint section */
+.blueprint-section{background:var(--surface);padding:120px 60px;overflow:hidden}
+.blueprint-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.blueprint-3d{perspective:900px;height:460px;position:relative}
+.plan-scene{width:100%;height:100%;transform-style:preserve-3d;animation:planSpin 12s ease-in-out infinite}
+@keyframes planSpin{0%,100%{transform:rotateX(55deg) rotateZ(-10deg)}50%{transform:rotateX(50deg) rotateZ(5deg)}}
+.floor-plate{position:absolute;transform-style:preserve-3d;left:50%;top:50%;transform:translate(-50%,-50%)}
+.fp-base{width:340px;height:260px;border:1px solid rgba(201,169,110,0.5);background:linear-gradient(135deg,rgba(201,169,110,0.06),rgba(201,169,110,0.02));position:relative}
+.fp-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(201,169,110,0.12) 1px,transparent 1px),linear-gradient(90deg,rgba(201,169,110,0.12) 1px,transparent 1px);background-size:28px 28px}
+.fp-room{position:absolute;border:1px solid rgba(201,169,110,0.5)}
+.fp-r1{width:100px;height:80px;top:20px;left:20px}
+.fp-r2{width:80px;height:80px;top:20px;left:130px}
+.fp-r3{width:120px;height:100px;top:20px;right:20px}
+.fp-r4{width:160px;height:120px;bottom:20px;left:20px}
+.fp-r5{width:130px;height:120px;bottom:20px;right:20px}
+.fp-label{position:absolute;font-size:8px;letter-spacing:0.15em;color:rgba(201,169,110,0.7);top:4px;left:4px}
+.fp-side{width:340px;height:40px;background:linear-gradient(180deg,rgba(201,169,110,0.15),rgba(201,169,110,0.03));border:1px solid rgba(201,169,110,0.3);transform:rotateX(-90deg);transform-origin:top;position:absolute;top:260px;left:0}
+.fp-side-r{width:40px;height:260px;background:linear-gradient(90deg,rgba(201,169,110,0.08),transparent);border:1px solid rgba(201,169,110,0.2);transform:rotateY(90deg);transform-origin:left;position:absolute;top:0;left:340px}
+.fp-elevation{width:200px;height:120px;border:1px solid rgba(201,169,110,0.3);background:rgba(14,14,14,0.9);position:absolute;bottom:10px;right:-60px;transform:perspective(600px) rotateY(-15deg)}
+.fp-elev-inner{display:flex;align-items:flex-end;height:100%;padding:8px;gap:4px}
+.floor-bar{width:14px;background:linear-gradient(to top,var(--gold),rgba(201,169,110,0.3));border:1px solid rgba(201,169,110,0.4)}
+.floor-bar:nth-child(1){height:40%}.floor-bar:nth-child(2){height:60%}.floor-bar:nth-child(3){height:80%}.floor-bar:nth-child(4){height:100%}.floor-bar:nth-child(5){height:75%}.floor-bar:nth-child(6){height:55%}.floor-bar:nth-child(7){height:85%}.floor-bar:nth-child(8){height:95%}
+.blueprint-text{padding:20px 0}
+.bl-list{margin-top:40px;display:flex;flex-direction:column;gap:24px}
+.bl-item{display:flex;gap:24px;align-items:flex-start;padding-bottom:24px;border-bottom:1px solid var(--border)}
+.bl-item:last-child{border-bottom:none;padding-bottom:0}
+.bl-num{font-family:'Cormorant Garamond',serif;font-size:32px;color:var(--gold);opacity:0.5;line-height:1;min-width:32px}
+.bl-body h4{font-size:16px;font-weight:400;margin-bottom:6px;letter-spacing:0.04em}
+.bl-body p{font-size:14px;color:var(--text-muted);line-height:1.7}
+
+/* Services grid */
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border)}
+.service-card{background:var(--black);padding:52px 44px;position:relative;overflow:hidden;transition:all 0.4s;cursor:none}
+.service-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(201,169,110,0.04),transparent);opacity:0;transition:opacity 0.4s}
+.service-card:hover::before{opacity:1}
+.service-card:hover{background:var(--surface)}
+.sc-accent{width:3px;height:48px;background:var(--gold);margin-bottom:32px;position:relative}
+.sc-accent::after{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:var(--gold);animation:accentPulse 3s ease infinite}
+@keyframes accentPulse{0%,100%{transform:scaleY(1)}50%{transform:scaleY(1.2)}}
+.sc-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:400;margin-bottom:16px;line-height:1.2}
+.sc-desc{font-size:14px;color:var(--text-muted);line-height:1.8;margin-bottom:28px}
+.sc-link{font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:10px}
+.sc-link::after{content:'→';transition:transform 0.3s}
+.service-card:hover .sc-link::after{transform:translateX(6px)}
+
+/* Project showcase */
+.projects-section{padding:120px 0}
+.projects-header{padding:0 60px;margin-bottom:60px}
+.projects-track{display:flex;gap:2px;overflow-x:auto;padding:0 60px;scrollbar-width:none}
+.projects-track::-webkit-scrollbar{display:none}
+.project-card{min-width:380px;background:var(--surface);position:relative;overflow:hidden;flex-shrink:0;cursor:none}
+.pc-visual{height:300px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.pc-3d-mini{perspective:600px;width:100%;height:100%;display:flex;align-items:center;justify-content:center}
+.mini-building{transform-style:preserve-3d;animation:miniRotate 8s ease-in-out infinite}
+.mini-building:nth-child(2){animation-duration:10s;animation-delay:-3s}
+@keyframes miniRotate{0%,100%{transform:rotateY(-20deg) rotateX(10deg)}50%{transform:rotateY(20deg) rotateX(6deg)}}
+.mb-face{position:absolute;border:1px solid rgba(201,169,110,0.3)}
+.mb-f{width:60px;height:100px;background:rgba(22,22,22,0.95);transform:translateZ(20px)}
+.mb-r{width:40px;height:100px;background:rgba(16,16,16,0.9);transform:rotateY(90deg) translateZ(60px)}
+.mb-t{width:60px;height:40px;background:rgba(201,169,110,0.15);transform:rotateX(90deg) translateZ(100px)}
+.pc-info{padding:32px 36px}
+.pc-type{font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.pc-name{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:400;margin-bottom:8px}
+.pc-meta{font-size:13px;color:var(--text-dim)}
+
+/* CTA */
+.cta-section{padding:140px 60px;text-align:center;position:relative;overflow:hidden}
+.cta-bg{position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(201,169,110,0.05) 0%,transparent 65%)}
+.cta-line{width:1px;height:80px;background:linear-gradient(to bottom,transparent,var(--gold));margin:0 auto 48px}
+.cta-title{font-family:'Cormorant Garamond',serif;font-size:clamp(40px,6vw,76px);font-weight:300;margin-bottom:24px;line-height:1.1}
+.cta-title em{font-style:italic;color:var(--gold)}
+.cta-desc{font-size:16px;color:var(--text-muted);margin-bottom:52px;max-width:500px;margin-left:auto;margin-right:auto;line-height:1.8}
+.cta-actions{display:flex;gap:20px;justify-content:center;align-items:center}
+.cta-divider{width:1px;height:40px;background:var(--border)}
+
+/* Footer */
+footer{border-top:1px solid var(--border);padding:48px 60px;display:flex;justify-content:space-between;align-items:center}
+.footer-brand{font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--text-muted)}
+.footer-brand span{color:var(--gold)}
+.footer-links{display:flex;gap:32px}
+.footer-links a{font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-dim);text-decoration:none;transition:color 0.3s}
+.footer-links a:hover{color:var(--gold)}
+.footer-copy{font-size:12px;color:var(--text-dim)}
+
+/* Animations */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity 0.8s ease,transform 0.8s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-delay-1{transition-delay:0.15s}
+.reveal-delay-2{transition-delay:0.3s}
+.reveal-delay-3{transition-delay:0.45s}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav>
+  <a class="nav-logo" href="#">TRUS<span>TON</span></a>
+  <ul class="nav-links">
+    <li><a href="#">Services</a></li>
+    <li><a href="#">Portfolio</a></li>
+    <li><a href="#">Process</a></li>
+    <li><a href="#">About</a></li>
+  </ul>
+  <a class="nav-cta" href="#">Contact Us</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">Architecture & Design</div>
+    <h1 class="hero-title">
+      Where Vision<br>Meets<br><em>Architecture</em>
+    </h1>
+    <p class="hero-desc">We craft landmark spaces that transcend the ordinary — merging structural precision with artistic vision to create buildings that endure through time.</p>
+    <div class="hero-actions">
+      <button class="btn-primary">Explore Our Work</button>
+      <span class="btn-ghost">View Process</span>
+    </div>
+  </div>
+
+  <!-- 3D Building -->
+  <div class="hero-3d">
+    <div class="building-scene">
+      <!-- Ground -->
+      <div class="ground"></div>
+      <div class="ground-lines"></div>
+
+      <!-- Tower A (main) -->
+      <div class="building tower-a">
+        <div class="face face-front">
+          <div class="windows">
+            <div class="win lit"></div><div class="win"></div><div class="win lit"></div>
+            <div class="win"></div><div class="win lit"></div><div class="win"></div>
+            <div class="win lit"></div><div class="win lit"></div><div class="win"></div>
+            <div class="win"></div><div class="win"></div><div class="win lit"></div>
+            <div class="win lit"></div><div class="win"></div><div class="win lit"></div>
+            <div class="win"></div><div class="win lit"></div><div class="win lit"></div>
+            <div class="win lit"></div><div class="win"></div><div class="win"></div>
+            <div class="win"></div><div class="win lit"></div><div class="win"></div>
+            <div class="win lit"></div><div class="win lit"></div><div class="win"></div>
+          </div>
+        </div>
+        <div class="face face-right"></div>
+        <div class="face face-left"></div>
+        <div class="face face-back"></div>
+        <div class="face face-top"></div>
+      </div>
+
+      <!-- Tower B -->
+      <div class="tower-b">
+        <div class="tb-front"><div class="windows" style="grid-template-rows:repeat(6,1fr)">
+          <div class="win"></div><div class="win lit"></div><div class="win"></div>
+          <div class="win lit"></div><div class="win"></div><div class="win lit"></div>
+          <div class="win"></div><div class="win lit"></div><div class="win lit"></div>
+          <div class="win lit"></div><div class="win"></div><div class="win"></div>
+          <div class="win"></div><div class="win lit"></div><div class="win"></div>
+          <div class="win lit"></div><div class="win lit"></div><div class="win"></div>
+        </div></div>
+        <div class="tb-right"></div>
+        <div class="tb-top"></div>
+      </div>
+
+      <!-- Tower C (thin/tall) -->
+      <div class="tower-c">
+        <div class="tc-front"></div>
+        <div class="tc-right"></div>
+        <div class="tc-top"></div>
+        <div class="tc-spire"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    <div class="scroll-label">Scroll</div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat">
+    <div class="stat-num">340+</div>
+    <div class="stat-label">Projects Completed</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">28</div>
+    <div class="stat-label">International Awards</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">19</div>
+    <div class="stat-label">Years of Excellence</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">96%</div>
+    <div class="stat-label">Client Retention</div>
+  </div>
+</div>
+
+<!-- PROCESS -->
+<section class="section">
+  <div class="section-header reveal">
+    <div class="section-tag">Our Process</div>
+    <h2 class="section-title">From Concept to<br><em>Completed Masterpiece</em></h2>
+  </div>
+
+  <div class="process-grid">
+    <div class="process-step reveal">
+      <div class="step-number">01</div>
+      <div class="step-phase">Discovery</div>
+      <h3 class="step-title">Vision & Brief</h3>
+      <p class="step-desc">Deep consultation to understand your aspirations, constraints, and the story your space should tell.</p>
+      <div class="step-bar"></div>
+    </div>
+    <div class="process-step reveal reveal-delay-1">
+      <div class="step-number">02</div>
+      <div class="step-phase">Creation</div>
+      <h3 class="step-title">Concept Design</h3>
+      <p class="step-desc">Three-dimensional spatial narratives developed through sketches, models, and immersive presentations.</p>
+      <div class="step-bar"></div>
+    </div>
+    <div class="process-step reveal reveal-delay-2">
+      <div class="step-number">03</div>
+      <div class="step-phase">Development</div>
+      <h3 class="step-title">Technical Design</h3>
+      <p class="step-desc">Rigorous documentation ensuring every element is engineered for beauty, function, and longevity.</p>
+      <div class="step-bar"></div>
+    </div>
+    <div class="process-step reveal reveal-delay-3">
+      <div class="step-number">04</div>
+      <div class="step-phase">Delivery</div>
+      <h3 class="step-title">Build & Oversight</h3>
+      <p class="step-desc">Meticulous site supervision guaranteeing the vision is translated into physical reality without compromise.</p>
+      <div class="step-bar"></div>
+    </div>
+  </div>
+</section>
+
+<!-- BLUEPRINT 3D -->
+<section class="blueprint-section">
+  <div class="blueprint-inner">
+    <div class="blueprint-3d reveal">
+      <div class="plan-scene">
+        <div class="floor-plate">
+          <div class="fp-base">
+            <div class="fp-grid"></div>
+            <div class="fp-room fp-r1"><span class="fp-label">Living</span></div>
+            <div class="fp-room fp-r2"><span class="fp-label">Hall</span></div>
+            <div class="fp-room fp-r3"><span class="fp-label">Master</span></div>
+            <div class="fp-room fp-r4"><span class="fp-label">Open Plan</span></div>
+            <div class="fp-room fp-r5"><span class="fp-label">Suite</span></div>
+          </div>
+          <div class="fp-side"></div>
+          <div class="fp-side-r"></div>
+        </div>
+        <div class="fp-elevation">
+          <div class="fp-elev-inner">
+            <div class="floor-bar"></div><div class="floor-bar"></div>
+            <div class="floor-bar"></div><div class="floor-bar"></div>
+            <div class="floor-bar"></div><div class="floor-bar"></div>
+            <div class="floor-bar"></div><div class="floor-bar"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="blueprint-text reveal reveal-delay-1">
+      <div class="section-tag">Design Philosophy</div>
+      <h2 class="section-title" style="font-size:clamp(32px,4vw,50px)">Precision in<br><em>Every Detail</em></h2>
+      <p style="font-size:15px;color:var(--text-muted);margin-top:24px;line-height:1.85">Our architects operate at the intersection of artistry and engineering. Every line drawn carries intent; every space proportioned with both scientific precision and poetic sensibility.</p>
+
+      <div class="bl-list">
+        <div class="bl-item">
+          <div class="bl-num">I.</div>
+          <div class="bl-body">
+            <h4>Contextual Sensitivity</h4>
+            <p>Each design responds intimately to its environment — climate, culture, topography, and community.</p>
+          </div>
+        </div>
+        <div class="bl-item">
+          <div class="bl-num">II.</div>
+          <div class="bl-body">
+            <h4>Enduring Material Palette</h4>
+            <p>We specify materials that age gracefully — natural stone, structural steel, and engineered timber.</p>
+          </div>
+        </div>
+        <div class="bl-item">
+          <div class="bl-num">III.</div>
+          <div class="bl-body">
+            <h4>Sustainable by Design</h4>
+            <p>Passive strategies, renewable integration, and circular construction principles embedded from day one.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="section">
+  <div class="section-header reveal">
+    <div class="section-tag">Specialisations</div>
+    <h2 class="section-title">Architecture <em>Services</em></h2>
+  </div>
+
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <div class="sc-accent"></div>
+      <h3 class="sc-title">Residential Architecture</h3>
+      <p class="sc-desc">Private homes and residences that reflect your unique story — from intimate retreats to landmark family estates.</p>
+      <span class="sc-link">Discover More</span>
+    </div>
+    <div class="service-card reveal reveal-delay-1">
+      <div class="sc-accent"></div>
+      <h3 class="sc-title">Commercial Design</h3>
+      <p class="sc-desc">Workplaces, hospitality, and mixed-use developments that elevate the human experience and drive commercial success.</p>
+      <span class="sc-link">Discover More</span>
+    </div>
+    <div class="service-card reveal reveal-delay-2">
+      <div class="sc-accent"></div>
+      <h3 class="sc-title">Interior Architecture</h3>
+      <p class="sc-desc">Seamless transitions between interior and exterior, crafting spatial sequences that move and inspire.</p>
+      <span class="sc-link">Discover More</span>
+    </div>
+    <div class="service-card reveal">
+      <div class="sc-accent"></div>
+      <h3 class="sc-title">Master Planning</h3>
+      <p class="sc-desc">Large-scale urban and estate planning with community, ecology, and long-term value at the forefront.</p>
+      <span class="sc-link">Discover More</span>
+    </div>
+    <div class="service-card reveal reveal-delay-1">
+      <div class="sc-accent"></div>
+      <h3 class="sc-title">Heritage & Restoration</h3>
+      <p class="sc-desc">Sensitive renewal of significant buildings — preserving legacy while enabling contemporary life.</p>
+      <span class="sc-link">Discover More</span>
+    </div>
+    <div class="service-card reveal reveal-delay-2">
+      <div class="sc-accent"></div>
+      <h3 class="sc-title">Design Consulting</h3>
+      <p class="sc-desc">Strategic design advisory for developers and investors seeking world-class architectural direction.</p>
+      <span class="sc-link">Discover More</span>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="projects-section">
+  <div class="projects-header reveal">
+    <div class="section-tag">Selected Work</div>
+    <h2 class="section-title">Recent <em>Projects</em></h2>
+  </div>
+  <div class="projects-track">
+    <div class="project-card">
+      <div class="pc-visual" style="background:#0e0e0e">
+        <div class="pc-3d-mini" style="perspective:600px">
+          <div style="position:relative;width:160px;height:200px;transform-style:preserve-3d;animation:miniRotate 7s ease-in-out infinite">
+            <div style="position:absolute;width:80px;height:160px;background:linear-gradient(180deg,#1a1a1a,#0a0a0a);border:1px solid rgba(201,169,110,0.4);transform:translateZ(30px)"></div>
+            <div style="position:absolute;width:60px;height:160px;background:#111;border:1px solid rgba(201,169,110,0.2);transform:rotateY(90deg) translateZ(80px)"></div>
+            <div style="position:absolute;width:80px;height:30px;background:rgba(201,169,110,0.2);border:1px solid rgba(201,169,110,0.5);transform:rotateX(90deg) translateZ(160px)"></div>
+            <div style="position:absolute;width:40px;height:120px;background:linear-gradient(180deg,#181818,#0c0c0c);border:1px solid rgba(201,169,110,0.3);transform:translateX(90px) translateZ(10px)"></div>
+            <div style="position:absolute;width:40px;height:20px;background:rgba(201,169,110,0.15);transform:rotateX(90deg) translateZ(120px) translateX(90px)"></div>
+          </div>
+        </div>
+      </div>
+      <div class="pc-info">
+        <div class="pc-type">Residential</div>
+        <div class="pc-name">The Meridian Residences</div>
+        <div class="pc-meta">Dubai, UAE · 2024</div>
+      </div>
+    </div>
+    <div class="project-card">
+      <div class="pc-visual" style="background:#0a0e0c">
+        <div class="pc-3d-mini" style="perspective:600px">
+          <div style="position:relative;width:180px;height:180px;transform-style:preserve-3d;animation:miniRotate 9s ease-in-out infinite;animation-delay:-4s">
+            <div style="position:absolute;width:120px;height:100px;background:linear-gradient(180deg,#14201a,#0a0d0b);border:1px solid rgba(201,169,110,0.35);transform:translateZ(35px)"></div>
+            <div style="position:absolute;width:35px;height:100px;background:#0e1410;border:1px solid rgba(201,169,110,0.2);transform:rotateY(90deg) translateZ(120px)"></div>
+            <div style="position:absolute;width:120px;height:35px;background:rgba(201,169,110,0.12);border:1px solid rgba(201,169,110,0.4);transform:rotateX(90deg) translateZ(100px)"></div>
+          </div>
+        </div>
+      </div>
+      <div class="pc-info">
+        <div class="pc-type">Commercial</div>
+        <div class="pc-name">Veritas Corporate HQ</div>
+        <div class="pc-meta">London, UK · 2024</div>
+      </div>
+    </div>
+    <div class="project-card">
+      <div class="pc-visual" style="background:#0e0a0e">
+        <div class="pc-3d-mini" style="perspective:600px">
+          <div style="position:relative;width:140px;height:220px;transform-style:preserve-3d;animation:miniRotate 11s ease-in-out infinite;animation-delay:-2s">
+            <div style="position:absolute;width:60px;height:200px;background:linear-gradient(180deg,#1a141a,#0c080c);border:1px solid rgba(201,169,110,0.4);transform:translateZ(25px)"></div>
+            <div style="position:absolute;width:50px;height:200px;background:#130e13;border:1px solid rgba(201,169,110,0.2);transform:rotateY(90deg) translateZ(60px)"></div>
+            <div style="position:absolute;width:60px;height:25px;background:rgba(201,169,110,0.2);transform:rotateX(90deg) translateZ(200px)"></div>
+            <div style="position:absolute;width:3px;height:50px;background:linear-gradient(to top,var(--gold),transparent);left:28px;transform:translateZ(26px) translateY(-50px)"></div>
+          </div>
+        </div>
+      </div>
+      <div class="pc-info">
+        <div class="pc-type">Mixed Use</div>
+        <div class="pc-name">Elara Tower</div>
+        <div class="pc-meta">Mumbai, India · 2023</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-bg"></div>
+  <div class="cta-line"></div>
+  <h2 class="cta-title reveal">Begin Your<br><em>Architectural Journey</em></h2>
+  <p class="cta-desc reveal reveal-delay-1">Every extraordinary building began with a single conversation. Let's start yours.</p>
+  <div class="cta-actions reveal reveal-delay-2">
+    <button class="btn-primary">Schedule a Consultation</button>
+    <div class="cta-divider"></div>
+    <span class="btn-ghost">View Full Portfolio</span>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-brand">TRUS<span>TON</span> — Architecture & Design</div>
+  <div class="footer-links">
+    <a href="#">Privacy</a>
+    <a href="#">Terms</a>
+    <a href="#">Careers</a>
+    <a href="#">Contact</a>
+  </div>
+  <div class="footer-copy">© 2025 Truston Group</div>
+</footer>
+
+<script>
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX; my=e.clientY;
+  cursor.style.transform=`translate(${mx-4}px,${my-4}px)`;
+});
+function animRing(){
+  rx+=(mx-rx-18)*0.12;
+  ry+=(my-ry-18)*0.12;
+  ring.style.transform=`translate(${rx}px,${ry}px)`;
+  requestAnimationFrame(animRing);
+}
+animRing();
+
+const reveals=document.querySelectorAll('.reveal');
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible')}});
+},{threshold:0.15});
+reveals.forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

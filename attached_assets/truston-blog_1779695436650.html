@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Blog — TrustOn Developers</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E2C97E;
+    --gold-dim: rgba(201,168,76,0.15);
+    --ink: #0A0A0A;
+    --ink-2: #111111;
+    --ink-3: #1A1A1A;
+    --paper: #F5F0E8;
+    --muted: #6B6455;
+    --muted-2: #9E9080;
+    --white: #FFFFFF;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--ink);
+    color: var(--white);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 48px;
+    background: rgba(10,10,10,0.85);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid rgba(201,168,76,0.12);
+  }
+  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .nav-logo img { height: 36px; filter: brightness(1.1); }
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a {
+    color: rgba(255,255,255,0.65); text-decoration: none;
+    font-size: 12px; letter-spacing: 2px; text-transform: uppercase;
+    transition: color .3s;
+  }
+  .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+  .nav-cta {
+    background: transparent; border: 1px solid var(--gold);
+    color: var(--gold); padding: 9px 22px; font-family: 'Outfit', sans-serif;
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    cursor: pointer; text-decoration: none; transition: all .3s;
+  }
+  .nav-cta:hover { background: var(--gold); color: var(--ink); }
+
+  /* ── HERO ── */
+  .blog-hero {
+    padding: 180px 48px 100px;
+    position: relative; overflow: hidden;
+    border-bottom: 1px solid rgba(201,168,76,0.12);
+  }
+  .blog-hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 80% at 80% 50%, rgba(201,168,76,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .blog-hero-label {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 28px;
+  }
+  .blog-hero-label::before {
+    content: ''; display: block; width: 32px; height: 1px; background: var(--gold);
+  }
+  .blog-hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(52px, 7vw, 96px);
+    font-weight: 300; line-height: 1.0;
+    letter-spacing: -1px; color: var(--white);
+    max-width: 700px;
+  }
+  .blog-hero h1 em { font-style: italic; color: var(--gold); }
+  .blog-hero-sub {
+    margin-top: 24px; max-width: 480px;
+    font-size: 15px; color: var(--muted-2); font-weight: 300; line-height: 1.8;
+  }
+  .hero-meta {
+    margin-top: 56px; display: flex; align-items: center; gap: 48px;
+    border-top: 1px solid rgba(255,255,255,0.07); padding-top: 32px;
+  }
+  .hero-meta-item { display: flex; flex-direction: column; gap: 4px; }
+  .hero-meta-item span:first-child { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
+  .hero-meta-item span:last-child { font-size: 18px; color: var(--gold); font-family: 'Cormorant Garamond', serif; }
+
+  /* ── FILTER BAR ── */
+  .filter-bar {
+    padding: 28px 48px;
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    position: sticky; top: 77px; z-index: 90;
+    background: rgba(10,10,10,0.92); backdrop-filter: blur(18px);
+  }
+  .filter-label {
+    font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase;
+    color: var(--muted); margin-right: 12px;
+  }
+  .filter-btn {
+    background: transparent; border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.5); padding: 7px 18px;
+    font-family: 'Outfit', sans-serif; font-size: 11px;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    cursor: pointer; transition: all .25s;
+  }
+  .filter-btn:hover { border-color: var(--gold); color: var(--gold); }
+  .filter-btn.active { border-color: var(--gold); color: var(--gold); background: var(--gold-dim); }
+
+  /* ── FEATURED ── */
+  .featured-section { padding: 80px 48px 0; }
+  .section-header {
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin-bottom: 40px; padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px; font-weight: 400; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--muted);
+  }
+  .section-count { font-size: 11px; color: var(--muted); letter-spacing: 1px; }
+
+  .featured-grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 2px;
+  }
+
+  /* Featured Main Card */
+  .card-featured {
+    position: relative; overflow: hidden; cursor: pointer;
+    aspect-ratio: 4/3;
+  }
+  .card-featured img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 1.2s cubic-bezier(0.25,0.46,0.45,0.94);
+    filter: brightness(0.55);
+  }
+  .card-featured:hover img { transform: scale(1.04); }
+  .card-featured-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(0deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.1) 55%, transparent 100%);
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 40px;
+  }
+  .card-badge {
+    display: inline-block; padding: 5px 14px;
+    border: 1px solid var(--gold); color: var(--gold);
+    font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase;
+    margin-bottom: 16px; width: fit-content;
+  }
+  .card-featured-overlay h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(24px, 3vw, 38px); font-weight: 300;
+    line-height: 1.15; color: var(--white);
+    margin-bottom: 14px;
+  }
+  .card-featured-overlay h2 em { font-style: italic; color: var(--gold-light); }
+  .card-meta { display: flex; align-items: center; gap: 16px; }
+  .card-meta-author { display: flex; align-items: center; gap: 8px; }
+  .card-meta-author img { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; border: 1px solid var(--gold); }
+  .card-meta-author span { font-size: 11px; color: rgba(255,255,255,0.6); }
+  .card-meta-date { font-size: 11px; color: rgba(255,255,255,0.35); }
+  .card-meta-read { margin-left: auto; font-size: 10px; color: var(--gold); letter-spacing: 1.5px; text-transform: uppercase; }
+
+  /* Side cards */
+  .featured-side { display: flex; flex-direction: column; gap: 2px; }
+  .card-side {
+    position: relative; overflow: hidden; cursor: pointer;
+    flex: 1;
+  }
+  .card-side img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 1.2s cubic-bezier(0.25,0.46,0.45,0.94);
+    filter: brightness(0.5);
+  }
+  .card-side:hover img { transform: scale(1.05); }
+  .card-side-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(0deg, rgba(0,0,0,0.85) 0%, transparent 60%);
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 28px;
+  }
+  .card-side-overlay .card-badge { margin-bottom: 10px; }
+  .card-side-overlay h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px; font-weight: 300; line-height: 1.25;
+    color: var(--white); margin-bottom: 10px;
+  }
+  .card-side-overlay h3 em { font-style: italic; color: var(--gold-light); }
+  .card-side-meta { font-size: 10px; color: rgba(255,255,255,0.4); }
+
+  /* ── ARTICLE GRID ── */
+  .articles-section { padding: 80px 48px; }
+  .articles-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .article-card {
+    background: var(--ink-2);
+    padding: 36px 32px;
+    cursor: pointer;
+    transition: background .3s;
+    border: 1px solid transparent;
+    position: relative; overflow: hidden;
+  }
+  .article-card::after {
+    content: ''; position: absolute;
+    bottom: 0; left: 0; right: 0; height: 2px;
+    background: var(--gold); transform: scaleX(0);
+    transform-origin: left; transition: transform .4s cubic-bezier(0.25,0.46,0.45,0.94);
+  }
+  .article-card:hover { background: var(--ink-3); }
+  .article-card:hover::after { transform: scaleX(1); }
+
+  .article-thumb {
+    width: 100%; aspect-ratio: 16/9; object-fit: cover;
+    margin-bottom: 24px; filter: brightness(0.8);
+    transition: filter .4s;
+  }
+  .article-card:hover .article-thumb { filter: brightness(1); }
+
+  .article-cat {
+    font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 12px; display: block;
+  }
+  .article-card h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; font-weight: 400; line-height: 1.3;
+    color: var(--white); margin-bottom: 12px;
+  }
+  .article-card h3 em { font-style: italic; color: var(--gold-light); }
+  .article-excerpt {
+    font-size: 13px; color: var(--muted-2); line-height: 1.75;
+    margin-bottom: 24px;
+  }
+  .article-footer {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .article-date { font-size: 10px; color: var(--muted); letter-spacing: 1px; }
+  .article-read-link {
+    font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--gold); text-decoration: none; display: flex; align-items: center; gap: 6px;
+    transition: gap .3s;
+  }
+  .article-card:hover .article-read-link { gap: 10px; }
+
+  /* ── INSIGHT TICKER ── */
+  .ticker-bar {
+    padding: 16px 0; overflow: hidden;
+    border-top: 1px solid rgba(201,168,76,0.15);
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+    background: var(--gold-dim);
+  }
+  .ticker-track {
+    display: flex; gap: 64px; white-space: nowrap;
+    animation: ticker 30s linear infinite;
+  }
+  .ticker-item {
+    display: flex; align-items: center; gap: 14px;
+    font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--gold);
+  }
+  .ticker-item span { color: rgba(255,255,255,0.4); }
+  .ticker-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+  @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* ── NEWSLETTER ── */
+  .newsletter-section {
+    padding: 100px 48px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .newsletter-text .label {
+    font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 20px; display: block;
+  }
+  .newsletter-text h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 4vw, 56px); font-weight: 300; line-height: 1.1;
+  }
+  .newsletter-text h2 em { font-style: italic; color: var(--gold); }
+  .newsletter-text p {
+    margin-top: 20px; font-size: 14px; color: var(--muted-2); line-height: 1.8;
+  }
+  .newsletter-form { display: flex; flex-direction: column; gap: 16px; }
+  .newsletter-row { display: flex; gap: 0; }
+  .newsletter-input {
+    flex: 1; background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1); border-right: none;
+    padding: 16px 20px; font-family: 'Outfit', sans-serif;
+    font-size: 13px; color: var(--white); outline: none;
+    transition: border-color .3s;
+  }
+  .newsletter-input::placeholder { color: var(--muted); }
+  .newsletter-input:focus { border-color: var(--gold); }
+  .newsletter-submit {
+    background: var(--gold); border: 1px solid var(--gold);
+    color: var(--ink); padding: 16px 28px; font-family: 'Outfit', sans-serif;
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    cursor: pointer; font-weight: 500; transition: all .3s;
+    white-space: nowrap;
+  }
+  .newsletter-submit:hover { background: var(--gold-light); }
+  .newsletter-note { font-size: 11px; color: var(--muted); }
+
+  /* ── LOAD MORE ── */
+  .load-more-wrap {
+    padding: 0 48px 80px; display: flex; justify-content: center;
+  }
+  .load-more-btn {
+    background: transparent; border: 1px solid rgba(201,168,76,0.4);
+    color: var(--gold); padding: 14px 48px; font-family: 'Outfit', sans-serif;
+    font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase;
+    cursor: pointer; transition: all .3s; display: flex; align-items: center; gap: 10px;
+  }
+  .load-more-btn:hover { background: var(--gold-dim); border-color: var(--gold); }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 48px; border-top: 1px solid rgba(255,255,255,0.06);
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 24px; flex-wrap: wrap;
+  }
+  .footer-logo img { height: 30px; opacity: 0.7; }
+  .footer-copy { font-size: 11px; color: var(--muted); letter-spacing: 1px; }
+  .footer-links { display: flex; gap: 24px; }
+  .footer-links a { font-size: 11px; color: var(--muted); text-decoration: none; letter-spacing: 1px; transition: color .3s; }
+  .footer-links a:hover { color: var(--gold); }
+
+  /* ── HOVER CURSOR DOT ── */
+  .cursor-dot {
+    width: 8px; height: 8px; background: var(--gold);
+    border-radius: 50%; position: fixed; pointer-events: none;
+    z-index: 9999; transform: translate(-50%,-50%);
+    transition: transform .1s; opacity: 0;
+  }
+
+  /* ── ANIMATIONS ── */
+  .fade-up {
+    opacity: 0; transform: translateY(30px);
+    animation: fadeUp .8s cubic-bezier(0.25,0.46,0.45,0.94) forwards;
+  }
+  @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+  .delay-1 { animation-delay: .1s; }
+  .delay-2 { animation-delay: .2s; }
+  .delay-3 { animation-delay: .3s; }
+  .delay-4 { animation-delay: .4s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    .blog-hero, .featured-section, .articles-section, .newsletter-section, .load-more-wrap { padding-left: 24px; padding-right: 24px; }
+    .featured-grid { grid-template-columns: 1fr; }
+    .featured-side { flex-direction: row; height: 280px; }
+    .articles-grid { grid-template-columns: 1fr; }
+    .newsletter-section { grid-template-columns: 1fr; gap: 40px; }
+    footer { padding: 32px 24px; flex-direction: column; align-items: flex-start; }
+    .filter-bar { padding: 20px 24px; top: 69px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor-dot" id="cursor"></div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="https://truston1.onrender.com/">
+    <img src="https://truston1.onrender.com/logo.png" alt="TrustOn" />
+  </a>
+  <ul class="nav-links">
+    <li><a href="https://truston1.onrender.com/about-us">About</a></li>
+    <li><a href="https://truston1.onrender.com/project">Projects</a></li>
+    <li><a href="https://truston1.onrender.com/services">Properties</a></li>
+    <li><a href="https://truston1.onrender.com/lifestyle">Lifestyle</a></li>
+    <li><a href="#" class="active">Blog</a></li>
+  </ul>
+  <a href="https://truston1.onrender.com/contact" class="nav-cta">Enquire Now</a>
+</nav>
+
+<!-- HERO -->
+<section class="blog-hero">
+  <div class="blog-hero-label fade-up">Editorial &amp; Insights</div>
+  <h1 class="fade-up delay-1">The <em>Legacy</em><br>Journal</h1>
+  <p class="blog-hero-sub fade-up delay-2">Expert perspectives on Lucknow real estate, land investment, architecture, and the art of building generational wealth.</p>
+  <div class="hero-meta fade-up delay-3">
+    <div class="hero-meta-item">
+      <span>Published Articles</span>
+      <span>48+</span>
+    </div>
+    <div class="hero-meta-item">
+      <span>Topics Covered</span>
+      <span>6 Categories</span>
+    </div>
+    <div class="hero-meta-item">
+      <span>Monthly Readers</span>
+      <span>12,000+</span>
+    </div>
+  </div>
+</section>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <span class="filter-label">Filter by</span>
+  <button class="filter-btn active" onclick="filterPosts('all', this)">All</button>
+  <button class="filter-btn" onclick="filterPosts('investment', this)">Investment</button>
+  <button class="filter-btn" onclick="filterPosts('architecture', this)">Architecture</button>
+  <button class="filter-btn" onclick="filterPosts('market', this)">Market Trends</button>
+  <button class="filter-btn" onclick="filterPosts('lifestyle', this)">Lifestyle</button>
+  <button class="filter-btn" onclick="filterPosts('legal', this)">Legal & Docs</button>
+  <button class="filter-btn" onclick="filterPosts('nri', this)">NRI Guide</button>
+</div>
+
+<!-- FEATURED -->
+<section class="featured-section">
+  <div class="section-header">
+    <span class="section-title">Featured Stories</span>
+    <span class="section-count">3 of 48</span>
+  </div>
+  <div class="featured-grid">
+    <!-- Main Feature -->
+    <div class="card-featured" onclick="openArticle()">
+      <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1200&auto=format&fit=crop" alt="Luxury Estate" />
+      <div class="card-featured-overlay">
+        <span class="card-badge">Investment</span>
+        <h2>Why Dubagga is Lucknow's Next <em>Billion-Dollar</em> Corridor</h2>
+        <div class="card-meta">
+          <div class="card-meta-author">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100&auto=format&fit=crop" alt="Author" />
+            <span>Rohit Sharma, Investment Head</span>
+          </div>
+          <span class="card-meta-date">May 18, 2025</span>
+          <span class="card-meta-read">8 min read →</span>
+        </div>
+      </div>
+    </div>
+    <!-- Side Cards -->
+    <div class="featured-side">
+      <div class="card-side" onclick="openArticle()">
+        <img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?q=80&w=800&auto=format&fit=crop" alt="Architecture" />
+        <div class="card-side-overlay">
+          <span class="card-badge">Architecture</span>
+          <h3>Designing Homes That <em>Last Generations</em></h3>
+          <span class="card-side-meta">Apr 30, 2025 · 6 min read</span>
+        </div>
+      </div>
+      <div class="card-side" onclick="openArticle()">
+        <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=800&auto=format&fit=crop" alt="Legal" />
+        <div class="card-side-overlay">
+          <span class="card-badge">Legal & Docs</span>
+          <h3>The Complete Guide to <em>Jila Panchayat</em> Approved Plots</h3>
+          <span class="card-side-meta">Apr 12, 2025 · 5 min read</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-bar" style="margin-top: 80px;">
+  <div class="ticker-track" id="ticker">
+    <div class="ticker-item"><div class="ticker-dot"></div>Lucknow Land Prices Up <span>+22% YoY</span></div>
+    <div class="ticker-item"><div class="ticker-dot"></div>Prime Estate: 73 Plots Sold <span>47 Remaining</span></div>
+    <div class="ticker-item"><div class="ticker-dot"></div>Dubagga Corridor <span>High-Growth Zone</span></div>
+    <div class="ticker-item"><div class="ticker-dot"></div>New Infrastructure Bills <span>Boosting UP Real Estate</span></div>
+    <div class="ticker-item"><div class="ticker-dot"></div>NRI Investment in Lucknow <span>+35% This Quarter</span></div>
+    <div class="ticker-item"><div class="ticker-dot"></div>100% Jila Panchayat Approved <span>Legal Security</span></div>
+    <!-- Duplicate for seamless loop -->
+    <div class="ticker-item"><div class="ticker-dot"></div>Lucknow Land Prices Up <span>+22% YoY</span></div>
+    <div class="ticker-item"><div class="ticker-dot"></div>Prime Estate: 73 Plots Sold <span>47 Remaining</span></div>
+    <div class="ticker-item"><div class="ticker-dot"></div>Dubagga Corridor <span>High-Growth Zone</span></div>
+    <div class="ticker-item"><div class="ticker-dot"></div>New Infrastructure Bills <span>Boosting UP Real Estate</span></div>
+    <div class="ticker-item"><div class="ticker-dot"></div>NRI Investment in Lucknow <span>+35% This Quarter</span></div>
+    <div class="ticker-item"><div class="ticker-dot"></div>100% Jila Panchayat Approved <span>Legal Security</span></div>
+  </div>
+</div>
+
+<!-- ARTICLES GRID -->
+<section class="articles-section">
+  <div class="section-header">
+    <span class="section-title">All Articles</span>
+    <span class="section-count">Showing 6 of 45</span>
+  </div>
+  <div class="articles-grid" id="articlesGrid">
+
+    <article class="article-card" data-cat="investment">
+      <img class="article-thumb" src="https://images.unsplash.com/photo-1579621970795-87facc2f976d?q=80&w=800&auto=format&fit=crop" alt="Investment" />
+      <span class="article-cat">Investment</span>
+      <h3>How to Evaluate <em>Land ROI</em> Before You Buy</h3>
+      <p class="article-excerpt">Beyond the brochure — a data-driven framework for assessing real appreciation potential in Lucknow's emerging corridors before committing capital.</p>
+      <div class="article-footer">
+        <span class="article-date">May 10, 2025</span>
+        <a href="#" class="article-read-link">Read More →</a>
+      </div>
+    </article>
+
+    <article class="article-card" data-cat="market">
+      <img class="article-thumb" src="https://images.unsplash.com/photo-1486325212027-8081e485255e?q=80&w=800&auto=format&fit=crop" alt="Market" />
+      <span class="article-cat">Market Trends</span>
+      <h3>Lucknow 2025: The <em>Infrastructure Revolution</em> Reshaping Property Values</h3>
+      <p class="article-excerpt">The Lucknow Metro Phase 2, Purvanchal Expressway extensions, and Smart City upgrades are converging to create once-in-a-decade buying opportunities.</p>
+      <div class="article-footer">
+        <span class="article-date">Apr 28, 2025</span>
+        <a href="#" class="article-read-link">Read More →</a>
+      </div>
+    </article>
+
+    <article class="article-card" data-cat="nri">
+      <img class="article-thumb" src="https://images.unsplash.com/photo-1565098772267-60af42b81ef2?q=80&w=800&auto=format&fit=crop" alt="NRI" />
+      <span class="article-cat">NRI Guide</span>
+      <h3>NRI Property Investment in Lucknow: <em>Step-by-Step</em> Legal Roadmap</h3>
+      <p class="article-excerpt">From FEMA compliance to NRO/NRE account transfers — a complete guide for non-resident Indians investing in Uttar Pradesh real estate remotely.</p>
+      <div class="article-footer">
+        <span class="article-date">Apr 15, 2025</span>
+        <a href="#" class="article-read-link">Read More →</a>
+      </div>
+    </article>
+
+    <article class="article-card" data-cat="architecture">
+      <img class="article-thumb" src="https://images.unsplash.com/photo-1503174971373-b1f69850bded?q=80&w=800&auto=format&fit=crop" alt="Architecture" />
+      <span class="article-cat">Architecture</span>
+      <h3>Vastu-Compliant Modern Homes: Finding the <em>Perfect Balance</em></h3>
+      <p class="article-excerpt">How TrustOn's architectural team integrates ancient Vastu principles with contemporary spatial design — delivering homes that are both beautiful and culturally rooted.</p>
+      <div class="article-footer">
+        <span class="article-date">Apr 5, 2025</span>
+        <a href="#" class="article-read-link">Read More →</a>
+      </div>
+    </article>
+
+    <article class="article-card" data-cat="legal">
+      <img class="article-thumb" src="https://images.unsplash.com/photo-1453945619913-79ec89a82c51?q=80&w=800&auto=format&fit=crop" alt="Legal" />
+      <span class="article-cat">Legal & Docs</span>
+      <h3>Red Flags in Property Documents: <em>What to Check</em> Before Signing</h3>
+      <p class="article-excerpt">A practitioner's checklist — title deeds, encumbrance certificates, Panchayat approvals, and the 12 questions you must ask every seller before signing anything.</p>
+      <div class="article-footer">
+        <span class="article-date">Mar 22, 2025</span>
+        <a href="#" class="article-read-link">Read More →</a>
+      </div>
+    </article>
+
+    <article class="article-card" data-cat="lifestyle">
+      <img class="article-thumb" src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=800&auto=format&fit=crop" alt="Lifestyle" />
+      <span class="article-cat">Lifestyle</span>
+      <h3>Living in Prime Estate: A <em>Resident's Perspective</em></h3>
+      <p class="article-excerpt">Anil Singh bought his plot in Phase 1 and built his dream home within 14 months. Here's an honest account of the journey — from site visit to possession.</p>
+      <div class="article-footer">
+        <span class="article-date">Mar 10, 2025</span>
+        <a href="#" class="article-read-link">Read More →</a>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- LOAD MORE -->
+<div class="load-more-wrap">
+  <button class="load-more-btn">
+    <span>Load More Articles</span>
+    <span>↓</span>
+  </button>
+</div>
+
+<!-- NEWSLETTER -->
+<section class="newsletter-section">
+  <div class="newsletter-text">
+    <span class="label">Stay Informed</span>
+    <h2>The <em>Legacy Letter</em><br>Every Fortnight</h2>
+    <p>Market intelligence, investment insights, and architectural inspiration — curated by TrustOn's experts and delivered straight to your inbox.</p>
+  </div>
+  <div class="newsletter-form">
+    <div style="font-size:12px; color:var(--muted); letter-spacing:1px; text-transform:uppercase; margin-bottom:4px;">Subscribe to the Newsletter</div>
+    <div class="newsletter-row">
+      <input class="newsletter-input" type="text" placeholder="Your full name" />
+    </div>
+    <div class="newsletter-row">
+      <input class="newsletter-input" type="email" placeholder="Your email address" />
+      <button class="newsletter-submit">Subscribe</button>
+    </div>
+    <p class="newsletter-note">No spam. Unsubscribe at any time. Trusted by 4,800+ investors & homeowners.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    <img src="https://truston1.onrender.com/logo.png" alt="TrustOn" />
+  </div>
+  <span class="footer-copy">© 2025 TrustOn Developers. Billion Dollar Real Estate Empire.</span>
+  <div class="footer-links">
+    <a href="https://truston1.onrender.com/about-us">About</a>
+    <a href="https://truston1.onrender.com/project">Projects</a>
+    <a href="https://truston1.onrender.com/contact">Contact</a>
+    <a href="https://wa.me/919616061166">WhatsApp</a>
+  </div>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  document.addEventListener('mousemove', e => {
+    cursor.style.opacity = '1';
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+  });
+  document.querySelectorAll('button, a, .article-card, .card-featured, .card-side').forEach(el => {
+    el.addEventListener('mouseenter', () => { cursor.style.transform = 'translate(-50%,-50%) scale(3)'; cursor.style.background = 'transparent'; cursor.style.border = '1px solid var(--gold)'; });
+    el.addEventListener('mouseleave', () => { cursor.style.transform = 'translate(-50%,-50%) scale(1)'; cursor.style.background = 'var(--gold)'; cursor.style.border = 'none'; });
+  });
+
+  // Filter
+  function filterPosts(cat, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const cards = document.querySelectorAll('.article-card');
+    cards.forEach(card => {
+      if (cat === 'all' || card.dataset.cat === cat) {
+        card.style.display = '';
+        card.style.animation = 'fadeUp .5s ease forwards';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
+
+  // Newsletter
+  document.querySelector('.newsletter-submit').addEventListener('click', function() {
+    const email = document.querySelectorAll('.newsletter-input')[1].value;
+    if (email && email.includes('@')) {
+      this.textContent = 'Subscribed ✓';
+      this.style.background = '#2a6a2a';
+      this.style.borderColor = '#2a6a2a';
+    }
+  });
+
+  // Open article placeholder
+  function openArticle() {
+    window.location.href = 'https://truston1.onrender.com/';
+  }
+
+  // Intersection observer for article cards
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        entry.target.style.animation = `fadeUp .7s ${i * 0.08}s cubic-bezier(0.25,0.46,0.45,0.94) forwards`;
+        entry.target.style.opacity = '0';
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.article-card').forEach(card => observer.observe(card));
+</script>
+</body>
+</html>
