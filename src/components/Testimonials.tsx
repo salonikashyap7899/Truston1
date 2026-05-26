@@ -41,11 +41,11 @@ function TestimonialCard({
 }: (typeof testimonials)[number]) {
   return (
     <div className="relative bg-[#04090f] border border-white/5 rounded-[24px] overflow-hidden shadow-2xl flex h-[220px] md:h-[240px] select-none group">
-      {/* Profile photo */}
-      <div className="w-[160px] md:w-[200px] flex-shrink-0 relative overflow-hidden">
+      {/* Project plot image - smaller size */}
+      <div className="w-[100px] md:w-[120px] flex-shrink-0 relative overflow-hidden">
         <img
-          src={profileImage}
-          alt={name}
+          src="/plot-project.jpg"
+          alt="Project plot"
           className="w-full h-full object-cover brightness-75 group-hover:scale-110 transition-transform duration-700"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#0a121e]" />

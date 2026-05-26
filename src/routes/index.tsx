@@ -355,8 +355,9 @@ function EnhancedStatsBar() {
                   whileInView={{ width: "100%" }}
                   viewport={{ once: true }}
                   transition={{ duration: 1.2, delay: i * 0.15 }}
-              </div>
-              <motion.span
+                />
+              </div>
+              <motion.span
                 className="text-[#00BFFF]/30 text-2xl mb-5 group-hover:text-[#00BFFF] transition-colors duration-500"
                 whileHover={{ scale: 1.3, rotate: 15 }}
               >
