@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Reveal } from './Reveal';
 import { Section3DBackground } from './Section3DBackground';
 import { Link } from '@tanstack/react-router';
+import { SwipeReveal } from './TextReveal';
 import {
   Accordion,
   AccordionContent,
@@ -260,19 +261,24 @@ export function TrustonWhySection() {
       <Section3DBackground opacity={0.15} />
 
       <div className="max-w-7xl mx-auto relative z-10">
-        <Reveal>
-          <p className="text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] text-[#00BFFF] mb-4 flex items-center gap-3">
-            <span className="w-8 h-px bg-[#00BFFF]" />
-            The Truston Difference
-          </p>
-        </Reveal>
-        <Reveal delay={0.1}>
-          <h2 className="font-serif text-4xl md:text-6xl font-light leading-tight text-white mb-16">
-            Why Buyers Choose
-            <br />
-            <em className="text-[#00BFFF] italic">Truston</em>
-          </h2>
-        </Reveal>
+        <div className="mb-4">
+          <SwipeReveal delay={0.1}>
+            <p className="text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] text-[#00BFFF] flex items-center gap-3">
+              <span className="w-8 h-px bg-[#00BFFF]" />
+              The Truston Difference
+            </p>
+          </SwipeReveal>
+        </div>
+
+        <div className="mb-16">
+          <SwipeReveal delay={0.3}>
+            <h2 className="font-serif text-4xl md:text-6xl font-light leading-tight text-white">
+              Why Buyers Choose
+              <br />
+              <em className="text-[#00BFFF] italic">Truston</em>
+            </h2>
+          </SwipeReveal>
+        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-12 lg:gap-20">
           <Reveal delay={0.2}>
