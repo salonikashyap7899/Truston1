@@ -34,7 +34,7 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const heroContent = usePageContent("home.hero", {
-    eyebrow: "Own the Ground. Build the Legacy.",
+    eyebrow: "TRUSTON.",
     title: "TRUST",
     title_accent: "ON",
     subtitle: "Curated land, architectural mastery and construction excellence — under one roof.",
