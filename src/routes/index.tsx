@@ -146,15 +146,10 @@ function Index() {
       {/* Who We Are */}
       <WhoWeAreSection />
 
-<<<<<<< HEAD
       {/* Gallery Section */}
       <div className="-mt-1">
         <GallerySection />
       </div>
-=======
-      {/* Gallery Section */}
-      <GallerySection />
->>>>>>> c6d7f6e82aa81f9e2cb1b39a4157f0f825b21696
 
       {/* Prime Estate Project (Building Plots & Structures) — After Gallery */}
       <div className="pb-12 md:pb-20 bg-[#0F0F0D]">

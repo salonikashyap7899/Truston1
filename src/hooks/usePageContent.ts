@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
 export type ContentBlock = {
@@ -11,48 +11,48 @@ export type ContentBlock = {
   [k: string]: unknown;
 };
 
-// Admin-driven content should update reliably.
-// Uses real-time subscriptions to ensure changes appear immediately.
-export function usePageContent(key: string, fallback: ContentBlock = {}) {
+const POLL_INTERVAL = 8000;
+
+export function usePageContent(key: string, fallback: ContentBlock = {}): ContentBlock {
   const [data, setData] = useState<ContentBlock>(fallback);
-  const [loading, setLoading] = useState(true);
+  const cancelRef = useRef(false);
+  const fallbackRef = useRef(fallback);
+  fallbackRef.current = fallback;
+
+  const fetchContent = useCallback(async () => {
+    try {
+      const { data: row, error } = await supabase
+        .from("site_content")
+        .select("data")
+        .eq("key", key)
+        .maybeSingle();
+
+      if (cancelRef.current) return;
+
+      if (error) {
+        console.warn(`[usePageContent] Error fetching ${key}:`, error);
+        return;
+      }
+
+      if (row?.data) {
+        setData({ ...fallbackRef.current, ...(row.data as ContentBlock) });
+      }
+    } catch (e) {
+      console.warn(`[usePageContent] Exception fetching ${key}:`, e);
+    }
+  }, [key]);
 
   useEffect(() => {
-    let cancel = false;
+    cancelRef.current = false;
 
-    const fetchContent = async () => {
-      try {
-        const { data: row, error } = await supabase
-          .from("site_content")
-          .select("data")
-          .eq("key", key)
-          .maybeSingle();
-
-        if (cancel) return;
-
-        if (error) {
-          console.warn(`[usePageContent] Error fetching ${key}:`, error);
-          setLoading(false);
-          return;
-        }
-
-        if (row) {
-          const merged = { ...fallback, ...(row.data as ContentBlock) };
-          setData(merged);
-        }
-      } catch (e) {
-        console.warn(`[usePageContent] Exception fetching ${key}:`, e);
-      } finally {
-        if (!cancel) setLoading(false);
-      }
-    };
-
-    // Initial fetch
     fetchContent();
 
-    // Subscribe to real-time changes for this specific content block
+    const pollTimer = setInterval(() => {
+      if (!cancelRef.current) fetchContent();
+    }, POLL_INTERVAL);
+
     const subscription = supabase
-      .channel(`site_content:${key}`)
+      .channel(`site_content_${key}`)
       .on(
         "postgres_changes",
         {
@@ -62,27 +62,31 @@ export function usePageContent(key: string, fallback: ContentBlock = {}) {
           filter: `key=eq.${key}`,
         },
         (payload) => {
-          if (!cancel) {
-            if (payload.eventType === "DELETE") {
-              setData(fallback);
+          if (cancelRef.current) return;
+          if (payload.eventType === "DELETE") {
+            setData(fallbackRef.current);
+          } else {
+            const newData = (payload.new as { data?: ContentBlock })?.data;
+            if (newData) {
+              setData({ ...fallbackRef.current, ...newData });
             } else {
-              const newData = payload.new?.data ?? payload.old?.data;
-              if (newData) {
-                const merged = { ...fallback, ...(newData as ContentBlock) };
-                setData(merged);
-              }
+              fetchContent();
             }
           }
         }
       )
-      .subscribe();
+      .subscribe((status) => {
+        if (status === "SUBSCRIBED") {
+          fetchContent();
+        }
+      });
 
     return () => {
-      cancel = true;
+      cancelRef.current = true;
+      clearInterval(pollTimer);
       subscription.unsubscribe();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [key]);
+  }, [key, fetchContent]);
 
   return data;
 }
