@@ -8,11 +8,11 @@ type GalleryItem = {
 };
 
 const DEFAULT_IMAGES: GalleryItem[] = [
-  { src: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1600&q=80", alt: "Hero" },
-  { src: "https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&w=800&q=80", alt: "Top Left" },
-  { src: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80", alt: "Bottom Left" },
-  { src: "https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=800&q=80", alt: "Top Right" },
-  { src: "https://images.unsplash.com/photo-1499810631641-541e76d678a2?auto=format&fit=crop&w=800&q=80", alt: "Bottom Right" },
+  { src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/hotel-lobby-interior-600x800-WG01Uupa8UG10aj2s5VawHF395TK7I.jpg", alt: "Hero - Garden Lounge" },
+  { src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/businessman-explaining-concept-details-600x800-FO11bTBNHjI3eH951WwQGcREnhqjLc.jpg", alt: "Top Left - Business Discussion" },
+  { src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/aerial-photography-chinese-city-600x800-SyCb3lRsuGnO000Bxr88b6YhZpNVPY.jpg", alt: "Bottom Left - Aerial City View" },
+  { src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/close-up-hand-holding-cash-600x800-CcjTC5pecDnrWOJwP8R1D4tz81kdm0.jpg", alt: "Top Right - Property Investment" },
+  { src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/hotel-lobby-interior-600x800-WG01Uupa8UG10aj2s5VawHF395TK7I.jpg", alt: "Bottom Right - Garden Space" },
 ];
 
 export function GallerySection() {
@@ -34,58 +34,58 @@ export function GallerySection() {
     restDelta: 0.001,
   });
 
-  // --- 1:1 LAYOUT DIMENSIONS & VALUE INTERPOLATIONS ---
+  // --- 1:1 LAYOUT DIMENSIONS & VALUE INTERPOLATIONS (matches HTML exactly) ---
   
   // Center Hero Card starts exactly at full screen viewport scale
-  const heroWidth = useTransform(smoothProgress, [0, 1], ["100vw", "35vw"]);
-  const heroHeight = useTransform(smoothProgress, [0, 1], ["100vh", "75vh"]);
-  const heroRadius = useTransform(smoothProgress, [0, 1], ["0px", "12px"]);
+  const heroWidth = useTransform(smoothProgress, [0, 1], ["100vw", "35%"]);
+  const heroHeight = useTransform(smoothProgress, [0, 1], ["100vh", "75%"]);
+  const heroRadius = useTransform(smoothProgress, [0, 1], ["0px", "6px"]);
 
   // Core overlay transitions
   const textOpacity = useTransform(smoothProgress, [0, 0.5], [1, 0]);
-  const textScale = useTransform(smoothProgress, [0, 1], [1, 0.85]);
+  const textScale = useTransform(smoothProgress, [0, 1], [1, 0.9]);
 
   // Symmetrical Explosion: Corners are completely hidden at start and emerge smoothly
   const cornerOpacity = useTransform(smoothProgress, [0, 0.2, 1], [0, 1, 1]);
 
-  // Top Left Configuration
-  const tlX = useTransform(smoothProgress, [0, 1], ["-60vw", "0vw"]);
-  const tlY = useTransform(smoothProgress, [0, 1], ["-60vh", "0vh"]);
+  // Top Left Configuration - matches HTML: x: "-50vw", y: "-50vh"
+  const tlX = useTransform(smoothProgress, [0, 1], ["-50vw", "0vw"]);
+  const tlY = useTransform(smoothProgress, [0, 1], ["-50vh", "0vh"]);
   const tlRotate = useTransform(smoothProgress, [0, 1], [-10, 0]);
 
-  // Bottom Left Configuration
-  const blX = useTransform(smoothProgress, [0, 1], ["-60vw", "0vw"]);
-  const blY = useTransform(smoothProgress, [0, 1], ["60vh", "0vh"]);
+  // Bottom Left Configuration - matches HTML: x: "-50vw", y: "50vh"
+  const blX = useTransform(smoothProgress, [0, 1], ["-50vw", "0vw"]);
+  const blY = useTransform(smoothProgress, [0, 1], ["50vh", "0vh"]);
   const blRotate = useTransform(smoothProgress, [0, 1], [-10, 0]);
 
-  // Top Right Configuration
-  const trX = useTransform(smoothProgress, [0, 1], ["60vw", "0vw"]);
-  const trY = useTransform(smoothProgress, [0, 1], ["-60vh", "0vh"]);
+  // Top Right Configuration - matches HTML: x: "50vw", y: "-50vh"
+  const trX = useTransform(smoothProgress, [0, 1], ["50vw", "0vw"]);
+  const trY = useTransform(smoothProgress, [0, 1], ["-50vh", "0vh"]);
   const trRotate = useTransform(smoothProgress, [0, 1], [10, 0]);
 
-  // Bottom Right Configuration
-  const brX = useTransform(smoothProgress, [0, 1], ["60vw", "0vw"]);
-  const brY = useTransform(smoothProgress, [0, 1], ["60vh", "0vh"]);
+  // Bottom Right Configuration - matches HTML: x: "50vw", y: "50vh"
+  const brX = useTransform(smoothProgress, [0, 1], ["50vw", "0vw"]);
+  const brY = useTransform(smoothProgress, [0, 1], ["50vh", "0vh"]);
   const brRotate = useTransform(smoothProgress, [0, 1], [10, 0]);
 
   if (gridImages.length < 5) return null;
 
   return (
-    <section id="gallery-section" className="relative bg-[#04090f] w-full select-none m-t-6 m-b-6">
+    <section id="gallery-section" className="relative bg-[#04090f] w-full select-none">
       
-      {/* 300vh Scroll Timeline Track */}
-      <div ref={containerRef} className="h-[300vh] w-full relative">
+      {/* 120vh Scroll Timeline Track - minimal space */}
+      <div ref={containerRef} className="h-[120vh] w-full relative">
         
         {/* Sticky Pinned Viewport Stage */}
-        <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center bg-[#04090f]">
+        <div className="sticky top-0 h-screen w-full overflow-hidden bg-[#04090f]">
           
-          {/* Symmetrical Window Layer */}
-          <div className="relative w-screen h-screen flex items-center justify-center">
+          {/* Symmetrical Window Layer - matches HTML layout */}
+          <div className="relative w-full max-w-[1400px] h-[85vh] mx-auto top-1/2 -translate-y-1/2 flex items-center justify-center">
             
             {/* Top Left Element */}
             <motion.div
               style={{ x: tlX, y: tlY, rotate: tlRotate, opacity: cornerOpacity }}
-              className="absolute top-[8vh] left-[6vw] w-[25vw] h-[38vh] rounded-xl overflow-hidden shadow-2xl"
+              className="absolute top-[5%] left-[5%] w-[25%] h-[40%] rounded-md overflow-hidden shadow-lg"
             >
               <img src={gridImages[1].src} alt={gridImages[1].alt} className="w-full h-full object-cover" />
             </motion.div>
@@ -93,7 +93,7 @@ export function GallerySection() {
             {/* Bottom Left Element */}
             <motion.div
               style={{ x: blX, y: blY, rotate: blRotate, opacity: cornerOpacity }}
-              className="absolute bottom-[8vh] left-[10vw] w-[22vw] h-[34vh] rounded-xl overflow-hidden shadow-2xl"
+              className="absolute bottom-[5%] left-[10%] w-[22%] h-[35%] rounded-md overflow-hidden shadow-lg"
             >
               <img src={gridImages[2].src} alt={gridImages[2].alt} className="w-full h-full object-cover" />
             </motion.div>
@@ -101,7 +101,7 @@ export function GallerySection() {
             {/* Top Right Element */}
             <motion.div
               style={{ x: trX, y: trY, rotate: trRotate, opacity: cornerOpacity }}
-              className="absolute top-[12vh] right-[10vw] w-[22vw] h-[34vh] rounded-xl overflow-hidden shadow-2xl"
+              className="absolute top-[10%] right-[10%] w-[22%] h-[35%] rounded-md overflow-hidden shadow-lg"
             >
               <img src={gridImages[3].src} alt={gridImages[3].alt} className="w-full h-full object-cover" />
             </motion.div>
@@ -109,7 +109,7 @@ export function GallerySection() {
             {/* Bottom Right Element */}
             <motion.div
               style={{ x: brX, y: brY, rotate: brRotate, opacity: cornerOpacity }}
-              className="absolute bottom-[8vh] right-[6vw] w-[25vw] h-[38vh] rounded-xl overflow-hidden shadow-2xl"
+              className="absolute bottom-[5%] right-[5%] w-[25%] h-[40%] rounded-md overflow-hidden shadow-lg"
             >
               <img src={gridImages[4].src} alt={gridImages[4].alt} className="w-full h-full object-cover" />
             </motion.div>
@@ -123,16 +123,16 @@ export function GallerySection() {
               }}
               className="absolute z-10 overflow-hidden shadow-2xl bg-[#04090f] flex items-center justify-center origin-center"
             >
-              <img src={gridImages[0].src} alt={gridImages[0].alt} className="w-full h-full object-cover absolute inset-0" />
+              <img src={gridImages[0].src} alt={gridImages[0].alt} className="w-full h-full object-cover object-center absolute inset-0" />
               
               {/* Core Hero Branding Title */}
               <motion.div 
                 style={{ opacity: textOpacity, scale: textScale }}
-                className="absolute inset-0 bg-black/30 flex flex-col items-center justify-center text-white p-6 z-20 pointer-events-none"
+                className="absolute inset-0 bg-black/30 flex flex-col items-center justify-center text-white p-4 z-20 pointer-events-none"
               >
                 <h1 
                   style={{ fontFamily: "'Playfair Display', serif" }}
-                  className="text-5xl md:text-7xl lg:text-8xl font-light leading-tight text-center tracking-wide"
+                  className="text-5xl md:text-7xl lg:text-8xl font-light leading-tight text-center"
                 >
                   SPACES WHERE LIFE <br />
                   <span className="italic font-normal">Unfolds</span>

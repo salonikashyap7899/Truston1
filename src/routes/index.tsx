@@ -146,10 +146,15 @@ function Index() {
       {/* Who We Are */}
       <WhoWeAreSection />
 
+<<<<<<< HEAD
       {/* Gallery Section */}
       <div className="-mt-1">
         <GallerySection />
       </div>
+=======
+      {/* Gallery Section */}
+      <GallerySection />
+>>>>>>> c6d7f6e82aa81f9e2cb1b39a4157f0f825b21696
 
       {/* Prime Estate Project (Building Plots & Structures) — After Gallery */}
       <div className="pb-12 md:pb-20 bg-[#0F0F0D]">
@@ -273,15 +278,15 @@ function PhilosophySection() {
             {/* Glow */}
             <div className="absolute -inset-6 bg-[#00BFFF]/5 blur-3xl rounded-3xl pointer-events-none" />
 
-            {/* Main image */}
-            <div className="relative rounded-3xl overflow-hidden border border-white/5 shadow-2xl aspect-[4/3]">
-              <img
-                src={content.image_url || "/assets/aerial-township.jpg"}
-                alt="Prime Estate — Aerial Township"
-                className="w-full h-full object-cover brightness-75"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#050b14]/70 via-transparent to-transparent" />
-            </div>
+            {/* Main image */}
+            <div className="relative rounded-3xl overflow-hidden border border-white/5 shadow-2xl aspect-[4/3]">
+              <img
+                src={content.image_url || "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/photo_2026-05-25_23-25-53-thbQTIwazkPXtZmxwz9M0Fc8S5PCNo.jpg"}
+                alt="Prime Estate — Aerial Township Layout"
+                className="w-full h-full object-cover brightness-75"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#050b14]/70 via-transparent to-transparent" />
+            </div>
 
             {/* Floating badge */}
             <div className="absolute -bottom-5 -left-5 bg-[#050b14] border border-[#00BFFF]/25 rounded-2xl px-6 py-4 shadow-xl backdrop-blur-xl">
@@ -356,10 +361,10 @@ function EnhancedStatsBar() {
                   initial={{ width: 0 }}
                   whileInView={{ width: "100%" }}
                   viewport={{ once: true }}
-                  transition={{ duration: 1.2, delay: i * 0.15 }}
-                />
-              </div>
-              <motion.span
+                  transition={{ duration: 1.2, delay: i * 0.15 }}
+                />
+              </div>
+              <motion.span
                 className="text-[#00BFFF]/30 text-2xl mb-5 group-hover:text-[#00BFFF] transition-colors duration-500"
                 whileHover={{ scale: 1.3, rotate: 15 }}
               >

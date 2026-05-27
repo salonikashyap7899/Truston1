@@ -33,31 +33,48 @@ export function IntroHighlightSection() {
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center">
           {/* Visual Side - Circular Image like Sobha reference */}
           <motion.div style={{ scale, y: y1 }} className="relative flex items-center justify-center">
-            {/* Decorative rotating ring */}
+            {/* Decorative rotating rings with zigzag effect */}
             <motion.div 
-              className="absolute w-[85%] aspect-square border border-white/5 rounded-full"
+              className="absolute w-[85%] aspect-square rounded-full"
               animate={{ rotate: 360 }}
               transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-            />
+              style={{
+                background: "conic-gradient(from 0deg, transparent 0%, luxe-cyan 25%, transparent 50%, luxe-cyan 75%, transparent 100%)",
+                WebkitMaskImage: "conic-gradient(from 0deg, transparent 0%, black 25%, transparent 50%, black 75%, transparent 100%)",
+                maskImage: "conic-gradient(from 0deg, transparent 0%, black 25%, transparent 50%, black 75%, transparent 100%)",
+              }}
+            >
+              <div className="absolute inset-0 border border-dashed border-white/5 rounded-full" />
+            </motion.div>
             <motion.div 
-              className="absolute w-[95%] aspect-square border border-luxe-cyan/10 rounded-full"
+              className="absolute w-[95%] aspect-square rounded-full"
               animate={{ rotate: -360 }}
               transition={{ duration: 80, repeat: Infinity, ease: "linear" }}
+              style={{
+                borderImage: "conic-gradient(from 0deg, transparent 0%, #00BFFF 25%, transparent 50%, #00BFFF 75%, transparent 100%) 1",
+              }}
+            >
+              <div className="absolute inset-0 border border-dotted border-luxe-cyan/20 rounded-full" />
+            </motion.div>
+            {/* Zigzag animated border */}
+            <motion.div 
+              className="absolute w-[75%] aspect-square rounded-full"
+              animate={{ rotate: 360, scale: [0.95, 1.05, 0.95] }}
+              transition={{ rotate: { duration: 40, repeat: Infinity, ease: "linear" }, scale: { duration: 4, repeat: Infinity, ease: "easeInOut" } }}
+              style={{
+                background: "linear-gradient(45deg, #00BFFF, transparent, #00BFFF, transparent)",
+                opacity: 0.3,
+              }}
             />
             
-            {/* Main circular image container */}
+            {/* Main circular gradient container */}
             <div className="relative w-[75vw] max-w-[500px] aspect-square lg:w-[35vw]">
               {/* Glow effect behind circle */}
               <div className="absolute inset-0 rounded-full bg-luxe-cyan/10 blur-[60px] scale-110" />
               
-              {/* Circular image with mask */}
-              <div className="relative h-full w-full rounded-full overflow-hidden shadow-luxe border-2 border-white/10">
-                <img
-                  src="/assets/photo_1.jpg"
-                  alt="Prime Estate — Luxury Living"
-                  className="w-full h-full object-cover transition-transform duration-700 hover:scale-110 brightness-90"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
+              {/* Circular gradient with mask */}
+              <div className="relative h-full w-full rounded-full overflow-hidden shadow-luxe border-2 border-white/10 bg-gradient-to-br from-luxe-cyan/20 via-background to-luxe-blue/10">
+                <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent" />
               </div>
               
               {/* Floating accent dots */}
