@@ -38,10 +38,6 @@ externalPort = 3000
 localPort = 5000
 externalPort = 80
 
-[[ports]]
-localPort = 5001
-externalPort = 3001
-
 [deployment]
 deploymentTarget = "autoscale"
 run = ["node", "./dist/index.cjs"]
@@ -54,3 +50,4 @@ SUPABASE_URL = "https://pripvbfnziaxlbkiqayn.supabase.co"
 VITE_SUPABASE_URL = "https://pripvbfnziaxlbkiqayn.supabase.co"
 SUPABASE_PUBLISHABLE_KEY = "sb_publishable_fBK9YSMhkEHrByHg2Gwcrw_T8DcfWfU"
 VITE_SUPABASE_PUBLISHABLE_KEY = "sb_publishable_fBK9YSMhkEHrByHg2Gwcrw_T8DcfWfU"
+VITE_SUPABASE_PROJECT_ID = "pripvbfnziaxlbkiqayn"
