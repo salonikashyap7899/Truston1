@@ -3,9 +3,9 @@ import { useRef } from "react";
 import { usePageContent } from "@/hooks/usePageContent";
 
 const DEFAULT_IMAGES = [
-  { src: "/assets/building-plots.jpg",          alt: "Prime Estate — Aerial Night View", title: "Prime Estate", sub: "Aerial Night View" },
+  { src: "/assets/prime-estate-gate.jpg",        alt: "Prime Estate — Aerial Night View", title: "Prime Estate", sub: "Aerial Night View" },
   { src: "/assets/gallery/prime-club.jpg",      alt: "Prime Estate Club House", title: "The Club House", sub: "Premium Amenities" },
-  { src: "/assets/gallery/prime-road.jpg",      alt: "Prime Estate Internal Roads", title: "Infrastructure", sub: "Wide Internal Roads" },
+  { src: "/assets/building-plots.jpg",          alt: "Prime Estate Internal Roads", title: "Building Plots", sub: "Infrastructure" },
   { src: "/assets/gallery/prime-boulevard.jpg", alt: "Prime Estate Boulevard", title: "The Boulevard", sub: "Green Walkways" },
   { src: "/assets/gallery/prime-street.jpg",    alt: "Prime Estate Street at Sunset", title: "Urban Living", sub: "Modern Streetscapes" },
 ];
@@ -39,24 +39,24 @@ export function GallerySection() {
   const textY       = useTransform(smoothProgress, [0.7, 1], [24, 0]);
 
   /* Four corner images disperse outwards on scroll down */
-  const cornerOpacity = useTransform(smoothProgress, [0, 0.5], [1, 0]);
+  const cornerOpacity = useTransform(smoothProgress, [0, 0.4], [1, 0]);
 
-  const tlX = useTransform(smoothProgress, [0, 1], ["0vw", "-60vw"]);
-  const tlY = useTransform(smoothProgress, [0, 1], ["0vw", "-60vh"]);
+  const tlX = useTransform(smoothProgress, [0, 1], ["0vw", "-100vw"]);
+  const tlY = useTransform(smoothProgress, [0, 1], ["0vw", "-100vh"]);
 
-  const blX = useTransform(smoothProgress, [0, 1], ["0vw", "-60vw"]);
-  const blY = useTransform(smoothProgress, [0, 1], ["0vw", "60vh"]);
+  const blX = useTransform(smoothProgress, [0, 1], ["0vw", "-100vw"]);
+  const blY = useTransform(smoothProgress, [0, 1], ["0vw", "100vh"]);
 
-  const trX = useTransform(smoothProgress, [0, 1], ["0vw", "60vw"]);
-  const trY = useTransform(smoothProgress, [0, 1], ["0vw", "-60vh"]);
+  const trX = useTransform(smoothProgress, [0, 1], ["0vw", "100vw"]);
+  const trY = useTransform(smoothProgress, [0, 1], ["0vw", "-100vh"]);
 
-  const brX = useTransform(smoothProgress, [0, 1], ["0vw", "60vw"]);
-  const brY = useTransform(smoothProgress, [0, 1], ["0vw", "60vh"]);
+  const brX = useTransform(smoothProgress, [0, 1], ["0vw", "100vw"]);
+  const brY = useTransform(smoothProgress, [0, 1], ["0vw", "100vh"]);
 
   return (
-    <section id="gallery-section" className="relative bg-[#04090f] w-full select-none">
+    <section id="gallery-section" className="relative bg-[#04090f] w-full select-none pt-24">
       {/* Sticky scroll container */}
-      <div ref={containerRef} className="h-[200vh] w-full relative">
+      <div ref={containerRef} className="h-[150vh] w-full relative">
         <div className="sticky top-0 h-screen w-full overflow-hidden bg-[#04090f]">
           <div className="relative w-full max-w-[1400px] h-screen mx-auto flex items-center justify-center">
 

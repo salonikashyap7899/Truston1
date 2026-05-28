@@ -72,7 +72,7 @@ export function IntroHighlightSection() {
               <div className="absolute inset-0 rounded-full bg-luxe-cyan/10 blur-[60px] scale-110" />
               <div className="relative h-full w-full rounded-full overflow-hidden shadow-luxe border-2 border-white/10">
                 <img
-                  src="/public/assets/Redefining luxury real estate.jpg"
+                  src="/assets/redefining-luxury.jpg"
                   alt="Prime Estate luxury real estate"
                   className="absolute inset-0 w-full h-full object-cover"
                 />
