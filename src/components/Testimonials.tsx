@@ -107,6 +107,7 @@ export function Testimonials() {
           grabCursor
           centeredSlides
           loop
+          loopAdditionalSlides={3}
           speed={800}
           slidesPerView="auto"
           coverflowEffect={{
@@ -116,13 +117,14 @@ export function Testimonials() {
             modifier: 2.5,
             slideShadows: false,
           }}
-          autoplay={{ delay: 3000, disableOnInteraction: false, pauseOnMouseEnter: false }}
+          autoplay={{ delay: 2500, disableOnInteraction: false, pauseOnMouseEnter: true }}
           pagination={{ clickable: true }}
           modules={[EffectCoverflow, Autoplay, Pagination]}
           className="testimonials-swiper pb-14"
         >
-          {testimonials.map((t) => (
-            <SwiperSlide key={t.name} style={{ width: "clamp(300px, 70vw, 580px)" }}>
+          {/* Duplicate testimonials for smoother infinite loop */}
+          {[...testimonials, ...testimonials].map((t, index) => (
+            <SwiperSlide key={`${t.name}-${index}`} style={{ width: "clamp(300px, 70vw, 580px)" }}>
               <TestimonialCard {...t} />
             </SwiperSlide>
           ))}
