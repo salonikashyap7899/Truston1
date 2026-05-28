@@ -24,7 +24,7 @@ export function PrimeEstateSection() {
     stat_2_val: "47",  stat_2_sup: "",  stat_2_label: "Available Now",
     stat_3_val: "2,400", stat_3_sup: "", stat_3_label: "Sq. Ft Range",
     stat_4_val: "₹12",  stat_4_sup: "L+", stat_4_label: "Starting Price",
-    image_url: "/assets/prime-estate-gate.jpg",
+    image_url: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/photo_1_2026-05-25_19-38-16-cw2VCtfJrtIWHFnZ75BKIzp9ddykUQ.jpg",
   });
 
   const stats = [
@@ -34,7 +34,7 @@ export function PrimeEstateSection() {
     { val: String(c.stat_4_val || "₹12"),  sup: String(c.stat_4_sup ?? "L+"), label: String(c.stat_4_label || "Starting Price") },
   ];
 
-  const imgUrl = String(c.image_url || "/assets/prime-estate-gate.jpg");
+  const imgUrl = String(c.image_url || "../assets/prime estate image.jpg");
 
   return (
     <section className="bg-[#0F0F0D] py-24 md:py-32 px-6 md:px-16 overflow-hidden">
