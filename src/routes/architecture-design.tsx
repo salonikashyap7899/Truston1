@@ -314,18 +314,7 @@ function ArchitectureDesignPage() {
       </section>
 
       {/* Gallery Section */}
-      <section className="py-32 px-6">
-        <div className="max-w-7xl mx-auto">
-          <Reveal>
-            <div className="text-center mb-20">
-              <h2 className="font-serif text-4xl md:text-6xl text-white mb-6">
-                Design <em className="text-[#00BFFF] italic">Gallery</em>
-              </h2>
-              <p className="text-white/40 text-lg font-light">
-                A curated selection of our recent architectural designs and renderings
-              </p>
-            </div>
-          </Reveal>
+    
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {galleryItems.map((item, i) => (
