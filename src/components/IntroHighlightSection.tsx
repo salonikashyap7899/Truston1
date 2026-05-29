@@ -27,7 +27,7 @@ export function IntroHighlightSection() {
 
   // Using paths relative to public folder
   const images = [
-    "/assets/photo_1.jpg",
+    "/assets/green-amenities.jpg",
     "/assets/photo_2.jpg",
     "/assets/photo_3.jpg",
     "/assets/photo_4.jpg"
