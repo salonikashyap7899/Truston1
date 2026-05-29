@@ -70,7 +70,7 @@ export function PrimeEstateSection() {
           >
             <div className="relative overflow-hidden min-h-[420px] md:min-h-[600px] flex flex-col justify-end p-10 md:p-12 bg-[#161613]">
               <img
-                src={image_url}
+                src={imgUrl}
                 alt="Prime Estate — Main Gate Entrance"
                 className="absolute inset-0 w-full h-full object-cover"
               />
