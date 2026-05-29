@@ -1,6 +1,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
-import { Reveal, SwipeReveal } from "@/components/Reveal";
+import { Reveal } from "@/components/Reveal";
+import { SwipeReveal } from "@/components/TextReveal";
 import { usePageContent } from "@/hooks/usePageContent";
 
 export function NewGenerationLivingSection() {
