@@ -8,8 +8,8 @@ import { usePageContent } from "@/hooks/usePageContent";
 export function IntroHighlightSection() {
   const c = usePageContent("home.new_generation", {
     eyebrow: "New Generation",
-    title: "Redefining",
-    title_accent: "Luxury",
+    title: "Modern",
+    title_accent: "Living",
     subtitle: "Real Estate",
     body: "Welcome to the era of TrustOn, where we blend cinematic storytelling with architectural excellence. Our mission is to create billion-dollar luxury experiences that transcend traditional real estate.",
     body_secondary: "From interactive 3D environments to immersive lifestyle offerings, every detail is crafted for the elite.",
@@ -40,62 +40,37 @@ export function IntroHighlightSection() {
 
       <div className="relative z-10 max-w-7xl mx-auto w-full">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center">
-          {/* Visual Side */}
+          {/* Visual Side — Circle Grid */}
           <motion.div style={{ scale, y: y1 }} className="relative flex items-center justify-center">
-            <motion.div
-              className="absolute w-[85%] aspect-square rounded-full"
-              animate={{ rotate: 360 }}
-              transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-              style={{
-                background: "conic-gradient(from 0deg, transparent 0%, luxe-cyan 25%, transparent 50%, luxe-cyan 75%, transparent 100%)",
-                WebkitMaskImage: "conic-gradient(from 0deg, transparent 0%, black 25%, transparent 50%, black 75%, transparent 100%)",
-                maskImage: "conic-gradient(from 0deg, transparent 0%, black 25%, transparent 50%, black 75%, transparent 100%)",
-              }}
-            >
-              <div className="absolute inset-0 border border-dashed border-white/5 rounded-full" />
-            </motion.div>
-            <motion.div
-              className="absolute w-[95%] aspect-square rounded-full"
-              animate={{ rotate: -360 }}
-              transition={{ duration: 80, repeat: Infinity, ease: "linear" }}
-            >
-              <div className="absolute inset-0 border border-dotted border-luxe-cyan/20 rounded-full" />
-            </motion.div>
-            <motion.div
-              className="absolute w-[75%] aspect-square rounded-full"
-              animate={{ rotate: 360, scale: [0.95, 1.05, 0.95] }}
-              transition={{ rotate: { duration: 40, repeat: Infinity, ease: "linear" }, scale: { duration: 4, repeat: Infinity, ease: "easeInOut" } }}
-              style={{ background: "linear-gradient(45deg, #00BFFF, transparent, #00BFFF, transparent)", opacity: 0.3 }}
-            />
-
-            <div className="relative w-[75vw] max-w-[500px] aspect-square lg:w-[35vw]">
-              <div className="absolute inset-0 rounded-full bg-luxe-cyan/10 blur-[60px] scale-110" />
-              <div className="relative h-full w-full rounded-full overflow-hidden shadow-luxe border-2 border-white/10">
-                <img
-                  src="/assets/redefining-luxury.jpg"
-                  alt="Prime Estate luxury real estate"
-                  className="absolute inset-0 w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent" />
+            <div className="grid grid-cols-2 gap-4 relative">
+              {/* Main Image - Circle 1 */}
+              <div className="w-40 h-40 md:w-56 md:h-56 rounded-full overflow-hidden border-2 border-[#00BFFF]/30 shadow-[0_0_30px_rgba(0,191,255,0.2)]">
+                <img src="/assets/redefining-luxury.jpg" className="w-full h-full object-cover" alt="Luxury 1" />
               </div>
-
-              <motion.div
-                className="absolute -top-4 -right-4 w-4 h-4 rounded-full bg-luxe-cyan/60"
-                animate={{ y: [0, -10, 0], opacity: [0.6, 1, 0.6] }}
-                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-              />
-              <motion.div
-                className="absolute -bottom-2 -left-2 w-3 h-3 rounded-full bg-white/40"
-                animate={{ y: [0, 8, 0], opacity: [0.4, 0.8, 0.4] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-              />
+              {/* Image 2 - Circle 2 */}
+              <div className="w-32 h-32 md:w-44 md:h-44 rounded-full overflow-hidden border-2 border-[#00BFFF]/20 mt-8 shadow-[0_0_20px_rgba(0,191,255,0.1)]">
+                <img src="/assets/building-render.jpg" className="w-full h-full object-cover" alt="Luxury 2" />
+              </div>
+              {/* Image 3 - Circle 3 */}
+              <div className="w-32 h-32 md:w-44 md:h-44 rounded-full overflow-hidden border-2 border-[#00BFFF]/20 -mt-8 shadow-[0_0_20px_rgba(0,191,255,0.1)]">
+                <img src="/assets/architecture-design.jpg" className="w-full h-full object-cover" alt="Luxury 3" />
+              </div>
+              {/* Image 4 - Circle 4 */}
+              <div className="w-40 h-40 md:w-56 md:h-56 rounded-full overflow-hidden border-2 border-[#00BFFF]/30 shadow-[0_0_30px_rgba(0,191,255,0.2)]">
+                <img src="/assets/internal-street.jpg" className="w-full h-full object-cover" alt="Luxury 4" />
+              </div>
+              
+              {/* Center Accent Circle */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 md:w-28 md:h-28 rounded-full bg-[#00BFFF]/10 backdrop-blur-md border border-[#00BFFF]/40 flex items-center justify-center z-10">
+                <div className="w-12 h-12 md:w-16 md:h-16 rounded-full border border-[#00BFFF]/60 animate-ping" />
+              </div>
             </div>
 
             <motion.div
               style={{ y: y2 }}
-              className="absolute -bottom-8 -right-4 lg:-right-8 glass-premium p-6 lg:p-8 rounded-2xl max-w-[200px] lg:max-w-xs shadow-luxe border-white/10"
+              className="absolute -bottom-8 -right-4 lg:-right-8 glass-premium p-6 lg:p-8 rounded-2xl max-w-[200px] lg:max-w-xs shadow-luxe border-white/10 z-20"
             >
-              <div className="text-luxe-cyan text-[10px] uppercase tracking-[0.3em] mb-3 font-bold">Innovation</div>
+              <div className="text-[#00BFFF] text-[10px] uppercase tracking-[0.3em] mb-3 font-bold">Innovation</div>
               <p className="text-white/60 text-xs lg:text-sm leading-relaxed font-light">
                 Pioneering futuristic living through architectural mastery.
               </p>
@@ -114,10 +89,16 @@ export function IntroHighlightSection() {
             </Reveal>
 
             <SwipeReveal>
-              <h2 className="font-display text-white text-6xl lg:text-8xl leading-[0.9] tracking-tighter">
-                {c.title || "Redefining"} <br />
-                <span className="text-luxe-cyan italic font-serif">{c.title_accent || "Luxury"}</span>{" "}
-                {c.subtitle || "Real Estate"}
+              <h2 className="font-serif leading-tight tracking-tight">
+                <span className="block text-4xl md:text-5xl lg:text-6xl text-white font-light uppercase tracking-widest">
+                  {c.title || "Modern"}
+                </span>
+                <span className="block text-4xl md:text-5xl lg:text-6xl text-[#00BFFF] font-light italic mt-2">
+                  {c.title_accent || "Living"}
+                </span>
+                <span className="block text-4xl md:text-5xl lg:text-6xl text-white/40 font-light mt-2">
+                  {c.subtitle || "Real Estate"}
+                </span>
               </h2>
             </SwipeReveal>
 

@@ -85,10 +85,16 @@ export function NewGenerationSection() {
               <p className="text-[10px] uppercase tracking-[0.55em] text-[#00BFFF] font-bold mb-5 flex items-center gap-3">
                 <span className="w-6 h-px bg-[#00BFFF]" /> New Generation
               </p>
-              <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-white leading-[0.92] tracking-tight">
-                Redefining{" "}
-                <br />
-                <em className="italic text-[#00BFFF] font-light">Luxury</em>{" "}Real Estate
+              <h2 className="font-serif leading-tight tracking-tight">
+                <span className="block text-4xl md:text-5xl lg:text-6xl text-white font-light uppercase tracking-widest">
+                  Modern
+                </span>
+                <span className="block text-4xl md:text-5xl lg:text-6xl text-[#00BFFF] font-light italic mt-2">
+                  Living
+                </span>
+                <span className="block text-4xl md:text-5xl lg:text-6xl text-white/40 font-light mt-2">
+                  Real Estate
+                </span>
               </h2>
             </motion.div>
 
