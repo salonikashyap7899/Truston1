@@ -27,8 +27,6 @@ export function SiteFooter() {
   });
 
   const contact = usePageContent("footer.contact", {
-    brand_name: "TrustOn",
-    brand_tagline: "Premium Estate",
     brand_desc: "Prime Estate by TrustOn Developers — a Jila Panchayat approved luxury township in Lucknow, crafted for those who expect more from every square foot.",
     phone: "+91 96160-61166",
     email: "trustondevelopers01@gmail.com",
