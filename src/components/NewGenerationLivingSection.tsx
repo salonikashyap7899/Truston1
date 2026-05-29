@@ -1,4 +1,5 @@
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 import { Reveal, SwipeReveal } from "@/components/Reveal";
 import { usePageContent } from "@/hooks/usePageContent";
 
@@ -11,11 +12,31 @@ export function NewGenerationLivingSection() {
     body: "everyday living are seamlessly connected.",
     body_secondary: "Planned around walkability and choice, the community brings together marina living, beach-inspired experiences, and forest-led neighbourhoods within one integrated city. Living options range from 1 and 2-bedroom residences to expansive 4 to 6 bedroom villas, thoughtfully positioned to offer privacy, openness, and connection to the surrounding landscape.",
     body_tertiary: "With intuitively placed amenities, expansive green corridors, and architecture shaped by context and",
-    image_url: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663675321036/XXDfWyhGsReNyllJ.png",
   });
 
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
+
+  const y1 = useTransform(scrollYProgress, [0, 1], [0, -100]);
+  const y2 = useTransform(scrollYProgress, [0, 1], [0, 100]);
+  const scale = useTransform(scrollYProgress, [0, 0.2], [0.8, 1]);
+
+  // Prime Estate images - using paths relative to public folder
+  const images = [
+    "/assets/photo_1.jpg",
+    "/assets/photo_2.jpg",
+    "/assets/photo_3.jpg",
+    "/assets/photo_4.jpg"
+  ];
+
   return (
-    <section className="relative py-20 md:py-32 px-6 bg-[#050b14] overflow-hidden">
+    <section
+      ref={containerRef}
+      className="relative py-20 md:py-32 px-6 bg-[#050b14] overflow-hidden"
+    >
       {/* Subtle gradient background */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#00BFFF]/5 rounded-full blur-[80px]" />
@@ -81,40 +102,58 @@ export function NewGenerationLivingSection() {
             </Reveal>
           </div>
 
-          {/* ── Right: Image with Cloud Fade Effect ── */}
-          <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
-            className="relative h-[500px] md:h-[600px]"
+          {/* ── Right: Zigzag Circle Grid ── */}
+          <motion.div 
+            style={{ scale, y: y1 }} 
+            className="relative flex items-center justify-center"
           >
-            {/* Glow effect */}
-            <div className="absolute -inset-8 bg-[#00BFFF]/5 blur-3xl rounded-3xl pointer-events-none" />
+            <div className="grid grid-cols-2 gap-4 relative">
+              {/* Main Image - Circle 1 (Large) */}
+              <div className="w-40 h-40 md:w-56 md:h-56 rounded-full overflow-hidden border-2 border-[#00BFFF]/30 shadow-[0_0_30px_rgba(0,191,255,0.2)]">
+                <img 
+                  src={images[0]} 
+                  className="w-full h-full object-cover" 
+                  alt="Prime Estate 1" 
+                />
+              </div>
 
-            {/* Main image container with fade effect */}
-            <div className="relative h-full rounded-3xl overflow-hidden border border-white/5 shadow-2xl">
-              <img
-                src={content.image_url}
-                alt="New Generation Living — Marina Lifestyle"
-                className="w-full h-full object-cover"
-              />
+              {/* Image 2 - Circle 2 (Small, offset down) */}
+              <div className="w-32 h-32 md:w-44 md:h-44 rounded-full overflow-hidden border-2 border-[#00BFFF]/20 mt-8 shadow-[0_0_20px_rgba(0,191,255,0.1)]">
+                <img 
+                  src={images[1]} 
+                  className="w-full h-full object-cover" 
+                  alt="Prime Estate 2" 
+                />
+              </div>
 
-              {/* Gradient overlay for cloud/fade effect */}
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#050b14]/40" />
-              <div className="absolute inset-0 bg-gradient-to-r from-[#050b14]/20 via-transparent to-transparent" />
+              {/* Image 3 - Circle 3 (Small, offset up) */}
+              <div className="w-32 h-32 md:w-44 md:h-44 rounded-full overflow-hidden border-2 border-[#00BFFF]/20 -mt-8 shadow-[0_0_20px_rgba(0,191,255,0.1)]">
+                <img 
+                  src={images[2]} 
+                  className="w-full h-full object-cover" 
+                  alt="Prime Estate 3" 
+                />
+              </div>
 
-              {/* Soft cloud fade at bottom */}
-              <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-[#050b14] via-[#050b14]/50 to-transparent pointer-events-none" />
+              {/* Image 4 - Circle 4 (Large) */}
+              <div className="w-40 h-40 md:w-56 md:h-56 rounded-full overflow-hidden border-2 border-[#00BFFF]/30 shadow-[0_0_30px_rgba(0,191,255,0.2)]">
+                <img 
+                  src={images[3]} 
+                  className="w-full h-full object-cover" 
+                  alt="Prime Estate 4" 
+                />
+              </div>
+
+              {/* Center Accent Circle */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 md:w-28 md:h-28 rounded-full bg-[#00BFFF]/10 backdrop-blur-md border border-[#00BFFF]/40 flex items-center justify-center z-10">
+                <div className="w-12 h-12 md:w-16 md:h-16 rounded-full border border-[#00BFFF]/60 animate-ping" />
+              </div>
             </div>
 
             {/* Floating info badge */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="absolute -bottom-6 -left-6 bg-[#050b14] border border-[#00BFFF]/25 rounded-2xl px-6 py-4 shadow-xl backdrop-blur-xl z-20"
+              style={{ y: y2 }}
+              className="absolute -bottom-8 -right-4 lg:-right-8 bg-[#050b14] border border-[#00BFFF]/25 rounded-2xl px-6 py-4 shadow-xl backdrop-blur-xl z-20"
             >
               <p className="font-serif text-lg text-[#00BFFF] leading-none mb-1">
                 Premium Living
