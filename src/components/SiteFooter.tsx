@@ -126,24 +126,6 @@ export function SiteFooter() {
           <p className="text-white/45 text-base leading-relaxed max-w-sm mb-10 font-light">
             {String(contact.brand_desc || "Prime Estate by TrustOn Developers.")}
           </p>
-          <div className="flex gap-3">
-            {[
-              { key: "FB", href: "#" },
-              { key: "IG", href: "#" },
-              { key: "YT", href: "#" },
-              { key: "WA", href: `https://wa.me/${phone.replace(/[^+\d]/g, "").replace("+", "")}` },
-            ].map((s) => (
-              <a
-                key={s.key}
-                href={s.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 border border-white/10 text-[9px] text-white/40 hover:border-[#00BFFF] hover:text-[#00BFFF] transition-all duration-400 flex items-center justify-center rounded-full font-bold"
-              >
-                {s.key}
-              </a>
-            ))}
-          </div>
         </div>
 
         <div>
