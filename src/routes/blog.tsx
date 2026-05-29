@@ -158,7 +158,7 @@ function BlogPage() {
           >
             <div className="flex items-center gap-3 mb-10 ">
               <span className="w-8 h-px bg-[#00BFFF]" />
-              <span className="text-[#00BFFF] text-[11px] uppercase tracking-[0.3em] font-bold">
+              <span className="text-[#00BFFF] text-[11px] uppercase tracking-[0.3em] font-bold pt-5">
                 {String(hero.eyebrow || "Editorial & Insights")}
               </span>
             </div>
