@@ -112,14 +112,7 @@ export function SiteFooter() {
               className="h-14 w-auto object-contain brightness-125"
               onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
             />
-            <div>
-              <span className="block text-white text-2xl font-serif tracking-tight leading-none">
-                {String(contact.brand_name || "TrustOn")}
-              </span>
-              <span className="block text-[10px] uppercase tracking-[0.5em] text-[#00BFFF] font-bold mt-1.5">
-                {String(contact.brand_tagline || "Premium Estate")}
-              </span>
-            </div>
+
           </div>
           <p className="text-white/45 text-base leading-relaxed max-w-sm mb-6 font-light">
             {String(contact.brand_desc || "Prime Estate by TrustOn Developers.")}
