@@ -136,6 +136,7 @@ const teamMembers = [
     name: "Meraj Husain Rizvi",
     role: "Lead Architect",
     roleTag: "ARCHITECTURE & DESIGN",
+    image: "/assets/team-honour.png",
     desc: "Meraj leads TrustOn's architecture and design division, bringing a meticulous eye for detail and deep expertise in residential planning. His work ensures every plot and structure meets the highest standards of design and regulatory compliance.",
   },
   {
@@ -601,20 +602,30 @@ function AboutPage() {
             {teamMembers.map((member, i) => (
               <Reveal key={member.name} delay={i * 0.1}>
                 <div className="border border-white/5 rounded-[28px] overflow-hidden bg-[#04090f] hover:border-[#00BFFF]/20 transition-all duration-500 group">
-                  {/* Placeholder image area */}
-                  <div className="h-52 bg-gradient-to-br from-[#0d1e30] to-[#070d18] relative overflow-hidden">
-                    <div
-                      className="absolute inset-0"
-                      style={{
-                        backgroundImage:
-                          "repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(0,191,255,0.03) 40px, rgba(0,191,255,0.03) 41px)",
-                      }}
-                    />
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                      <div className="w-20 h-20 rounded-full border-2 border-[#00BFFF]/20 bg-[#00BFFF]/5 flex items-center justify-center text-2xl group-hover:border-[#00BFFF]/40 transition-all duration-500">
-                        👤
-                      </div>
-                    </div>
+                  {/* Image area */}
+                  <div className="h-64 bg-gradient-to-br from-[#0d1e30] to-[#070d18] relative overflow-hidden">
+                    {member.image ? (
+                      <img
+                        src={member.image}
+                        alt={member.name}
+                        className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-110"
+                      />
+                    ) : (
+                      <>
+                        <div
+                          className="absolute inset-0"
+                          style={{
+                            backgroundImage:
+                              "repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(0,191,255,0.03) 40px, rgba(0,191,255,0.03) 41px)",
+                          }}
+                        />
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                          <div className="w-20 h-20 rounded-full border-2 border-[#00BFFF]/20 bg-[#00BFFF]/5 flex items-center justify-center text-2xl group-hover:border-[#00BFFF]/40 transition-all duration-500">
+                            👤
+                          </div>
+                        </div>
+                      </>
+                    )}
                   </div>
                   <div className="p-7">
                     <p className="text-[#00BFFF] text-[9px] uppercase tracking-[0.25em] font-bold mb-2">

@@ -63,7 +63,7 @@ export function IntroScreen() {
           style={{ willChange: "transform" }}
         >
           <source
-            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/VID-20260515-WA0026-bIjcfqcc0KU7HUhsoHZDzfjIC9TT1C.mp4"
+            src="/opening-web.mp4"
             type="video/mp4"
           />
         </video>
