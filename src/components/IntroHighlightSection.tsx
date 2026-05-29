@@ -23,8 +23,15 @@ export function IntroHighlightSection() {
 
   const y1 = useTransform(scrollYProgress, [0, 1], [0, -100]);
   const y2 = useTransform(scrollYProgress, [0, 1], [0, 100]);
-  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.2], [0.8, 1]);
+
+  // Prime Estate Assets
+  const images = [
+    "/attached_assets/photo_1_2026-05-25_19-38-16_1779720030225.jpg", // Main Gate Day
+    "/attached_assets/photo_2_2026-05-25_19-38-16_1779720030224.jpg", // Street View
+    "/attached_assets/building_and_plots_1779988876087.jpg",          // Aerial Night
+    "/attached_assets/Redefining_luxury_real_estate_1779988876092.jpg" // Aerial with Gate
+  ];
 
   return (
     <section
@@ -40,41 +47,38 @@ export function IntroHighlightSection() {
 
       <div className="relative z-10 max-w-7xl mx-auto w-full">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center">
-          {/* Visual Side — Circle Grid */}
+          {/* Visual Side — Exact Image Grid with Watercolor/Cloud Effect */}
           <motion.div style={{ scale, y: y1 }} className="relative flex items-center justify-center">
-            <div className="grid grid-cols-2 gap-4 relative">
-              {/* Main Image - Circle 1 */}
-              <div className="w-40 h-40 md:w-56 md:h-56 rounded-full overflow-hidden border-2 border-[#00BFFF]/30 shadow-[0_0_30px_rgba(0,191,255,0.2)]">
-                <img src="/assets/redefining-luxury.jpg" className="w-full h-full object-cover" alt="Luxury 1" />
+            <div className="relative cloud-border">
+              <div className="grid grid-cols-2 gap-4 image-mask-cloud">
+                {/* Image 1 - Large Top Left */}
+                <div className="aspect-square rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+                  <img src={images[0]} className="w-full h-full object-cover hover:scale-110 transition-transform duration-700" alt="Prime Estate 1" />
+                </div>
+                {/* Image 2 - Top Right */}
+                <div className="aspect-square rounded-2xl overflow-hidden border border-white/10 shadow-2xl mt-8">
+                  <img src={images[1]} className="w-full h-full object-cover hover:scale-110 transition-transform duration-700" alt="Prime Estate 2" />
+                </div>
+                {/* Image 3 - Bottom Left */}
+                <div className="aspect-square rounded-2xl overflow-hidden border border-white/10 shadow-2xl -mt-8">
+                  <img src={images[2]} className="w-full h-full object-cover hover:scale-110 transition-transform duration-700" alt="Prime Estate 3" />
+                </div>
+                {/* Image 4 - Bottom Right */}
+                <div className="aspect-square rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+                  <img src={images[3]} className="w-full h-full object-cover hover:scale-110 transition-transform duration-700" alt="Prime Estate 4" />
+                </div>
               </div>
-              {/* Image 2 - Circle 2 */}
-              <div className="w-32 h-32 md:w-44 md:h-44 rounded-full overflow-hidden border-2 border-[#00BFFF]/20 mt-8 shadow-[0_0_20px_rgba(0,191,255,0.1)]">
-                <img src="/assets/building-render.jpg" className="w-full h-full object-cover" alt="Luxury 2" />
-              </div>
-              {/* Image 3 - Circle 3 */}
-              <div className="w-32 h-32 md:w-44 md:h-44 rounded-full overflow-hidden border-2 border-[#00BFFF]/20 -mt-8 shadow-[0_0_20px_rgba(0,191,255,0.1)]">
-                <img src="/assets/architecture-design.jpg" className="w-full h-full object-cover" alt="Luxury 3" />
-              </div>
-              {/* Image 4 - Circle 4 */}
-              <div className="w-40 h-40 md:w-56 md:h-56 rounded-full overflow-hidden border-2 border-[#00BFFF]/30 shadow-[0_0_30px_rgba(0,191,255,0.2)]">
-                <img src="/assets/internal-street.jpg" className="w-full h-full object-cover" alt="Luxury 4" />
-              </div>
-              
-              {/* Center Accent Circle */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 md:w-28 md:h-28 rounded-full bg-[#00BFFF]/10 backdrop-blur-md border border-[#00BFFF]/40 flex items-center justify-center z-10">
-                <div className="w-12 h-12 md:w-16 md:h-16 rounded-full border border-[#00BFFF]/60 animate-ping" />
-              </div>
-            </div>
 
-            <motion.div
-              style={{ y: y2 }}
-              className="absolute -bottom-8 -right-4 lg:-right-8 glass-premium p-6 lg:p-8 rounded-2xl max-w-[200px] lg:max-w-xs shadow-luxe border-white/10 z-20"
-            >
-              <div className="text-[#00BFFF] text-[10px] uppercase tracking-[0.3em] mb-3 font-bold">Innovation</div>
-              <p className="text-white/60 text-xs lg:text-sm leading-relaxed font-light">
-                Pioneering futuristic living through architectural mastery.
-              </p>
-            </motion.div>
+              <motion.div
+                style={{ y: y2 }}
+                className="absolute -bottom-8 -right-4 lg:-right-8 glass-premium p-6 lg:p-8 rounded-2xl max-w-[200px] lg:max-w-xs shadow-luxe border-white/10 z-20"
+              >
+                <div className="text-[#00BFFF] text-[10px] uppercase tracking-[0.3em] mb-3 font-bold">Innovation</div>
+                <p className="text-white/60 text-xs lg:text-sm leading-relaxed font-light">
+                  Pioneering futuristic living through architectural mastery.
+                </p>
+              </motion.div>
+            </div>
           </motion.div>
 
           {/* Content Side */}
