@@ -32,8 +32,8 @@ export function GallerySection() {
   });
 
   /* ── Hero transforms — shrinks from fullscreen to center grid position ── */
-  const heroW = useTransform(smooth, [0, 0.9], ["100vw", "34%"]);
-  const heroH = useTransform(smooth, [0, 0.9], ["100vh", "52%"]);
+  const heroW = useTransform(smooth, [0, 0.9], ["100vw", "36%"]); // Increased width to reduce space
+  const heroH = useTransform(smooth, [0, 0.9], ["100vh", "54%"]); // Increased height to reduce space
   const heroR = useTransform(smooth, [0, 0.9], ["0px", "12px"]);
 
   /* ── Overlay text fades out smoothly ── */
@@ -44,7 +44,7 @@ export function GallerySection() {
   const cornerOp = useTransform(smooth, [0.1, 0.55], [0, 1]);
   const cornerSc = useTransform(smooth, [0.1, 0.55], [0.82, 1]);
 
-  /* ── Corner travel — fly in from edges with precise positioning ── */
+  /* ── Corner travel — fly in from edges with reduced gap ── */
   const tlX = useTransform(smooth, [0, 0.9], ["-55vw", "0vw"]);
   const tlY = useTransform(smooth, [0, 0.9], ["-45vh", "0vh"]);
   const blX = useTransform(smooth, [0, 0.9], ["-55vw", "0vw"]);
@@ -74,7 +74,6 @@ export function GallerySection() {
       style={{ background: "#04090f", margin: 0, padding: 0 }}
       className="relative w-full select-none"
     >
-      {/* 105vh for minimal trailing space after animation completes */}
       <div ref={containerRef} style={{ height: "105vh", position: "relative" }}>
         <div
           style={{ 
@@ -93,8 +92,8 @@ export function GallerySection() {
               style={{
                 ...cornerStyle,
                 x: tlX, y: tlY, opacity: cornerOp, scale: cornerSc,
-                width: "23%", height: "42%",
-                top: "5%", left: "4%",
+                width: "25%", height: "44%", // Increased size to reduce space
+                top: "4%", left: "4%",
               }}
             >
               <img src={IMAGES[1].src} alt={IMAGES[1].alt} style={imgStyle} />
@@ -105,8 +104,8 @@ export function GallerySection() {
               style={{
                 ...cornerStyle,
                 x: blX, y: blY, opacity: cornerOp, scale: cornerSc,
-                width: "21%", height: "36%",
-                bottom: "5%", left: "6%",
+                width: "23%", height: "38%", // Increased size to reduce space
+                bottom: "4%", left: "6%",
               }}
             >
               <img src={IMAGES[2].src} alt={IMAGES[2].alt} style={imgStyle} />
@@ -117,8 +116,8 @@ export function GallerySection() {
               style={{
                 ...cornerStyle,
                 x: trX, y: trY, opacity: cornerOp, scale: cornerSc,
-                width: "21%", height: "36%",
-                top: "5%", right: "6%",
+                width: "23%", height: "38%", // Increased size to reduce space
+                top: "4%", right: "6%",
               }}
             >
               <img src={IMAGES[3].src} alt={IMAGES[3].alt} style={imgStyle} />
@@ -129,8 +128,8 @@ export function GallerySection() {
               style={{
                 ...cornerStyle,
                 x: brX, y: brY, opacity: cornerOp, scale: cornerSc,
-                width: "23%", height: "42%",
-                bottom: "5%", right: "4%",
+                width: "25%", height: "44%", // Increased size to reduce space
+                bottom: "4%", right: "4%",
               }}
             >
               <img src={IMAGES[4].src} alt={IMAGES[4].alt} style={imgStyle} />
@@ -154,7 +153,6 @@ export function GallerySection() {
                   alt={IMAGES[0].alt}
                   style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
                 />
-                {/* Subtle gradient overlay */}
                 <div
                   style={{
                     position: "absolute",
@@ -191,7 +189,7 @@ export function GallerySection() {
                       letterSpacing: "0.015em",
                     }}
                   >
-                    SPACES WHERE LIFE
+                    Living place that becomes
                     <br />
                     <em
                       style={{
@@ -200,7 +198,7 @@ export function GallerySection() {
                         color: "#fff",
                       }}
                     >
-                      Unfolds
+                      your pride
                     </em>
                   </h2>
                 </motion.div>
