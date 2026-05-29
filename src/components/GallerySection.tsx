@@ -23,7 +23,7 @@ export function GallerySection() {
     offset: ["start start", "end end"],
   });
 
-  /* ── Ultra-smooth lerp ── */
+  /* ── Ultra-smooth lerp for buttery animation ── */
   const smooth = useMotionValue(0);
   useAnimationFrame(() => {
     const cur = smooth.get();
@@ -31,20 +31,20 @@ export function GallerySection() {
     smooth.set(cur + (tgt - cur) * 0.055);
   });
 
-  /* ── Hero transforms — shrinks to center grid position ── */
+  /* ── Hero transforms — shrinks from fullscreen to center grid position ── */
   const heroW = useTransform(smooth, [0, 0.9], ["100vw", "34%"]);
   const heroH = useTransform(smooth, [0, 0.9], ["100vh", "52%"]);
   const heroR = useTransform(smooth, [0, 0.9], ["0px", "12px"]);
 
-  /* ── Overlay text fades out ── */
+  /* ── Overlay text fades out smoothly ── */
   const textOp = useTransform(smooth, [0, 0.3], [1, 0]);
   const textY = useTransform(smooth, [0, 0.3], [0, -60]);
 
-  /* ── Corners: shared fade/scale ── */
+  /* ── Corners: shared fade/scale for smooth appearance ── */
   const cornerOp = useTransform(smooth, [0.1, 0.55], [0, 1]);
   const cornerSc = useTransform(smooth, [0.1, 0.55], [0.82, 1]);
 
-  /* ── Corner travel — fly in from edges ── */
+  /* ── Corner travel — fly in from edges with precise positioning ── */
   const tlX = useTransform(smooth, [0, 0.9], ["-55vw", "0vw"]);
   const tlY = useTransform(smooth, [0, 0.9], ["-45vh", "0vh"]);
   const blX = useTransform(smooth, [0, 0.9], ["-55vw", "0vw"]);
@@ -74,7 +74,7 @@ export function GallerySection() {
       style={{ background: "#04090f", margin: 0, padding: 0 }}
       className="relative w-full select-none"
     >
-      {/* 105vh for minimal trailing space after animation */}
+      {/* 105vh for minimal trailing space after animation completes */}
       <div ref={containerRef} style={{ height: "105vh", position: "relative" }}>
         <div
           style={{ 
@@ -136,7 +136,7 @@ export function GallerySection() {
               <img src={IMAGES[4].src} alt={IMAGES[4].alt} style={imgStyle} />
             </motion.div>
 
-            {/* ── Hero — centre (shrinks from fullscreen) ── */}
+            {/* ── Hero — centre image (shrinks from fullscreen) ── */}
             <motion.div
               style={{
                 position: "absolute",
@@ -163,7 +163,7 @@ export function GallerySection() {
                   }}
                 />
 
-                {/* Text overlay — fades as user scrolls */}
+                {/* Text overlay — fades out as user scrolls ── */}
                 <motion.div
                   style={{
                     opacity: textOp,
