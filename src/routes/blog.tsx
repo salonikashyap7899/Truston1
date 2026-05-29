@@ -150,13 +150,13 @@ function BlogPage() {
           />
         </div>
 
-        <div className="relative z-10 px-6 md:px-12 pb-20 max-w-7xl mx-auto w-full">
+        <div className="relative z-10 px-6 md:px-12 pb-20 max-w-7xl mx-auto w-full pt-7">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           >
-            <div className="flex items-center gap-3 mb-10 pt-7">
+            <div className="flex items-center gap-3 mb-10 ">
               <span className="w-8 h-px bg-[#00BFFF]" />
               <span className="text-[#00BFFF] text-[11px] uppercase tracking-[0.3em] font-bold pt-7">
                 {String(hero.eyebrow || "Editorial & Insights")}
