@@ -16,6 +16,7 @@ import { PrimeEstateSection } from "@/components/PrimeEstateSection";
 import { WhoWeAreSection } from "@/components/WhoWeAreSection";
 import { GallerySection } from "@/components/GallerySection";
 import { RedefiningLuxurySection } from "@/components/RedefiningLuxurySection";
+import { NewGenerationLivingSection } from "@/components/NewGenerationLivingSection";
 import { usePageContent } from "@/hooks/usePageContent";
 
 export const Route = createFileRoute("/")({
@@ -145,16 +146,16 @@ function Index() {
         <GallerySection />
       </div>
 
-      {/* Prime Estate Project (Building Plots & Structures) — After Gallery */}
-      <div className="pb-12 md:pb-20 bg-[#0F0F0D]">
-        <PrimeEstateSection />
-      </div>
-      
-      
+      {/* Prime Estate Project (Building Plots & Structures) — After Gallery */}
+      <div className="pb-12 md:pb-20 bg-[#0F0F0D]">
+        <PrimeEstateSection />
+      </div>
+      
+      {/* New Generation Living Section */}
+      <NewGenerationLivingSection />
 
-
-      {/* Philosophy */}
-      <PhilosophySection />
+      {/* Philosophy */}
+      <PhilosophySection />
      {/* Plots & Structures — CSS building scene */}
       <PlotsAndStructures />
 
