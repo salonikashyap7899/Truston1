@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
@@ -13,7 +13,7 @@ import {
 export const Route = createFileRoute("/admin/")({
   head: () => ({
     meta: [
-      { title: "Admin · Truston" },
+      { title: "Admin · TrustOn" },
       { name: "robots", content: "noindex,nofollow" },
     ],
   }),
@@ -29,15 +29,30 @@ type ContentBlock = {
   updated_at: string;
 };
 
-type SaveStatus = { type: "success" | "error" | "info"; message: string } | null;
+type Toast = { id: number; type: "success" | "error" | "info"; message: string };
+
+const PAGE_TABS = [
+  { label: "All Pages", prefix: "" },
+  { label: "Home", prefix: "home." },
+  { label: "About Us", prefix: "about." },
+  { label: "Plot Selling", prefix: "plot_selling." },
+  { label: "Project", prefix: "project" },
+  { label: "Services", prefix: "services." },
+  { label: "Construction", prefix: "construction." },
+  { label: "Investment", prefix: "investment." },
+  { label: "Architecture", prefix: "architecture." },
+  { label: "Lifestyle", prefix: "lifestyle." },
+  { label: "Contact", prefix: "contact." },
+  { label: "Partners", prefix: "partner." },
+  { label: "Footer", prefix: "footer." },
+];
 
 function previewUrl(blockKey: string): string | null {
   if (blockKey.startsWith("home.")) return "/";
   if (blockKey.startsWith("about.")) return "/about-us";
   if (blockKey.startsWith("contact.")) return "/contact";
   if (blockKey.startsWith("services.")) return "/services";
-  if (blockKey.startsWith("project.")) return "/project";
-  if (blockKey.startsWith("project_detail.")) return "/project";
+  if (blockKey.startsWith("project_detail.") || blockKey.startsWith("project.")) return "/project";
   if (blockKey.startsWith("plot_selling.")) return "/plot-selling";
   if (blockKey.startsWith("construction.")) return "/construction-build";
   if (blockKey.startsWith("investment.")) return "/investment-consulting";
@@ -49,8 +64,13 @@ function previewUrl(blockKey: string): string | null {
   return null;
 }
 
+function pageLabel(blockKey: string): string {
+  const tab = PAGE_TABS.find((t) => t.prefix && blockKey.startsWith(t.prefix));
+  return tab?.label ?? blockKey.split(".")[0].replace(/_/g, " ");
+}
+
 function AdminPage() {
-  const { isAdmin, loading } = useAuth();
+  const { isAdmin, loading, user } = useAuth();
   const navigate = useNavigate();
   const fetchBlocks = useServerFn(getSiteContentBlocks);
   const saveBlockFn = useServerFn(saveSiteContentBlock);
@@ -59,17 +79,25 @@ function AdminPage() {
 
   const [blocks, setBlocks] = useState<ContentBlock[]>([]);
   const [editJson, setEditJson] = useState<Record<string, string>>({});
-  const [status, setStatus] = useState<SaveStatus>(null);
+  const [toasts, setToasts] = useState<Toast[]>([]);
   const [filter, setFilter] = useState("");
+  const [activeTab, setActiveTab] = useState("");
   const [savingKey, setSavingKey] = useState<string | null>(null);
   const [lastSavedKey, setLastSavedKey] = useState<string | null>(null);
-  const [lastUploadUrl, setLastUploadUrl] = useState<string>("");
-  const [uploading, setUploading] = useState(false);
+  const [uploadingField, setUploadingField] = useState<string | null>(null);
   const [seeding, setSeeding] = useState(false);
+  const [showInitBox, setShowInitBox] = useState(false);
+  const toastCount = useRef(0);
 
   useEffect(() => {
     if (!loading && !isAdmin) navigate({ to: "/admin/login" });
   }, [isAdmin, loading, navigate]);
+
+  const addToast = (type: Toast["type"], message: string) => {
+    const id = ++toastCount.current;
+    setToasts((prev) => [...prev.slice(-3), { id, type, message }]);
+    setTimeout(() => setToasts((prev) => prev.filter((t) => t.id !== id)), 6000);
+  };
 
   const loadBlocks = () => {
     fetchBlocks()
@@ -77,46 +105,40 @@ function AdminPage() {
         setBlocks(data);
         setEditJson(
           Object.fromEntries(
-            data.map((block) => [block.key, JSON.stringify(block.data ?? {}, null, 2)]),
+            data.map((b) => [b.key, JSON.stringify(b.data ?? {}, null, 2)]),
           ),
         );
       })
       .catch((err) => {
-        setStatus({ type: "error", message: `Failed to load: ${err instanceof Error ? err.message : String(err)}` });
+        addToast("error", `Failed to load: ${err instanceof Error ? err.message : String(err)}`);
       });
   };
 
   useEffect(() => { loadBlocks(); }, [fetchBlocks]);
 
-  const filteredBlocks = useMemo(
-    () =>
-      blocks.filter((block) => {
-        if (!filter.trim()) return true;
-        const s = filter.toLowerCase();
-        return (
-          block.key.toLowerCase().includes(s) ||
-          block.label.toLowerCase().includes(s) ||
-          JSON.stringify(block.data).toLowerCase().includes(s)
-        );
-      }),
-    [blocks, filter],
-  );
+  const filteredBlocks = useMemo(() => {
+    return blocks.filter((b) => {
+      const matchTab = !activeTab || b.key.startsWith(activeTab);
+      const s = filter.toLowerCase();
+      const matchSearch =
+        !s ||
+        b.key.toLowerCase().includes(s) ||
+        b.label.toLowerCase().includes(s) ||
+        JSON.stringify(b.data).toLowerCase().includes(s);
+      return matchTab && matchSearch;
+    });
+  }, [blocks, filter, activeTab]);
 
   const handleSeed = async (overwrite: boolean) => {
     setSeeding(true);
-    setStatus({ type: "info", message: overwrite ? "Resetting all blocks to defaults…" : "Initialising missing content blocks…" });
+    addToast("info", overwrite ? "Resetting all blocks to defaults…" : "Initialising missing sections…");
     try {
       await seedFn({ data: { overwrite } });
       loadBlocks();
-      setStatus({
-        type: "success",
-        message: overwrite
-          ? "✓ All content reset to defaults — every section now has its default text."
-          : "✓ All missing sections have been initialised — you can now edit every section below.",
-      });
-      setTimeout(() => setStatus(null), 7000);
+      addToast("success", overwrite ? "✓ All content reset to defaults." : "✓ All missing sections initialized.");
+      setShowInitBox(false);
     } catch (err) {
-      setStatus({ type: "error", message: `Seed failed: ${err instanceof Error ? err.message : String(err)}` });
+      addToast("error", `Seed failed: ${err instanceof Error ? err.message : String(err)}`);
     } finally {
       setSeeding(false);
     }
@@ -128,57 +150,41 @@ function AdminPage() {
     try {
       parsed = JSON.parse(raw);
     } catch {
-      setStatus({ type: "error", message: "Invalid JSON — fix the formatting before saving." });
+      addToast("error", "Invalid JSON — fix the formatting before saving.");
       return;
     }
-
     setSavingKey(block.key);
-    setStatus({ type: "info", message: "Saving…" });
-
     try {
-      const saved = await saveBlockFn({
-        data: {
-          key: block.key,
-          label: block.label,
-          data: parsed,
-        },
-      });
-
+      const saved = await saveBlockFn({ data: { key: block.key, label: block.label, data: parsed } });
       setBlocks((prev) => prev.map((b) => (b.key === saved.key ? saved : b)));
       setEditJson((prev) => ({ ...prev, [saved.key]: JSON.stringify(saved.data ?? {}, null, 2) }));
       setLastSavedKey(saved.key);
-      setStatus({
-        type: "success",
-        message: `✓ "${saved.label}" saved! Changes appear on the website immediately.`,
-      });
-      setTimeout(() => setStatus(null), 6000);
+      setTimeout(() => setLastSavedKey(null), 4000);
+      addToast("success", `✓ "${saved.label}" saved! Changes are live on the website.`);
     } catch (err) {
-      setStatus({ type: "error", message: `Save failed: ${err instanceof Error ? err.message : String(err)}` });
+      addToast("error", `Save failed: ${err instanceof Error ? err.message : String(err)}`);
     } finally {
       setSavingKey(null);
     }
   };
 
-  const handleUpload = async (file: File) => {
-    setUploading(true);
-    setLastUploadUrl("");
-    setStatus({ type: "info", message: "Uploading file…" });
+  const uploadFile = async (
+    file: File,
+    fieldKey: string,
+    onUrl: (url: string) => void,
+  ) => {
+    setUploadingField(fieldKey);
     try {
       const base64 = await fileToBase64(file);
       const { url } = await uploadFn({
-        data: {
-          filename: file.name,
-          contentType: file.type || "application/octet-stream",
-          base64,
-        },
+        data: { filename: file.name, contentType: file.type || "application/octet-stream", base64 },
       });
-      setLastUploadUrl(url);
-      if (navigator.clipboard) await navigator.clipboard.writeText(url);
-      setStatus({ type: "success", message: "✓ File uploaded! URL copied to clipboard — paste it into the image_url or video_url field, then click Save block." });
+      onUrl(url);
+      addToast("success", `✓ "${file.name}" uploaded and applied to the field.`);
     } catch (err) {
-      setStatus({ type: "error", message: `Upload failed: ${err instanceof Error ? err.message : String(err)}` });
+      addToast("error", `Upload failed: ${err instanceof Error ? err.message : String(err)}`);
     } finally {
-      setUploading(false);
+      setUploadingField(null);
     }
   };
 
@@ -187,156 +193,176 @@ function AdminPage() {
     navigate({ to: "/admin/login" });
   };
 
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#04090f] flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-8 h-8 border-2 border-[#00BFFF]/30 border-t-[#00BFFF] rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-white/40 text-sm uppercase tracking-widest">Verifying access…</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <header className="sticky top-0 z-30 border-b border-border bg-background/95 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto flex flex-col gap-4 px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <p className="text-xs uppercase tracking-[0.4em] text-muted-foreground">Admin Panel</p>
-            <h1 className="text-3xl font-display">Site Content Editor</h1>
+    <div className="min-h-screen bg-[#04090f] text-white">
+
+      {/* ── Header ── */}
+      <header className="sticky top-0 z-40 border-b border-white/8 bg-[#04090f]/95 backdrop-blur-md">
+        <div className="max-w-screen-2xl mx-auto flex items-center justify-between px-6 h-16">
+          <div className="flex items-center gap-4">
+            <div className="w-8 h-8 rounded-lg bg-[#00BFFF]/15 border border-[#00BFFF]/30 flex items-center justify-center">
+              <svg className="w-4 h-4 text-[#00BFFF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+              </svg>
+            </div>
+            <div>
+              <span className="text-white font-semibold text-sm tracking-wide">TrustOn Admin</span>
+              <span className="ml-3 text-[#00BFFF] text-[10px] uppercase tracking-[0.25em] font-bold hidden sm:inline">Content Manager</span>
+            </div>
           </div>
-          <div className="flex flex-wrap gap-3">
-            <a href="/" target="_blank" rel="noopener noreferrer"
-              className="rounded-full border border-border px-4 py-2 text-sm hover:bg-secondary">
-              View live site ↗
+
+          <div className="flex items-center gap-3">
+            <span className="hidden md:block text-white/30 text-xs truncate max-w-[200px]">{user?.email}</span>
+            <a
+              href="/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden sm:flex items-center gap-1.5 px-4 py-2 rounded-lg border border-white/10 text-white/60 text-xs hover:border-white/25 hover:text-white transition-all"
+            >
+              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+              Live Site
             </a>
-            <button onClick={signOut} className="rounded-full bg-primary px-4 py-2 text-sm text-primary-foreground">
-              Sign out
+            <button
+              onClick={signOut}
+              className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white/60 text-xs hover:bg-red-500/10 hover:border-red-500/30 hover:text-red-400 transition-all"
+            >
+              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
+              Sign Out
             </button>
           </div>
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-6 py-8 space-y-8">
+      <div className="max-w-screen-2xl mx-auto px-6 py-8">
 
-        {/* STEP 1: Initialize all sections */}
-        <div className="rounded-3xl border border-[#00BFFF]/30 bg-[#00BFFF]/5 p-6">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-            <div>
-              <p className="font-semibold text-white mb-1">Step 1 — Initialize all website sections</p>
-              <p className="text-sm text-white/60 leading-relaxed max-w-xl">
-                Click <strong className="text-white">Initialize all sections</strong> to create editable content blocks for every section on your site (hero, services, why choose us, call to action, etc.). You only need to do this once. After that, all sections appear below and you can edit them.
-              </p>
+        {/* ── Stats Bar ── */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+          {[
+            { label: "Total Sections", value: blocks.length, accent: false },
+            { label: "Showing", value: filteredBlocks.length, accent: false },
+            { label: "Active Page", value: PAGE_TABS.find(t => t.prefix === activeTab)?.label ?? "All Pages", accent: true },
+            { label: "Status", value: uploadingField ? "Uploading…" : savingKey ? "Saving…" : "Ready", accent: false },
+          ].map(({ label, value, accent }) => (
+            <div key={label} className="rounded-2xl border border-white/8 bg-white/3 px-5 py-4">
+              <p className="text-white/35 text-[10px] uppercase tracking-[0.25em] mb-1">{label}</p>
+              <p className={`text-xl font-semibold ${accent ? "text-[#00BFFF]" : "text-white"}`}>{value}</p>
             </div>
-            <div className="flex flex-col gap-2 shrink-0">
-              <button
-                onClick={() => handleSeed(false)}
-                disabled={seeding}
-                className="rounded-full bg-[#00BFFF] px-5 py-2.5 text-sm font-semibold text-[#04090f] disabled:opacity-60 whitespace-nowrap hover:brightness-110"
-              >
-                {seeding ? "Initializing…" : "Initialize all sections"}
-              </button>
-              <button
-                onClick={() => {
-                  if (confirm("This will reset ALL content to defaults and overwrite your changes. Continue?")) handleSeed(true);
-                }}
-                disabled={seeding}
-                className="rounded-full border border-red-500/40 px-5 py-2.5 text-sm text-red-400 disabled:opacity-60 hover:bg-red-500/10 whitespace-nowrap"
-              >
-                Reset all to defaults
-              </button>
-            </div>
-          </div>
+          ))}
         </div>
 
-        {/* STEP 2: How to change images and videos */}
-        <div className="rounded-3xl border border-amber-500/25 bg-amber-500/5 p-6">
-          <p className="font-semibold text-amber-200 mb-2">Step 2 — Changing images or videos</p>
-          <ol className="list-decimal ml-4 space-y-1.5 text-sm text-amber-200/70">
-            <li>Use the <strong className="text-amber-200">Upload image / video</strong> panel below — click "Choose file" and pick a file from your computer.</li>
-            <li>After upload, the URL is automatically copied to your clipboard.</li>
-            <li>Find the content block you want to update (e.g. Home — Hero), paste the URL into the <code className="bg-white/10 px-1 rounded">image_url</code> or <code className="bg-white/10 px-1 rounded">video_url</code> field.</li>
-            <li>Click <strong className="text-amber-200">Save block</strong> — the image/video updates on the website immediately.</li>
-          </ol>
+        {/* ── Toolbar Row ── */}
+        <div className="flex flex-col sm:flex-row gap-3 mb-6">
+          <div className="relative flex-1">
+            <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/25" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <input
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+              placeholder="Search sections, headings, text…"
+              className="w-full bg-white/4 border border-white/10 rounded-xl pl-11 pr-4 py-3 text-sm text-white placeholder-white/25 focus:outline-none focus:border-[#00BFFF]/40 transition-colors"
+            />
+          </div>
+          <button
+            onClick={() => setShowInitBox((v) => !v)}
+            className="flex items-center gap-2 px-5 py-3 rounded-xl border border-[#00BFFF]/30 bg-[#00BFFF]/8 text-[#00BFFF] text-sm font-medium hover:bg-[#00BFFF]/15 transition-all"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
+            Initialize Sections
+          </button>
         </div>
 
-        <section className="grid gap-6 lg:grid-cols-[2fr_1fr]">
-          <div className="space-y-4">
-            {/* Search */}
-            <div className="rounded-3xl border border-border bg-card p-6">
-              <h2 className="text-xl font-semibold mb-1">Search content blocks</h2>
-              <p className="text-sm text-muted-foreground mb-4">Filter by section name or keyword</p>
-              <input
-                value={filter}
-                onChange={(e) => setFilter(e.target.value)}
-                placeholder="e.g. hero, services, why truston…"
-                className="w-full rounded-2xl border border-border bg-input px-4 py-3 text-foreground"
-              />
-              {blocks.length > 0 && (
-                <p className="mt-2 text-xs text-muted-foreground">{filteredBlocks.length} of {blocks.length} sections shown</p>
-              )}
+        {/* ── Initialize Panel (collapsible) ── */}
+        {showInitBox && (
+          <div className="mb-6 rounded-2xl border border-[#00BFFF]/20 bg-[#00BFFF]/5 p-6">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-4 justify-between">
+              <div>
+                <p className="text-white font-semibold mb-1">Initialize / Reset Content Sections</p>
+                <p className="text-white/45 text-sm leading-relaxed max-w-xl">
+                  <strong className="text-white">Initialize</strong> creates any missing content blocks for all pages. Use <strong className="text-white">Reset</strong> only if you want to restore ALL content to factory defaults (this overwrites your changes).
+                </p>
+              </div>
+              <div className="flex gap-3 shrink-0">
+                <button
+                  onClick={() => handleSeed(false)}
+                  disabled={seeding}
+                  className="px-5 py-2.5 rounded-xl bg-[#00BFFF] text-[#04090f] text-sm font-bold disabled:opacity-50 hover:brightness-110 whitespace-nowrap"
+                >
+                  {seeding ? "Working…" : "Initialize Missing"}
+                </button>
+                <button
+                  onClick={() => { if (confirm("This will RESET ALL content to defaults, overwriting your changes. Continue?")) handleSeed(true); }}
+                  disabled={seeding}
+                  className="px-5 py-2.5 rounded-xl border border-red-500/40 text-red-400 text-sm disabled:opacity-50 hover:bg-red-500/10 whitespace-nowrap"
+                >
+                  Reset All
+                </button>
+              </div>
             </div>
-
-            {/* Upload */}
-            <div className="rounded-3xl border border-border bg-card p-6">
-              <h2 className="text-xl font-semibold mb-1">Upload image or video from your computer</h2>
-              <p className="text-sm text-muted-foreground mb-4">
-                Pick any image or video file → it uploads to the server → you get a URL → paste it into any <code className="bg-muted px-1 rounded text-xs">image_url</code> or <code className="bg-muted px-1 rounded text-xs">video_url</code> field below → Save block.
-              </p>
-              <label className={`inline-flex items-center gap-3 cursor-pointer rounded-2xl border-2 px-5 py-3 text-sm font-semibold transition ${uploading ? "opacity-50 cursor-wait border-border bg-muted text-muted-foreground" : "border-[#00BFFF]/40 bg-[#00BFFF]/10 text-[#00BFFF] hover:bg-[#00BFFF]/20"}`}>
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
-                </svg>
-                {uploading ? "Uploading…" : "Choose file from computer"}
-                <input type="file" accept="image/*,video/*" disabled={uploading}
-                  onChange={(e) => e.target.files?.[0] && handleUpload(e.target.files[0])}
-                  className="hidden" />
-              </label>
-
-              {lastUploadUrl && (
-                <div className="mt-4 rounded-2xl border border-green-500/30 bg-green-500/10 p-4">
-                  <p className="text-xs text-green-300 font-semibold mb-1">✓ Upload complete — URL copied to clipboard!</p>
-                  <p className="break-all text-xs text-green-200 font-mono mb-2">{lastUploadUrl}</p>
-                  <p className="text-xs text-green-300/70">Now paste this URL into the <code className="bg-white/10 px-1 rounded">image_url</code> or <code className="bg-white/10 px-1 rounded">video_url</code> field in the block below, then click Save block.</p>
-                  <button onClick={() => navigator.clipboard?.writeText(lastUploadUrl)}
-                    className="mt-2 text-xs text-green-400 hover:underline font-medium">Copy URL again</button>
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Field reference */}
-          <div className="rounded-3xl border border-border bg-card p-6">
-            <h2 className="text-xl font-semibold mb-1">Field reference</h2>
-            <p className="text-sm text-muted-foreground mb-4">What each field name means</p>
-            <div className="space-y-3 text-sm">
-              {[
-                { field: "title", desc: "Main heading" },
-                { field: "title_accent", desc: "Highlighted/blue part of heading" },
-                { field: "eyebrow", desc: "Small label above heading" },
-                { field: "subtitle", desc: "Sub-heading below main title" },
-                { field: "body", desc: "Main paragraph text" },
-                { field: "body_secondary", desc: "Second paragraph text" },
-                { field: "image_url", desc: "Background / section image URL" },
-                { field: "video_url", desc: "Background video URL (.mp4)" },
-              ].map(({ field, desc }) => (
-                <div key={field} className="flex gap-3 items-start">
-                  <code className="shrink-0 rounded-lg bg-muted px-2 py-0.5 text-xs">{field}</code>
-                  <span className="text-muted-foreground text-xs leading-relaxed">{desc}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {status && (
-          <div className={`rounded-3xl border p-4 text-sm font-medium ${
-            status.type === "success" ? "border-green-500/40 bg-green-500/10 text-green-200"
-            : status.type === "error"  ? "border-red-500/40 bg-red-500/10 text-red-200"
-            : "border-blue-500/40 bg-blue-500/10 text-blue-200"
-          }`}>
-            {status.message}
           </div>
         )}
 
+        {/* ── Page Tabs ── */}
+        <div className="flex gap-2 overflow-x-auto pb-2 mb-6 scrollbar-none">
+          {PAGE_TABS.map((tab) => {
+            const count = tab.prefix
+              ? blocks.filter((b) => b.key.startsWith(tab.prefix)).length
+              : blocks.length;
+            if (!tab.prefix && count === 0) return null;
+            if (tab.prefix && count === 0) return null;
+            return (
+              <button
+                key={tab.prefix}
+                onClick={() => setActiveTab(tab.prefix)}
+                className={`shrink-0 flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-medium transition-all ${
+                  activeTab === tab.prefix
+                    ? "bg-[#00BFFF] text-[#04090f]"
+                    : "bg-white/5 border border-white/8 text-white/50 hover:text-white hover:bg-white/10"
+                }`}
+              >
+                {tab.label}
+                <span className={`text-[10px] px-1.5 py-0.5 rounded-md ${activeTab === tab.prefix ? "bg-[#04090f]/20" : "bg-white/8"}`}>
+                  {count}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* ── Empty State ── */}
         {blocks.length === 0 && (
-          <div className="rounded-3xl border border-amber-500/30 bg-amber-500/10 p-8 text-center">
-            <p className="text-amber-200 font-semibold text-lg mb-2">No content blocks yet</p>
-            <p className="text-amber-200/60 text-sm mb-4">Click "Initialize all sections" above to create editable blocks for every section of your website.</p>
+          <div className="rounded-2xl border border-amber-500/25 bg-amber-500/5 p-12 text-center">
+            <div className="w-12 h-12 rounded-2xl border border-amber-500/30 bg-amber-500/10 flex items-center justify-center mx-auto mb-4">
+              <svg className="w-6 h-6 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+            </div>
+            <p className="text-amber-200 font-semibold text-lg mb-2">No content sections yet</p>
+            <p className="text-amber-200/50 text-sm mb-5">Click "Initialize Sections" above to create editable blocks for every section of your website.</p>
+            <button onClick={() => { setShowInitBox(true); }} className="px-6 py-2.5 rounded-xl bg-amber-500/20 border border-amber-500/40 text-amber-200 text-sm font-medium">
+              Show Initialize Panel
+            </button>
           </div>
         )}
 
-        <section className="space-y-6">
+        {filteredBlocks.length === 0 && blocks.length > 0 && (
+          <div className="rounded-2xl border border-white/8 bg-white/3 p-10 text-center">
+            <p className="text-white/40 text-sm">No sections match your current filter.</p>
+            <button onClick={() => { setFilter(""); setActiveTab(""); }} className="mt-3 text-[#00BFFF] text-xs hover:underline">Clear filters</button>
+          </div>
+        )}
+
+        {/* ── Block Cards ── */}
+        <div className="space-y-4">
           {filteredBlocks.map((block) => (
             <BlockCard
               key={block.key}
@@ -346,70 +372,39 @@ function AdminPage() {
               onSave={() => handleSave(block)}
               saving={savingKey === block.key}
               justSaved={lastSavedKey === block.key}
+              uploadingField={uploadingField}
+              onUpload={uploadFile}
             />
           ))}
-        </section>
-      </main>
+        </div>
+      </div>
+
+      {/* ── Toast Stack ── */}
+      <div className="fixed bottom-6 right-6 z-50 space-y-2 max-w-sm w-full pointer-events-none">
+        {toasts.map((t) => (
+          <div
+            key={t.id}
+            className={`pointer-events-auto flex items-start gap-3 rounded-2xl border p-4 shadow-2xl backdrop-blur text-sm font-medium animate-in slide-in-from-bottom-2 fade-in duration-300 ${
+              t.type === "success" ? "border-green-500/40 bg-green-950/90 text-green-200"
+              : t.type === "error" ? "border-red-500/40 bg-red-950/90 text-red-200"
+              : "border-[#00BFFF]/40 bg-[#04090f]/90 text-[#00BFFF]"
+            }`}
+          >
+            <span className="shrink-0 mt-0.5">
+              {t.type === "success" ? "✓" : t.type === "error" ? "✕" : "ℹ"}
+            </span>
+            <span className="leading-relaxed">{t.message}</span>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
 
 type CardItem = { num?: string; name: string; desc: string; linkText?: string; [k: string]: unknown };
 
-function CardArrayEditor({
-  cards,
-  onChange,
-}: {
-  cards: CardItem[];
-  onChange: (updated: CardItem[]) => void;
-}) {
-  const update = (idx: number, field: keyof CardItem, val: string) => {
-    const next = cards.map((c, i) => i === idx ? { ...c, [field]: val } : c);
-    onChange(next);
-  };
-
-  return (
-    <div className="space-y-4">
-      {cards.map((card, idx) => (
-        <div key={idx} className="rounded-2xl border border-border bg-background/60 p-5">
-          <p className="text-xs font-bold uppercase tracking-[0.3em] text-[#00BFFF] mb-3">
-            Card {card.num ?? String(idx + 1)}
-          </p>
-          <div className="grid gap-3 sm:grid-cols-2">
-            <div>
-              <label className="block text-xs uppercase tracking-[0.25em] text-muted-foreground mb-1">Name / Title</label>
-              <input
-                value={card.name ?? ""}
-                onChange={(e) => update(idx, "name", e.target.value)}
-                className="w-full rounded-xl border border-border bg-input px-3 py-2 text-sm text-foreground"
-              />
-            </div>
-            <div>
-              <label className="block text-xs uppercase tracking-[0.25em] text-muted-foreground mb-1">Button / Link Text</label>
-              <input
-                value={String(card.linkText ?? "")}
-                onChange={(e) => update(idx, "linkText", e.target.value)}
-                className="w-full rounded-xl border border-border bg-input px-3 py-2 text-sm text-foreground"
-              />
-            </div>
-            <div className="sm:col-span-2">
-              <label className="block text-xs uppercase tracking-[0.25em] text-muted-foreground mb-1">Description</label>
-              <textarea
-                value={card.desc ?? ""}
-                onChange={(e) => update(idx, "desc", e.target.value)}
-                rows={3}
-                className="w-full rounded-xl border border-border bg-input px-3 py-2 text-sm text-foreground resize-none leading-relaxed"
-              />
-            </div>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-}
-
 function BlockCard({
-  block, value, onChange, onSave, saving, justSaved,
+  block, value, onChange, onSave, saving, justSaved, uploadingField, onUpload,
 }: {
   block: ContentBlock;
   value: string;
@@ -417,7 +412,11 @@ function BlockCard({
   onSave: () => void;
   saving: boolean;
   justSaved: boolean;
+  uploadingField: string | null;
+  onUpload: (file: File, fieldKey: string, onUrl: (url: string) => void) => void;
 }) {
+  const [open, setOpen] = useState(false);
+
   let parsed: Record<string, unknown> | null = null;
   try { parsed = JSON.parse(value); } catch { parsed = null; }
 
@@ -429,60 +428,136 @@ function BlockCard({
     parsed && Array.isArray(parsed.cards) ? (parsed.cards as CardItem[]) : null;
 
   const preview = previewUrl(block.key);
+  const page = pageLabel(block.key);
 
   return (
-    <div className={`rounded-3xl border bg-card p-6 transition-colors duration-500 ${justSaved ? "border-green-500/50" : "border-border"}`}>
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-        <div>
-          <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground">{block.key}</p>
-          <h3 className="text-xl font-semibold mt-0.5">{block.label}</h3>
+    <div className={`rounded-2xl border transition-all duration-300 overflow-hidden ${justSaved ? "border-green-500/40 bg-green-950/10" : "border-white/8 bg-white/[0.02]"}`}>
+
+      {/* Card Header */}
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between px-6 py-4 border-b border-white/6">
+        <div className="flex items-center gap-3 min-w-0">
+          <span className="shrink-0 px-2.5 py-1 rounded-lg bg-[#00BFFF]/10 border border-[#00BFFF]/20 text-[#00BFFF] text-[10px] font-bold uppercase tracking-[0.2em]">
+            {page}
+          </span>
+          <div className="min-w-0">
+            <p className="text-xs text-white/30 font-mono truncate">{block.key}</p>
+            <p className="text-white font-semibold text-sm mt-0.5 leading-tight">{block.label}</p>
+          </div>
         </div>
-        <div className="flex flex-wrap gap-2 items-center">
+        <div className="flex items-center gap-2 shrink-0">
+          {justSaved && <span className="text-green-400 text-xs font-semibold animate-in fade-in">✓ Saved</span>}
           {preview && (
-            <a href={preview} target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 rounded-full border border-border px-4 py-2.5 text-sm text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors">
-              Preview page ↗
+            <a
+              href={preview}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-lg border border-white/10 text-white/40 text-xs hover:text-white hover:border-white/25 transition-all"
+            >
+              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+              Preview
             </a>
           )}
-          {justSaved && <span className="text-xs text-green-400 font-semibold">✓ Saved!</span>}
           <button
             type="button"
             onClick={onSave}
             disabled={saving}
-            className="inline-flex items-center justify-center rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground disabled:opacity-60"
+            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#00BFFF] text-[#04090f] text-xs font-bold disabled:opacity-50 hover:brightness-110 transition-all"
           >
-            {saving ? "Saving…" : "Save block"}
+            {saving ? (
+              <>
+                <span className="w-3 h-3 border-2 border-[#04090f]/30 border-t-[#04090f] rounded-full animate-spin" />
+                Saving…
+              </>
+            ) : (
+              <>
+                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" /></svg>
+                Save Changes
+              </>
+            )}
           </button>
         </div>
       </div>
 
+      {/* Fields */}
       {simpleFields.length > 0 && (
-        <div className="mt-5 grid gap-3 sm:grid-cols-2">
-          {simpleFields.map(([field, val]) => (
-            <div key={field} className={field.includes("url") ? "sm:col-span-2" : ""}>
-              <label className="block text-xs uppercase tracking-[0.3em] text-muted-foreground mb-1.5">
-                {field}
-                {field.includes("url") && <span className="ml-2 normal-case tracking-normal text-[10px] text-muted-foreground/60">(paste URL from upload, or a web URL)</span>}
-              </label>
-              <input
-                value={String(val)}
-                onChange={(e) => {
-                  if (!parsed) return;
-                  onChange(JSON.stringify({ ...parsed, [field]: e.target.value }, null, 2));
-                }}
-                placeholder={field.includes("url") ? "https://… (upload a file above to get a URL)" : ""}
-                className={`w-full rounded-xl border border-border bg-input px-3 py-2 text-sm text-foreground ${field.includes("url") ? "font-mono text-xs" : ""}`}
-              />
-            </div>
-          ))}
+        <div className="px-6 py-5 grid gap-4 sm:grid-cols-2">
+          {simpleFields.map(([field, val]) => {
+            const isUrl = field.endsWith("_url") || field.endsWith("_image") || field === "image" || field === "video";
+            const fieldUid = `${block.key}::${field}`;
+            const isUploading = uploadingField === fieldUid;
+
+            return (
+              <div key={field} className={isUrl ? "sm:col-span-2" : ""}>
+                <label className="flex items-center gap-2 text-[10px] uppercase tracking-[0.25em] text-white/30 mb-2 font-semibold">
+                  {field.replace(/_/g, " ")}
+                  {isUrl && (
+                    <span className="normal-case tracking-normal text-white/20 font-normal">— image or video</span>
+                  )}
+                </label>
+                {isUrl ? (
+                  <div className="flex gap-2">
+                    <input
+                      value={String(val)}
+                      onChange={(e) => {
+                        if (!parsed) return;
+                        onChange(JSON.stringify({ ...parsed, [field]: e.target.value }, null, 2));
+                      }}
+                      placeholder="https://… or upload a file →"
+                      className="flex-1 bg-white/4 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white font-mono placeholder-white/20 focus:outline-none focus:border-[#00BFFF]/40 transition-colors"
+                    />
+                    <label className={`shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-xl border text-xs font-semibold cursor-pointer transition-all ${isUploading ? "border-[#00BFFF]/40 bg-[#00BFFF]/10 text-[#00BFFF]/50 cursor-wait" : "border-[#00BFFF]/30 bg-[#00BFFF]/8 text-[#00BFFF] hover:bg-[#00BFFF]/15"}`}>
+                      {isUploading ? (
+                        <span className="w-3.5 h-3.5 border-2 border-[#00BFFF]/30 border-t-[#00BFFF] rounded-full animate-spin" />
+                      ) : (
+                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
+                      )}
+                      {isUploading ? "Uploading…" : "Upload"}
+                      <input
+                        type="file"
+                        accept="image/*,video/*"
+                        disabled={!!uploadingField}
+                        className="hidden"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (!file || !parsed) return;
+                          e.target.value = "";
+                          onUpload(file, fieldUid, (url) => {
+                            onChange(JSON.stringify({ ...parsed, [field]: url }, null, 2));
+                          });
+                        }}
+                      />
+                    </label>
+                  </div>
+                ) : field.includes("desc") || field.includes("body") || field.includes("subtitle") ? (
+                  <textarea
+                    value={String(val)}
+                    onChange={(e) => {
+                      if (!parsed) return;
+                      onChange(JSON.stringify({ ...parsed, [field]: e.target.value }, null, 2));
+                    }}
+                    rows={3}
+                    className="w-full bg-white/4 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white placeholder-white/20 focus:outline-none focus:border-[#00BFFF]/40 transition-colors resize-none leading-relaxed"
+                  />
+                ) : (
+                  <input
+                    value={String(val)}
+                    onChange={(e) => {
+                      if (!parsed) return;
+                      onChange(JSON.stringify({ ...parsed, [field]: e.target.value }, null, 2));
+                    }}
+                    className="w-full bg-white/4 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white placeholder-white/20 focus:outline-none focus:border-[#00BFFF]/40 transition-colors"
+                  />
+                )}
+              </div>
+            );
+          })}
         </div>
       )}
 
+      {/* Card Array Editor */}
       {cardArray && cardArray.length > 0 && (
-        <div className="mt-6">
-          <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-3">
-            Service Cards — edit each card individually
-          </p>
+        <div className="px-6 pb-5">
+          <p className="text-[10px] uppercase tracking-[0.25em] text-white/30 mb-3 font-semibold">Service Cards</p>
           <CardArrayEditor
             cards={cardArray}
             onChange={(updated) => {
@@ -493,19 +568,59 @@ function BlockCard({
         </div>
       )}
 
-      <details className="mt-5 group">
-        <summary className="cursor-pointer text-xs uppercase tracking-[0.3em] text-muted-foreground hover:text-foreground transition-colors select-none">
-          Advanced — raw JSON editor
-        </summary>
-        <div className="mt-3">
-          <textarea
-            value={value}
-            onChange={(e) => onChange(e.target.value)}
-            rows={12}
-            className="w-full rounded-3xl border border-border bg-input px-4 py-4 font-mono text-sm leading-relaxed text-foreground"
-          />
+      {/* Advanced JSON toggle */}
+      <div className="border-t border-white/5">
+        <button
+          onClick={() => setOpen((v) => !v)}
+          className="w-full flex items-center justify-between px-6 py-3 text-[10px] uppercase tracking-[0.25em] text-white/25 hover:text-white/50 transition-colors"
+        >
+          <span>Advanced — Raw JSON Editor</span>
+          <svg className={`w-3 h-3 transition-transform ${open ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
+        </button>
+        {open && (
+          <div className="px-6 pb-5">
+            <textarea
+              value={value}
+              onChange={(e) => onChange(e.target.value)}
+              rows={14}
+              className="w-full bg-[#060c16] border border-white/10 rounded-xl px-4 py-4 font-mono text-xs text-green-300 leading-relaxed focus:outline-none focus:border-[#00BFFF]/30 transition-colors resize-y"
+            />
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function CardArrayEditor({ cards, onChange }: { cards: CardItem[]; onChange: (updated: CardItem[]) => void }) {
+  const update = (idx: number, field: keyof CardItem, val: string) => {
+    onChange(cards.map((c, i) => i === idx ? { ...c, [field]: val } : c));
+  };
+
+  return (
+    <div className="space-y-3">
+      {cards.map((card, idx) => (
+        <div key={idx} className="rounded-xl border border-white/8 bg-white/3 p-4">
+          <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#00BFFF] mb-3">Card {card.num ?? String(idx + 1)}</p>
+          <div className="grid gap-3 sm:grid-cols-2">
+            <div>
+              <label className="block text-[10px] uppercase tracking-[0.2em] text-white/30 mb-1.5">Title</label>
+              <input value={card.name ?? ""} onChange={(e) => update(idx, "name", e.target.value)}
+                className="w-full bg-white/4 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-[#00BFFF]/40" />
+            </div>
+            <div>
+              <label className="block text-[10px] uppercase tracking-[0.2em] text-white/30 mb-1.5">Button Text</label>
+              <input value={String(card.linkText ?? "")} onChange={(e) => update(idx, "linkText", e.target.value)}
+                className="w-full bg-white/4 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-[#00BFFF]/40" />
+            </div>
+            <div className="sm:col-span-2">
+              <label className="block text-[10px] uppercase tracking-[0.2em] text-white/30 mb-1.5">Description</label>
+              <textarea value={card.desc ?? ""} onChange={(e) => update(idx, "desc", e.target.value)}
+                rows={2} className="w-full bg-white/4 border border-white/10 rounded-lg px-3 py-2 text-sm text-white resize-none leading-relaxed focus:outline-none focus:border-[#00BFFF]/40" />
+            </div>
+          </div>
         </div>
-      </details>
+      ))}
     </div>
   );
 }
