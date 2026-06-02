@@ -86,7 +86,6 @@ function AdminPage() {
   const [lastSavedKey, setLastSavedKey] = useState<string | null>(null);
   const [uploadingField, setUploadingField] = useState<string | null>(null);
   const [seeding, setSeeding] = useState(false);
-  const [showInitBox, setShowInitBox] = useState(false);
   const toastCount = useRef(0);
 
   useEffect(() => {
@@ -235,10 +234,10 @@ function AdminPage() {
             </a>
             <button
               onClick={signOut}
-              className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white/60 text-xs hover:bg-red-500/10 hover:border-red-500/30 hover:text-red-400 transition-all"
+              className="flex items-center gap-2 px-5 py-2 rounded-lg bg-red-500/15 border border-red-500/40 text-red-300 text-sm font-semibold hover:bg-red-500/25 transition-all"
             >
-              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
-              Sign Out
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
+              Log Out
             </button>
           </div>
         </div>
@@ -261,57 +260,41 @@ function AdminPage() {
           ))}
         </div>
 
-        {/* ── Toolbar Row ── */}
-        <div className="flex flex-col sm:flex-row gap-3 mb-6">
-          <div className="relative flex-1">
-            <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/25" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-            <input
-              value={filter}
-              onChange={(e) => setFilter(e.target.value)}
-              placeholder="Search sections, headings, text…"
-              className="w-full bg-white/4 border border-white/10 rounded-xl pl-11 pr-4 py-3 text-sm text-white placeholder-white/25 focus:outline-none focus:border-[#00BFFF]/40 transition-colors"
-            />
-          </div>
+        {/* ── Search Row ── */}
+        <div className="relative mb-5">
+          <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/25" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <input
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
+            placeholder="Search sections, headings, text…"
+            className="w-full bg-white/4 border border-white/10 rounded-xl pl-11 pr-4 py-3 text-sm text-white placeholder-white/25 focus:outline-none focus:border-[#00BFFF]/40 transition-colors"
+          />
+        </div>
+
+        {/* ── Action Buttons Row ── */}
+        <div className="flex flex-wrap gap-3 mb-6">
           <button
-            onClick={() => setShowInitBox((v) => !v)}
-            className="flex items-center gap-2 px-5 py-3 rounded-xl border border-[#00BFFF]/30 bg-[#00BFFF]/8 text-[#00BFFF] text-sm font-medium hover:bg-[#00BFFF]/15 transition-all"
+            onClick={() => handleSeed(false)}
+            disabled={seeding}
+            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#00BFFF] text-[#04090f] text-sm font-bold disabled:opacity-50 hover:brightness-110 transition-all"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
-            Initialize Sections
+            {seeding ? "Working…" : "Initialize All Sections"}
+          </button>
+          <button
+            onClick={() => { if (confirm("This will RESET ALL content to factory defaults, overwriting your edits. Continue?")) handleSeed(true); }}
+            disabled={seeding}
+            className="flex items-center gap-2 px-5 py-2.5 rounded-xl border border-red-500/40 bg-red-500/8 text-red-400 text-sm font-semibold disabled:opacity-50 hover:bg-red-500/15 transition-all"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+            Reset to Defaults
           </button>
         </div>
 
-        {/* ── Initialize Panel (collapsible) ── */}
-        {showInitBox && (
-          <div className="mb-6 rounded-2xl border border-[#00BFFF]/20 bg-[#00BFFF]/5 p-6">
-            <div className="flex flex-col sm:flex-row sm:items-center gap-4 justify-between">
-              <div>
-                <p className="text-white font-semibold mb-1">Initialize / Reset Content Sections</p>
-                <p className="text-white/45 text-sm leading-relaxed max-w-xl">
-                  <strong className="text-white">Initialize</strong> creates any missing content blocks for all pages. Use <strong className="text-white">Reset</strong> only if you want to restore ALL content to factory defaults (this overwrites your changes).
-                </p>
-              </div>
-              <div className="flex gap-3 shrink-0">
-                <button
-                  onClick={() => handleSeed(false)}
-                  disabled={seeding}
-                  className="px-5 py-2.5 rounded-xl bg-[#00BFFF] text-[#04090f] text-sm font-bold disabled:opacity-50 hover:brightness-110 whitespace-nowrap"
-                >
-                  {seeding ? "Working…" : "Initialize Missing"}
-                </button>
-                <button
-                  onClick={() => { if (confirm("This will RESET ALL content to defaults, overwriting your changes. Continue?")) handleSeed(true); }}
-                  disabled={seeding}
-                  className="px-5 py-2.5 rounded-xl border border-red-500/40 text-red-400 text-sm disabled:opacity-50 hover:bg-red-500/10 whitespace-nowrap"
-                >
-                  Reset All
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
+        {/* ── Media Upload Panel ── */}
+        <MediaUploadPanel onToast={addToast} />
 
         {/* ── Page Tabs ── */}
         <div className="flex gap-2 overflow-x-auto pb-2 mb-6 scrollbar-none">
@@ -396,6 +379,121 @@ function AdminPage() {
             <span className="leading-relaxed">{t.message}</span>
           </div>
         ))}
+      </div>
+    </div>
+  );
+}
+
+// ── Media Upload Panel ────────────────────────────────────────────────────────
+function MediaUploadPanel({ onToast }: { onToast: (type: Toast["type"], msg: string) => void }) {
+  const [uploading, setUploading] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [lastUrl, setLastUrl] = useState("");
+  const [copied, setCopied] = useState(false);
+  const BUCKET = "site-media";
+
+  const handleFile = async (file: File) => {
+    if (!file) return;
+    setUploading(true);
+    setProgress(0);
+    setLastUrl("");
+    setCopied(false);
+
+    try {
+      const timestamp = Date.now();
+      const safeName = file.name.replace(/[^a-zA-Z0-9._-]+/g, "-").replace(/^-+|-+$/g, "");
+      const storagePath = `${timestamp}-${safeName}`;
+
+      // Use direct browser upload — no base64, no size limit
+      const { supabase: supabaseBrowser } = await import("@/integrations/supabase/client");
+      const { error } = await supabaseBrowser.storage
+        .from(BUCKET)
+        .upload(storagePath, file, { upsert: true, contentType: file.type || "application/octet-stream" });
+
+      if (error) throw new Error(error.message);
+
+      const { data: urlData } = supabaseBrowser.storage.from(BUCKET).getPublicUrl(storagePath);
+      const url = urlData.publicUrl;
+      setLastUrl(url);
+      setProgress(100);
+      onToast("success", `✓ "${file.name}" uploaded successfully!`);
+    } catch (err) {
+      onToast("error", `Upload failed: ${err instanceof Error ? err.message : String(err)}`);
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const copyUrl = async () => {
+    if (!lastUrl) return;
+    await navigator.clipboard.writeText(lastUrl).catch(() => {});
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const isVideo = lastUrl.match(/\.(mp4|webm|mov|avi|mkv)(\?|$)/i);
+
+  return (
+    <div className="mb-6 rounded-2xl border border-white/10 bg-white/[0.02] overflow-hidden">
+      <div className="flex items-center gap-3 px-6 py-4 border-b border-white/6">
+        <div className="w-8 h-8 rounded-lg bg-purple-500/15 border border-purple-500/30 flex items-center justify-center">
+          <svg className="w-4 h-4 text-purple-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+          </svg>
+        </div>
+        <div>
+          <p className="text-white text-sm font-semibold">Upload Image or Video</p>
+          <p className="text-white/35 text-xs">Upload directly from your computer — supports JPG, PNG, WebP, MP4, WebM (any size)</p>
+        </div>
+      </div>
+
+      <div className="px-6 py-5 flex flex-col sm:flex-row gap-4 items-start">
+        <label className={`shrink-0 flex items-center gap-3 px-5 py-3 rounded-xl border-2 cursor-pointer font-semibold text-sm transition-all ${uploading ? "border-white/10 bg-white/5 text-white/30 cursor-wait" : "border-[#00BFFF]/40 bg-[#00BFFF]/8 text-[#00BFFF] hover:bg-[#00BFFF]/15"}`}>
+          {uploading ? (
+            <span className="w-5 h-5 border-2 border-[#00BFFF]/30 border-t-[#00BFFF] rounded-full animate-spin" />
+          ) : (
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+            </svg>
+          )}
+          {uploading ? "Uploading…" : "Choose File from Computer"}
+          <input
+            type="file"
+            accept="image/*,video/*,.mp4,.webm,.mov"
+            disabled={uploading}
+            className="hidden"
+            onChange={(e) => { const f = e.target.files?.[0]; e.target.value = ""; if (f) handleFile(f); }}
+          />
+        </label>
+
+        {uploading && (
+          <div className="flex-1 flex items-center gap-3">
+            <div className="flex-1 h-2 rounded-full bg-white/10 overflow-hidden">
+              <div className="h-full bg-[#00BFFF] rounded-full transition-all duration-300 animate-pulse" style={{ width: "60%" }} />
+            </div>
+            <span className="text-white/40 text-xs">Uploading…</span>
+          </div>
+        )}
+
+        {lastUrl && !uploading && (
+          <div className="flex-1 rounded-xl border border-green-500/25 bg-green-500/5 p-4">
+            <div className="flex items-start justify-between gap-3 mb-3">
+              <p className="text-green-300 text-xs font-semibold">✓ Uploaded — copy the URL below and paste it into the field you want to update, then save.</p>
+              <button
+                onClick={copyUrl}
+                className={`shrink-0 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${copied ? "bg-green-500/30 text-green-200" : "bg-white/10 text-white/60 hover:bg-white/20"}`}
+              >
+                {copied ? "Copied ✓" : "Copy URL"}
+              </button>
+            </div>
+            <p className="text-green-200/70 text-xs font-mono break-all leading-relaxed mb-3">{lastUrl}</p>
+            {isVideo ? (
+              <video src={lastUrl} controls className="w-full max-h-40 rounded-lg bg-black" />
+            ) : (
+              <img src={lastUrl} alt="preview" className="h-24 rounded-lg object-cover border border-white/10" />
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
