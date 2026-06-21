@@ -35,62 +35,81 @@ const SIDEBAR_NAV = [
   {
     section: "Content",
     items: [
-      { label: "Home", prefix: "home.", icon: HomeIcon },
-      { label: "About Us", prefix: "about.", icon: BuildingIcon },
-      { label: "Plot Selling", prefix: "plot_selling.", icon: MapPinIcon },
-      { label: "Projects", prefix: "project", icon: GridIcon },
-      { label: "Construction", prefix: "construction.", icon: WrenchIcon },
-      { label: "Investment", prefix: "investment.", icon: ChartIcon },
-      { label: "Architecture", prefix: "architecture.", icon: PencilIcon },
-      { label: "Lifestyle", prefix: "lifestyle.", icon: StarIcon },
-      { label: "Contact", prefix: "contact.", icon: PhoneIcon },
-      { label: "Blog", prefix: "blog.", icon: NewsIcon },
-      { label: "Partners", prefix: "channel_partner.", icon: UsersIcon },
+      { label: "Home",        prefix: "home.",            icon: HomeIcon },
+      { label: "About Us",    prefix: "about.",           icon: BuildingIcon },
+      { label: "Plot Selling",prefix: "plot_selling.",    icon: MapPinIcon },
+      { label: "Projects",    prefix: "project",          icon: GridIcon },
+      { label: "Construction",prefix: "construction.",    icon: WrenchIcon },
+      { label: "Investment",  prefix: "investment.",      icon: ChartIcon },
+      { label: "Architecture",prefix: "architecture.",    icon: PencilIcon },
+      { label: "Lifestyle",   prefix: "lifestyle.",       icon: StarIcon },
+      { label: "Contact",     prefix: "contact.",         icon: PhoneIcon },
+      { label: "Blog",        prefix: "blog.",            icon: NewsIcon },
+      { label: "Partners",    prefix: "channel_partner.", icon: UsersIcon },
     ],
   },
   {
     section: "Settings",
     items: [
-      { label: "Footer", prefix: "footer.", icon: LayersIcon },
-      { label: "Site Settings", prefix: "site.", icon: CogIcon },
+      { label: "Footer",        prefix: "footer.", icon: LayersIcon },
+      { label: "Site Settings", prefix: "site.",   icon: CogIcon },
     ],
   },
 ];
 
 function previewUrl(blockKey: string): string | null {
-  if (blockKey.startsWith("home.")) return "/";
-  if (blockKey.startsWith("about.")) return "/about-us";
-  if (blockKey.startsWith("contact.")) return "/contact";
-  if (blockKey.startsWith("project")) return "/project";
-  if (blockKey.startsWith("plot_selling.")) return "/plot-selling";
-  if (blockKey.startsWith("construction.")) return "/construction-build";
-  if (blockKey.startsWith("investment.")) return "/investment-consulting";
-  if (blockKey.startsWith("architecture.")) return "/architecture-design";
-  if (blockKey.startsWith("lifestyle.")) return "/lifestyle";
-  if (blockKey.startsWith("blog.")) return "/blog";
+  if (blockKey.startsWith("home."))             return "/";
+  if (blockKey.startsWith("about."))            return "/about-us";
+  if (blockKey.startsWith("contact."))          return "/contact";
+  if (blockKey.startsWith("project"))           return "/project";
+  if (blockKey.startsWith("plot_selling."))     return "/plot-selling";
+  if (blockKey.startsWith("construction."))     return "/construction-build";
+  if (blockKey.startsWith("investment."))       return "/investment-consulting";
+  if (blockKey.startsWith("architecture."))     return "/architecture-design";
+  if (blockKey.startsWith("lifestyle."))        return "/lifestyle";
+  if (blockKey.startsWith("blog."))             return "/blog";
   if (blockKey.startsWith("channel_partner.") || blockKey.startsWith("partner.")) return "/channel-partner";
-  if (blockKey.startsWith("footer.")) return "/";
+  if (blockKey.startsWith("footer."))           return "/";
   return null;
+}
+
+// Color mapping for block icon backgrounds (by section prefix)
+function blockIconStyle(key: string): { bg: string; color: string } {
+  const p = key.split(".")[0];
+  if (["home", "plot_selling", "project"].includes(p))        return { bg: "rgba(0,191,255,0.10)",    color: "#00BFFF" };
+  if (["about", "construction", "architecture"].includes(p))  return { bg: "rgba(74,222,128,0.08)",   color: "#4ade80" };
+  if (["investment", "lifestyle", "blog"].includes(p))        return { bg: "rgba(167,139,250,0.10)",  color: "#a78bfa" };
+  if (["contact", "channel_partner", "partner", "footer", "site"].includes(p)) return { bg: "rgba(212,169,106,0.10)", color: "#d4a96a" };
+  return { bg: "rgba(0,191,255,0.08)", color: "#00BFFF" };
+}
+
+function tagStyle(key: string): { color: string; bg: string; border: string } {
+  const p = key.split(".")[0];
+  if (["home", "plot_selling", "project"].includes(p))        return { color: "#00BFFF",  bg: "rgba(0,191,255,0.08)",   border: "rgba(0,191,255,0.2)" };
+  if (["about", "construction", "architecture"].includes(p))  return { color: "#4ade80",  bg: "rgba(74,222,128,0.07)",  border: "rgba(74,222,128,0.2)" };
+  if (["investment", "lifestyle", "blog"].includes(p))        return { color: "#a78bfa",  bg: "rgba(167,139,250,0.08)", border: "rgba(167,139,250,0.2)" };
+  return { color: "#d4a96a", bg: "rgba(212,169,106,0.08)", border: "rgba(212,169,106,0.2)" };
 }
 
 function AdminPage() {
   const { isAdmin, loading, user } = useAuth();
   const navigate = useNavigate();
-  const fetchBlocks = useServerFn(getSiteContentBlocks);
-  const saveBlockFn = useServerFn(saveSiteContentBlock);
-  const uploadFn = useServerFn(uploadMedia);
-  const seedFn = useServerFn(seedDefaultContent);
+  const fetchBlocks  = useServerFn(getSiteContentBlocks);
+  const saveBlockFn  = useServerFn(saveSiteContentBlock);
+  const uploadFn     = useServerFn(uploadMedia);
+  const seedFn       = useServerFn(seedDefaultContent);
 
-  const [blocks, setBlocks] = useState<ContentBlock[]>([]);
-  const [editJson, setEditJson] = useState<Record<string, string>>({});
-  const [toasts, setToasts] = useState<Toast[]>([]);
-  const [filter, setFilter] = useState("");
-  const [activeTab, setActiveTab] = useState("home.");
-  const [savingKey, setSavingKey] = useState<string | null>(null);
+  const [blocks, setBlocks]         = useState<ContentBlock[]>([]);
+  const [editJson, setEditJson]     = useState<Record<string, string>>({});
+  const [toasts, setToasts]         = useState<Toast[]>([]);
+  const [filter, setFilter]         = useState("");
+  const [activeTab, setActiveTab]   = useState("home.");
+  const [savingKey, setSavingKey]   = useState<string | null>(null);
   const [lastSavedKey, setLastSavedKey] = useState<string | null>(null);
   const [uploadingField, setUploadingField] = useState<string | null>(null);
-  const [seeding, setSeeding] = useState(false);
+  const [seeding, setSeeding]       = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [uploadPanelOpen, setUploadPanelOpen] = useState(false);
   const toastCount = useRef(0);
 
   useEffect(() => {
@@ -108,14 +127,10 @@ function AdminPage() {
       .then((data) => {
         setBlocks(data);
         setEditJson(
-          Object.fromEntries(
-            data.map((b) => [b.key, JSON.stringify(b.data ?? {}, null, 2)]),
-          ),
+          Object.fromEntries(data.map((b) => [b.key, JSON.stringify(b.data ?? {}, null, 2)])),
         );
       })
-      .catch((err) => {
-        addToast("error", `Failed to load: ${err instanceof Error ? err.message : String(err)}`);
-      });
+      .catch((err) => addToast("error", `Failed to load: ${err instanceof Error ? err.message : String(err)}`));
   };
 
   useEffect(() => { loadBlocks(); }, [fetchBlocks]);
@@ -150,9 +165,7 @@ function AdminPage() {
   const handleSave = async (block: ContentBlock) => {
     const raw = editJson[block.key] ?? JSON.stringify(block.data ?? {}, null, 2);
     let parsed: unknown;
-    try {
-      parsed = JSON.parse(raw);
-    } catch {
+    try { parsed = JSON.parse(raw); } catch {
       addToast("error", "Invalid JSON — fix the formatting before saving.");
       return;
     }
@@ -171,11 +184,7 @@ function AdminPage() {
     }
   };
 
-  const uploadFile = async (
-    file: File,
-    fieldKey: string,
-    onUrl: (url: string) => void,
-  ) => {
+  const uploadFile = async (file: File, fieldKey: string, onUrl: (url: string) => void) => {
     setUploadingField(fieldKey);
     try {
       const base64 = await fileToBase64(file);
@@ -201,208 +210,226 @@ function AdminPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: "#050a12" }}>
-          <div className="text-center">
-          <div className="w-8 h-8 border-2 border-[#00BFFF]/30 border-t-[#00BFFF] rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-[#00BFFF]/60 text-xs uppercase tracking-widest">Verifying access…</p>
+      <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#040910" }}>
+        <div style={{ textAlign: "center" }}>
+          <div style={{ width: 28, height: 28, border: "2px solid rgba(0,191,255,0.2)", borderTop: "2px solid #00BFFF", borderRadius: "50%", animation: "spin 0.8s linear infinite", margin: "0 auto 14px" }} />
+          <p style={{ color: "rgba(0,191,255,0.5)", fontSize: 10, textTransform: "uppercase", letterSpacing: "0.14em" }}>Verifying access…</p>
         </div>
+        <style>{`@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}`}</style>
       </div>
     );
   }
 
+  const C = {
+    bgPrimary:   "#0c111c",
+    bgSecondary: "#070c16",
+    bgTertiary:  "#040910",
+    textPrimary: "#e8e3da",
+    textSecondary:"rgba(232,227,218,0.55)",
+    textTertiary: "rgba(232,227,218,0.28)",
+    border:      "rgba(0,191,255,0.1)",
+    borderMd:    "rgba(0,191,255,0.18)",
+  };
+
   return (
-    <div className="flex min-h-screen" style={{ background: "#050a12", fontFamily: "Inter, sans-serif", cursor: "default" }}>
+    <div style={{ display: "grid", gridTemplateColumns: sidebarOpen ? "210px 1fr" : "0px 1fr", height: "100vh", width: "100%", background: C.bgTertiary, fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif", overflow: "hidden", transition: "grid-template-columns .25s ease" }}>
       <style>{`
-        * { cursor: default !important; }
-        input, textarea, button, a, label, select { cursor: pointer !important; }
-        input[type="text"], input[type="email"], input[type="password"], textarea { cursor: text !important; }
-        .hidden { display: none !important; }
+        @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+        *{box-sizing:border-box;}
+        .adm-nav-item{display:flex;align-items:center;justify-content:space-between;padding:6px 10px;margin:1px 0;border-radius:7px;cursor:pointer;font-size:12px;color:${C.textSecondary};transition:background .12s,color .12s;border:none;background:transparent;width:100%;text-align:left;}
+        .adm-nav-item:hover{background:rgba(0,191,255,0.06);color:${C.textPrimary};}
+        .adm-nav-item.active{background:rgba(0,191,255,0.1);color:#00BFFF;font-weight:600;}
+        .adm-icon-btn{width:30px;height:30px;display:flex;align-items:center;justify-content:center;border:0.5px solid ${C.border};border-radius:7px;cursor:pointer;color:${C.textSecondary};background:${C.bgSecondary};transition:background .12s,color .12s;}
+        .adm-icon-btn:hover{background:rgba(0,191,255,0.08);color:#00BFFF;}
+        .adm-save-btn{font-size:12px;font-weight:600;padding:6px 16px;border-radius:7px;border:none;background:#00BFFF;cursor:pointer;color:#04090f;font-family:inherit;transition:opacity .15s;}
+        .adm-save-btn:hover{opacity:0.85;}
+        .adm-save-btn:disabled{opacity:0.45;cursor:default;}
+        .adm-field input,.adm-field textarea{font-size:12.5px;padding:7px 10px;border:0.5px solid ${C.borderMd};border-radius:7px;background:${C.bgTertiary};color:${C.textPrimary};font-family:inherit;resize:none;width:100%;outline:none;transition:border-color .12s,background .12s;}
+        .adm-field input:focus,.adm-field textarea:focus{border-color:rgba(0,191,255,0.5);background:${C.bgSecondary};}
+        .adm-upload-btn{display:flex;align-items:center;gap:5px;font-size:11px;padding:7px 11px;border:0.5px solid ${C.borderMd};border-radius:7px;background:${C.bgSecondary};cursor:pointer;white-space:nowrap;color:${C.textSecondary};font-family:inherit;transition:background .12s,color .12s;}
+        .adm-upload-btn:hover{background:rgba(0,191,255,0.08);color:#00BFFF;}
+        .adm-foot-link{display:flex;align-items:center;gap:4px;font-size:11px;color:${C.textTertiary};text-decoration:none;cursor:pointer;background:none;border:none;font-family:inherit;transition:color .12s;}
+        .adm-foot-link:hover{color:${C.textSecondary};}
+        .adm-foot-link.blue{color:rgba(0,191,255,0.6);}
+        .adm-foot-link.blue:hover{color:#00BFFF;}
+        .adm-content-scroll::-webkit-scrollbar{width:4px;}
+        .adm-content-scroll::-webkit-scrollbar-thumb{background:${C.border};border-radius:4px;}
+        .adm-nav-scroll::-webkit-scrollbar{width:3px;}
+        .adm-nav-scroll::-webkit-scrollbar-thumb{background:${C.border};border-radius:3px;}
       `}</style>
 
       {/* ── Sidebar ── */}
-      <aside
-        className="flex flex-col shrink-0 transition-all duration-300"
-        style={{
-          width: sidebarOpen ? 220 : 0,
-          minWidth: sidebarOpen ? 220 : 0,
-          background: "#03070c",
-          borderRight: "0.5px solid rgba(0,191,255,0.1)",
-          overflow: "hidden",
-        }}
-      >
+      <div style={{ background: C.bgSecondary, borderRight: `0.5px solid ${C.border}`, display: "flex", flexDirection: "column", overflow: "hidden" }}>
         {/* Brand */}
-        <div style={{ padding: "20px 18px 16px", borderBottom: "0.5px solid rgba(0,191,255,0.1)" }}>
-          <div style={{ fontSize: 15, fontWeight: 600, color: "#f5f0e8", letterSpacing: "0.06em" }}>TRUSTON</div>
-          <div style={{ fontSize: 10, color: "#00BFFF", marginTop: 3, letterSpacing: "0.06em", opacity: 0.8 }}>Admin Dashboard</div>
+        <div style={{ padding: "16px 12px 12px", borderBottom: `0.5px solid ${C.border}` }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 9, marginBottom: 12 }}>
+            <div style={{ width: 32, height: 32, background: "#00BFFF", borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+              <span style={{ color: "#04090f", fontSize: 13, fontWeight: 700 }}>T</span>
+            </div>
+            <div>
+              <div style={{ fontSize: 13.5, fontWeight: 600, color: C.textPrimary }}>Truston</div>
+              <div style={{ fontSize: 10, color: "rgba(0,191,255,0.55)" }}>Admin Dashboard</div>
+            </div>
+          </div>
+          {/* Search */}
+          <div style={{ display: "flex", alignItems: "center", gap: 7, padding: "6px 10px", background: C.bgTertiary, border: `0.5px solid ${C.border}`, borderRadius: 7 }}>
+            <SearchIcon size={13} style={{ color: C.textTertiary, flexShrink: 0 }} />
+            <input
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+              placeholder="Search sections…"
+              style={{ border: "none", background: "transparent", outline: "none", fontSize: 12, color: C.textPrimary, width: "100%", fontFamily: "inherit" }}
+            />
+          </div>
         </div>
 
         {/* Nav */}
-        <nav className="flex-1 overflow-y-auto py-2">
-          {SIDEBAR_NAV.map((group) => {
-            const visibleItems = group.items.filter(
-              (item) => blocks.some((b) => b.key.startsWith(item.prefix)) || blocks.length === 0
-            );
-            if (visibleItems.length === 0) return null;
-            return (
-              <div key={group.section} style={{ paddingTop: 12 }}>
-                <div style={{ fontSize: 9, letterSpacing: "0.14em", color: "rgba(0,191,255,0.4)", textTransform: "uppercase", padding: "0 18px 6px", fontWeight: 600 }}>
-                  {group.section}
-                </div>
-                {group.items.map((item) => {
-                  const Icon = item.icon;
-                  const active = activeTab === item.prefix;
-                  const count = blocks.filter((b) => b.key.startsWith(item.prefix)).length;
-                  return (
-                    <button
-                      key={item.prefix}
-                      onClick={() => setActiveTab(item.prefix)}
-                      style={{
-                        display: "flex", alignItems: "center", gap: 9,
-                        padding: "8px 18px", width: "100%", textAlign: "left",
-                        fontSize: 12.5, cursor: "pointer", border: "none",
-                        borderLeft: `2px solid ${active ? "#00BFFF" : "transparent"}`,
-                        background: active ? "rgba(0,191,255,0.07)" : "transparent",
-                        color: active ? "#00BFFF" : "#7a7060",
-                        transition: "all 0.12s",
-                      }}
-                      onMouseEnter={(e) => { if (!active) (e.currentTarget as HTMLButtonElement).style.color = "#00BFFF"; }}
-                      onMouseLeave={(e) => { if (!active) (e.currentTarget as HTMLButtonElement).style.color = "#7a7060"; }}
-                    >
-                      <Icon size={14} />
-                      <span style={{ flex: 1 }}>{item.label}</span>
-                      {count > 0 && (
-                        <span style={{ fontSize: 9, background: active ? "rgba(0,191,255,0.15)" : "rgba(255,255,255,0.05)", color: active ? "#00BFFF" : "rgba(255,255,255,0.3)", padding: "1px 6px", borderRadius: 10, fontWeight: 600 }}>
-                          {count}
-                        </span>
-                      )}
-                    </button>
-                  );
-                })}
+        <nav className="adm-nav-scroll" style={{ flex: 1, overflowY: "auto", padding: "6px 8px 8px" }}>
+          {SIDEBAR_NAV.map((group) => (
+            <div key={group.section} style={{ paddingTop: 10 }}>
+              <div style={{ fontSize: 9.5, fontWeight: 600, color: C.textTertiary, textTransform: "uppercase", letterSpacing: "0.08em", padding: "0 6px 5px" }}>
+                {group.section}
               </div>
-            );
-          })}
+              {group.items.map((item) => {
+                const Icon = item.icon;
+                const active = activeTab === item.prefix;
+                const count = blocks.filter((b) => b.key.startsWith(item.prefix)).length;
+                return (
+                  <button key={item.prefix} onClick={() => setActiveTab(item.prefix)} className={`adm-nav-item${active ? " active" : ""}`}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
+                      <Icon size={14} />
+                      {item.label}
+                    </div>
+                    {count > 0 && (
+                      <span style={{
+                        fontSize: 10, padding: "1px 6px", borderRadius: 10, minWidth: 20, textAlign: "center",
+                        background: active ? "rgba(0,191,255,0.15)" : `${C.bgTertiary}`,
+                        color: active ? "#00BFFF" : C.textTertiary,
+                        border: `0.5px solid ${active ? "rgba(0,191,255,0.25)" : C.border}`,
+                      }}>
+                        {count}
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          ))}
         </nav>
 
-        {/* Footer */}
-        <div style={{ padding: "14px 18px", borderTop: "0.5px solid rgba(0,191,255,0.1)", display: "flex", alignItems: "center", gap: 10 }}>
-          <div style={{ width: 30, height: 30, borderRadius: "50%", background: "rgba(0,191,255,0.12)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 600, color: "#00BFFF", border: "0.5px solid rgba(0,191,255,0.3)", flexShrink: 0 }}>
-            {user?.email?.[0]?.toUpperCase() ?? "A"}
-          </div>
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontSize: 11, color: "#e5e0d8", fontWeight: 500, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-              {user?.email ?? "Admin"}
+        {/* User footer */}
+        <div style={{ padding: "10px 12px", borderTop: `0.5px solid ${C.border}` }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <div style={{ width: 28, height: 28, borderRadius: "50%", background: "rgba(0,191,255,0.12)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, fontWeight: 700, color: "#00BFFF", flexShrink: 0, border: `0.5px solid rgba(0,191,255,0.25)` }}>
+              {user?.email?.[0]?.toUpperCase() ?? "A"}
             </div>
-            <div style={{ fontSize: 9, color: "#00BFFF", opacity: 0.5 }}>Super Admin</div>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ fontSize: 11, color: C.textPrimary, fontWeight: 500, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{user?.email ?? "Admin"}</div>
+              <div style={{ fontSize: 9.5, color: "rgba(0,191,255,0.45)" }}>Super Admin</div>
+            </div>
+            <button onClick={signOut} title="Sign out" style={{ background: "none", border: "none", cursor: "pointer", color: C.textTertiary, padding: 4, display: "flex", flexShrink: 0, transition: "color .12s" }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.color = "#00BFFF"; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.color = C.textTertiary; }}>
+              <LogoutIcon size={14} />
+            </button>
           </div>
-          <button
-            onClick={signOut}
-            title="Sign out"
-            style={{ background: "none", border: "none", cursor: "pointer", color: "#4a4540", padding: 4, display: "flex", flexShrink: 0 }}
-            onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.color = "#00BFFF"; }}
-            onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.color = "#4a4540"; }}
-          >
-            <LogoutIcon size={14} />
-          </button>
         </div>
-      </aside>
+      </div>
 
       {/* ── Main ── */}
-      <div className="flex flex-col flex-1 min-w-0">
+      <div style={{ display: "flex", flexDirection: "column", minHeight: 0, overflow: "hidden" }}>
 
         {/* Topbar */}
-        <div style={{ background: "#050a12", borderBottom: "0.5px solid rgba(0,191,255,0.1)", padding: "0 24px", height: 52, display: "flex", alignItems: "center", justifyContent: "space-between", flexShrink: 0 }}>
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => setSidebarOpen((v) => !v)}
-              style={{ background: "none", border: "none", cursor: "pointer", color: "#00BFFF", padding: 4, display: "flex" }}
-            >
-              <MenuIcon size={16} />
+        <div style={{ padding: "0 20px", height: 50, borderBottom: `0.5px solid ${C.border}`, display: "flex", alignItems: "center", justifyContent: "space-between", background: C.bgPrimary, flexShrink: 0 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <button onClick={() => setSidebarOpen((v) => !v)} className="adm-icon-btn" style={{ marginRight: 4 }}>
+              <MenuIcon size={15} />
             </button>
-            <div>
-              <div style={{ fontSize: 13, fontWeight: 500, color: "#e5e0d8" }}>{activeSectionLabel}</div>
-              <div style={{ fontSize: 10, color: "rgba(0,191,255,0.5)" }}>Website → {activeSectionLabel}</div>
+            <div style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 12, color: C.textTertiary }}>
+              <span>Website</span>
+              <span style={{ fontSize: 10 }}>›</span>
+              <b style={{ color: C.textPrimary, fontWeight: 500 }}>{activeSectionLabel}</b>
             </div>
           </div>
-          <div className="flex items-center gap-2">
-            <a
-              href="/"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ display: "flex", alignItems: "center", gap: 5, padding: "5px 12px", borderRadius: 6, border: "0.5px solid rgba(0,191,255,0.2)", background: "transparent", color: "#00BFFF", fontSize: 11, cursor: "pointer", textDecoration: "none", opacity: 0.8 }}
+          <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
+            {/* Status */}
+            <div style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 11, color: "#4ade80", background: "rgba(74,222,128,0.08)", border: "0.5px solid rgba(74,222,128,0.2)", borderRadius: 20, padding: "4px 10px" }}>
+              <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#4ade80", display: "inline-block" }} />
+              Ready
+            </div>
+            <a href="/" target="_blank" rel="noopener noreferrer"
+              style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 11, color: "rgba(0,191,255,0.7)", background: "rgba(0,191,255,0.08)", border: "0.5px solid rgba(0,191,255,0.2)", borderRadius: 20, padding: "4px 10px", textDecoration: "none", transition: "background .12s" }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = "rgba(0,191,255,0.14)"; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = "rgba(0,191,255,0.08)"; }}
             >
-              <EyeIcon size={12} /> Live Site
+              <EyeIcon size={12} /> Live site
             </a>
-            <button
-              onClick={() => handleSeed(false)}
-              disabled={seeding}
-              style={{ display: "flex", alignItems: "center", gap: 5, padding: "5px 12px", borderRadius: 6, border: "0.5px solid rgba(0,191,255,0.3)", background: "rgba(0,191,255,0.08)", color: "#00BFFF", fontSize: 11, cursor: "pointer" }}
-            >
-              <PlusIcon size={12} /> {seeding ? "Working…" : "Initialize"}
+            <button onClick={() => handleSeed(false)} disabled={seeding} className="adm-icon-btn" title="Initialize missing sections">
+              <ResetIcon size={14} />
             </button>
             <button
               onClick={() => { if (confirm("Reset ALL content to factory defaults? Your edits will be overwritten.")) handleSeed(true); }}
               disabled={seeding}
-              style={{ display: "flex", alignItems: "center", gap: 5, padding: "5px 12px", borderRadius: 6, border: "0.5px solid rgba(239,68,68,0.3)", background: "rgba(239,68,68,0.07)", color: "#f87171", fontSize: 11, cursor: "pointer" }}
+              className="adm-icon-btn"
+              title="Reset to defaults"
+              style={{ color: "rgba(248,113,113,0.6)" }}
             >
-              <ResetIcon size={12} /> Reset
+              <RefreshIcon size={14} />
+            </button>
+            <button onClick={() => setUploadPanelOpen((v) => !v)} className="adm-icon-btn" title="Upload media">
+              <UploadIcon size={14} />
             </button>
           </div>
         </div>
 
-        {/* Content area */}
-        <div className="flex-1 overflow-y-auto" style={{ padding: "20px 24px" }}>
-
-          {/* Stats row */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
-            {[
-              { label: "Total Blocks", value: String(blocks.length) },
-              { label: "Showing", value: String(filteredBlocks.length) },
-              { label: "Section", value: activeSectionLabel, gold: true },
-              { label: "Status", value: uploadingField ? "Uploading…" : savingKey ? "Saving…" : "Ready" },
-            ].map(({ label, value, gold }) => (
-              <div key={label} style={{ background: "#161616", border: "0.5px solid rgba(255,255,255,0.07)", borderRadius: 8, padding: "10px 14px" }}>
-                <div style={{ fontSize: 9, color: "#5a5248", textTransform: "uppercase", letterSpacing: "0.12em", fontWeight: 600, marginBottom: 4 }}>{label}</div>
-                <div style={{ fontSize: 15, fontWeight: 600, color: gold ? "#d4a96a" : "#e5e0d8", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{value}</div>
-              </div>
-            ))}
-          </div>
-
-          {/* Search + Upload */}
-          <div className="flex flex-col sm:flex-row gap-3 mb-5">
-            <div className="relative flex-1">
-              <SearchIcon size={14} className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: "#5a5248" }} />
-              <input
-                value={filter}
-                onChange={(e) => setFilter(e.target.value)}
-                placeholder="Search sections…"
-                style={{ width: "100%", background: "#161616", border: "0.5px solid rgba(255,255,255,0.08)", borderRadius: 8, padding: "8px 12px 8px 34px", fontSize: 12, color: "#e5e0d8", outline: "none" }}
-              />
+        {/* Stats row */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8, padding: "10px 20px", borderBottom: `0.5px solid ${C.border}`, background: C.bgPrimary, flexShrink: 0 }}>
+          {[
+            { label: "Total Blocks", value: String(blocks.length) },
+            { label: "Showing",      value: String(filteredBlocks.length) },
+            { label: "Section",      value: activeSectionLabel },
+          ].map(({ label, value }) => (
+            <div key={label} style={{ background: C.bgSecondary, borderRadius: 7, padding: "8px 12px" }}>
+              <div style={{ fontSize: 9.5, color: C.textTertiary, marginBottom: 2, textTransform: "uppercase", letterSpacing: "0.06em" }}>{label}</div>
+              <div style={{ fontSize: 19, fontWeight: 500, color: C.textPrimary, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{value}</div>
             </div>
-          </div>
+          ))}
+        </div>
 
-          {/* Upload Panel */}
-          <MediaUploadPanel onToast={addToast} uploadFn={uploadFn} />
+        {/* Content area */}
+        <div className="adm-content-scroll" style={{ flex: 1, overflowY: "auto", padding: "14px 20px 28px" }}>
+
+          {/* Upload media panel */}
+          {uploadPanelOpen && (
+            <div style={{ background: C.bgPrimary, border: `0.5px solid ${C.border}`, borderRadius: 10, marginBottom: 12, overflow: "hidden" }}>
+              <MediaUploadPanel onToast={addToast} uploadFn={uploadFn} onClose={() => setUploadPanelOpen(false)} />
+            </div>
+          )}
 
           {/* Empty state */}
           {blocks.length === 0 && (
-            <div style={{ border: "0.5px solid rgba(212,169,106,0.2)", background: "rgba(212,169,106,0.04)", borderRadius: 10, padding: "40px 24px", textAlign: "center", marginTop: 12 }}>
-              <p style={{ color: "#d4a96a", fontWeight: 500, marginBottom: 8 }}>No content sections yet</p>
-              <p style={{ color: "#7a7060", fontSize: 12, marginBottom: 16 }}>Click Initialize to seed all editable sections.</p>
-              <button onClick={() => handleSeed(false)} disabled={seeding} style={{ background: "rgba(212,169,106,0.12)", border: "0.5px solid rgba(212,169,106,0.3)", color: "#d4a96a", padding: "8px 20px", borderRadius: 8, fontSize: 12, cursor: "pointer" }}>
+            <div style={{ border: `0.5px solid rgba(0,191,255,0.12)`, background: "rgba(0,191,255,0.03)", borderRadius: 10, padding: "40px 24px", textAlign: "center", marginTop: 8 }}>
+              <p style={{ color: "#00BFFF", fontWeight: 500, marginBottom: 8, fontSize: 14 }}>No content sections yet</p>
+              <p style={{ color: C.textTertiary, fontSize: 12, marginBottom: 16 }}>Click Initialize to seed all editable sections.</p>
+              <button onClick={() => handleSeed(false)} disabled={seeding}
+                style={{ background: "rgba(0,191,255,0.1)", border: "0.5px solid rgba(0,191,255,0.25)", color: "#00BFFF", padding: "8px 20px", borderRadius: 7, fontSize: 12, cursor: "pointer", fontFamily: "inherit" }}>
                 {seeding ? "Working…" : "Initialize All Sections Now"}
               </button>
             </div>
           )}
 
           {filteredBlocks.length === 0 && blocks.length > 0 && (
-            <div style={{ border: "0.5px solid rgba(255,255,255,0.06)", background: "rgba(255,255,255,0.02)", borderRadius: 10, padding: "32px", textAlign: "center" }}>
-              <p style={{ color: "#5a5248", fontSize: 12, marginBottom: 8 }}>No sections match this filter.</p>
-              <button onClick={() => { setFilter(""); setActiveTab("home."); }} style={{ color: "#d4a96a", fontSize: 11, background: "none", border: "none", cursor: "pointer" }}>Clear filters</button>
+            <div style={{ border: `0.5px solid ${C.border}`, background: C.bgPrimary, borderRadius: 10, padding: "28px", textAlign: "center" }}>
+              <p style={{ color: C.textTertiary, fontSize: 12, marginBottom: 8 }}>No sections match this filter.</p>
+              <button onClick={() => { setFilter(""); setActiveTab("home."); }}
+                style={{ color: "#00BFFF", fontSize: 11, background: "none", border: "none", cursor: "pointer", fontFamily: "inherit" }}>
+                Clear filters
+              </button>
             </div>
           )}
 
           {/* Block Cards */}
-          <div className="space-y-4">
+          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
             {filteredBlocks.map((block) => (
               <BlockCard
                 key={block.key}
@@ -414,27 +441,24 @@ function AdminPage() {
                 justSaved={lastSavedKey === block.key}
                 uploadingField={uploadingField}
                 onUpload={uploadFile}
+                colors={C}
               />
             ))}
           </div>
-
         </div>
       </div>
 
       {/* Toast Stack */}
-      <div style={{ position: "fixed", bottom: 24, right: 24, zIndex: 50, display: "flex", flexDirection: "column", gap: 8, maxWidth: 360, pointerEvents: "none" }}>
+      <div style={{ position: "fixed", bottom: 20, right: 20, zIndex: 50, display: "flex", flexDirection: "column", gap: 7, maxWidth: 340, pointerEvents: "none" }}>
         {toasts.map((t) => (
-          <div
-            key={t.id}
-            style={{
-              pointerEvents: "auto", display: "flex", alignItems: "flex-start", gap: 10,
-              padding: "10px 14px", borderRadius: 8, fontSize: 12, fontWeight: 500,
-              border: `0.5px solid ${t.type === "success" ? "rgba(74,222,128,0.3)" : t.type === "error" ? "rgba(248,113,113,0.3)" : "rgba(212,169,106,0.3)"}`,
-              background: t.type === "success" ? "rgba(2,44,34,0.97)" : t.type === "error" ? "rgba(44,2,2,0.97)" : "rgba(30,20,10,0.97)",
-              color: t.type === "success" ? "#4ade80" : t.type === "error" ? "#f87171" : "#d4a96a",
-              boxShadow: "0 8px 32px rgba(0,0,0,0.5)",
-            }}
-          >
+          <div key={t.id} style={{
+            pointerEvents: "auto", display: "flex", alignItems: "flex-start", gap: 9,
+            padding: "9px 13px", borderRadius: 8, fontSize: 12, fontWeight: 500,
+            border: `0.5px solid ${t.type === "success" ? "rgba(74,222,128,0.25)" : t.type === "error" ? "rgba(248,113,113,0.25)" : "rgba(0,191,255,0.2)"}`,
+            background: t.type === "success" ? "rgba(2,44,34,0.97)" : t.type === "error" ? "rgba(44,2,2,0.97)" : "rgba(4,9,30,0.97)",
+            color: t.type === "success" ? "#4ade80" : t.type === "error" ? "#f87171" : "#00BFFF",
+            boxShadow: "0 8px 32px rgba(0,0,0,0.5)",
+          }}>
             <span>{t.type === "success" ? "✓" : t.type === "error" ? "✕" : "ℹ"}</span>
             <span>{t.message}</span>
           </div>
@@ -446,16 +470,15 @@ function AdminPage() {
 
 // ── Media Upload Panel ──────────────────────────────────────────────────────
 function MediaUploadPanel({
-  onToast,
-  uploadFn,
+  onToast, uploadFn, onClose,
 }: {
-  onToast: (type: Toast["type"], msg: string) => void;
+  onToast: (type: "success" | "error" | "info", msg: string) => void;
   uploadFn: ReturnType<typeof useServerFn<typeof uploadMedia>>;
+  onClose: () => void;
 }) {
   const [uploading, setUploading] = useState(false);
   const [lastUrl, setLastUrl] = useState("");
   const [copied, setCopied] = useState(false);
-  const [open, setOpen] = useState(false);
 
   const handleFile = async (file: File) => {
     if (!file) return;
@@ -484,68 +507,53 @@ function MediaUploadPanel({
   };
 
   const isVideo = lastUrl.match(/\.(mp4|webm|mov|avi|mkv)(\?|$)/i);
+  const C = { border: "rgba(0,191,255,0.12)", text: "rgba(232,227,218,0.5)", bg: "#040910" };
 
   return (
-    <div style={{ marginBottom: 16, border: "0.5px solid rgba(212,169,106,0.15)", borderRadius: 8, overflow: "hidden" }}>
-      <button
-        onClick={() => setOpen((v) => !v)}
-        style={{ display: "flex", alignItems: "center", gap: 10, width: "100%", padding: "10px 16px", background: "rgba(212,169,106,0.04)", border: "none", cursor: "pointer", color: "#9a9080", fontSize: 12 }}
-      >
-        <UploadIcon size={13} style={{ color: "#d4a96a" }} />
-        <span style={{ fontWeight: 500, color: "#c5bdb0" }}>Upload Media</span>
-        <span style={{ fontSize: 10, color: "#5a5248", marginLeft: 4 }}>Images & Videos → get URL to paste in fields</span>
-        <span style={{ marginLeft: "auto", fontSize: 10, color: "#5a5248" }}>{open ? "▲" : "▼"}</span>
-      </button>
-
-      {open && (
-        <div style={{ padding: "14px 16px", background: "#121212", display: "flex", flexDirection: "column", gap: 12 }}>
-          <div className="flex flex-col sm:flex-row gap-3 items-start">
-            <label
-              style={{
-                display: "flex", alignItems: "center", gap: 8, padding: "8px 16px",
-                border: `1px dashed ${uploading ? "rgba(212,169,106,0.2)" : "rgba(212,169,106,0.4)"}`,
-                borderRadius: 8, cursor: uploading ? "wait" : "pointer", fontSize: 12,
-                color: uploading ? "#7a7060" : "#d4a96a", background: "rgba(212,169,106,0.05)",
-                flexShrink: 0,
-              }}
-            >
-              {uploading ? (
-                <span style={{ width: 14, height: 14, border: "2px solid rgba(212,169,106,0.3)", borderTop: "2px solid #d4a96a", borderRadius: "50%", display: "inline-block", animation: "spin 0.8s linear infinite" }} />
-              ) : (
-                <UploadIcon size={13} />
-              )}
-              {uploading ? "Uploading…" : "Choose File"}
-              <input
-                type="file"
-                accept="image/*,video/*,.mp4,.webm,.mov"
-                disabled={uploading}
-                className="hidden"
-                onChange={(e) => { const f = e.target.files?.[0]; e.target.value = ""; if (f) handleFile(f); }}
-              />
-            </label>
-
-            {lastUrl && !uploading && (
-              <div style={{ flex: 1, border: "0.5px solid rgba(74,222,128,0.2)", background: "rgba(74,222,128,0.04)", borderRadius: 8, padding: "10px 14px" }}>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 6 }}>
-                  <span style={{ fontSize: 11, color: "#4ade80", fontWeight: 500 }}>✓ Uploaded — copy URL and paste into a field</span>
-                  <button
-                    onClick={copyUrl}
-                    style={{ padding: "3px 10px", borderRadius: 6, fontSize: 10, fontWeight: 600, border: "none", cursor: "pointer", background: copied ? "rgba(74,222,128,0.15)" : "rgba(255,255,255,0.06)", color: copied ? "#4ade80" : "#00BFFF" }}
-                  >
-                    {copied ? "Copied ✓" : "Copy URL"}
-                  </button>
-                </div>
-                <p style={{ fontSize: 10, color: "#5a5248", fontFamily: "monospace", wordBreak: "break-all", marginBottom: 8 }}>{lastUrl}</p>
-                {isVideo
-                  ? <video src={lastUrl} controls style={{ width: "100%", maxHeight: 120, borderRadius: 6, background: "#000" }} />
-                  : <img src={lastUrl} alt="preview" style={{ height: 72, borderRadius: 6, objectFit: "cover", border: "0.5px solid rgba(255,255,255,0.08)" }} />
-                }
-              </div>
-            )}
-          </div>
-          <p style={{ fontSize: 10, color: "#3a3530" }}>Supports JPG, PNG, WebP, MP4, WebM. Files are uploaded to your storage bucket.</p>
+    <div style={{ padding: "12px 16px" }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <UploadIcon size={13} style={{ color: "#00BFFF" }} />
+          <span style={{ fontSize: 12.5, fontWeight: 500, color: "rgba(232,227,218,0.8)" }}>Upload Media</span>
+          <span style={{ fontSize: 10, color: C.text }}>Images & Videos → copy URL to paste in fields</span>
         </div>
-      )}
+        <button onClick={onClose} style={{ background: "none", border: "none", cursor: "pointer", color: C.text, fontSize: 14, fontFamily: "inherit" }}>✕</button>
+      </div>
+      <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+        <div style={{ display: "flex", gap: 10, alignItems: "flex-start", flexWrap: "wrap" }}>
+          <label style={{
+            display: "flex", alignItems: "center", gap: 7, padding: "8px 16px",
+            border: `1px dashed ${uploading ? "rgba(0,191,255,0.15)" : "rgba(0,191,255,0.35)"}`,
+            borderRadius: 7, cursor: uploading ? "wait" : "pointer", fontSize: 12,
+            color: uploading ? "rgba(0,191,255,0.35)" : "#00BFFF", background: "rgba(0,191,255,0.04)", flexShrink: 0,
+          }}>
+            {uploading ? (
+              <span style={{ width: 13, height: 13, border: "2px solid rgba(0,191,255,0.25)", borderTop: "2px solid #00BFFF", borderRadius: "50%", display: "inline-block", animation: "spin 0.8s linear infinite" }} />
+            ) : <UploadIcon size={13} />}
+            {uploading ? "Uploading…" : "Choose File"}
+            <input type="file" accept="image/*,video/*,.mp4,.webm,.mov" disabled={uploading} style={{ display: "none" }}
+              onChange={(e) => { const f = e.target.files?.[0]; e.target.value = ""; if (f) handleFile(f); }} />
+          </label>
+
+          {lastUrl && !uploading && (
+            <div style={{ flex: 1, minWidth: 200, border: "0.5px solid rgba(74,222,128,0.18)", background: "rgba(74,222,128,0.04)", borderRadius: 7, padding: "9px 12px" }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 5 }}>
+                <span style={{ fontSize: 11, color: "#4ade80", fontWeight: 500 }}>✓ Uploaded</span>
+                <button onClick={copyUrl}
+                  style={{ padding: "2px 9px", borderRadius: 5, fontSize: 10, fontWeight: 600, border: "none", cursor: "pointer", background: copied ? "rgba(74,222,128,0.15)" : "rgba(0,191,255,0.1)", color: copied ? "#4ade80" : "#00BFFF", fontFamily: "inherit" }}>
+                  {copied ? "Copied ✓" : "Copy URL"}
+                </button>
+              </div>
+              <p style={{ fontSize: 9.5, color: C.text, fontFamily: "monospace", wordBreak: "break-all", marginBottom: 6 }}>{lastUrl}</p>
+              {isVideo
+                ? <video src={lastUrl} controls style={{ width: "100%", maxHeight: 100, borderRadius: 5, background: "#000" }} />
+                : <img src={lastUrl} alt="preview" style={{ height: 60, borderRadius: 5, objectFit: "cover", border: `0.5px solid ${C.border}` }} />
+              }
+            </div>
+          )}
+        </div>
+        <p style={{ fontSize: 10, color: "rgba(232,227,218,0.2)" }}>Supports JPG, PNG, WebP, MP4, WebM. Files are uploaded to your storage bucket.</p>
+      </div>
     </div>
   );
 }
@@ -557,7 +565,7 @@ type AmenityItem = { icon?: string; title: string; desc: string };
 type ReasonItem = { num?: string; title: string; desc: string };
 
 function BlockCard({
-  block, value, onChange, onSave, saving, justSaved, uploadingField, onUpload,
+  block, value, onChange, onSave, saving, justSaved, uploadingField, onUpload, colors,
 }: {
   block: ContentBlock;
   value: string;
@@ -567,8 +575,10 @@ function BlockCard({
   justSaved: boolean;
   uploadingField: string | null;
   onUpload: (file: File, fieldKey: string, onUrl: (url: string) => void) => void;
+  colors: Record<string, string>;
 }) {
   const [open, setOpen] = useState(false);
+  const [rawOpen, setRawOpen] = useState(false);
 
   let parsed: Record<string, unknown> | null = null;
   try { parsed = JSON.parse(value); } catch { parsed = null; }
@@ -577,298 +587,272 @@ function BlockCard({
     ? Object.entries(parsed).filter(([, v]) => typeof v === "string" || typeof v === "number")
     : [];
 
-  const cardArray: CardItem[] | null = parsed && Array.isArray(parsed.cards) ? (parsed.cards as CardItem[]) : null;
-  const imagesArray: ImageItem[] | null = parsed && Array.isArray(parsed.images) ? (parsed.images as ImageItem[]) : null;
+  const cardArray: CardItem[] | null     = parsed && Array.isArray(parsed.cards)     ? (parsed.cards as CardItem[])         : null;
+  const imagesArray: ImageItem[] | null  = parsed && Array.isArray(parsed.images)    ? (parsed.images as ImageItem[])       : null;
   const amenitiesArray: AmenityItem[] | null = parsed && Array.isArray(parsed.amenities) ? (parsed.amenities as AmenityItem[]) : null;
-  const reasonsArray: ReasonItem[] | null = parsed && Array.isArray(parsed.reasons) ? (parsed.reasons as ReasonItem[]) : null;
-  const pillarsArray: ReasonItem[] | null = parsed && Array.isArray(parsed.pillars) ? (parsed.pillars as ReasonItem[]) : null;
+  const reasonsArray: ReasonItem[] | null    = parsed && Array.isArray(parsed.reasons)   ? (parsed.reasons as ReasonItem[])    : null;
+  const pillarsArray: ReasonItem[] | null    = parsed && Array.isArray(parsed.pillars)   ? (parsed.pillars as ReasonItem[])    : null;
 
   const preview = previewUrl(block.key);
+  const icon = blockIconStyle(block.key);
+  const tag  = tagStyle(block.key);
+  const prefix = block.key.split(".")[0];
 
   const isUploadField = (field: string) =>
     field.endsWith("_url") || field.endsWith("_image") || field.endsWith("_src") ||
     field === "image" || field === "video" || field === "src";
 
+  const C = colors;
+
   return (
-    <div
-      style={{
-        border: `0.5px solid ${justSaved ? "rgba(74,222,128,0.3)" : "rgba(255,255,255,0.07)"}`,
-        background: justSaved ? "rgba(74,222,128,0.03)" : "#161616",
-        borderRadius: 10,
-        overflow: "hidden",
-        transition: "border-color 0.3s",
-      }}
-    >
-      {/* Header */}
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "11px 16px", borderBottom: "0.5px solid rgba(0,191,255,0.1)", gap: 12 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
-          <span style={{ padding: "2px 8px", borderRadius: 4, background: "rgba(0,191,255,0.1)", border: "0.5px solid rgba(0,191,255,0.2)", color: "#00BFFF", fontSize: 9, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", flexShrink: 0 }}>
-            {block.key.split(".")[0]}
-          </span>
-          <div style={{ minWidth: 0 }}>
-            <p style={{ fontSize: 12.5, fontWeight: 500, color: "#e5e0d8", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{block.label}</p>
-            <p style={{ fontSize: 9, color: "rgba(0,191,255,0.4)", fontFamily: "monospace", marginTop: 1 }}>{block.key}</p>
-          </div>
+    <div style={{
+      background: justSaved ? "rgba(74,222,128,0.04)" : C.bgPrimary,
+      border: `0.5px solid ${justSaved ? "rgba(74,222,128,0.25)" : C.border}`,
+      borderRadius: 10, overflow: "hidden", transition: "border-color 0.3s",
+    }}>
+      {/* Block Header (always visible, click to expand) */}
+      <div
+        onClick={() => setOpen((v) => !v)}
+        style={{ display: "flex", alignItems: "center", padding: "10px 14px", cursor: "pointer", gap: 10, transition: "background .12s" }}
+        onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.background = "rgba(0,191,255,0.03)"; }}
+        onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.background = "transparent"; }}
+      >
+        {/* Colored icon */}
+        <div style={{ width: 34, height: 34, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, background: icon.bg, color: icon.color }}>
+          <BlockIcon prefix={prefix} size={16} />
         </div>
+        {/* Meta */}
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ fontSize: 12.5, fontWeight: 500, color: C.textPrimary, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{block.label}</div>
+          <div style={{ fontSize: 9.5, color: C.textTertiary, fontFamily: "monospace", marginTop: 2 }}>{block.key}</div>
+        </div>
+        {/* Right: type tag + saved + chevron */}
         <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
-          {justSaved && <span style={{ fontSize: 11, color: "#4ade80", fontWeight: 600 }}>✓ Saved</span>}
-          {preview && (
-            <a href={preview} target="_blank" rel="noopener noreferrer"
-              style={{ display: "flex", alignItems: "center", gap: 5, padding: "4px 10px", borderRadius: 6, border: "0.5px solid rgba(255,255,255,0.08)", color: "#7a7060", fontSize: 11, textDecoration: "none" }}>
-              <EyeIcon size={11} /> Preview
-            </a>
-          )}
-          <button
-            onClick={onSave}
-            disabled={saving}
-            style={{ display: "flex", alignItems: "center", gap: 5, padding: "5px 14px", borderRadius: 6, background: "#00BFFF", color: "#050a12", fontSize: 11, fontWeight: 700, border: "none", cursor: "pointer", opacity: saving ? 0.6 : 1 }}
-          >
-            {saving ? <span style={{ width: 10, height: 10, border: "2px solid rgba(5,10,18,0.3)", borderTop: "2px solid #050a12", borderRadius: "50%", display: "inline-block", animation: "spin 0.8s linear infinite" }} /> : <SaveIcon size={11} />}
-            {saving ? "Saving…" : "Save"}
-          </button>
+          {justSaved && <span style={{ fontSize: 10, color: "#4ade80", fontWeight: 600 }}>✓ Saved</span>}
+          <span style={{
+            fontSize: 9.5, fontWeight: 500, padding: "2px 8px", borderRadius: 10,
+            color: tag.color, background: tag.bg, border: `0.5px solid ${tag.border}`,
+          }}>{prefix}</span>
+          <span style={{ fontSize: 12, color: C.textTertiary, transition: "transform .18s", transform: open ? "rotate(180deg)" : "none", display: "inline-block" }}>›</span>
         </div>
       </div>
 
-      {/* Simple string/number fields */}
-      {simpleFields.length > 0 && (
-        <div style={{ padding: "14px 16px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
-          {simpleFields.map(([field, val]) => {
-            const isUrl = isUploadField(field);
-            const fieldUid = `${block.key}::${field}`;
-            const isUploading = uploadingField === fieldUid;
-            const isLong = field.includes("desc") || field.includes("body") || field.includes("subtitle");
+      {/* Block Body (collapsible) */}
+      {open && (
+        <div style={{ borderTop: `0.5px solid ${C.border}` }}>
 
-            return (
-              <div key={field} style={{ gridColumn: isUrl || isLong ? "1 / -1" : "auto" }}>
-                <label style={{ display: "block", fontSize: 9, color: "#5a5248", textTransform: "uppercase", letterSpacing: "0.12em", fontWeight: 700, marginBottom: 5 }}>
-                  {field.replace(/_/g, " ")}
-                  {isUrl && <span style={{ marginLeft: 5, textTransform: "none", letterSpacing: "normal", fontWeight: 400, color: "#3a3530" }}>— url or upload</span>}
-                </label>
-                {isUrl ? (
-                  <div style={{ display: "flex", gap: 6 }}>
-                    <input
-                      value={String(val)}
-                      onChange={(e) => { if (!parsed) return; onChange(JSON.stringify({ ...parsed, [field]: e.target.value }, null, 2)); }}
-                      placeholder="https://… or upload a file →"
-                      style={{ flex: 1, minWidth: 0, background: "#1e1e1e", border: "0.5px solid rgba(255,255,255,0.08)", borderRadius: 6, padding: "7px 10px", fontSize: 11, color: "#e5e0d8", fontFamily: "monospace", outline: "none" }}
-                    />
-                    <label style={{ display: "flex", alignItems: "center", gap: 5, padding: "7px 12px", borderRadius: 6, border: "0.5px solid rgba(0,191,255,0.25)", background: "rgba(0,191,255,0.06)", color: isUploading ? "rgba(0,191,255,0.4)" : "#00BFFF", fontSize: 11, cursor: isUploading ? "wait" : "pointer", flexShrink: 0 }}>
-                      {isUploading ? <span style={{ width: 12, height: 12, border: "2px solid rgba(0,191,255,0.3)", borderTop: "2px solid #00BFFF", borderRadius: "50%", display: "inline-block", animation: "spin 0.8s linear infinite" }} /> : <UploadIcon size={11} />}
-                      {isUploading ? "…" : "Upload"}
-                      <input type="file" accept="image/*,video/*" disabled={!!uploadingField} className="hidden"
-                        onChange={(e) => { const file = e.target.files?.[0]; if (!file || !parsed) return; e.target.value = ""; onUpload(file, fieldUid, (url) => onChange(JSON.stringify({ ...parsed, [field]: url }, null, 2))); }} />
+          {/* Simple string/number fields */}
+          {simpleFields.length > 0 && (
+            <div style={{ padding: "14px 14px 0", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 9 }}>
+              {simpleFields.map(([field, val]) => {
+                const isUrl = isUploadField(field);
+                const fieldUid = `${block.key}::${field}`;
+                const isUploading = uploadingField === fieldUid;
+                const isLong = field.includes("desc") || field.includes("body") || field.includes("subtitle");
+
+                return (
+                  <div key={field} className="adm-field" style={{ gridColumn: isUrl || isLong ? "1 / -1" : "auto" }}>
+                    <label style={{ display: "block", fontSize: 9.5, color: C.textTertiary, textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 600, marginBottom: 4 }}>
+                      {field.replace(/_/g, " ")}
+                      {isUrl && <span style={{ marginLeft: 5, textTransform: "none", fontWeight: 400 }}>— url or upload</span>}
                     </label>
+                    {isUrl ? (
+                      <div style={{ display: "flex", gap: 6 }}>
+                        <input
+                          value={String(val)}
+                          onChange={(e) => { if (!parsed) return; onChange(JSON.stringify({ ...parsed, [field]: e.target.value }, null, 2)); }}
+                          placeholder="https://… or upload a file →"
+                          style={{ flex: 1, minWidth: 0, background: C.bgTertiary, border: `0.5px solid ${C.borderMd}`, borderRadius: 7, padding: "7px 10px", fontSize: 11, color: C.textPrimary, fontFamily: "monospace", outline: "none" }}
+                        />
+                        <label className="adm-upload-btn" style={{ color: isUploading ? "rgba(0,191,255,0.35)" : "#00BFFF" }}>
+                          {isUploading ? <span style={{ width: 11, height: 11, border: "2px solid rgba(0,191,255,0.2)", borderTop: "2px solid #00BFFF", borderRadius: "50%", display: "inline-block", animation: "spin 0.8s linear infinite" }} /> : <UploadIcon size={11} />}
+                          {isUploading ? "…" : "Upload"}
+                          <input type="file" accept="image/*,video/*" disabled={!!uploadingField} style={{ display: "none" }}
+                            onChange={(e) => { const file = e.target.files?.[0]; if (!file || !parsed) return; e.target.value = ""; onUpload(file, fieldUid, (url) => onChange(JSON.stringify({ ...parsed, [field]: url }, null, 2))); }} />
+                        </label>
+                      </div>
+                    ) : isLong ? (
+                      <textarea
+                        value={String(val)}
+                        onChange={(e) => { if (!parsed) return; onChange(JSON.stringify({ ...parsed, [field]: e.target.value }, null, 2)); }}
+                        rows={3}
+                        style={{ width: "100%", background: C.bgTertiary, border: `0.5px solid ${C.borderMd}`, borderRadius: 7, padding: "7px 10px", fontSize: 12, color: C.textPrimary, outline: "none", resize: "vertical", lineHeight: 1.6, fontFamily: "inherit" }}
+                      />
+                    ) : (
+                      <input
+                        value={String(val)}
+                        onChange={(e) => { if (!parsed) return; onChange(JSON.stringify({ ...parsed, [field]: e.target.value }, null, 2)); }}
+                        style={{ width: "100%", background: C.bgTertiary, border: `0.5px solid ${C.borderMd}`, borderRadius: 7, padding: "7px 10px", fontSize: 12, color: C.textPrimary, outline: "none" }}
+                      />
+                    )}
                   </div>
-                ) : isLong ? (
-                  <textarea
-                    value={String(val)}
-                    onChange={(e) => { if (!parsed) return; onChange(JSON.stringify({ ...parsed, [field]: e.target.value }, null, 2)); }}
-                    rows={3}
-                    style={{ width: "100%", background: "#1e1e1e", border: "0.5px solid rgba(255,255,255,0.08)", borderRadius: 6, padding: "7px 10px", fontSize: 12, color: "#e5e0d8", outline: "none", resize: "vertical", lineHeight: 1.6, fontFamily: "inherit" }}
-                  />
-                ) : (
-                  <input
-                    value={String(val)}
-                    onChange={(e) => { if (!parsed) return; onChange(JSON.stringify({ ...parsed, [field]: e.target.value }, null, 2)); }}
-                    style={{ width: "100%", background: "#1e1e1e", border: "0.5px solid rgba(255,255,255,0.08)", borderRadius: 6, padding: "7px 10px", fontSize: 12, color: "#e5e0d8", outline: "none" }}
-                  />
-                )}
+                );
+              })}
+            </div>
+          )}
+
+          {/* Array editors */}
+          {imagesArray && (
+            <div style={{ padding: "12px 14px 0" }}>
+              <div style={{ fontSize: 9.5, color: C.textTertiary, textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 600, marginBottom: 8 }}>Images (Circle Media)</div>
+              <ImagesArrayEditor images={imagesArray} onChange={(updated) => { if (!parsed) return; onChange(JSON.stringify({ ...parsed, images: updated }, null, 2)); }} uploadingField={uploadingField} blockKey={block.key} onUpload={onUpload} parsed={parsed} fullValue={value} onFullChange={onChange} />
+            </div>
+          )}
+          {cardArray && (
+            <div style={{ padding: "12px 14px 0" }}>
+              <div style={{ fontSize: 9.5, color: C.textTertiary, textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 600, marginBottom: 8 }}>Service Cards</div>
+              <CardArrayEditor cards={cardArray} onChange={(updated) => { if (!parsed) return; onChange(JSON.stringify({ ...parsed, cards: updated }, null, 2)); }} />
+            </div>
+          )}
+          {amenitiesArray && (
+            <div style={{ padding: "12px 14px 0" }}>
+              <div style={{ fontSize: 9.5, color: C.textTertiary, textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 600, marginBottom: 8 }}>Amenities</div>
+              <GenericArrayEditor items={amenitiesArray} fields={["icon", "title", "desc"]} onChange={(updated) => { if (!parsed) return; onChange(JSON.stringify({ ...parsed, amenities: updated }, null, 2)); }} />
+            </div>
+          )}
+          {reasonsArray && (
+            <div style={{ padding: "12px 14px 0" }}>
+              <div style={{ fontSize: 9.5, color: C.textTertiary, textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 600, marginBottom: 8 }}>Reasons</div>
+              <GenericArrayEditor items={reasonsArray} fields={["num", "title", "desc"]} onChange={(updated) => { if (!parsed) return; onChange(JSON.stringify({ ...parsed, reasons: updated }, null, 2)); }} />
+            </div>
+          )}
+          {pillarsArray && (
+            <div style={{ padding: "12px 14px 0" }}>
+              <div style={{ fontSize: 9.5, color: C.textTertiary, textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 600, marginBottom: 8 }}>Pillars</div>
+              <GenericArrayEditor items={pillarsArray} fields={["num", "title", "desc"]} onChange={(updated) => { if (!parsed) return; onChange(JSON.stringify({ ...parsed, pillars: updated }, null, 2)); }} />
+            </div>
+          )}
+
+          {/* Raw JSON toggle */}
+          <div style={{ borderTop: `0.5px solid ${C.border}`, marginTop: 12 }}>
+            <button onClick={() => setRawOpen((v) => !v)}
+              style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "8px 14px", background: "none", border: "none", cursor: "pointer", color: C.textTertiary, fontSize: 9.5, textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 600, fontFamily: "inherit" }}>
+              <span>Advanced — Raw JSON</span>
+              <span style={{ transition: "transform .18s", transform: rawOpen ? "rotate(180deg)" : "none", display: "inline-block" }}>›</span>
+            </button>
+            {rawOpen && (
+              <div style={{ padding: "0 14px 12px" }}>
+                <textarea
+                  value={value} onChange={(e) => onChange(e.target.value)} rows={10}
+                  style={{ width: "100%", background: C.bgTertiary, border: `0.5px solid ${C.border}`, borderRadius: 7, padding: "9px 11px", fontFamily: "monospace", fontSize: 11, color: "#8aaf80", lineHeight: 1.6, outline: "none", resize: "vertical" }}
+                />
               </div>
-            );
-          })}
-        </div>
-      )}
-
-      {/* Images Array Editor (for home.new_generation) */}
-      {imagesArray && (
-        <div style={{ padding: "0 16px 14px" }}>
-          <div style={{ fontSize: 9, color: "#5a5248", textTransform: "uppercase", letterSpacing: "0.12em", fontWeight: 700, marginBottom: 8 }}>Images (Circle Media)</div>
-          <ImagesArrayEditor
-            images={imagesArray}
-            onChange={(updated) => { if (!parsed) return; onChange(JSON.stringify({ ...parsed, images: updated }, null, 2)); }}
-            uploadingField={uploadingField}
-            blockKey={block.key}
-            onUpload={onUpload}
-            parsed={parsed}
-            fullValue={value}
-            onFullChange={onChange}
-          />
-        </div>
-      )}
-
-      {/* Card Array Editor (home.services) */}
-      {cardArray && (
-        <div style={{ padding: "0 16px 14px" }}>
-          <div style={{ fontSize: 9, color: "#5a5248", textTransform: "uppercase", letterSpacing: "0.12em", fontWeight: 700, marginBottom: 8 }}>Service Cards</div>
-          <CardArrayEditor
-            cards={cardArray}
-            onChange={(updated) => { if (!parsed) return; onChange(JSON.stringify({ ...parsed, cards: updated }, null, 2)); }}
-          />
-        </div>
-      )}
-
-      {/* Amenities Array Editor */}
-      {amenitiesArray && (
-        <div style={{ padding: "0 16px 14px" }}>
-          <div style={{ fontSize: 9, color: "#5a5248", textTransform: "uppercase", letterSpacing: "0.12em", fontWeight: 700, marginBottom: 8 }}>Amenities</div>
-          <GenericArrayEditor
-            items={amenitiesArray}
-            fields={["icon", "title", "desc"]}
-            onChange={(updated) => { if (!parsed) return; onChange(JSON.stringify({ ...parsed, amenities: updated }, null, 2)); }}
-          />
-        </div>
-      )}
-
-      {/* Reasons Array Editor */}
-      {reasonsArray && (
-        <div style={{ padding: "0 16px 14px" }}>
-          <div style={{ fontSize: 9, color: "#5a5248", textTransform: "uppercase", letterSpacing: "0.12em", fontWeight: 700, marginBottom: 8 }}>Reasons</div>
-          <GenericArrayEditor
-            items={reasonsArray}
-            fields={["num", "title", "desc"]}
-            onChange={(updated) => { if (!parsed) return; onChange(JSON.stringify({ ...parsed, reasons: updated }, null, 2)); }}
-          />
-        </div>
-      )}
-
-      {/* Pillars Array Editor */}
-      {pillarsArray && (
-        <div style={{ padding: "0 16px 14px" }}>
-          <div style={{ fontSize: 9, color: "#5a5248", textTransform: "uppercase", letterSpacing: "0.12em", fontWeight: 700, marginBottom: 8 }}>Pillars</div>
-          <GenericArrayEditor
-            items={pillarsArray}
-            fields={["num", "title", "desc"]}
-            onChange={(updated) => { if (!parsed) return; onChange(JSON.stringify({ ...parsed, pillars: updated }, null, 2)); }}
-          />
-        </div>
-      )}
-
-      {/* Advanced JSON toggle */}
-      <div style={{ borderTop: "0.5px solid rgba(255,255,255,0.05)" }}>
-        <button
-          onClick={() => setOpen((v) => !v)}
-          style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "9px 16px", background: "none", border: "none", cursor: "pointer", color: "#3a3530", fontSize: 9, textTransform: "uppercase", letterSpacing: "0.14em", fontWeight: 600 }}
-        >
-          <span>Advanced — Raw JSON</span>
-          <span>{open ? "▲" : "▼"}</span>
-        </button>
-        {open && (
-          <div style={{ padding: "0 16px 14px" }}>
-            <textarea
-              value={value}
-              onChange={(e) => onChange(e.target.value)}
-              rows={10}
-              style={{ width: "100%", background: "#0d0d0d", border: "0.5px solid rgba(255,255,255,0.07)", borderRadius: 6, padding: "10px 12px", fontFamily: "monospace", fontSize: 11, color: "#8aaf80", lineHeight: 1.6, outline: "none", resize: "vertical" }}
-            />
+            )}
           </div>
-        )}
-      </div>
+
+          {/* Block Footer */}
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "8px 14px", borderTop: `0.5px solid ${C.border}`, background: C.bgSecondary }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+              {preview && (
+                <a href={preview} target="_blank" rel="noopener noreferrer" className="adm-foot-link blue">
+                  <EyeIcon size={11} /> Preview
+                </a>
+              )}
+              <button onClick={() => setRawOpen((v) => !v)} className="adm-foot-link">
+                <span style={{ fontFamily: "monospace", fontSize: 10 }}>{"{}"}</span> Raw JSON
+              </button>
+            </div>
+            <button className="adm-save-btn" onClick={onSave} disabled={saving}>
+              {saving ? (
+                <span style={{ display: "flex", alignItems: "center", gap: 5 }}>
+                  <span style={{ width: 10, height: 10, border: "2px solid rgba(4,9,15,0.25)", borderTop: "2px solid #04090f", borderRadius: "50%", display: "inline-block", animation: "spin 0.8s linear infinite" }} />
+                  Saving…
+                </span>
+              ) : "Save changes"}
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
 
+// ── Block prefix icon (maps prefix → matching icon) ───────────────────────────
+function BlockIcon({ prefix, size }: { prefix: string; size: number }) {
+  switch (prefix) {
+    case "home":            return <HomeIcon size={size} />;
+    case "about":           return <BuildingIcon size={size} />;
+    case "plot_selling":    return <MapPinIcon size={size} />;
+    case "project": case "project_detail": return <GridIcon size={size} />;
+    case "construction":    return <WrenchIcon size={size} />;
+    case "investment":      return <ChartIcon size={size} />;
+    case "architecture":    return <PencilIcon size={size} />;
+    case "lifestyle":       return <StarIcon size={size} />;
+    case "contact":         return <PhoneIcon size={size} />;
+    case "blog":            return <NewsIcon size={size} />;
+    case "channel_partner": case "partner": return <UsersIcon size={size} />;
+    case "footer":          return <LayersIcon size={size} />;
+    case "site":            return <CogIcon size={size} />;
+    default:                return <GridIcon size={size} />;
+  }
+}
+
 // ── Images Array Editor ───────────────────────────────────────────────────────
 function ImagesArrayEditor({
-  images,
-  onChange,
-  uploadingField,
-  blockKey,
-  onUpload,
+  images, onChange, uploadingField, blockKey, onUpload,
 }: {
   images: ImageItem[];
   onChange: (updated: ImageItem[]) => void;
   uploadingField: string | null;
   blockKey: string;
   onUpload: (file: File, fieldKey: string, onUrl: (url: string) => void) => void;
+  parsed: Record<string, unknown> | null;
+  fullValue: string;
+  onFullChange: (v: string) => void;
 }) {
   const update = (idx: number, field: keyof ImageItem, val: string) => {
     onChange(images.map((img, i) => i === idx ? { ...img, [field]: val } : img));
   };
-
-  const addImage = () => {
-    onChange([...images, { src: "", alt: "", video_url: "" }]);
-  };
-
-  const removeImage = (idx: number) => {
-    onChange(images.filter((_, i) => i !== idx));
-  };
+  const addImage    = () => onChange([...images, { src: "", alt: "", video_url: "" }]);
+  const removeImage = (idx: number) => onChange(images.filter((_, i) => i !== idx));
 
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 12 }}>
+    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 10 }}>
       {images.map((img, idx) => {
-        const srcKey = `${blockKey}::images::${idx}::src`;
+        const srcKey   = `${blockKey}::images::${idx}::src`;
         const videoKey = `${blockKey}::images::${idx}::video_url`;
-        const isSrcUploading = uploadingField === srcKey;
+        const isSrcUploading   = uploadingField === srcKey;
         const isVideoUploading = uploadingField === videoKey;
 
         return (
-          <div key={idx} style={{ border: "0.5px solid rgba(0,191,255,0.1)", borderRadius: 10, padding: "12px", background: "#03070c", display: "flex", flexDirection: "column", gap: 10 }}>
+          <div key={idx} style={{ border: "0.5px solid rgba(0,191,255,0.1)", borderRadius: 9, padding: "11px", background: "#030710", display: "flex", flexDirection: "column", gap: 9 }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                <span style={{ fontSize: 9, color: "#00BFFF", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em" }}>#{idx + 1}</span>
-                {img.src && (
-                  <img src={img.src} alt="" style={{ width: 24, height: 24, borderRadius: "50%", objectFit: "cover", border: "1px solid rgba(0,191,255,0.2)" }} />
-                )}
+              <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
+                <span style={{ fontSize: 9, color: "#00BFFF", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em" }}>#{idx + 1}</span>
+                {img.src && <img src={img.src} alt="" style={{ width: 22, height: 22, borderRadius: "50%", objectFit: "cover", border: "1px solid rgba(0,191,255,0.2)" }} />}
               </div>
-              <button onClick={() => removeImage(idx)} style={{ background: "none", border: "none", cursor: "pointer", color: "rgba(239,68,68,0.5)", fontSize: 11 }} onMouseEnter={(e) => e.currentTarget.style.color="#ef4444"} onMouseLeave={(e) => e.currentTarget.style.color="rgba(239,68,68,0.5)"}>✕</button>
+              <button onClick={() => removeImage(idx)} style={{ background: "none", border: "none", cursor: "pointer", color: "rgba(248,113,113,0.45)", fontSize: 11 }}
+                onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.color = "#f87171"; }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.color = "rgba(248,113,113,0.45)"; }}>✕</button>
             </div>
-            
-            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              {/* src */}
-              <div>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 4 }}>
-                  <label style={{ fontSize: 8, color: "rgba(0,191,255,0.4)", textTransform: "uppercase", letterSpacing: "0.1em" }}>Image URL</label>
-                  <label style={{ display: "flex", alignItems: "center", gap: 3, color: isSrcUploading ? "rgba(0,191,255,0.3)" : "#00BFFF", fontSize: 8, cursor: isSrcUploading ? "wait" : "pointer", fontWeight: 600 }}>
-                    {isSrcUploading ? "…" : "Upload"}
-                    <input type="file" accept="image/*" disabled={!!uploadingField} className="hidden"
-                      onChange={(e) => { const file = e.target.files?.[0]; if (!file) return; e.target.value = ""; onUpload(file, srcKey, (url) => update(idx, "src", url)); }} />
-                  </label>
+            <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
+              {[
+                { lbl: "Image URL", key: "src" as keyof ImageItem, isUpload: true, uploading: isSrcUploading, uploadKey: srcKey, accept: "image/*" },
+                { lbl: "Alt Text",  key: "alt" as keyof ImageItem, isUpload: false, uploading: false, uploadKey: "", accept: "" },
+                { lbl: "Video URL", key: "video_url" as keyof ImageItem, isUpload: true, uploading: isVideoUploading, uploadKey: videoKey, accept: "video/*" },
+              ].map(({ lbl, key, isUpload, uploading: isUp, uploadKey, accept }) => (
+                <div key={lbl}>
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 3 }}>
+                    <label style={{ fontSize: 8, color: "rgba(0,191,255,0.4)", textTransform: "uppercase", letterSpacing: "0.1em" }}>{lbl}</label>
+                    {isUpload && (
+                      <label style={{ fontSize: 8, cursor: isUp ? "wait" : "pointer", fontWeight: 600, color: isUp ? "rgba(0,191,255,0.3)" : "#00BFFF" }}>
+                        {isUp ? "…" : "Upload"}
+                        <input type="file" accept={accept} disabled={!!uploadingField} style={{ display: "none" }}
+                          onChange={(e) => { const file = e.target.files?.[0]; if (!file) return; e.target.value = ""; onUpload(file, uploadKey, (url) => update(idx, key, url)); }} />
+                      </label>
+                    )}
+                  </div>
+                  <input value={String(img[key] ?? "")} onChange={(e) => update(idx, key, e.target.value)}
+                    style={{ width: "100%", background: "#050a12", border: "0.5px solid rgba(0,191,255,0.1)", borderRadius: 6, padding: "5px 8px", fontSize: 10, color: "#e8e3da", fontFamily: key === "src" || key === "video_url" ? "monospace" : "inherit", outline: "none" }} />
                 </div>
-                <input
-                  value={img.src}
-                  onChange={(e) => update(idx, "src", e.target.value)}
-                  placeholder="/assets/photo.jpg"
-                  style={{ width: "100%", background: "#050a12", border: "0.5px solid rgba(0,191,255,0.1)", borderRadius: 6, padding: "6px 8px", fontSize: 10, color: "#e5e0d8", fontFamily: "monospace", outline: "none" }}
-                />
-              </div>
-
-              {/* alt */}
-              <div>
-                <label style={{ display: "block", fontSize: 8, color: "rgba(0,191,255,0.4)", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 4 }}>Alt Text</label>
-                <input
-                  value={img.alt}
-                  onChange={(e) => update(idx, "alt", e.target.value)}
-                  placeholder="Describe image"
-                  style={{ width: "100%", background: "#050a12", border: "0.5px solid rgba(0,191,255,0.1)", borderRadius: 6, padding: "6px 8px", fontSize: 10, color: "#e5e0d8", outline: "none" }}
-                />
-              </div>
-
-              {/* video_url */}
-              <div>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 4 }}>
-                  <label style={{ fontSize: 8, color: "rgba(0,191,255,0.4)", textTransform: "uppercase", letterSpacing: "0.1em" }}>Video URL</label>
-                  <label style={{ display: "flex", alignItems: "center", gap: 3, color: isVideoUploading ? "rgba(0,191,255,0.3)" : "#00BFFF", fontSize: 8, cursor: isVideoUploading ? "wait" : "pointer", fontWeight: 600 }}>
-                    {isVideoUploading ? "…" : "Upload"}
-                    <input type="file" accept="video/*" disabled={!!uploadingField} className="hidden"
-                      onChange={(e) => { const file = e.target.files?.[0]; if (!file) return; e.target.value = ""; onUpload(file, videoKey, (url) => update(idx, "video_url", url)); }} />
-                  </label>
-                </div>
-                <input
-                  value={img.video_url}
-                  onChange={(e) => update(idx, "video_url", e.target.value)}
-                  placeholder="video.mp4"
-                  style={{ width: "100%", background: "#050a12", border: "0.5px solid rgba(0,191,255,0.1)", borderRadius: 6, padding: "6px 8px", fontSize: 10, color: "#e5e0d8", fontFamily: "monospace", outline: "none" }}
-                />
-              </div>
+              ))}
             </div>
           </div>
         );
       })}
-      <button
-        onClick={addImage}
-        style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, padding: "12px", border: "1px dashed rgba(0,191,255,0.2)", borderRadius: 10, background: "rgba(0,191,255,0.02)", color: "#00BFFF", fontSize: 11, cursor: "pointer", minHeight: 140 }}
-      >
-        <PlusIcon size={14} /> Add Image
+      <button onClick={addImage}
+        style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, padding: "12px", border: "1px dashed rgba(0,191,255,0.18)", borderRadius: 9, background: "rgba(0,191,255,0.02)", color: "#00BFFF", fontSize: 11, cursor: "pointer", minHeight: 130, fontFamily: "inherit" }}>
+        <PlusIcon size={13} /> Add Image
       </button>
     </div>
   );
@@ -881,26 +865,27 @@ function CardArrayEditor({ cards, onChange }: { cards: CardItem[]; onChange: (up
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
       {cards.map((card, idx) => (
-        <div key={idx} style={{ border: "0.5px solid rgba(255,255,255,0.07)", borderRadius: 8, padding: "10px 12px", background: "#1a1a1a" }}>
-          <p style={{ fontSize: 9, color: "#d4a96a", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", marginBottom: 8 }}>Card {card.num ?? String(idx + 1)}</p>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
-            <div>
-              <label style={{ display: "block", fontSize: 9, color: "#5a5248", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 4 }}>Title</label>
-              <input value={card.name ?? ""} onChange={(e) => update(idx, "name", e.target.value)}
-                style={{ width: "100%", background: "#111", border: "0.5px solid rgba(255,255,255,0.07)", borderRadius: 5, padding: "6px 8px", fontSize: 11, color: "#e5e0d8", outline: "none" }} />
-            </div>
-            <div>
-              <label style={{ display: "block", fontSize: 9, color: "#5a5248", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 4 }}>Button Text</label>
-              <input value={String(card.linkText ?? "")} onChange={(e) => update(idx, "linkText", e.target.value)}
-                style={{ width: "100%", background: "#111", border: "0.5px solid rgba(255,255,255,0.07)", borderRadius: 5, padding: "6px 8px", fontSize: 11, color: "#e5e0d8", outline: "none" }} />
-            </div>
-            <div style={{ gridColumn: "1 / -1" }}>
-              <label style={{ display: "block", fontSize: 9, color: "#5a5248", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 4 }}>Description</label>
-              <textarea value={card.desc ?? ""} onChange={(e) => update(idx, "desc", e.target.value)}
-                rows={2} style={{ width: "100%", background: "#111", border: "0.5px solid rgba(255,255,255,0.07)", borderRadius: 5, padding: "6px 8px", fontSize: 11, color: "#e5e0d8", resize: "vertical", lineHeight: 1.5, outline: "none", fontFamily: "inherit" }} />
-            </div>
+        <div key={idx} style={{ border: "0.5px solid rgba(0,191,255,0.1)", borderRadius: 8, padding: "10px 12px", background: "#0a0f1a" }}>
+          <p style={{ fontSize: 9, color: "#d4a96a", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", marginBottom: 8 }}>Card {card.num ?? String(idx + 1)}</p>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 7 }}>
+            {[
+              { lbl: "Title",       field: "name"     as keyof CardItem, wide: false },
+              { lbl: "Button Text", field: "linkText" as keyof CardItem, wide: false },
+              { lbl: "Description", field: "desc"     as keyof CardItem, wide: true  },
+            ].map(({ lbl, field, wide }) => (
+              <div key={lbl} style={{ gridColumn: wide ? "1 / -1" : "auto" }}>
+                <label style={{ display: "block", fontSize: 9, color: "rgba(232,227,218,0.3)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 3 }}>{lbl}</label>
+                {wide ? (
+                  <textarea value={String(card[field] ?? "")} onChange={(e) => update(idx, field, e.target.value)} rows={2}
+                    style={{ width: "100%", background: "#040910", border: "0.5px solid rgba(0,191,255,0.1)", borderRadius: 5, padding: "5px 8px", fontSize: 11, color: "#e8e3da", resize: "vertical", lineHeight: 1.5, outline: "none", fontFamily: "inherit" }} />
+                ) : (
+                  <input value={String(card[field] ?? "")} onChange={(e) => update(idx, field, e.target.value)}
+                    style={{ width: "100%", background: "#040910", border: "0.5px solid rgba(0,191,255,0.1)", borderRadius: 5, padding: "5px 8px", fontSize: 11, color: "#e8e3da", outline: "none" }} />
+                )}
+              </div>
+            ))}
           </div>
         </div>
       ))}
@@ -908,11 +893,9 @@ function CardArrayEditor({ cards, onChange }: { cards: CardItem[]; onChange: (up
   );
 }
 
-// ── Generic Array Editor (for amenities, reasons, pillars) ────────────────────
+// ── Generic Array Editor (amenities, reasons, pillars) ────────────────────────
 function GenericArrayEditor({
-  items,
-  fields,
-  onChange,
+  items, fields, onChange,
 }: {
   items: Record<string, unknown>[];
   fields: string[];
@@ -926,37 +909,28 @@ function GenericArrayEditor({
     fields.forEach((f) => { empty[f] = ""; });
     onChange([...items, empty]);
   };
-  const removeItem = (idx: number) => {
-    onChange(items.filter((_, i) => i !== idx));
-  };
+  const removeItem = (idx: number) => onChange(items.filter((_, i) => i !== idx));
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
       {items.map((item, idx) => (
-        <div key={idx} style={{ border: "0.5px solid rgba(255,255,255,0.07)", borderRadius: 8, padding: "10px 12px", background: "#1a1a1a" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
-            <span style={{ fontSize: 9, color: "#d4a96a", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em" }}>Item {idx + 1}</span>
-            <button onClick={() => removeItem(idx)} style={{ background: "none", border: "none", cursor: "pointer", color: "#5a5248", fontSize: 11 }}>✕</button>
+        <div key={idx} style={{ border: "0.5px solid rgba(0,191,255,0.1)", borderRadius: 8, padding: "9px 11px", background: "#0a0f1a" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 7 }}>
+            <span style={{ fontSize: 9, color: "#d4a96a", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em" }}>Item {idx + 1}</span>
+            <button onClick={() => removeItem(idx)} style={{ background: "none", border: "none", cursor: "pointer", color: "rgba(232,227,218,0.25)", fontSize: 11, fontFamily: "inherit" }}>✕</button>
           </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
             {fields.map((field) => {
               const isLong = field === "desc";
               return (
                 <div key={field}>
-                  <label style={{ display: "block", fontSize: 9, color: "#5a5248", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 3 }}>{field}</label>
+                  <label style={{ display: "block", fontSize: 9, color: "rgba(232,227,218,0.28)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 3 }}>{field}</label>
                   {isLong ? (
-                    <textarea
-                      value={String(item[field] ?? "")}
-                      onChange={(e) => update(idx, field, e.target.value)}
-                      rows={2}
-                      style={{ width: "100%", background: "#111", border: "0.5px solid rgba(255,255,255,0.07)", borderRadius: 5, padding: "6px 8px", fontSize: 11, color: "#e5e0d8", resize: "vertical", lineHeight: 1.5, outline: "none", fontFamily: "inherit" }}
-                    />
+                    <textarea value={String(item[field] ?? "")} onChange={(e) => update(idx, field, e.target.value)} rows={2}
+                      style={{ width: "100%", background: "#040910", border: "0.5px solid rgba(0,191,255,0.1)", borderRadius: 5, padding: "5px 8px", fontSize: 11, color: "#e8e3da", resize: "vertical", lineHeight: 1.5, outline: "none", fontFamily: "inherit" }} />
                   ) : (
-                    <input
-                      value={String(item[field] ?? "")}
-                      onChange={(e) => update(idx, field, e.target.value)}
-                      style={{ width: "100%", background: "#111", border: "0.5px solid rgba(255,255,255,0.07)", borderRadius: 5, padding: "6px 8px", fontSize: 11, color: "#e5e0d8", outline: "none" }}
-                    />
+                    <input value={String(item[field] ?? "")} onChange={(e) => update(idx, field, e.target.value)}
+                      style={{ width: "100%", background: "#040910", border: "0.5px solid rgba(0,191,255,0.1)", borderRadius: 5, padding: "5px 8px", fontSize: 11, color: "#e8e3da", outline: "none" }} />
                   )}
                 </div>
               );
@@ -964,10 +938,8 @@ function GenericArrayEditor({
           </div>
         </div>
       ))}
-      <button
-        onClick={addItem}
-        style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, padding: "7px", border: "0.5px dashed rgba(212,169,106,0.25)", borderRadius: 8, background: "transparent", color: "#7a7060", fontSize: 11, cursor: "pointer", width: "100%" }}
-      >
+      <button onClick={addItem}
+        style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 5, padding: "7px", border: "0.5px dashed rgba(0,191,255,0.18)", borderRadius: 8, background: "transparent", color: "rgba(0,191,255,0.4)", fontSize: 11, cursor: "pointer", width: "100%", fontFamily: "inherit" }}>
         <PlusIcon size={12} /> Add Item
       </button>
     </div>
@@ -998,24 +970,31 @@ function Ico({ d, size = 16, style }: { d: string; size?: number; style?: React.
   );
 }
 
-function HomeIcon({ size = 16 }: { size?: number }) { return <Ico size={size} d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z M9 22V12h6v10" />; }
+function HomeIcon({ size = 16 }: { size?: number })    { return <Ico size={size} d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z M9 22V12h6v10" />; }
 function BuildingIcon({ size = 16 }: { size?: number }) { return <Ico size={size} d="M6 22V4a2 2 0 012-2h8a2 2 0 012 2v18zM6 12H4a2 2 0 00-2 2v8h4M18 9h2a2 2 0 012 2v11h-4" />; }
-function MapPinIcon({ size = 16 }: { size?: number }) { return <Ico size={size} d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z M12 10a1 1 0 110-2 1 1 0 010 2z" />; }
-function GridIcon({ size = 16 }: { size?: number }) { return <Ico size={size} d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z" />; }
-function WrenchIcon({ size = 16 }: { size?: number }) { return <Ico size={size} d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z" />; }
-function ChartIcon({ size = 16 }: { size?: number }) { return <Ico size={size} d="M18 20V10M12 20V4M6 20v-6" />; }
-function PencilIcon({ size = 16 }: { size?: number }) { return <Ico size={size} d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7 M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />; }
-function StarIcon({ size = 16 }: { size?: number }) { return <Ico size={size} d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />; }
-function PhoneIcon({ size = 16 }: { size?: number }) { return <Ico size={size} d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.09 9.8 19.79 19.79 0 01.22 1.18 2 2 0 012.22 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />; }
-function NewsIcon({ size = 16 }: { size?: number }) { return <Ico size={size} d="M4 22h16a2 2 0 002-2V4a2 2 0 00-2-2H8a2 2 0 00-2 2v16a2 2 0 01-2 2zm0 0a2 2 0 01-2-2v-9c0-1.1.9-2 2-2h2 M18 14h-8 M15 18h-5 M10 6h8v4h-8z" />; }
-function UsersIcon({ size = 16 }: { size?: number }) { return <Ico size={size} d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2 M9 11a4 4 0 100-8 4 4 0 000 8z M23 21v-2a4 4 0 00-3-3.87 M16 3.13a4 4 0 010 7.75" />; }
-function LayersIcon({ size = 16 }: { size?: number }) { return <Ico size={size} d="M12 2L2 7l10 5 10-5-10-5z M2 17l10 5 10-5 M2 12l10 5 10-5" />; }
-function CogIcon({ size = 16 }: { size?: number }) { return <Ico size={size} d="M12 15a3 3 0 100-6 3 3 0 000 6z M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z" />; }
-function LogoutIcon({ size = 16 }: { size?: number }) { return <Ico size={size} d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4 M16 17l5-5-5-5 M21 12H9" />; }
+function MapPinIcon({ size = 16 }: { size?: number })   { return <Ico size={size} d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z M12 10a1 1 0 110-2 1 1 0 010 2z" />; }
+function GridIcon({ size = 16 }: { size?: number })     { return <Ico size={size} d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z" />; }
+function WrenchIcon({ size = 16 }: { size?: number })   { return <Ico size={size} d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z" />; }
+function ChartIcon({ size = 16 }: { size?: number })    { return <Ico size={size} d="M18 20V10M12 20V4M6 20v-6" />; }
+function PencilIcon({ size = 16 }: { size?: number })   { return <Ico size={size} d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7 M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />; }
+function StarIcon({ size = 16 }: { size?: number })     { return <Ico size={size} d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />; }
+function PhoneIcon({ size = 16 }: { size?: number })    { return <Ico size={size} d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.09 9.8 19.79 19.79 0 01.22 1.18 2 2 0 012.22 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />; }
+function NewsIcon({ size = 16 }: { size?: number })     { return <Ico size={size} d="M4 22h16a2 2 0 002-2V4a2 2 0 00-2-2H8a2 2 0 00-2 2v16a2 2 0 01-2 2zm0 0a2 2 0 01-2-2v-9c0-1.1.9-2 2-2h2 M18 14h-8 M15 18h-5 M10 6h8v4h-8z" />; }
+function UsersIcon({ size = 16 }: { size?: number })    { return <Ico size={size} d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2 M9 11a4 4 0 100-8 4 4 0 000 8z M23 21v-2a4 4 0 00-3-3.87 M16 3.13a4 4 0 010 7.75" />; }
+function LayersIcon({ size = 16 }: { size?: number })   { return <Ico size={size} d="M12 2L2 7l10 5 10-5-10-5z M2 17l10 5 10-5 M2 12l10 5 10-5" />; }
+function CogIcon({ size = 16 }: { size?: number })      { return <Ico size={size} d="M12 15a3 3 0 100-6 3 3 0 000 6z M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z" />; }
+function LogoutIcon({ size = 16 }: { size?: number })   { return <Ico size={size} d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4 M16 17l5-5-5-5 M21 12H9" />; }
 function EyeIcon({ size = 16, style }: { size?: number; style?: React.CSSProperties }) { return <Ico size={size} style={style} d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z M12 12a3 3 0 100-6 3 3 0 000 6z" />; }
-function SaveIcon({ size = 16 }: { size?: number }) { return <Ico size={size} d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z M17 21v-8H7v8 M7 3v5h8" />; }
 function UploadIcon({ size = 16, style }: { size?: number; style?: React.CSSProperties }) { return <Ico size={size} style={style} d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4 M17 8l-5-5-5 5 M12 3v12" />; }
-function PlusIcon({ size = 16 }: { size?: number }) { return <Ico size={size} d="M12 5v14 M5 12h14" />; }
-function ResetIcon({ size = 16 }: { size?: number }) { return <Ico size={size} d="M1 4v6h6 M3.51 15a9 9 0 102.13-9.36L1 10" />; }
-function SearchIcon({ size = 16, className, style }: { size?: number; className?: string; style?: React.CSSProperties }) { return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={className} style={style}><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>; }
+function PlusIcon({ size = 16 }: { size?: number })     { return <Ico size={size} d="M12 5v14 M5 12h14" />; }
+function ResetIcon({ size = 16 }: { size?: number })    { return <Ico size={size} d="M1 4v6h6 M3.51 15a9 9 0 102.13-9.36L1 10" />; }
+function RefreshIcon({ size = 16 }: { size?: number })  { return <Ico size={size} d="M23 4v6h-6 M20.49 15a9 9 0 11-2.12-9.36L23 10" />; }
+function SearchIcon({ size = 16, style }: { size?: number; style?: React.CSSProperties }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={style}>
+      <circle cx="11" cy="11" r="8" />
+      <line x1="21" y1="21" x2="16.65" y2="16.65" />
+    </svg>
+  );
+}
 function MenuIcon({ size = 16 }: { size?: number }) { return <Ico size={size} d="M3 12h18 M3 6h18 M3 18h18" />; }

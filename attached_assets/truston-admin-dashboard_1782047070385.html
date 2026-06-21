@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Truston Admin Dashboard</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f7f7f5;
+    --bg-tertiary: #f0efe9;
+    --text-primary: #1a1a1a;
+    --text-secondary: #555;
+    --text-tertiary: #999;
+    --border: rgba(0,0,0,0.12);
+    --border-md: rgba(0,0,0,0.2);
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-mono: 'SFMono-Regular', Consolas, monospace;
+  }
+  body { font-family: var(--font); background: var(--bg-tertiary); height: 100vh; display: flex; align-items: center; justify-content: center; }
+  .shell { display: grid; grid-template-columns: 210px 1fr; height: 100vh; width: 100%; background: var(--bg-tertiary); }
+
+  /* Sidebar */
+  .sidebar { background: var(--bg-secondary); border-right: 0.5px solid var(--border); display: flex; flex-direction: column; overflow: hidden; }
+  .sidebar-top { padding: 16px 12px 12px; border-bottom: 0.5px solid var(--border); }
+  .brand { display: flex; align-items: center; gap: 9px; margin-bottom: 12px; }
+  .brand-mark { width: 32px; height: 32px; background: #1a1a2e; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .brand-mark span { color: #fff; font-size: 13px; font-weight: 600; }
+  .brand-name { font-size: 14px; font-weight: 600; color: var(--text-primary); }
+  .brand-sub { font-size: 11px; color: var(--text-tertiary); }
+  .search-box { display: flex; align-items: center; gap: 7px; padding: 6px 10px; background: var(--bg-primary); border: 0.5px solid var(--border); border-radius: var(--radius-md); }
+  .search-box i { font-size: 13px; color: var(--text-tertiary); }
+  .search-box input { border: none; background: transparent; outline: none; font-size: 12px; color: var(--text-primary); width: 100%; font-family: var(--font); }
+  .search-box input::placeholder { color: var(--text-tertiary); }
+  .nav-scroll { flex: 1; overflow-y: auto; padding: 6px 8px 8px; }
+  .nav-scroll::-webkit-scrollbar { width: 4px; }
+  .nav-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+  .nav-group-label { font-size: 10px; font-weight: 600; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: .07em; padding: 10px 6px 4px; }
+  .nav-item { display: flex; align-items: center; justify-content: space-between; padding: 6px 8px; margin: 1px 0; border-radius: var(--radius-md); cursor: pointer; font-size: 12px; color: var(--text-secondary); transition: background .12s; }
+  .nav-item:hover { background: var(--bg-primary); color: var(--text-primary); }
+  .nav-item.active { background: var(--bg-primary); color: var(--text-primary); font-weight: 600; }
+  .nav-left { display: flex; align-items: center; gap: 7px; }
+  .nav-icon { font-size: 14px; color: var(--text-tertiary); }
+  .nav-item.active .nav-icon { color: var(--text-primary); }
+  .nav-badge { font-size: 10px; color: var(--text-tertiary); background: var(--bg-tertiary); border: 0.5px solid var(--border); padding: 1px 6px; border-radius: 10px; min-width: 20px; text-align: center; }
+  .nav-badge.hi { background: #E6F1FB; color: #0C447C; border-color: #B5D4F4; }
+  .sidebar-footer { padding: 10px 12px; border-top: 0.5px solid var(--border); }
+  .user-row { display: flex; align-items: center; gap: 8px; }
+  .avatar { width: 28px; height: 28px; border-radius: 50%; background: #EEEDFE; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 600; color: #3C3489; flex-shrink: 0; }
+  .user-info { flex: 1; min-width: 0; }
+  .user-email { font-size: 11px; color: var(--text-primary); font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .user-role { font-size: 10px; color: var(--text-tertiary); }
+
+  /* Main */
+  .main { display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
+  .topbar { padding: 0 20px; height: 50px; border-bottom: 0.5px solid var(--border); display: flex; align-items: center; justify-content: space-between; background: var(--bg-primary); flex-shrink: 0; }
+  .breadcrumb { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--text-tertiary); }
+  .breadcrumb b { color: var(--text-primary); font-weight: 500; }
+  .breadcrumb i { font-size: 11px; }
+  .topbar-actions { display: flex; align-items: center; gap: 7px; }
+  .pill { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-secondary); background: var(--bg-secondary); border: 0.5px solid var(--border); border-radius: 20px; padding: 4px 10px; }
+  .pill.green { color: #3B6D11; background: #EAF3DE; border-color: #C0DD97; }
+  .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #639922; display: inline-block; }
+  .live-pill { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #0C447C; background: #E6F1FB; border: 0.5px solid #B5D4F4; border-radius: 20px; padding: 4px 10px; cursor: pointer; text-decoration: none; }
+  .live-pill:hover { background: #dce9f8; }
+  .icon-action { width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border: 0.5px solid var(--border); border-radius: var(--radius-md); cursor: pointer; color: var(--text-secondary); background: var(--bg-primary); transition: background .12s; }
+  .icon-action:hover { background: var(--bg-secondary); color: var(--text-primary); }
+
+  /* Stats row */
+  .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 12px 20px; border-bottom: 0.5px solid var(--border); background: var(--bg-primary); flex-shrink: 0; }
+  .stat-card { background: var(--bg-secondary); border-radius: var(--radius-md); padding: 8px 12px; }
+  .stat-label { font-size: 10px; color: var(--text-tertiary); margin-bottom: 2px; text-transform: uppercase; letter-spacing: .05em; }
+  .stat-val { font-size: 20px; font-weight: 500; color: var(--text-primary); }
+
+  /* Content */
+  .content-area { flex: 1; overflow-y: auto; padding: 16px 20px 24px; }
+  .content-area::-webkit-scrollbar { width: 5px; }
+  .content-area::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+  .group-header { display: flex; align-items: center; gap: 8px; margin: 20px 0 8px; }
+  .group-header:first-child { margin-top: 0; }
+  .group-line { flex: 1; height: 0.5px; background: var(--border); }
+  .group-tag { font-size: 10px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--text-tertiary); white-space: nowrap; }
+  .group-url { font-size: 10px; color: var(--text-tertiary); font-family: var(--font-mono); }
+
+  /* Block */
+  .block { background: var(--bg-primary); border: 0.5px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 7px; overflow: hidden; }
+  .block-head { display: flex; align-items: center; padding: 11px 14px; cursor: pointer; gap: 10px; transition: background .12s; }
+  .block-head:hover { background: var(--bg-secondary); }
+  .block-icon { width: 34px; height: 34px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 16px; }
+  .bi-blue { background: #E6F1FB; color: #185FA5; }
+  .bi-green { background: #EAF3DE; color: #3B6D11; }
+  .bi-purple { background: #EEEDFE; color: #3C3489; }
+  .bi-amber { background: #FAEEDA; color: #633806; }
+  .block-meta { flex: 1; min-width: 0; }
+  .block-title { font-size: 13px; font-weight: 500; color: var(--text-primary); }
+  .block-key { font-size: 10px; color: var(--text-tertiary); font-family: var(--font-mono); margin-top: 2px; }
+  .block-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+  .type-tag { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 10px; }
+  .tt-blue { color: #185FA5; background: #E6F1FB; border: 0.5px solid #B5D4F4; }
+  .tt-green { color: #3B6D11; background: #EAF3DE; border: 0.5px solid #C0DD97; }
+  .chevron-btn { font-size: 13px; color: var(--text-tertiary); transition: transform .18s; }
+
+  /* Block body */
+  .block-body { display: none; padding: 14px 14px 0; border-top: 0.5px solid var(--border); }
+  .block-body.open { display: block; }
+  .fields { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+  .f { display: flex; flex-direction: column; gap: 4px; }
+  .f.wide { grid-column: 1 / -1; }
+  .f label { font-size: 10px; font-weight: 600; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: .05em; }
+  .f input, .f textarea {
+    font-size: 13px; padding: 7px 10px;
+    border: 0.5px solid var(--border-md);
+    border-radius: var(--radius-md);
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    font-family: var(--font);
+    resize: none; width: 100%; outline: none;
+    transition: border-color .12s, background .12s;
+  }
+  .f input:focus, .f textarea:focus { border-color: #378ADD; background: var(--bg-primary); }
+  .upload-row { display: flex; gap: 6px; }
+  .upload-row input { flex: 1; }
+  .upload-btn {
+    display: flex; align-items: center; gap: 5px;
+    font-size: 11px; padding: 7px 11px;
+    border: 0.5px solid var(--border-md);
+    border-radius: var(--radius-md);
+    background: var(--bg-primary);
+    cursor: pointer; white-space: nowrap;
+    color: var(--text-secondary); font-family: var(--font);
+    transition: background .12s;
+  }
+  .upload-btn:hover { background: var(--bg-secondary); }
+
+  /* Block footer */
+  .block-foot { display: flex; align-items: center; justify-content: space-between; padding: 9px 14px; border-top: 0.5px solid var(--border); background: var(--bg-secondary); }
+  .foot-left { display: flex; align-items: center; gap: 12px; }
+  .foot-link { display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--text-tertiary); text-decoration: none; cursor: pointer; background: none; border: none; font-family: var(--font); transition: color .12s; }
+  .foot-link:hover { color: var(--text-secondary); }
+  .foot-link.blue { color: #185FA5; }
+  .foot-link.blue:hover { color: #0C447C; }
+  .save-btn {
+    font-size: 12px; font-weight: 500; padding: 6px 16px;
+    border-radius: var(--radius-md);
+    border: 0.5px solid var(--border-md);
+    background: var(--bg-primary);
+    cursor: pointer; color: var(--text-primary);
+    font-family: var(--font); transition: background .15s, color .15s, border-color .15s;
+  }
+  .save-btn:hover { background: #1a1a2e; color: #fff; border-color: #1a1a2e; }
+  .save-btn:active { transform: scale(0.98); }
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-top">
+      <div class="brand">
+        <div class="brand-mark"><span>T</span></div>
+        <div>
+          <div class="brand-name">Truston</div>
+          <div class="brand-sub">Admin Dashboard</div>
+        </div>
+      </div>
+      <div class="search-box">
+        <i class="ti ti-search"></i>
+        <input type="text" placeholder="Search pages…" />
+      </div>
+    </div>
+
+    <div class="nav-scroll">
+      <div class="nav-group-label">Content</div>
+      <div class="nav-item"><div class="nav-left"><i class="ti ti-home nav-icon"></i>Home</div><span class="nav-badge">15</span></div>
+      <div class="nav-item"><div class="nav-left"><i class="ti ti-info-circle nav-icon"></i>About Us</div><span class="nav-badge">9</span></div>
+      <div class="nav-item"><div class="nav-left"><i class="ti ti-map-pin nav-icon"></i>Plot Selling</div><span class="nav-badge">6</span></div>
+      <div class="nav-item active"><div class="nav-left"><i class="ti ti-building-estate nav-icon"></i>Projects</div><span class="nav-badge hi">8</span></div>
+      <div class="nav-item"><div class="nav-left"><i class="ti ti-crane nav-icon"></i>Construction</div><span class="nav-badge">2</span></div>
+      <div class="nav-item"><div class="nav-left"><i class="ti ti-chart-line nav-icon"></i>Investment</div><span class="nav-badge">2</span></div>
+      <div class="nav-item"><div class="nav-left"><i class="ti ti-ruler nav-icon"></i>Architecture</div><span class="nav-badge">2</span></div>
+      <div class="nav-item"><div class="nav-left"><i class="ti ti-sun nav-icon"></i>Lifestyle</div><span class="nav-badge">4</span></div>
+      <div class="nav-item"><div class="nav-left"><i class="ti ti-mail nav-icon"></i>Contact</div><span class="nav-badge">2</span></div>
+      <div class="nav-item"><div class="nav-left"><i class="ti ti-pencil nav-icon"></i>Blog</div><span class="nav-badge">1</span></div>
+      <div class="nav-item"><div class="nav-left"><i class="ti ti-users nav-icon"></i>Partners</div><span class="nav-badge">8</span></div>
+      <div class="nav-group-label">Settings</div>
+      <div class="nav-item"><div class="nav-left"><i class="ti ti-layout-bottombar nav-icon"></i>Footer</div><span class="nav-badge">2</span></div>
+      <div class="nav-item"><div class="nav-left"><i class="ti ti-settings nav-icon"></i>Site Settings</div><span class="nav-badge">1</span></div>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="user-row">
+        <div class="avatar">IS</div>
+        <div class="user-info">
+          <div class="user-email">isalonikashyap@gmail.com</div>
+          <div class="user-role">Super Admin</div>
+        </div>
+        <i class="ti ti-dots" style="font-size:15px;color:var(--text-tertiary);cursor:pointer"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main -->
+  <div class="main">
+    <div class="topbar">
+      <div class="breadcrumb">
+        <i class="ti ti-world"></i>
+        <span>Website</span>
+        <i class="ti ti-chevron-right"></i>
+        <b>Projects</b>
+      </div>
+      <div class="topbar-actions">
+        <div class="pill green"><span class="status-dot"></span>Ready</div>
+        <a class="live-pill" href="https://truston1-1-v40c.onrender.com/" target="_blank">
+          <i class="ti ti-external-link" style="font-size:12px"></i>Live site
+        </a>
+        <div class="icon-action" title="Initialize"><i class="ti ti-refresh" style="font-size:15px"></i></div>
+        <div class="icon-action" title="Reset"><i class="ti ti-rotate" style="font-size:15px"></i></div>
+        <div class="icon-action" title="Upload media"><i class="ti ti-upload" style="font-size:15px"></i></div>
+      </div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-label">Total blocks</div><div class="stat-val">66</div></div>
+      <div class="stat-card"><div class="stat-label">Showing</div><div class="stat-val">8</div></div>
+      <div class="stat-card"><div class="stat-label">Section</div><div class="stat-val" style="font-size:15px;padding-top:4px">Projects</div></div>
+    </div>
+
+    <div class="content-area">
+
+      <!-- Group: Project listing -->
+      <div class="group-header">
+        <span class="group-tag">Project listing page</span>
+        <div class="group-line"></div>
+        <span class="group-url">/project</span>
+      </div>
+
+      <!-- project.hero -->
+      <div class="block" id="b1">
+        <div class="block-head" onclick="tog('b1')">
+          <div class="block-icon bi-blue"><i class="ti ti-layout-navbar"></i></div>
+          <div class="block-meta">
+            <div class="block-title">Prime Estate Hero</div>
+            <div class="block-key">project.hero</div>
+          </div>
+          <div class="block-right">
+            <span class="type-tag tt-blue">project</span>
+            <i class="ti ti-chevron-down chevron-btn" id="b1-chev"></i>
+          </div>
+        </div>
+        <div class="block-body" id="b1-body">
+          <div class="fields">
+            <div class="f"><label>Eyebrow</label><input type="text" placeholder="e.g. Our Projects" /></div>
+            <div class="f"><label>Label</label><input type="text" placeholder="e.g. Featured" /></div>
+            <div class="f wide"><label>Title</label><input type="text" placeholder="Main headline" /></div>
+            <div class="f"><label>Title accent</label><input type="text" placeholder="Highlighted word" /></div>
+            <div class="f wide"><label>Subtitle</label><textarea rows="2" placeholder="Short supporting description"></textarea></div>
+            <div class="f wide"><label>Image URL</label>
+              <div class="upload-row">
+                <input type="text" placeholder="https://… or upload" />
+                <button class="upload-btn"><i class="ti ti-upload" style="font-size:12px"></i>Upload</button>
+              </div>
+            </div>
+          </div>
+          <div class="block-foot">
+            <div class="foot-left">
+              <a class="foot-link blue" href="https://truston1-1-v40c.onrender.com/project" target="_blank"><i class="ti ti-eye" style="font-size:12px"></i>Preview</a>
+              <button class="foot-link"><i class="ti ti-code" style="font-size:12px"></i>Raw JSON</button>
+            </div>
+            <button class="save-btn">Save changes</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- project.details -->
+      <div class="block" id="b2">
+        <div class="block-head" onclick="tog('b2')">
+          <div class="block-icon bi-blue"><i class="ti ti-list-details"></i></div>
+          <div class="block-meta">
+            <div class="block-title">Prime Estate Details</div>
+            <div class="block-key">project.details</div>
+          </div>
+          <div class="block-right">
+            <span class="type-tag tt-blue">project</span>
+            <i class="ti ti-chevron-down chevron-btn" id="b2-chev"></i>
+          </div>
+        </div>
+        <div class="block-body" id="b2-body">
+          <div class="fields">
+            <div class="f"><label>Location</label><input type="text" placeholder="e.g. Aurangabad, Bihar" /></div>
+            <div class="f"><label>Launched</label><input type="text" placeholder="e.g. 2023" /></div>
+            <div class="f wide"><label>Approval</label><input type="text" placeholder="RERA / authority details" /></div>
+            <div class="f"><label>Stat 1 label</label><input type="text" placeholder="e.g. Plots" /></div>
+            <div class="f"><label>Stat 1 value</label><input type="text" placeholder="e.g. 200+" /></div>
+            <div class="f"><label>Stat 2 label</label><input type="text" placeholder="e.g. Acres" /></div>
+            <div class="f"><label>Stat 2 value</label><input type="text" placeholder="e.g. 50" /></div>
+            <div class="f"><label>Stat 3 label</label><input type="text" placeholder="e.g. Sold" /></div>
+            <div class="f"><label>Stat 3 value</label><input type="text" placeholder="e.g. 80%" /></div>
+          </div>
+          <div class="block-foot">
+            <div class="foot-left">
+              <a class="foot-link blue" href="https://truston1-1-v40c.onrender.com/project" target="_blank"><i class="ti ti-eye" style="font-size:12px"></i>Preview</a>
+              <button class="foot-link"><i class="ti ti-code" style="font-size:12px"></i>Raw JSON</button>
+            </div>
+            <button class="save-btn">Save changes</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Group: Project detail -->
+      <div class="group-header" style="margin-top:20px">
+        <span class="group-tag">Project detail page</span>
+        <div class="group-line"></div>
+        <span class="group-url">/project/[slug]</span>
+      </div>
+
+      <!-- project_detail.hero -->
+      <div class="block" id="b3">
+        <div class="block-head" onclick="tog('b3')">
+          <div class="block-icon bi-green"><i class="ti ti-layout-navbar"></i></div>
+          <div class="block-meta">
+            <div class="block-title">Hero</div>
+            <div class="block-key">project_detail.hero</div>
+          </div>
+          <div class="block-right">
+            <span class="type-tag tt-green">project_detail</span>
+            <i class="ti ti-chevron-down chevron-btn" id="b3-chev"></i>
+          </div>
+        </div>
+        <div class="block-body" id="b3-body">
+          <div class="fields">
+            <div class="f"><label>Eyebrow</label><input type="text" /></div>
+            <div class="f"><label>Title accent</label><input type="text" /></div>
+            <div class="f wide"><label>Title</label><input type="text" /></div>
+            <div class="f wide"><label>Subtitle</label><textarea rows="2"></textarea></div>
+            <div class="f wide"><label>Image URL</label>
+              <div class="upload-row">
+                <input type="text" placeholder="https://…" />
+                <button class="upload-btn"><i class="ti ti-upload" style="font-size:12px"></i>Upload</button>
+              </div>
+            </div>
+          </div>
+          <div class="block-foot">
+            <div class="foot-left">
+              <a class="foot-link blue" href="https://truston1-1-v40c.onrender.com/project" target="_blank"><i class="ti ti-eye" style="font-size:12px"></i>Preview</a>
+              <button class="foot-link"><i class="ti ti-code" style="font-size:12px"></i>Raw JSON</button>
+            </div>
+            <button class="save-btn">Save changes</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- project_detail.overview -->
+      <div class="block" id="b4">
+        <div class="block-head" onclick="tog('b4')">
+          <div class="block-icon bi-green"><i class="ti ti-align-left"></i></div>
+          <div class="block-meta">
+            <div class="block-title">Overview</div>
+            <div class="block-key">project_detail.overview</div>
+          </div>
+          <div class="block-right">
+            <span class="type-tag tt-green">project_detail</span>
+            <i class="ti ti-chevron-down chevron-btn" id="b4-chev"></i>
+          </div>
+        </div>
+        <div class="block-body" id="b4-body">
+          <div class="fields">
+            <div class="f"><label>Eyebrow</label><input type="text" /></div>
+            <div class="f"><label>Title accent</label><input type="text" /></div>
+            <div class="f wide"><label>Title</label><input type="text" /></div>
+            <div class="f wide"><label>Body</label><textarea rows="3"></textarea></div>
+            <div class="f wide"><label>Body secondary</label><textarea rows="2"></textarea></div>
+          </div>
+          <div class="block-foot">
+            <div class="foot-left">
+              <a class="foot-link blue" href="https://truston1-1-v40c.onrender.com/project" target="_blank"><i class="ti ti-eye" style="font-size:12px"></i>Preview</a>
+              <button class="foot-link"><i class="ti ti-code" style="font-size:12px"></i>Raw JSON</button>
+            </div>
+            <button class="save-btn">Save changes</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- project_detail.stats -->
+      <div class="block" id="b5">
+        <div class="block-head" onclick="tog('b5')">
+          <div class="block-icon bi-purple"><i class="ti ti-chart-bar"></i></div>
+          <div class="block-meta">
+            <div class="block-title">Stats</div>
+            <div class="block-key">project_detail.stats</div>
+          </div>
+          <div class="block-right">
+            <span class="type-tag tt-green">project_detail</span>
+            <i class="ti ti-chevron-down chevron-btn" id="b5-chev"></i>
+          </div>
+        </div>
+        <div class="block-body" id="b5-body">
+          <div class="fields">
+            <div class="f"><label>Stat 1 label</label><input type="text" /></div>
+            <div class="f"><label>Stat 1 value</label><input type="text" /></div>
+            <div class="f"><label>Stat 2 label</label><input type="text" /></div>
+            <div class="f"><label>Stat 2 value</label><input type="text" /></div>
+            <div class="f"><label>Stat 3 label</label><input type="text" /></div>
+            <div class="f"><label>Stat 3 value</label><input type="text" /></div>
+            <div class="f"><label>Stat 4 label</label><input type="text" /></div>
+            <div class="f"><label>Stat 4 value</label><input type="text" /></div>
+            <div class="f wide"><label>Footer note</label><input type="text" placeholder="Small print below stats" /></div>
+          </div>
+          <div class="block-foot">
+            <div class="foot-left">
+              <a class="foot-link blue" href="https://truston1-1-v40c.onrender.com/project" target="_blank"><i class="ti ti-eye" style="font-size:12px"></i>Preview</a>
+              <button class="foot-link"><i class="ti ti-code" style="font-size:12px"></i>Raw JSON</button>
+            </div>
+            <button class="save-btn">Save changes</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- project_detail.amenities -->
+      <div class="block" id="b6">
+        <div class="block-head" onclick="tog('b6')">
+          <div class="block-icon bi-green"><i class="ti ti-sparkles"></i></div>
+          <div class="block-meta">
+            <div class="block-title">Amenities</div>
+            <div class="block-key">project_detail.amenities</div>
+          </div>
+          <div class="block-right">
+            <span class="type-tag tt-green">project_detail</span>
+            <i class="ti ti-chevron-down chevron-btn" id="b6-chev"></i>
+          </div>
+        </div>
+        <div class="block-body" id="b6-body">
+          <div class="fields">
+            <div class="f"><label>Eyebrow</label><input type="text" /></div>
+            <div class="f"><label>Title accent</label><input type="text" /></div>
+            <div class="f wide"><label>Title</label><input type="text" /></div>
+          </div>
+          <div class="block-foot">
+            <div class="foot-left">
+              <a class="foot-link blue" href="https://truston1-1-v40c.onrender.com/project" target="_blank"><i class="ti ti-eye" style="font-size:12px"></i>Preview</a>
+              <button class="foot-link"><i class="ti ti-code" style="font-size:12px"></i>Raw JSON</button>
+            </div>
+            <button class="save-btn">Save changes</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- project_detail.gallery -->
+      <div class="block" id="b7">
+        <div class="block-head" onclick="tog('b7')">
+          <div class="block-icon bi-green"><i class="ti ti-photo"></i></div>
+          <div class="block-meta">
+            <div class="block-title">Gallery</div>
+            <div class="block-key">project_detail.gallery</div>
+          </div>
+          <div class="block-right">
+            <span class="type-tag tt-green">project_detail</span>
+            <i class="ti ti-chevron-down chevron-btn" id="b7-chev"></i>
+          </div>
+        </div>
+        <div class="block-body" id="b7-body">
+          <div class="fields">
+            <div class="f"><label>Eyebrow</label><input type="text" /></div>
+            <div class="f"><label>Title accent</label><input type="text" /></div>
+            <div class="f wide"><label>Title</label><input type="text" /></div>
+          </div>
+          <div class="block-foot">
+            <div class="foot-left">
+              <a class="foot-link blue" href="https://truston1-1-v40c.onrender.com/project" target="_blank"><i class="ti ti-eye" style="font-size:12px"></i>Preview</a>
+              <button class="foot-link"><i class="ti ti-code" style="font-size:12px"></i>Raw JSON</button>
+            </div>
+            <button class="save-btn">Save changes</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- project_detail.cta -->
+      <div class="block" id="b8">
+        <div class="block-head" onclick="tog('b8')">
+          <div class="block-icon bi-amber"><i class="ti ti-phone-call"></i></div>
+          <div class="block-meta">
+            <div class="block-title">Call to Action</div>
+            <div class="block-key">project_detail.cta</div>
+          </div>
+          <div class="block-right">
+            <span class="type-tag tt-green">project_detail</span>
+            <i class="ti ti-chevron-down chevron-btn" id="b8-chev"></i>
+          </div>
+        </div>
+        <div class="block-body" id="b8-body">
+          <div class="fields">
+            <div class="f"><label>Eyebrow</label><input type="text" /></div>
+            <div class="f"><label>Title accent</label><input type="text" /></div>
+            <div class="f wide"><label>Title</label><input type="text" /></div>
+            <div class="f"><label>Phone</label><input type="text" placeholder="+91 9876543210" /></div>
+            <div class="f"><label>CTA text</label><input type="text" placeholder="e.g. Book a site visit" /></div>
+          </div>
+          <div class="block-foot">
+            <div class="foot-left">
+              <a class="foot-link blue" href="https://truston1-1-v40c.onrender.com/project" target="_blank"><i class="ti ti-eye" style="font-size:12px"></i>Preview</a>
+              <button class="foot-link"><i class="ti ti-code" style="font-size:12px"></i>Raw JSON</button>
+            </div>
+            <button class="save-btn">Save changes</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+function tog(id) {
+  const body = document.getElementById(id + '-body');
+  const chev = document.getElementById(id + '-chev');
+  const open = body.classList.toggle('open');
+  chev.style.transform = open ? 'rotate(180deg)' : '';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prime Estate — TrustOn Developers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#15201C;
+    --paper:#FAF9F5;
+    --paper-2:#F2F0E9;
+    --line:#DEDACE;
+    --green:#2F6B4F;
+    --green-soft:#E7EFE9;
+    --sand:#B79A66;
+    --sand-soft:#F2EBDC;
+    --grey:#9B9B92;
+    --grey-soft:#EDECE6;
+    --muted:#6B6B62;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .display{font-family:'Fraunces', serif;}
+  .mono{font-family:'IBM Plex Mono', monospace; letter-spacing:0.02em;}
+  a{color:inherit; text-decoration:none;}
+  .wrap{max-width:1180px; margin:0 auto; padding:0 28px;}
+
+  /* ---------- Header ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(250,249,245,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{display:flex; align-items:center; justify-content:space-between; padding:18px 0;}
+  .logo{display:flex; align-items:center; gap:10px;}
+  .logo .mark{width:26px; height:26px; border:1.5px solid var(--ink); border-radius:50%; position:relative;}
+  .logo .mark::after{content:""; position:absolute; inset:6px; border-radius:50%; background:var(--green);}
+  .logo .word{font-size:15px; font-weight:600; letter-spacing:0.04em;}
+  .logo .word span{color:var(--green);}
+  nav.links{display:flex; gap:34px; font-size:13px; letter-spacing:0.03em; color:var(--muted);}
+  nav.links a:hover{color:var(--ink);}
+  .cta-small{
+    border:1px solid var(--ink); padding:9px 18px; font-size:13px; border-radius:999px;
+    transition:all .2s ease;
+  }
+  .cta-small:hover{background:var(--ink); color:var(--paper);}
+  .nav-mobile-toggle{display:none;}
+
+  /* ---------- Hero ---------- */
+  .hero{padding:72px 0 48px; border-bottom:1px solid var(--line);}
+  .eyebrow{
+    font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:var(--green);
+    display:flex; align-items:center; gap:8px; margin-bottom:22px;
+  }
+  .eyebrow::before{content:""; width:6px; height:6px; border-radius:50%; background:var(--green); display:inline-block;}
+  .hero h1{
+    font-size:clamp(40px, 6vw, 68px); font-weight:500; line-height:1.04; letter-spacing:-0.01em;
+    max-width:780px;
+  }
+  .hero h1 em{font-style:italic; color:var(--green); font-weight:400;}
+  .hero p.lead{
+    margin-top:22px; font-size:17px; line-height:1.6; color:var(--muted); max-width:520px;
+  }
+  .hero-actions{display:flex; gap:14px; margin-top:34px; flex-wrap:wrap;}
+  .btn-primary{
+    background:var(--ink); color:var(--paper); padding:14px 26px; border-radius:4px; font-size:14px;
+    display:inline-flex; align-items:center; gap:8px; transition:background .2s ease;
+  }
+  .btn-primary:hover{background:var(--green);}
+  .btn-ghost{
+    border:1px solid var(--line); padding:14px 26px; border-radius:4px; font-size:14px;
+    display:inline-flex; align-items:center; gap:8px; transition:border-color .2s ease;
+  }
+  .btn-ghost:hover{border-color:var(--ink);}
+
+  .stat-row{
+    display:grid; grid-template-columns:repeat(4,1fr); margin-top:56px; border-top:1px solid var(--line);
+  }
+  .stat{padding:22px 0 0; border-right:1px solid var(--line);}
+  .stat:last-child{border-right:none;}
+  .stat .num{font-family:'Fraunces',serif; font-size:30px; font-weight:500;}
+  .stat .lbl{font-size:11.5px; color:var(--muted); letter-spacing:0.04em; text-transform:uppercase; margin-top:4px;}
+
+  /* ---------- Section heading ---------- */
+  .section{padding:84px 0; border-bottom:1px solid var(--line);}
+  .section-head{display:flex; justify-content:space-between; align-items:flex-end; gap:24px; margin-bottom:44px; flex-wrap:wrap;}
+  .section-eyebrow{font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:var(--green); margin-bottom:10px;}
+  .section-head h2{font-size:clamp(26px,3.4vw,38px); font-weight:500; letter-spacing:-0.01em;}
+  .section-head h2 em{font-style:italic; color:var(--green); font-weight:400;}
+  .section-head p{color:var(--muted); font-size:14.5px; max-width:360px;}
+
+  /* ---------- Plot map ---------- */
+  .map-toolbar{
+    display:flex; justify-content:space-between; align-items:center; gap:16px; margin-bottom:22px; flex-wrap:wrap;
+  }
+  .filters{display:flex; gap:8px; flex-wrap:wrap;}
+  .filter-chip{
+    font-size:12.5px; padding:8px 16px; border:1px solid var(--line); border-radius:999px; color:var(--muted);
+    cursor:pointer; transition:all .15s ease; background:transparent;
+  }
+  .filter-chip.active{background:var(--ink); color:var(--paper); border-color:var(--ink);}
+  .filter-chip:hover:not(.active){border-color:var(--ink); color:var(--ink);}
+  .legend{display:flex; gap:18px; font-size:12px; color:var(--muted);}
+  .legend span{display:inline-flex; align-items:center; gap:6px;}
+  .dot{width:8px; height:8px; border-radius:50%; display:inline-block;}
+  .dot.available{background:var(--green);}
+  .dot.reserved{background:var(--sand);}
+  .dot.sold{background:var(--grey);}
+
+  .siteplan{
+    border:1px solid var(--line); border-radius:6px; background:#EEF1E9;
+    padding:0; position:relative; overflow:hidden;
+  }
+  .siteplan-meta{
+    display:flex; justify-content:space-between; font-size:11.5px; color:var(--muted);
+    letter-spacing:0.04em; text-transform:uppercase;
+    position:absolute; top:18px; left:24px; right:24px; z-index:5; pointer-events:none;
+  }
+  .map-stage{position:relative; width:100%;}
+  .map-stage svg{display:block; width:100%; height:auto;}
+
+  /* floating chrome on the map, echoes the reference but kept minimal/light */
+  .map-chip{
+    position:absolute; background:var(--paper); border:1px solid var(--line); border-radius:999px;
+    padding:8px 16px; font-size:11.5px; letter-spacing:0.03em; display:flex; align-items:center; gap:8px;
+    box-shadow:0 4px 14px rgba(21,32,28,0.05); z-index:10;
+  }
+  .chip-count{top:18px; left:24px;}
+  .chip-count .n{color:var(--green); font-weight:600; font-family:'IBM Plex Mono',monospace;}
+  .chip-compass{top:18px; right:24px; width:38px; height:38px; border-radius:50%; padding:0; justify-content:center; font-size:11px; font-weight:600;}
+  .chip-legend{
+    bottom:18px; left:50%; transform:translateX(-50%); display:flex; gap:16px; border-radius:999px;
+    padding:10px 20px;
+  }
+  .chip-legend span{display:flex; align-items:center; gap:6px; color:var(--muted); font-size:11px;}
+
+  /* plot polygons drawn in SVG */
+  .plot-rect{
+    stroke:var(--line); stroke-width:1; cursor:pointer;
+    transition:filter .15s ease, stroke-width .15s ease;
+  }
+  .plot-rect.available{fill:#FFFFFF;}
+  .plot-rect.reserved{fill:var(--sand-soft);}
+  .plot-rect.sold{fill:var(--grey-soft); cursor:not-allowed;}
+  .plot-rect:hover{filter:brightness(0.97);}
+  .plot-rect.selected{stroke:var(--green); stroke-width:2;}
+  .plot-tab{
+    fill:var(--green);
+  }
+  .plot-tab.reserved{fill:var(--sand);}
+  .plot-tab.sold{fill:var(--grey);}
+  .plot-label{font-family:'IBM Plex Mono',monospace; font-size:11px; fill:var(--ink); pointer-events:none;}
+  .plot-sub{font-family:'Inter',sans-serif; font-size:8.5px; fill:var(--muted); text-transform:uppercase; letter-spacing:0.05em; pointer-events:none;}
+  .road-fill{fill:#E2E6DA;}
+  .block-tree{fill:#D7DCC9;}
+
+  /* ---------- Drawer ---------- */
+  .drawer-overlay{
+    position:fixed; inset:0; background:rgba(21,32,28,0.35); opacity:0; pointer-events:none;
+    transition:opacity .25s ease; z-index:90;
+  }
+  .drawer-overlay.open{opacity:1; pointer-events:auto;}
+  .drawer{
+    position:fixed; top:0; right:0; height:100%; width:min(420px, 92vw);
+    background:var(--paper); border-left:1px solid var(--line);
+    transform:translateX(100%); transition:transform .3s ease; z-index:91;
+    padding:32px; overflow-y:auto;
+  }
+  .drawer.open{transform:translateX(0);}
+  .drawer-close{
+    width:34px; height:34px; border:1px solid var(--line); border-radius:50%;
+    display:flex; align-items:center; justify-content:center; cursor:pointer; margin-bottom:28px;
+    font-size:16px;
+  }
+  .drawer-tag{font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:var(--green); margin-bottom:8px;}
+  .drawer h3{font-family:'Fraunces',serif; font-size:28px; font-weight:500; margin-bottom:6px;}
+  .drawer .sub{font-size:13px; color:var(--muted); margin-bottom:28px;}
+  .drawer-stats{display:grid; grid-template-columns:1fr 1fr; gap:18px; border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:24px 0; margin-bottom:24px;}
+  .drawer-stats .item .v{font-family:'IBM Plex Mono',monospace; font-size:15px;}
+  .drawer-stats .item .k{font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:0.04em; margin-top:3px;}
+  .drawer-price{display:flex; align-items:baseline; gap:8px; margin-bottom:28px;}
+  .drawer-price .amt{font-family:'Fraunces',serif; font-size:34px;}
+  .drawer-price .per{font-size:12.5px; color:var(--muted);}
+  .drawer-actions{display:flex; flex-direction:column; gap:10px;}
+  .drawer-actions a{text-align:center; padding:14px; border-radius:4px; font-size:14px;}
+
+  /* ---------- Process ---------- */
+  .process-list{display:flex; flex-direction:column;}
+  .process-item{display:grid; grid-template-columns:70px 1fr; gap:24px; padding:28px 0; border-top:1px solid var(--line);}
+  .process-item:last-child{border-bottom:1px solid var(--line);}
+  .process-item .pnum{font-family:'IBM Plex Mono',monospace; color:var(--green); font-size:13px; padding-top:4px;}
+  .process-item h4{font-size:18px; font-weight:500; margin-bottom:8px;}
+  .process-item p{color:var(--muted); font-size:14px; line-height:1.6; max-width:560px;}
+
+  /* ---------- FAQ ---------- */
+  .faq-item{border-top:1px solid var(--line);}
+  .faq-item:last-child{border-bottom:1px solid var(--line);}
+  .faq-q{
+    display:flex; justify-content:space-between; align-items:center; padding:22px 0; cursor:pointer;
+    font-size:15.5px; font-weight:500;
+  }
+  .faq-q .plus{font-size:18px; color:var(--green); transition:transform .2s ease;}
+  .faq-item.open .plus{transform:rotate(45deg);}
+  .faq-a{max-height:0; overflow:hidden; transition:max-height .25s ease;}
+  .faq-a p{padding-bottom:22px; color:var(--muted); font-size:14px; line-height:1.6; max-width:600px;}
+
+  /* ---------- CTA ---------- */
+  .cta-section{padding:90px 0; text-align:center;}
+  .cta-section h2{font-size:clamp(30px,4vw,46px); font-weight:500; max-width:600px; margin:0 auto 28px;}
+  .cta-section h2 em{font-style:italic; color:var(--green); font-weight:400;}
+
+  /* ---------- Footer ---------- */
+  footer{padding:48px 0; border-top:1px solid var(--line);}
+  .foot-row{display:flex; justify-content:space-between; flex-wrap:wrap; gap:24px; font-size:13px; color:var(--muted);}
+  .foot-row .logo .word{color:var(--ink);}
+
+  @media (max-width:760px){
+    nav.links{display:none;}
+    .stat-row{grid-template-columns:repeat(2,1fr);}
+    .stat:nth-child(2){border-right:none;}
+    .plot-grid{grid-template-columns:repeat(3,1fr);}
+    .section{padding:56px 0;}
+    .hero{padding:48px 0 36px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <div class="logo">
+      <div class="mark"></div>
+      <div class="word">TRUST<span>ON</span></div>
+    </div>
+    <nav class="links">
+      <a href="#plan">The Plan</a>
+      <a href="#process">Process</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a class="cta-small" href="tel:+919616061166">Enquire Now</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Now Selling · Phase I &amp; II · Dubagga, Lucknow</div>
+    <h1 class="display">Own the ground.<br>Build the <em>legacy.</em></h1>
+    <p class="lead">Jila Panchayat approved residential plots in Lucknow's fastest-growing corridor. Clear title. Highway connected. Metro ready.</p>
+    <div class="hero-actions">
+      <a class="btn-primary" href="#plan">View Available Plots →</a>
+      <a class="btn-ghost" href="tel:+919616061166">Call +91 96160-61166</a>
+    </div>
+    <div class="stat-row">
+      <div class="stat"><div class="num mono">120+</div><div class="lbl">Total Plots</div></div>
+      <div class="stat"><div class="num mono">47</div><div class="lbl">Still Available</div></div>
+      <div class="stat"><div class="num mono">₹12L+</div><div class="lbl">Starting Price</div></div>
+      <div class="stat"><div class="num mono">25%</div><div class="lbl">Avg. Annual Growth</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="plan">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="section-eyebrow">Available Inventory</div>
+        <h2 class="display">Select your <em>perfect plot</em></h2>
+      </div>
+      <p>An honest site plan, not a brochure render. Every block reflects real status — click any plot for full specifications.</p>
+    </div>
+
+    <div class="map-toolbar">
+      <div class="filters">
+        <button class="filter-chip active" data-filter="all">All</button>
+        <button class="filter-chip" data-filter="residential">Residential</button>
+        <button class="filter-chip" data-filter="corner">Corner Plots</button>
+        <button class="filter-chip" data-filter="commercial">Commercial</button>
+      </div>
+      <div class="legend">
+        <span><i class="dot available"></i>Available</span>
+        <span><i class="dot reserved"></i>Reserved</span>
+        <span><i class="dot sold"></i>Sold</span>
+      </div>
+    </div>
+
+    <div class="siteplan">
+      <div class="map-chip chip-count"><span class="n" id="visibleCount">18</span><span>plots on map</span></div>
+      <div class="map-chip chip-compass">N</div>
+      <div class="map-chip chip-legend">
+        <span><i class="dot available"></i>Available</span>
+        <span><i class="dot reserved"></i>Reserved</span>
+        <span><i class="dot sold"></i>Sold</span>
+      </div>
+      <div class="map-stage">
+        <svg id="mapSvg" viewBox="0 0 1180 640" xmlns="http://www.w3.org/2000/svg"></svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="process">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="section-eyebrow">Our Process</div>
+        <h2 class="display">From enquiry to <em>ownership</em></h2>
+      </div>
+      <p>Four steps. No ambiguity at any of them.</p>
+    </div>
+    <div class="process-list">
+      <div class="process-item">
+        <div class="pnum">01</div>
+        <div><h4>Site visit &amp; consultation</h4><p>We show you the plot in person — location, boundaries, and documentation, explained on the ground.</p></div>
+      </div>
+      <div class="process-item">
+        <div class="pnum">02</div>
+        <div><h4>Legal review &amp; verification</h4><p>Our legal team reviews title deeds, JP approvals, and compliance certificates before any commitment.</p></div>
+      </div>
+      <div class="process-item">
+        <div class="pnum">03</div>
+        <div><h4>Documentation &amp; registration</h4><p>We handle the complete paperwork — registry to mutation — for clean, undisputed ownership.</p></div>
+      </div>
+      <div class="process-item">
+        <div class="pnum">04</div>
+        <div><h4>Handover &amp; after-sales</h4><p>Boundary marking, possession letter, and continued support if you're planning construction.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="faq">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="section-eyebrow">FAQ</div>
+        <h2 class="display">Common <em>questions</em></h2>
+      </div>
+    </div>
+    <div id="faqList"></div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="wrap">
+    <div class="section-eyebrow" style="justify-content:center; display:flex;">Start Your Journey</div>
+    <h2 class="display">Your plot in Prime Estate<br>is <em>waiting.</em></h2>
+    <div class="hero-actions" style="justify-content:center;">
+      <a class="btn-primary" href="tel:+919616061166">📞 +91 96160-61166</a>
+      <a class="btn-ghost" href="https://wa.me/919616061166?text=Hi%2C%20I%20am%20interested%20in%20TrustOn%20Prime%20Estate.">WhatsApp Us</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-row">
+    <div>
+      <div class="logo" style="margin-bottom:10px;"><div class="mark"></div><div class="word">TRUST<span>ON</span></div></div>
+      <div>UGF, Apple Plaza, Hardoi Road, Lucknow — 226003</div>
+    </div>
+    <div>trustondevelopers01@gmail.com<br>+91 96160-61166</div>
+    <div>© 2026 TrustOn Developers</div>
+  </div>
+</footer>
+
+<div class="drawer-overlay" id="overlay"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-close" id="drawerClose">✕</div>
+  <div class="drawer-tag" id="dTag">Featured · Best Value</div>
+  <h3 class="display" id="dTitle">Plot A-07</h3>
+  <div class="sub" id="dSub">Prime Estate · Dubagga, Lucknow</div>
+  <div class="drawer-stats">
+    <div class="item"><div class="v mono" id="dArea">720 sq ft</div><div class="k">Area</div></div>
+    <div class="item"><div class="v mono" id="dDim">30 × 24 m</div><div class="k">Dimensions</div></div>
+    <div class="item"><div class="v mono" id="dFace">North-East</div><div class="k">Facing</div></div>
+    <div class="item"><div class="v mono" id="dRoad">24 m</div><div class="k">Road Width</div></div>
+  </div>
+  <div class="drawer-price">
+    <div class="amt display" id="dPrice">₹ 21.6 L</div>
+    <div class="per" id="dPer">₹ 3,000 / sq ft · JP Approved</div>
+  </div>
+  <div class="drawer-actions">
+    <a class="btn-primary" id="dCall" href="tel:+919616061166">Enquire Now →</a>
+    <a class="btn-ghost" id="dWhatsapp" href="#">Message on WhatsApp</a>
+  </div>
+</div>
+
+<script>
+// ---------- Data ----------
+const plots = [
+  {id:"A-07", type:"corner", status:"available", area:"720 sq ft", dim:"30 × 24 m", face:"North-East", road:"24 m", price:"₹ 21.6 L", per:"₹ 3,000 / sq ft · JP Approved", tag:"Featured · Best Value", phase:"Prime Estate · Phase I & II"},
+  {id:"B-03", type:"residential", status:"available", area:"450 sq ft", dim:"25 × 18 m", face:"North", road:"18 m", price:"₹ 13.5 L", per:"₹ 2,400 / sq ft", tag:"Available", phase:"Phase I · Sector 8"},
+  {id:"C-01", type:"commercial", status:"available", area:"600 sq ft", dim:"30 × 20 m", face:"East", road:"Highway", price:"₹ 19.2 L", per:"₹ 3,200 / sq ft", tag:"Commercial", phase:"NH-19 Corridor"},
+  {id:"D-11", type:"corner", status:"available", area:"380 sq ft", dim:"20 × 19 m", face:"South", road:"2 Roads", price:"₹ 12 L", per:"₹ 2,500 / sq ft · Starter", tag:"Corner Plot", phase:"Phase II · Green Township"},
+  {id:"E-05", type:"residential", status:"available", area:"540 sq ft", dim:"27 × 20 m", face:"West", road:"20 m", price:"₹ 16.2 L", per:"₹ 3,000 / sq ft", tag:"Available", phase:"Phase I · Central Block"},
+  {id:"F-02", type:"corner", status:"sold", area:"860 sq ft", dim:"40 × 21.5 m", face:"North-West", road:"30 m", price:"₹ 28 L", per:"Sold", tag:"Premium Corner", phase:"Phase I · Prime Block"},
+  {id:"A-08", type:"residential", status:"available", area:"500 sq ft", dim:"25 × 20 m", face:"North", road:"18 m", price:"₹ 15 L", per:"₹ 3,000 / sq ft", tag:"Available", phase:"Phase I & II"},
+  {id:"A-09", type:"residential", status:"reserved", area:"480 sq ft", dim:"24 × 20 m", face:"East", road:"18 m", price:"₹ 14.4 L", per:"₹ 3,000 / sq ft", tag:"Reserved", phase:"Phase I & II"},
+  {id:"B-04", type:"residential", status:"available", area:"450 sq ft", dim:"25 × 18 m", face:"South", road:"18 m", price:"₹ 13.5 L", per:"₹ 2,400 / sq ft", tag:"Available", phase:"Phase I · Sector 8"},
+  {id:"B-05", type:"corner", status:"available", area:"610 sq ft", dim:"31 × 19.7 m", face:"North-East", road:"2 Roads", price:"₹ 18.3 L", per:"₹ 3,000 / sq ft", tag:"Corner Plot", phase:"Phase I · Sector 8"},
+  {id:"C-02", type:"commercial", status:"reserved", area:"650 sq ft", dim:"32 × 20 m", face:"West", road:"Highway", price:"₹ 20.8 L", per:"₹ 3,200 / sq ft", tag:"Reserved", phase:"NH-19 Corridor"},
+  {id:"C-03", type:"commercial", status:"available", area:"600 sq ft", dim:"30 × 20 m", face:"East", road:"Highway", price:"₹ 19.2 L", per:"₹ 3,200 / sq ft", tag:"Commercial", phase:"NH-19 Corridor"},
+  {id:"D-12", type:"residential", status:"available", area:"400 sq ft", dim:"20 × 20 m", face:"North", road:"16 m", price:"₹ 10 L", per:"₹ 2,500 / sq ft · Starter", tag:"Available", phase:"Phase II · Green Township"},
+  {id:"D-13", type:"corner", status:"available", area:"390 sq ft", dim:"21 × 18.5 m", face:"South-East", road:"2 Roads", price:"₹ 12.4 L", per:"₹ 3,180 / sq ft", tag:"Corner Plot", phase:"Phase II · Green Township"},
+  {id:"E-06", type:"residential", status:"sold", area:"540 sq ft", dim:"27 × 20 m", face:"West", road:"20 m", price:"₹ 16.2 L", per:"Sold", tag:"Sold Out", phase:"Phase I · Central Block"},
+  {id:"E-07", type:"residential", status:"available", area:"560 sq ft", dim:"28 × 20 m", face:"East", road:"20 m", price:"₹ 16.8 L", per:"₹ 3,000 / sq ft", tag:"Available", phase:"Phase I · Central Block"},
+  {id:"F-03", type:"corner", status:"available", area:"700 sq ft", dim:"35 × 20 m", face:"North", road:"24 m", price:"₹ 22.4 L", per:"₹ 3,200 / sq ft", tag:"Corner Plot", phase:"Phase I · Prime Block"},
+  {id:"F-04", type:"residential", status:"reserved", area:"520 sq ft", dim:"26 × 20 m", face:"North-East", road:"18 m", price:"₹ 15.6 L", per:"₹ 3,000 / sq ft", tag:"Reserved", phase:"Phase I · Prime Block"},
+];
+
+const svg = document.getElementById('mapSvg');
+const visibleCount = document.getElementById('visibleCount');
+const NS = "http://www.w3.org/2000/svg";
+
+const COLS = 6;
+const CELL_W = 178;
+const CELL_H = 150;
+const GAP = 10;
+const ROAD = 26;
+const PAD_X = 40;
+const PAD_Y = 40;
+
+function el(tag, attrs){
+  const e = document.createElementNS(NS, tag);
+  for(const k in attrs) e.setAttribute(k, attrs[k]);
+  return e;
+}
+
+function renderMap(filter){
+  svg.innerHTML = "";
+  const visible = plots.filter(p => filter === 'all' || p.type === filter);
+  visibleCount.textContent = visible.length;
+
+  const rows = Math.ceil(visible.length / COLS);
+  const mapW = PAD_X*2 + COLS*CELL_W + (COLS-1)*GAP;
+  const mapH = PAD_Y*2 + rows*CELL_H + (rows-1)*ROAD + 50;
+  svg.setAttribute('viewBox', `0 0 ${mapW} ${mapH}`);
+
+  // background land
+  svg.appendChild(el('rect', {x:0, y:0, width:mapW, height:mapH, fill:'#EEF1E9'}));
+
+  // perimeter boundary (dashed, like a survey line)
+  svg.appendChild(el('rect', {
+    x:14, y:14, width:mapW-28, height:mapH-28, fill:'none',
+    stroke:'#C7CCB9', 'stroke-width':1.5, 'stroke-dasharray':'2 6', rx:4
+  }));
+
+  // scattered texture dots (kept extremely subtle / minimal, evokes greenery without photoreal)
+  for(let i=0;i<26;i++){
+    const tx = 24 + Math.random()*(mapW-48);
+    const ty = 24 + Math.random()*(mapH-48);
+    // skip dots that would land inside the plot block area roughly
+    if(tx > PAD_X-20 && tx < mapW-PAD_X+20 && ty > PAD_Y-20 && ty < mapH-PAD_Y+20) continue;
+    svg.appendChild(el('circle', {cx:tx, cy:ty, r:2.2, class:'block-tree'}));
+  }
+
+  let x = PAD_X, y = PAD_Y, col = 0;
+  let rowIndex = 0;
+
+  visible.forEach((p, i) => {
+    if(col === COLS){
+      col = 0;
+      x = PAD_X;
+      y += CELL_H + ROAD;
+      rowIndex++;
+      // road band across full width
+      svg.appendChild(el('rect', {
+        x:0, y:y - ROAD, width:mapW, height:ROAD, class:'road-fill'
+      }));
+      svg.insertBefore(
+        el('line', {x1:0, y1:y-ROAD/2, x2:mapW, y2:y-ROAD/2, stroke:'#fff', 'stroke-width':2, 'stroke-dasharray':'10 8', opacity:0.7}),
+        null
+      );
+    }
+
+    const group = el('g', {});
+    const rect = el('rect', {
+      x, y, width:CELL_W, height:CELL_H, rx:3,
+      class:`plot-rect ${p.status}`, 'data-id':p.id
+    });
+    const tab = el('rect', {x, y, width:CELL_W, height:5, class:`plot-tab ${p.status}`});
+    const label = el('text', {x:x+12, y:y+26, class:'plot-label'});
+    label.textContent = p.id;
+    const sub1 = el('text', {x:x+12, y:y+CELL_H-30, class:'plot-sub'});
+    sub1.textContent = p.area;
+    const sub2 = el('text', {x:x+12, y:y+CELL_H-16, class:'plot-sub'});
+    sub2.textContent = p.status;
+
+    group.appendChild(rect);
+    group.appendChild(tab);
+    group.appendChild(label);
+    group.appendChild(sub1);
+    group.appendChild(sub2);
+
+    group.addEventListener('click', () => openDrawer(p, rect));
+    svg.appendChild(group);
+
+    x += CELL_W + GAP;
+    col++;
+  });
+}
+
+document.querySelectorAll('.filter-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    renderMap(chip.dataset.filter);
+  });
+});
+
+renderMap('all');
+
+// ---------- Drawer ----------
+const drawer = document.getElementById('drawer');
+const overlay = document.getElementById('overlay');
+
+function openDrawer(p, rectEl){
+  document.querySelectorAll('.plot-rect').forEach(c => c.classList.remove('selected'));
+  rectEl.classList.add('selected');
+
+  document.getElementById('dTag').textContent = p.tag;
+  document.getElementById('dTitle').textContent = `Plot ${p.id}`;
+  document.getElementById('dSub').textContent = p.phase;
+  document.getElementById('dArea').textContent = p.area;
+  document.getElementById('dDim').textContent = p.dim;
+  document.getElementById('dFace').textContent = p.face;
+  document.getElementById('dRoad').textContent = p.road;
+  document.getElementById('dPrice').textContent = p.status === 'sold' ? 'Sold' : p.price;
+  document.getElementById('dPer').textContent = p.per;
+
+  const callBtn = document.getElementById('dCall');
+  const waBtn = document.getElementById('dWhatsapp');
+  if(p.status === 'sold'){
+    callBtn.textContent = 'This plot is sold';
+    callBtn.style.opacity = '0.5';
+    callBtn.style.pointerEvents = 'none';
+  } else {
+    callBtn.textContent = 'Enquire Now →';
+    callBtn.style.opacity = '1';
+    callBtn.style.pointerEvents = 'auto';
+  }
+  waBtn.href = `https://wa.me/919616061166?text=Hi%2C%20I%20am%20interested%20in%20Plot%20${p.id}%20at%20TrustOn%20Prime%20Estate.`;
+
+  drawer.classList.add('open');
+  overlay.classList.add('open');
+}
+
+function closeDrawer(){
+  drawer.classList.remove('open');
+  overlay.classList.remove('open');
+  document.querySelectorAll('.plot-rect').forEach(c => c.classList.remove('selected'));
+}
+document.getElementById('drawerClose').addEventListener('click', closeDrawer);
+overlay.addEventListener('click', closeDrawer);
+
+// ---------- FAQ ----------
+const faqs = [
+  {q:"Are all plots Jila Panchayat approved?", a:"Yes. Every plot in Prime Estate carries full Jila Panchayat approval and comes with clear title deeds verified by our legal team."},
+  {q:"What is the minimum plot size available?", a:"Our plots start from 380 sq ft, going up to 860+ sq ft — options for first-time buyers as well as larger investors."},
+  {q:"Can I get home loan financing for these plots?", a:"Yes. Our plots are eligible for bank financing. We have tie-ups with leading lenders and can facilitate the process on your behalf."},
+  {q:"How long does the registration process take?", a:"Once documents are in order, registration typically completes within 7–10 working days. We guide you through every step."},
+  {q:"Is the plot available for NRI buyers?", a:"Absolutely. NRIs can purchase residential plots in India under FEMA guidelines, with dedicated support for documentation and power-of-attorney arrangements."},
+  {q:"What infrastructure is currently available at the site?", a:"Phase I has wide internal roads, boundary walls, electricity connection points, and water supply infrastructure already in place."},
+];
+const faqList = document.getElementById('faqList');
+faqs.forEach(f => {
+  const item = document.createElement('div');
+  item.className = 'faq-item';
+  item.innerHTML = `
+    <div class="faq-q"><span>${f.q}</span><span class="plus">+</span></div>
+    <div class="faq-a"><p>${f.a}</p></div>
+  `;
+  const q = item.querySelector('.faq-q');
+  const a = item.querySelector('.faq-a');
+  q.addEventListener('click', () => {
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => { i.classList.remove('open'); i.querySelector('.faq-a').style.maxHeight = null; });
+    if(!isOpen){
+      item.classList.add('open');
+      a.style.maxHeight = a.scrollHeight + 'px';
+    }
+  });
+  faqList.appendChild(item);
+});
+</script>
+</body>
+</html>
