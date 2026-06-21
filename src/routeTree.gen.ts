@@ -9,7 +9,6 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as ServicesRouteImport } from './routes/services'
 import { Route as ProjectRouteImport } from './routes/project'
 import { Route as PlotSellingRouteImport } from './routes/plot-selling'
 import { Route as LifestyleRouteImport } from './routes/lifestyle'
@@ -27,11 +26,6 @@ import { Route as ProjectsSlugRouteImport } from './routes/projects.$slug'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 
-const ServicesRoute = ServicesRouteImport.update({
-  id: '/services',
-  path: '/services',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ProjectRoute = ProjectRouteImport.update({
   id: '/project',
   path: '/project',
@@ -125,7 +119,6 @@ export interface FileRoutesByFullPath {
   '/lifestyle': typeof LifestyleRoute
   '/plot-selling': typeof PlotSellingRoute
   '/project': typeof ProjectRoute
-  '/services': typeof ServicesRoute
   '/admin/login': typeof AdminLoginRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
@@ -143,7 +136,6 @@ export interface FileRoutesByTo {
   '/lifestyle': typeof LifestyleRoute
   '/plot-selling': typeof PlotSellingRoute
   '/project': typeof ProjectRoute
-  '/services': typeof ServicesRoute
   '/admin/login': typeof AdminLoginRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
@@ -163,7 +155,6 @@ export interface FileRoutesById {
   '/lifestyle': typeof LifestyleRoute
   '/plot-selling': typeof PlotSellingRoute
   '/project': typeof ProjectRoute
-  '/services': typeof ServicesRoute
   '/admin/login': typeof AdminLoginRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
@@ -184,7 +175,6 @@ export interface FileRouteTypes {
     | '/lifestyle'
     | '/plot-selling'
     | '/project'
-    | '/services'
     | '/admin/login'
     | '/blog/$slug'
     | '/projects/$slug'
@@ -202,7 +192,6 @@ export interface FileRouteTypes {
     | '/lifestyle'
     | '/plot-selling'
     | '/project'
-    | '/services'
     | '/admin/login'
     | '/blog/$slug'
     | '/projects/$slug'
@@ -221,7 +210,6 @@ export interface FileRouteTypes {
     | '/lifestyle'
     | '/plot-selling'
     | '/project'
-    | '/services'
     | '/admin/login'
     | '/blog/$slug'
     | '/projects/$slug'
@@ -241,7 +229,6 @@ export interface RootRouteChildren {
   LifestyleRoute: typeof LifestyleRoute
   PlotSellingRoute: typeof PlotSellingRoute
   ProjectRoute: typeof ProjectRoute
-  ServicesRoute: typeof ServicesRoute
   AdminLoginRoute: typeof AdminLoginRoute
   ProjectsSlugRoute: typeof ProjectsSlugRoute
   AdminIndexRoute: typeof AdminIndexRoute
@@ -249,13 +236,6 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/services': {
-      id: '/services'
-      path: '/services'
-      fullPath: '/services'
-      preLoaderRoute: typeof ServicesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/project': {
       id: '/project'
       path: '/project'
@@ -395,7 +375,6 @@ const rootRouteChildren: RootRouteChildren = {
   LifestyleRoute: LifestyleRoute,
   PlotSellingRoute: PlotSellingRoute,
   ProjectRoute: ProjectRoute,
-  ServicesRoute: ServicesRoute,
   AdminLoginRoute: AdminLoginRoute,
   ProjectsSlugRoute: ProjectsSlugRoute,
   AdminIndexRoute: AdminIndexRoute,

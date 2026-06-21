@@ -37,7 +37,6 @@ const PAGE_TABS = [
   { label: "About Us", prefix: "about." },
   { label: "Plot Selling", prefix: "plot_selling." },
   { label: "Project", prefix: "project" },
-  { label: "Services", prefix: "services." },
   { label: "Construction", prefix: "construction." },
   { label: "Investment", prefix: "investment." },
   { label: "Architecture", prefix: "architecture." },
@@ -51,7 +50,7 @@ function previewUrl(blockKey: string): string | null {
   if (blockKey.startsWith("home.")) return "/";
   if (blockKey.startsWith("about.")) return "/about-us";
   if (blockKey.startsWith("contact.")) return "/contact";
-  if (blockKey.startsWith("services.")) return "/services";
+  if (blockKey.startsWith("services.")) return "/plot-selling";
   if (blockKey.startsWith("project_detail.") || blockKey.startsWith("project.")) return "/project";
   if (blockKey.startsWith("plot_selling.")) return "/plot-selling";
   if (blockKey.startsWith("construction.")) return "/construction-build";

@@ -87,7 +87,7 @@ export function SobhaStyleNav() {
                 onMouseLeave={() => setSvcOpen(false)}
               >
                 <button className={`flex items-center gap-2 ${linkClass}`}>
-                  SERVICES
+                  PLOT SELLING
                   <svg
                     className={`w-3 h-3 transition-transform duration-300 ${svcOpen ? "rotate-180" : ""}`}
                     fill="none"
@@ -169,7 +169,7 @@ export function SobhaStyleNav() {
               className="w-full flex items-center justify-between py-6 text-2xl font-display text-[#004aad]"
               onClick={() => setMobileServicesOpen((v) => !v)}
             >
-              SERVICES
+              PLOT SELLING
               <svg
                 className={`w-5 h-5 transition-transform duration-300 ${mobileServicesOpen ? "rotate-180" : ""}`}
                 fill="none"
