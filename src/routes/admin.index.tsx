@@ -201,9 +201,9 @@ function AdminPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: "#0a0a0a" }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: "#050a12" }}>
         <div className="text-center">
-          <div className="w-8 h-8 border-2 border-[#d4a96a]/30 border-t-[#d4a96a] rounded-full animate-spin mx-auto mb-4" />
+          <div className="w-8 h-8 border-2 border-[#00BFFF]/30 border-t-[#00BFFF] rounded-full animate-spin mx-auto mb-4" />
           <p className="text-[#9a9080] text-xs uppercase tracking-widest">Verifying access…</p>
         </div>
       </div>
@@ -211,7 +211,7 @@ function AdminPage() {
   }
 
   return (
-    <div className="flex min-h-screen" style={{ background: "#0f0f0f", fontFamily: "Inter, sans-serif" }}>
+    <div className="flex min-h-screen" style={{ background: "#050a12", fontFamily: "Inter, sans-serif" }}>
 
       {/* ── Sidebar ── */}
       <aside
@@ -219,15 +219,15 @@ function AdminPage() {
         style={{
           width: sidebarOpen ? 220 : 0,
           minWidth: sidebarOpen ? 220 : 0,
-          background: "#0a0a0a",
-          borderRight: "0.5px solid rgba(255,255,255,0.07)",
+          background: "#03070c",
+          borderRight: "0.5px solid rgba(0,191,255,0.1)",
           overflow: "hidden",
         }}
       >
         {/* Brand */}
-        <div style={{ padding: "20px 18px 16px", borderBottom: "0.5px solid rgba(255,255,255,0.08)" }}>
+        <div style={{ padding: "20px 18px 16px", borderBottom: "0.5px solid rgba(0,191,255,0.1)" }}>
           <div style={{ fontSize: 15, fontWeight: 600, color: "#f5f0e8", letterSpacing: "0.06em" }}>TRUSTON</div>
-          <div style={{ fontSize: 10, color: "#5a5248", marginTop: 3, letterSpacing: "0.06em" }}>Admin Dashboard</div>
+          <div style={{ fontSize: 10, color: "#00BFFF", marginTop: 3, letterSpacing: "0.06em", opacity: 0.8 }}>Admin Dashboard</div>
         </div>
 
         {/* Nav */}
@@ -239,7 +239,7 @@ function AdminPage() {
             if (visibleItems.length === 0) return null;
             return (
               <div key={group.section} style={{ paddingTop: 12 }}>
-                <div style={{ fontSize: 9, letterSpacing: "0.14em", color: "#3d3830", textTransform: "uppercase", padding: "0 18px 6px", fontWeight: 600 }}>
+                <div style={{ fontSize: 9, letterSpacing: "0.14em", color: "rgba(0,191,255,0.4)", textTransform: "uppercase", padding: "0 18px 6px", fontWeight: 600 }}>
                   {group.section}
                 </div>
                 {group.items.map((item) => {
@@ -254,18 +254,18 @@ function AdminPage() {
                         display: "flex", alignItems: "center", gap: 9,
                         padding: "8px 18px", width: "100%", textAlign: "left",
                         fontSize: 12.5, cursor: "pointer", border: "none",
-                        borderLeft: `2px solid ${active ? "#d4a96a" : "transparent"}`,
-                        background: active ? "rgba(212,169,106,0.07)" : "transparent",
-                        color: active ? "#d4a96a" : "#7a7060",
+                        borderLeft: `2px solid ${active ? "#00BFFF" : "transparent"}`,
+                        background: active ? "rgba(0,191,255,0.07)" : "transparent",
+                        color: active ? "#00BFFF" : "#7a7060",
                         transition: "all 0.12s",
                       }}
-                      onMouseEnter={(e) => { if (!active) (e.currentTarget as HTMLButtonElement).style.color = "#c5bdb0"; }}
+                      onMouseEnter={(e) => { if (!active) (e.currentTarget as HTMLButtonElement).style.color = "#00BFFF"; }}
                       onMouseLeave={(e) => { if (!active) (e.currentTarget as HTMLButtonElement).style.color = "#7a7060"; }}
                     >
                       <Icon size={14} />
                       <span style={{ flex: 1 }}>{item.label}</span>
                       {count > 0 && (
-                        <span style={{ fontSize: 9, background: active ? "rgba(212,169,106,0.15)" : "rgba(255,255,255,0.05)", color: active ? "#d4a96a" : "#4a4540", padding: "1px 6px", borderRadius: 10, fontWeight: 600 }}>
+                        <span style={{ fontSize: 9, background: active ? "rgba(0,191,255,0.15)" : "rgba(255,255,255,0.05)", color: active ? "#00BFFF" : "#4a4540", padding: "1px 6px", borderRadius: 10, fontWeight: 600 }}>
                           {count}
                         </span>
                       )}
@@ -278,21 +278,21 @@ function AdminPage() {
         </nav>
 
         {/* Footer */}
-        <div style={{ padding: "14px 18px", borderTop: "0.5px solid rgba(255,255,255,0.07)", display: "flex", alignItems: "center", gap: 10 }}>
-          <div style={{ width: 30, height: 30, borderRadius: "50%", background: "rgba(212,169,106,0.12)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 600, color: "#d4a96a", border: "0.5px solid rgba(212,169,106,0.3)", flexShrink: 0 }}>
+        <div style={{ padding: "14px 18px", borderTop: "0.5px solid rgba(0,191,255,0.1)", display: "flex", alignItems: "center", gap: 10 }}>
+          <div style={{ width: 30, height: 30, borderRadius: "50%", background: "rgba(0,191,255,0.12)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 600, color: "#00BFFF", border: "0.5px solid rgba(0,191,255,0.3)", flexShrink: 0 }}>
             {user?.email?.[0]?.toUpperCase() ?? "A"}
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
             <div style={{ fontSize: 11, color: "#c5bdb0", fontWeight: 500, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
               {user?.email ?? "Admin"}
             </div>
-            <div style={{ fontSize: 9, color: "#4a4540" }}>Super Admin</div>
+            <div style={{ fontSize: 9, color: "#00BFFF", opacity: 0.5 }}>Super Admin</div>
           </div>
           <button
             onClick={signOut}
             title="Sign out"
             style={{ background: "none", border: "none", cursor: "pointer", color: "#4a4540", padding: 4, display: "flex", flexShrink: 0 }}
-            onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.color = "#c5bdb0"; }}
+            onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.color = "#00BFFF"; }}
             onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.color = "#4a4540"; }}
           >
             <LogoutIcon size={14} />
@@ -304,17 +304,17 @@ function AdminPage() {
       <div className="flex flex-col flex-1 min-w-0">
 
         {/* Topbar */}
-        <div style={{ background: "#111", borderBottom: "0.5px solid rgba(255,255,255,0.07)", padding: "0 24px", height: 52, display: "flex", alignItems: "center", justifyContent: "space-between", flexShrink: 0 }}>
+        <div style={{ background: "#050a12", borderBottom: "0.5px solid rgba(0,191,255,0.1)", padding: "0 24px", height: 52, display: "flex", alignItems: "center", justifyContent: "space-between", flexShrink: 0 }}>
           <div className="flex items-center gap-3">
             <button
               onClick={() => setSidebarOpen((v) => !v)}
-              style={{ background: "none", border: "none", cursor: "pointer", color: "#5a5248", padding: 4, display: "flex" }}
+              style={{ background: "none", border: "none", cursor: "pointer", color: "#00BFFF", padding: 4, display: "flex" }}
             >
               <MenuIcon size={16} />
             </button>
             <div>
               <div style={{ fontSize: 13, fontWeight: 500, color: "#e5e0d8" }}>{activeSectionLabel}</div>
-              <div style={{ fontSize: 10, color: "#5a5248" }}>Website → {activeSectionLabel}</div>
+              <div style={{ fontSize: 10, color: "rgba(0,191,255,0.5)" }}>Website → {activeSectionLabel}</div>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -322,14 +322,14 @@ function AdminPage() {
               href="/"
               target="_blank"
               rel="noopener noreferrer"
-              style={{ display: "flex", alignItems: "center", gap: 5, padding: "5px 12px", borderRadius: 6, border: "0.5px solid rgba(255,255,255,0.1)", background: "transparent", color: "#7a7060", fontSize: 11, cursor: "pointer", textDecoration: "none" }}
+              style={{ display: "flex", alignItems: "center", gap: 5, padding: "5px 12px", borderRadius: 6, border: "0.5px solid rgba(0,191,255,0.2)", background: "transparent", color: "#00BFFF", fontSize: 11, cursor: "pointer", textDecoration: "none", opacity: 0.8 }}
             >
               <EyeIcon size={12} /> Live Site
             </a>
             <button
               onClick={() => handleSeed(false)}
               disabled={seeding}
-              style={{ display: "flex", alignItems: "center", gap: 5, padding: "5px 12px", borderRadius: 6, border: "0.5px solid rgba(212,169,106,0.3)", background: "rgba(212,169,106,0.08)", color: "#d4a96a", fontSize: 11, cursor: "pointer" }}
+              style={{ display: "flex", alignItems: "center", gap: 5, padding: "5px 12px", borderRadius: 6, border: "0.5px solid rgba(0,191,255,0.3)", background: "rgba(0,191,255,0.08)", color: "#00BFFF", fontSize: 11, cursor: "pointer" }}
             >
               <PlusIcon size={12} /> {seeding ? "Working…" : "Initialize"}
             </button>
@@ -594,14 +594,14 @@ function BlockCard({
       }}
     >
       {/* Header */}
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "11px 16px", borderBottom: "0.5px solid rgba(255,255,255,0.06)", gap: 12 }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "11px 16px", borderBottom: "0.5px solid rgba(0,191,255,0.1)", gap: 12 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
-          <span style={{ padding: "2px 8px", borderRadius: 4, background: "rgba(212,169,106,0.1)", border: "0.5px solid rgba(212,169,106,0.2)", color: "#d4a96a", fontSize: 9, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", flexShrink: 0 }}>
+          <span style={{ padding: "2px 8px", borderRadius: 4, background: "rgba(0,191,255,0.1)", border: "0.5px solid rgba(0,191,255,0.2)", color: "#00BFFF", fontSize: 9, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", flexShrink: 0 }}>
             {block.key.split(".")[0]}
           </span>
           <div style={{ minWidth: 0 }}>
             <p style={{ fontSize: 12.5, fontWeight: 500, color: "#e5e0d8", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{block.label}</p>
-            <p style={{ fontSize: 9, color: "#3a3530", fontFamily: "monospace", marginTop: 1 }}>{block.key}</p>
+            <p style={{ fontSize: 9, color: "rgba(0,191,255,0.4)", fontFamily: "monospace", marginTop: 1 }}>{block.key}</p>
           </div>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
@@ -615,9 +615,9 @@ function BlockCard({
           <button
             onClick={onSave}
             disabled={saving}
-            style={{ display: "flex", alignItems: "center", gap: 5, padding: "5px 14px", borderRadius: 6, background: "#d4a96a", color: "#0a0a0a", fontSize: 11, fontWeight: 700, border: "none", cursor: "pointer", opacity: saving ? 0.6 : 1 }}
+            style={{ display: "flex", alignItems: "center", gap: 5, padding: "5px 14px", borderRadius: 6, background: "#00BFFF", color: "#050a12", fontSize: 11, fontWeight: 700, border: "none", cursor: "pointer", opacity: saving ? 0.6 : 1 }}
           >
-            {saving ? <span style={{ width: 10, height: 10, border: "2px solid rgba(10,10,10,0.3)", borderTop: "2px solid #0a0a0a", borderRadius: "50%", display: "inline-block", animation: "spin 0.8s linear infinite" }} /> : <SaveIcon size={11} />}
+            {saving ? <span style={{ width: 10, height: 10, border: "2px solid rgba(5,10,18,0.3)", borderTop: "2px solid #050a12", borderRadius: "50%", display: "inline-block", animation: "spin 0.8s linear infinite" }} /> : <SaveIcon size={11} />}
             {saving ? "Saving…" : "Save"}
           </button>
         </div>
@@ -646,8 +646,8 @@ function BlockCard({
                       placeholder="https://… or upload a file →"
                       style={{ flex: 1, minWidth: 0, background: "#1e1e1e", border: "0.5px solid rgba(255,255,255,0.08)", borderRadius: 6, padding: "7px 10px", fontSize: 11, color: "#e5e0d8", fontFamily: "monospace", outline: "none" }}
                     />
-                    <label style={{ display: "flex", alignItems: "center", gap: 5, padding: "7px 12px", borderRadius: 6, border: "0.5px solid rgba(212,169,106,0.25)", background: "rgba(212,169,106,0.06)", color: isUploading ? "rgba(212,169,106,0.4)" : "#d4a96a", fontSize: 11, cursor: isUploading ? "wait" : "pointer", flexShrink: 0 }}>
-                      {isUploading ? <span style={{ width: 12, height: 12, border: "2px solid rgba(212,169,106,0.3)", borderTop: "2px solid #d4a96a", borderRadius: "50%", display: "inline-block", animation: "spin 0.8s linear infinite" }} /> : <UploadIcon size={11} />}
+                    <label style={{ display: "flex", alignItems: "center", gap: 5, padding: "7px 12px", borderRadius: 6, border: "0.5px solid rgba(0,191,255,0.25)", background: "rgba(0,191,255,0.06)", color: isUploading ? "rgba(0,191,255,0.4)" : "#00BFFF", fontSize: 11, cursor: isUploading ? "wait" : "pointer", flexShrink: 0 }}>
+                      {isUploading ? <span style={{ width: 12, height: 12, border: "2px solid rgba(0,191,255,0.3)", borderTop: "2px solid #00BFFF", borderRadius: "50%", display: "inline-block", animation: "spin 0.8s linear infinite" }} /> : <UploadIcon size={11} />}
                       {isUploading ? "…" : "Upload"}
                       <input type="file" accept="image/*,video/*" disabled={!!uploadingField} className="hidden"
                         onChange={(e) => { const file = e.target.files?.[0]; if (!file || !parsed) return; e.target.value = ""; onUpload(file, fieldUid, (url) => onChange(JSON.stringify({ ...parsed, [field]: url }, null, 2))); }} />
@@ -768,17 +768,12 @@ function ImagesArrayEditor({
   uploadingField,
   blockKey,
   onUpload,
-  parsed,
-  onFullChange,
 }: {
   images: ImageItem[];
   onChange: (updated: ImageItem[]) => void;
   uploadingField: string | null;
   blockKey: string;
   onUpload: (file: File, fieldKey: string, onUrl: (url: string) => void) => void;
-  parsed: Record<string, unknown> | null;
-  fullValue: string;
-  onFullChange: (v: string) => void;
 }) {
   const update = (idx: number, field: keyof ImageItem, val: string) => {
     onChange(images.map((img, i) => i === idx ? { ...img, [field]: val } : img));
@@ -793,7 +788,7 @@ function ImagesArrayEditor({
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 12 }}>
       {images.map((img, idx) => {
         const srcKey = `${blockKey}::images::${idx}::src`;
         const videoKey = `${blockKey}::images::${idx}::video_url`;
@@ -801,60 +796,63 @@ function ImagesArrayEditor({
         const isVideoUploading = uploadingField === videoKey;
 
         return (
-          <div key={idx} style={{ border: "0.5px solid rgba(255,255,255,0.07)", borderRadius: 8, padding: "10px 12px", background: "#1a1a1a" }}>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
-              <span style={{ fontSize: 9, color: "#d4a96a", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em" }}>Image {idx + 1}</span>
-              <button onClick={() => removeImage(idx)} style={{ background: "none", border: "none", cursor: "pointer", color: "#5a5248", fontSize: 11 }}>✕</button>
+          <div key={idx} style={{ border: "0.5px solid rgba(0,191,255,0.1)", borderRadius: 10, padding: "12px", background: "#03070c", display: "flex", flexDirection: "column", gap: 10 }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <span style={{ fontSize: 9, color: "#00BFFF", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em" }}>#{idx + 1}</span>
+                {img.src && (
+                  <img src={img.src} alt="" style={{ width: 24, height: 24, borderRadius: "50%", objectFit: "cover", border: "1px solid rgba(0,191,255,0.2)" }} />
+                )}
+              </div>
+              <button onClick={() => removeImage(idx)} style={{ background: "none", border: "none", cursor: "pointer", color: "rgba(239,68,68,0.5)", fontSize: 11 }} onMouseEnter={(e) => e.currentTarget.style.color="#ef4444"} onMouseLeave={(e) => e.currentTarget.style.color="rgba(239,68,68,0.5)"}>✕</button>
             </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+            
+            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {/* src */}
               <div>
-                <label style={{ display: "block", fontSize: 9, color: "#5a5248", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 3 }}>Image URL or Upload</label>
-                <div style={{ display: "flex", gap: 5 }}>
-                  <input
-                    value={img.src}
-                    onChange={(e) => update(idx, "src", e.target.value)}
-                    placeholder="/assets/photo.jpg or https://…"
-                    style={{ flex: 1, background: "#111", border: "0.5px solid rgba(255,255,255,0.07)", borderRadius: 5, padding: "6px 8px", fontSize: 10, color: "#e5e0d8", fontFamily: "monospace", outline: "none" }}
-                  />
-                  <label style={{ display: "flex", alignItems: "center", gap: 4, padding: "6px 10px", borderRadius: 5, border: "0.5px solid rgba(212,169,106,0.25)", background: "rgba(212,169,106,0.06)", color: isSrcUploading ? "rgba(212,169,106,0.4)" : "#d4a96a", fontSize: 10, cursor: isSrcUploading ? "wait" : "pointer", flexShrink: 0 }}>
-                    {isSrcUploading ? <span style={{ width: 10, height: 10, border: "1.5px solid rgba(212,169,106,0.3)", borderTop: "1.5px solid #d4a96a", borderRadius: "50%", display: "inline-block", animation: "spin 0.8s linear infinite" }} /> : <UploadIcon size={10} />}
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 4 }}>
+                  <label style={{ fontSize: 8, color: "rgba(0,191,255,0.4)", textTransform: "uppercase", letterSpacing: "0.1em" }}>Image URL</label>
+                  <label style={{ display: "flex", alignItems: "center", gap: 3, color: isSrcUploading ? "rgba(0,191,255,0.3)" : "#00BFFF", fontSize: 8, cursor: isSrcUploading ? "wait" : "pointer", fontWeight: 600 }}>
                     {isSrcUploading ? "…" : "Upload"}
                     <input type="file" accept="image/*" disabled={!!uploadingField} className="hidden"
                       onChange={(e) => { const file = e.target.files?.[0]; if (!file) return; e.target.value = ""; onUpload(file, srcKey, (url) => update(idx, "src", url)); }} />
                   </label>
                 </div>
-                {img.src && !img.video_url && (
-                  <img src={img.src} alt={img.alt} style={{ marginTop: 5, height: 48, width: 48, objectFit: "cover", borderRadius: "50%", border: "0.5px solid rgba(255,255,255,0.1)" }} />
-                )}
+                <input
+                  value={img.src}
+                  onChange={(e) => update(idx, "src", e.target.value)}
+                  placeholder="/assets/photo.jpg"
+                  style={{ width: "100%", background: "#050a12", border: "0.5px solid rgba(0,191,255,0.1)", borderRadius: 6, padding: "6px 8px", fontSize: 10, color: "#e5e0d8", fontFamily: "monospace", outline: "none" }}
+                />
               </div>
+
               {/* alt */}
               <div>
-                <label style={{ display: "block", fontSize: 9, color: "#5a5248", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 3 }}>Alt Text</label>
+                <label style={{ display: "block", fontSize: 8, color: "rgba(0,191,255,0.4)", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 4 }}>Alt Text</label>
                 <input
                   value={img.alt}
                   onChange={(e) => update(idx, "alt", e.target.value)}
-                  placeholder="Describe the image"
-                  style={{ width: "100%", background: "#111", border: "0.5px solid rgba(255,255,255,0.07)", borderRadius: 5, padding: "6px 8px", fontSize: 10, color: "#e5e0d8", outline: "none" }}
+                  placeholder="Describe image"
+                  style={{ width: "100%", background: "#050a12", border: "0.5px solid rgba(0,191,255,0.1)", borderRadius: 6, padding: "6px 8px", fontSize: 10, color: "#e5e0d8", outline: "none" }}
                 />
               </div>
+
               {/* video_url */}
               <div>
-                <label style={{ display: "block", fontSize: 9, color: "#5a5248", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 3 }}>Video URL (overrides image)</label>
-                <div style={{ display: "flex", gap: 5 }}>
-                  <input
-                    value={img.video_url}
-                    onChange={(e) => update(idx, "video_url", e.target.value)}
-                    placeholder="https://… .mp4 (leave empty to use image)"
-                    style={{ flex: 1, background: "#111", border: "0.5px solid rgba(255,255,255,0.07)", borderRadius: 5, padding: "6px 8px", fontSize: 10, color: "#e5e0d8", fontFamily: "monospace", outline: "none" }}
-                  />
-                  <label style={{ display: "flex", alignItems: "center", gap: 4, padding: "6px 10px", borderRadius: 5, border: "0.5px solid rgba(212,169,106,0.25)", background: "rgba(212,169,106,0.06)", color: isVideoUploading ? "rgba(212,169,106,0.4)" : "#d4a96a", fontSize: 10, cursor: isVideoUploading ? "wait" : "pointer", flexShrink: 0 }}>
-                    {isVideoUploading ? <span style={{ width: 10, height: 10, border: "1.5px solid rgba(212,169,106,0.3)", borderTop: "1.5px solid #d4a96a", borderRadius: "50%", display: "inline-block", animation: "spin 0.8s linear infinite" }} /> : <UploadIcon size={10} />}
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 4 }}>
+                  <label style={{ fontSize: 8, color: "rgba(0,191,255,0.4)", textTransform: "uppercase", letterSpacing: "0.1em" }}>Video URL</label>
+                  <label style={{ display: "flex", alignItems: "center", gap: 3, color: isVideoUploading ? "rgba(0,191,255,0.3)" : "#00BFFF", fontSize: 8, cursor: isVideoUploading ? "wait" : "pointer", fontWeight: 600 }}>
                     {isVideoUploading ? "…" : "Upload"}
-                    <input type="file" accept="video/*,.mp4,.webm,.mov" disabled={!!uploadingField} className="hidden"
+                    <input type="file" accept="video/*" disabled={!!uploadingField} className="hidden"
                       onChange={(e) => { const file = e.target.files?.[0]; if (!file) return; e.target.value = ""; onUpload(file, videoKey, (url) => update(idx, "video_url", url)); }} />
                   </label>
                 </div>
+                <input
+                  value={img.video_url}
+                  onChange={(e) => update(idx, "video_url", e.target.value)}
+                  placeholder="video.mp4"
+                  style={{ width: "100%", background: "#050a12", border: "0.5px solid rgba(0,191,255,0.1)", borderRadius: 6, padding: "6px 8px", fontSize: 10, color: "#e5e0d8", fontFamily: "monospace", outline: "none" }}
+                />
               </div>
             </div>
           </div>
@@ -862,9 +860,9 @@ function ImagesArrayEditor({
       })}
       <button
         onClick={addImage}
-        style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, padding: "8px", border: "0.5px dashed rgba(212,169,106,0.25)", borderRadius: 8, background: "transparent", color: "#7a7060", fontSize: 11, cursor: "pointer", width: "100%" }}
+        style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, padding: "12px", border: "1px dashed rgba(0,191,255,0.2)", borderRadius: 10, background: "rgba(0,191,255,0.02)", color: "#00BFFF", fontSize: 11, cursor: "pointer", minHeight: 140 }}
       >
-        <PlusIcon size={12} /> Add Image
+        <PlusIcon size={14} /> Add Image
       </button>
     </div>
   );
