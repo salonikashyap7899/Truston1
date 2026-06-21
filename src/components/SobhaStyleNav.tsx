@@ -106,10 +106,10 @@ export function SobhaStyleNav() {
                   }`}
                 >
                   <Link
-                    to="/services"
+                    to="/plot-selling"
                     className="block px-6 py-4 text-[11px] font-bold text-[#00BFFF] border-b border-[#004aad]/8 hover:bg-[#004aad]/5 transition-colors uppercase tracking-widest"
                   >
-                    All Expertise →
+                    Prime Estate →
                   </Link>
                   {services.map((s) => (
                     <Link
@@ -183,8 +183,8 @@ export function SobhaStyleNav() {
               animate={{ height: mobileServicesOpen ? "auto" : 0, opacity: mobileServicesOpen ? 1 : 0 }}
               className="overflow-hidden pl-6 flex flex-col gap-2"
             >
-              <Link to="/services" className="py-3 text-[14px] text-[#00BFFF] font-bold uppercase tracking-[0.4em]">
-                All Expertise →
+              <Link to="/plot-selling" className="py-3 text-[14px] text-[#00BFFF] font-bold uppercase tracking-[0.4em]">
+                Prime Estate →
               </Link>
               {services.map((s) => (
                 <Link

@@ -92,18 +92,18 @@ export function LuxeNav() {
               </Link>
             ))}
 
-            {/* Services Dropdown */}
+            {/* Plot Selling Dropdown */}
             <div
               className="relative"
               onMouseEnter={() => setSvcOpen(true)}
               onMouseLeave={() => setSvcOpen(false)}
             >
               <Link
-                to="/services"
+                to="/plot-selling"
                 className={`flex items-center gap-2 px-5 py-2 text-[12px] font-bold uppercase tracking-widest transition-colors duration-300 relative group text-white hover:text-luxe-cyan`}
                 activeProps={{ className: "text-luxe-cyan" }}
               >
-                Services
+                Plot Selling
                 <svg
                   className={`w-3 h-3 transition-transform duration-300 ${svcOpen ? "rotate-180" : ""}`}
                   fill="none"
@@ -131,12 +131,12 @@ export function LuxeNav() {
                 }`}
               >
                 <Link
-                  to="/services"
+                  to="/plot-selling"
                   className="block px-6 py-4 text-[11px] font-bold text-luxe-cyan uppercase tracking-widest border-b border-white/5 hover:bg-white/5 transition-colors"
                 >
-                  All Expertise →
+                  Prime Estate →
                 </Link>
-                {services.map((s) => (
+                {services.filter((s) => s.to !== "/plot-selling").map((s) => (
                   <Link
                     key={s.to}
                     to={s.to}
@@ -241,10 +241,10 @@ export function LuxeNav() {
               className="overflow-hidden pl-4 flex flex-col gap-2"
             >
               <Link
-                to="/services"
+                to="/plot-selling"
                 className="py-3 text-[14px] text-luxe-cyan font-bold uppercase tracking-widest"
               >
-                All Services →
+                Prime Estate →
               </Link>
               {services.map((s) => (
                 <Link
