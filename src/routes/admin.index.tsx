@@ -202,16 +202,22 @@ function AdminPage() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center" style={{ background: "#050a12" }}>
-        <div className="text-center">
+          <div className="text-center">
           <div className="w-8 h-8 border-2 border-[#00BFFF]/30 border-t-[#00BFFF] rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-[#9a9080] text-xs uppercase tracking-widest">Verifying access…</p>
+          <p className="text-[#00BFFF]/60 text-xs uppercase tracking-widest">Verifying access…</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="flex min-h-screen" style={{ background: "#050a12", fontFamily: "Inter, sans-serif" }}>
+    <div className="flex min-h-screen" style={{ background: "#050a12", fontFamily: "Inter, sans-serif", cursor: "default" }}>
+      <style>{`
+        * { cursor: default !important; }
+        input, textarea, button, a, label, select { cursor: pointer !important; }
+        input[type="text"], input[type="email"], input[type="password"], textarea { cursor: text !important; }
+        .hidden { display: none !important; }
+      `}</style>
 
       {/* ── Sidebar ── */}
       <aside
@@ -265,7 +271,7 @@ function AdminPage() {
                       <Icon size={14} />
                       <span style={{ flex: 1 }}>{item.label}</span>
                       {count > 0 && (
-                        <span style={{ fontSize: 9, background: active ? "rgba(0,191,255,0.15)" : "rgba(255,255,255,0.05)", color: active ? "#00BFFF" : "#4a4540", padding: "1px 6px", borderRadius: 10, fontWeight: 600 }}>
+                        <span style={{ fontSize: 9, background: active ? "rgba(0,191,255,0.15)" : "rgba(255,255,255,0.05)", color: active ? "#00BFFF" : "rgba(255,255,255,0.3)", padding: "1px 6px", borderRadius: 10, fontWeight: 600 }}>
                           {count}
                         </span>
                       )}
@@ -283,7 +289,7 @@ function AdminPage() {
             {user?.email?.[0]?.toUpperCase() ?? "A"}
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontSize: 11, color: "#c5bdb0", fontWeight: 500, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+            <div style={{ fontSize: 11, color: "#e5e0d8", fontWeight: 500, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
               {user?.email ?? "Admin"}
             </div>
             <div style={{ fontSize: 9, color: "#00BFFF", opacity: 0.5 }}>Super Admin</div>
@@ -524,7 +530,7 @@ function MediaUploadPanel({
                   <span style={{ fontSize: 11, color: "#4ade80", fontWeight: 500 }}>✓ Uploaded — copy URL and paste into a field</span>
                   <button
                     onClick={copyUrl}
-                    style={{ padding: "3px 10px", borderRadius: 6, fontSize: 10, fontWeight: 600, border: "none", cursor: "pointer", background: copied ? "rgba(74,222,128,0.15)" : "rgba(255,255,255,0.06)", color: copied ? "#4ade80" : "#9a9080" }}
+                    style={{ padding: "3px 10px", borderRadius: 6, fontSize: 10, fontWeight: 600, border: "none", cursor: "pointer", background: copied ? "rgba(74,222,128,0.15)" : "rgba(255,255,255,0.06)", color: copied ? "#4ade80" : "#00BFFF" }}
                   >
                     {copied ? "Copied ✓" : "Copy URL"}
                   </button>
