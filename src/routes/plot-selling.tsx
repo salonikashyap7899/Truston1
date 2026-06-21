@@ -19,11 +19,12 @@ export const Route = createFileRoute("/plot-selling")({
   component: PlotSellingPage,
 });
 
-// ─── Plot Data ────────────────────────────────────────────────────────────────
-// To add a new project, just add plots with a new `project` value.
-// The dropdown auto-populates from unique project names — no other code changes needed.
+// ─── Plot Data (fallback / seed) ──────────────────────────────────────────────
+// This is the fallback used until the admin saves a plots.inventory block.
+// Once the admin has saved, usePageContent("plots.inventory") takes over and
+// all changes made via the admin "Plots & Projects" tab are reflected here live.
 
-const ALL_PLOTS = [
+const DEFAULT_PLOTS = [
   // ── Prime Estate ──────────────────────────────────────────────────────────
   { id: "A-07", project: "Prime Estate", type: "corner",      status: "available", areaSqFt: 720,  priceL: 21.6, dim: "30 × 24 m",    face: "North-East", road: "24 m",    price: "₹ 21.6 L", per: "₹ 3,000 / sq ft · JP Approved", tag: "Featured · Best Value",  phase: "Phase I & II" },
   { id: "B-03", project: "Prime Estate", type: "residential", status: "available", areaSqFt: 450,  priceL: 13.5, dim: "25 × 18 m",    face: "North",      road: "18 m",    price: "₹ 13.5 L", per: "₹ 2,400 / sq ft",               tag: "Available",               phase: "Phase I · Sector 8" },
@@ -58,7 +59,7 @@ const ALL_PLOTS = [
   { id: "GV-D02", project: "Green Valley", type: "residential", status: "available", areaSqFt: 490,  priceL: 17.1, dim: "24.5 × 20 m", face: "South",      road: "18 m",    price: "₹ 17.1 L", per: "₹ 3,500 / sq ft",               tag: "Available",               phase: "Block D · Garden View" },
 ];
 
-type Plot = typeof ALL_PLOTS[0];
+type Plot = typeof DEFAULT_PLOTS[0];
 
 // ─── Static lists ─────────────────────────────────────────────────────────────
 const PLOT_TYPES   = ["All Types", "Residential", "Corner Plots", "Commercial"];
@@ -302,10 +303,18 @@ function PlotSellingPage() {
   const [selectedPlot,  setSelectedPlot]  = useState<Plot | null>(null);
   const [openFaq,       setOpenFaq]       = useState<number | null>(null);
 
+  // Load plots from admin CMS; falls back to DEFAULT_PLOTS until admin saves
+  const inventoryContent = usePageContent("plots.inventory", { plots: DEFAULT_PLOTS });
+  const ALL_PLOTS: Plot[] = useMemo(() => {
+    const raw = (inventoryContent as Record<string, unknown>).plots;
+    if (Array.isArray(raw) && raw.length > 0) return raw as Plot[];
+    return DEFAULT_PLOTS;
+  }, [inventoryContent]);
+
   // Derive project list dynamically from data — new projects auto-appear
   const projectList = useMemo(() =>
     [...new Set(ALL_PLOTS.map((p) => p.project))].sort(),
-    [],
+    [ALL_PLOTS],
   );
 
   // Combined filter logic: project → type → status → price → area

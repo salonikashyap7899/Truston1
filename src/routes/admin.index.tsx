@@ -33,6 +33,12 @@ type Toast = { id: number; type: "success" | "error" | "info"; message: string }
 
 const SIDEBAR_NAV = [
   {
+    section: "Inventory",
+    items: [
+      { label: "Plots & Projects", prefix: "plots.",          icon: DatabaseIcon },
+    ],
+  },
+  {
     section: "Content",
     items: [
       { label: "Home",        prefix: "home.",            icon: HomeIcon },
@@ -58,6 +64,7 @@ const SIDEBAR_NAV = [
 ];
 
 function previewUrl(blockKey: string): string | null {
+  if (blockKey.startsWith("plots."))            return "/plot-selling";
   if (blockKey.startsWith("home."))             return "/";
   if (blockKey.startsWith("about."))            return "/about-us";
   if (blockKey.startsWith("contact."))          return "/contact";
@@ -76,6 +83,7 @@ function previewUrl(blockKey: string): string | null {
 // Color mapping for block icon backgrounds (by section prefix)
 function blockIconStyle(key: string): { bg: string; color: string } {
   const p = key.split(".")[0];
+  if (p === "plots")                                           return { bg: "rgba(212,169,106,0.12)",  color: "#d4a96a" };
   if (["home", "plot_selling", "project"].includes(p))        return { bg: "rgba(0,191,255,0.10)",    color: "#00BFFF" };
   if (["about", "construction", "architecture"].includes(p))  return { bg: "rgba(74,222,128,0.08)",   color: "#4ade80" };
   if (["investment", "lifestyle", "blog"].includes(p))        return { bg: "rgba(167,139,250,0.10)",  color: "#a78bfa" };
@@ -85,6 +93,7 @@ function blockIconStyle(key: string): { bg: string; color: string } {
 
 function tagStyle(key: string): { color: string; bg: string; border: string } {
   const p = key.split(".")[0];
+  if (p === "plots")                                          return { color: "#d4a96a",  bg: "rgba(212,169,106,0.08)", border: "rgba(212,169,106,0.2)" };
   if (["home", "plot_selling", "project"].includes(p))        return { color: "#00BFFF",  bg: "rgba(0,191,255,0.08)",   border: "rgba(0,191,255,0.2)" };
   if (["about", "construction", "architecture"].includes(p))  return { color: "#4ade80",  bg: "rgba(74,222,128,0.07)",  border: "rgba(74,222,128,0.2)" };
   if (["investment", "lifestyle", "blog"].includes(p))        return { color: "#a78bfa",  bg: "rgba(167,139,250,0.08)", border: "rgba(167,139,250,0.2)" };
@@ -428,23 +437,34 @@ function AdminPage() {
             </div>
           )}
 
-          {/* Block Cards */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-            {filteredBlocks.map((block) => (
-              <BlockCard
-                key={block.key}
-                block={block}
-                value={editJson[block.key] ?? JSON.stringify(block.data ?? {}, null, 2)}
-                onChange={(v) => setEditJson((prev) => ({ ...prev, [block.key]: v }))}
-                onSave={() => handleSave(block)}
-                saving={savingKey === block.key}
-                justSaved={lastSavedKey === block.key}
-                uploadingField={uploadingField}
-                onUpload={uploadFile}
-                colors={C}
-              />
-            ))}
-          </div>
+          {/* Plots & Projects CRUD (special tab) */}
+          {activeTab === "plots." ? (
+            <PlotInventoryEditor
+              blocks={blocks}
+              saveBlockFn={saveBlockFn}
+              uploadFn={uploadFn}
+              onToast={addToast}
+              colors={C}
+            />
+          ) : (
+            /* Block Cards */
+            <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+              {filteredBlocks.map((block) => (
+                <BlockCard
+                  key={block.key}
+                  block={block}
+                  value={editJson[block.key] ?? JSON.stringify(block.data ?? {}, null, 2)}
+                  onChange={(v) => setEditJson((prev) => ({ ...prev, [block.key]: v }))}
+                  onSave={() => handleSave(block)}
+                  saving={savingKey === block.key}
+                  justSaved={lastSavedKey === block.key}
+                  uploadingField={uploadingField}
+                  onUpload={uploadFile}
+                  colors={C}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
@@ -558,6 +578,336 @@ function MediaUploadPanel({
   );
 }
 
+// ── Plot Inventory Editor ─────────────────────────────────────────────────────
+type PlotRow = {
+  id: string; project: string; phase: string; type: string; status: string;
+  areaSqFt: number; priceL: number; dim: string; face: string; road: string;
+  price: string; per: string; tag: string;
+};
+
+function PlotInventoryEditor({
+  blocks, saveBlockFn, onToast, colors,
+}: {
+  blocks: ContentBlock[];
+  saveBlockFn: ReturnType<typeof useServerFn<typeof saveSiteContentBlock>>;
+  uploadFn: ReturnType<typeof useServerFn<typeof uploadMedia>>;
+  onToast: (type: "success" | "error" | "info", msg: string) => void;
+  colors: Record<string, string>;
+}) {
+  const C = colors;
+  const inventoryBlock = blocks.find((b) => b.key === "plots.inventory");
+  const [plots, setPlots] = useState<PlotRow[]>([]);
+  const [saving, setSaving] = useState(false);
+  const [expanded, setExpanded] = useState<Set<string>>(new Set());
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [newProjectName, setNewProjectName] = useState("");
+  const [showNewProject, setShowNewProject] = useState(false);
+
+  useEffect(() => {
+    if (inventoryBlock?.data && typeof inventoryBlock.data === "object") {
+      const raw = (inventoryBlock.data as Record<string, unknown>).plots;
+      if (Array.isArray(raw)) setPlots(raw as PlotRow[]);
+    }
+  }, [inventoryBlock]);
+
+  const projectGroups = useMemo(() => {
+    const map = new Map<string, PlotRow[]>();
+    plots.forEach((p) => {
+      if (!map.has(p.project)) map.set(p.project, []);
+      map.get(p.project)!.push(p);
+    });
+    return map;
+  }, [plots]);
+
+  const handleSave = async () => {
+    setSaving(true);
+    try {
+      await saveBlockFn({ data: { key: "plots.inventory", label: "Plots & Projects — Full Inventory", data: { plots } } });
+      onToast("success", "✓ Plots inventory saved! Changes are live on the website.");
+    } catch (err) {
+      onToast("error", `Save failed: ${err instanceof Error ? err.message : String(err)}`);
+    } finally { setSaving(false); }
+  };
+
+  const toggleProject = (name: string) =>
+    setExpanded((prev) => { const s = new Set(prev); s.has(name) ? s.delete(name) : s.add(name); return s; });
+
+  const addProject = () => {
+    const name = newProjectName.trim();
+    if (!name) return;
+    const prefix = name.slice(0, 3).toUpperCase().replace(/\s/g, "");
+    const starter: PlotRow = { id: `${prefix}-01`, project: name, phase: "Phase I", type: "residential", status: "available", areaSqFt: 450, priceL: 15, dim: "25 × 18 m", face: "North", road: "18 m", price: "₹ 15 L", per: "₹ 3,333 / sq ft", tag: "Available" };
+    setPlots((prev) => [...prev, starter]);
+    setExpanded((prev) => new Set([...prev, name]));
+    setEditingId(starter.id);
+    setNewProjectName("");
+    setShowNewProject(false);
+  };
+
+  const addPlot = (project: string) => {
+    const count = plots.filter((p) => p.project === project).length;
+    const prefix = project.slice(0, 2).toUpperCase().replace(/\s/g, "");
+    const id = `${prefix}-${String(count + 1).padStart(2, "0")}`;
+    const np: PlotRow = { id, project, phase: "Phase I", type: "residential", status: "available", areaSqFt: 450, priceL: 15, dim: "25 × 18 m", face: "North", road: "18 m", price: "₹ 15 L", per: "₹ 3,333 / sq ft", tag: "Available" };
+    setPlots((prev) => [...prev, np]);
+    setEditingId(id);
+  };
+
+  const deletePlot = (id: string) => {
+    setPlots((prev) => prev.filter((p) => p.id !== id));
+    if (editingId === id) setEditingId(null);
+  };
+
+  const deleteProject = (project: string) => {
+    if (!confirm(`Delete ALL plots in "${project}"? This cannot be undone.`)) return;
+    setPlots((prev) => prev.filter((p) => p.project !== project));
+    setExpanded((prev) => { const s = new Set(prev); s.delete(project); return s; });
+  };
+
+  const updatePlot = (id: string, field: keyof PlotRow, value: string | number) =>
+    setPlots((prev) => prev.map((p) => p.id === id ? { ...p, [field]: value } : p));
+
+  const iS = { background: C.bgTertiary, border: `0.5px solid ${C.border}`, borderRadius: 6, padding: "5px 8px", fontSize: 11, color: C.textPrimary, fontFamily: "inherit", outline: "none", width: "100%" };
+  const sS = { ...iS, cursor: "pointer" };
+
+  if (!inventoryBlock && blocks.length > 0) {
+    return (
+      <div style={{ border: `0.5px solid rgba(212,169,106,0.2)`, background: "rgba(212,169,106,0.04)", borderRadius: 10, padding: "32px", textAlign: "center" }}>
+        <p style={{ color: "#d4a96a", fontSize: 14, fontWeight: 500, marginBottom: 8 }}>Plots inventory not initialised</p>
+        <p style={{ color: C.textTertiary, fontSize: 12, marginBottom: 16 }}>Click the ↺ Initialize button in the top bar to seed the plots.inventory block.</p>
+      </div>
+    );
+  }
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+      <style>{`.pie-inp:focus{border-color:rgba(0,191,255,0.5)!important;background:${C.bgSecondary}!important;}`}</style>
+
+      {/* Header */}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", background: C.bgPrimary, border: `0.5px solid ${C.border}`, borderRadius: 10, padding: "12px 16px" }}>
+        <div>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
+            <DatabaseIcon size={16} style={{ color: "#d4a96a" }} />
+            <span style={{ fontSize: 13.5, fontWeight: 600, color: C.textPrimary }}>Plots & Projects Inventory</span>
+          </div>
+          <p style={{ fontSize: 11, color: C.textTertiary }}>
+            {plots.length} total plots · {[...projectGroups.keys()].length} projects · {plots.filter((p) => p.status === "available").length} available
+          </p>
+        </div>
+        <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+          <button onClick={() => setShowNewProject((v) => !v)}
+            style={{ display: "flex", alignItems: "center", gap: 5, padding: "7px 12px", border: `0.5px solid rgba(212,169,106,0.3)`, borderRadius: 7, background: "rgba(212,169,106,0.08)", color: "#d4a96a", fontSize: 12, cursor: "pointer", fontFamily: "inherit" }}>
+            <PlusIcon size={12} /> Add Project
+          </button>
+          <button onClick={handleSave} disabled={saving}
+            style={{ display: "flex", alignItems: "center", gap: 5, padding: "7px 16px", border: "none", borderRadius: 7, background: "#00BFFF", color: "#04090f", fontSize: 12, fontWeight: 600, cursor: "pointer", fontFamily: "inherit", opacity: saving ? 0.5 : 1 }}>
+            {saving ? "Saving…" : "Save All Changes"}
+          </button>
+        </div>
+      </div>
+
+      {/* New Project Input */}
+      {showNewProject && (
+        <div style={{ background: C.bgPrimary, border: `0.5px solid rgba(212,169,106,0.25)`, borderRadius: 10, padding: "14px 16px", display: "flex", gap: 8, alignItems: "center" }}>
+          <input
+            value={newProjectName}
+            onChange={(e) => setNewProjectName(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && addProject()}
+            placeholder="New project name (e.g. Silver Meadows)"
+            style={{ ...iS, flex: 1, fontSize: 13, padding: "8px 12px" }}
+            className="pie-inp"
+            autoFocus
+          />
+          <button onClick={addProject}
+            style={{ padding: "8px 16px", borderRadius: 7, background: "#d4a96a", border: "none", color: "#04090f", fontSize: 12, fontWeight: 600, cursor: "pointer", fontFamily: "inherit" }}>
+            Create
+          </button>
+          <button onClick={() => { setShowNewProject(false); setNewProjectName(""); }}
+            style={{ padding: "8px 12px", borderRadius: 7, background: "transparent", border: `0.5px solid ${C.border}`, color: C.textTertiary, fontSize: 12, cursor: "pointer", fontFamily: "inherit" }}>
+            Cancel
+          </button>
+        </div>
+      )}
+
+      {/* Project Groups */}
+      {[...projectGroups.entries()].map(([project, projectPlots]) => {
+        const isOpen = expanded.has(project);
+        const phases = [...new Set(projectPlots.map((p) => p.phase))];
+        const avail = projectPlots.filter((p) => p.status === "available").length;
+        const sold  = projectPlots.filter((p) => p.status === "sold").length;
+        return (
+          <div key={project} style={{ background: C.bgPrimary, border: `0.5px solid ${C.border}`, borderRadius: 10, overflow: "hidden" }}>
+            {/* Project Header */}
+            <div style={{ display: "flex", alignItems: "center", padding: "12px 16px", gap: 10, cursor: "pointer", borderBottom: isOpen ? `0.5px solid ${C.border}` : "none" }}
+              onClick={() => toggleProject(project)}>
+              <span style={{ fontSize: 13, transition: "transform .18s", transform: isOpen ? "rotate(90deg)" : "none", display: "inline-block", color: "#d4a96a" }}>›</span>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: 13, fontWeight: 600, color: C.textPrimary, marginBottom: 3 }}>{project}</div>
+                <div style={{ display: "flex", gap: 12, fontSize: 10.5, color: C.textTertiary }}>
+                  <span style={{ color: "#00BFFF" }}>{avail} available</span>
+                  <span>{projectPlots.length - avail - sold} reserved</span>
+                  <span style={{ color: "rgba(255,255,255,0.25)" }}>{sold} sold</span>
+                  <span>·</span>
+                  <span>{phases.length} phase{phases.length !== 1 ? "s" : ""}: {phases.join(", ")}</span>
+                </div>
+              </div>
+              <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
+                <button onClick={(e) => { e.stopPropagation(); addPlot(project); setExpanded((prev) => new Set([...prev, project])); }}
+                  style={{ display: "flex", alignItems: "center", gap: 4, padding: "5px 10px", border: `0.5px solid rgba(0,191,255,0.25)`, borderRadius: 6, background: "rgba(0,191,255,0.06)", color: "#00BFFF", fontSize: 11, cursor: "pointer", fontFamily: "inherit" }}>
+                  <PlusIcon size={10} /> Add Plot
+                </button>
+                <button onClick={(e) => { e.stopPropagation(); deleteProject(project); }}
+                  style={{ display: "flex", alignItems: "center", gap: 4, padding: "5px 10px", border: `0.5px solid rgba(248,113,113,0.2)`, borderRadius: 6, background: "transparent", color: "rgba(248,113,113,0.5)", fontSize: 11, cursor: "pointer", fontFamily: "inherit" }}>
+                  Delete Project
+                </button>
+              </div>
+            </div>
+
+            {/* Plots table */}
+            {isOpen && (
+              <div style={{ padding: "10px 14px 14px" }}>
+                <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                  {projectPlots.map((plot) => {
+                    const isEditing = editingId === plot.id;
+                    const statusColor = plot.status === "available" ? "#00BFFF" : plot.status === "reserved" ? "#d4a96a" : "rgba(255,255,255,0.25)";
+                    return (
+                      <div key={plot.id} style={{ border: `0.5px solid ${isEditing ? "rgba(0,191,255,0.3)" : "rgba(255,255,255,0.06)"}`, borderRadius: 8, background: isEditing ? "rgba(0,191,255,0.03)" : C.bgSecondary, overflow: "hidden", transition: "border-color .15s" }}>
+                        {/* Row summary (always visible) */}
+                        <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 12px", cursor: "pointer" }}
+                          onClick={() => setEditingId(isEditing ? null : plot.id)}>
+                          <span style={{ fontFamily: "monospace", fontSize: 11, color: C.textPrimary, fontWeight: 600, minWidth: 70 }}>{plot.id}</span>
+                          <span style={{ fontSize: 10, padding: "2px 7px", borderRadius: 10, background: statusColor + "18", color: statusColor, border: `0.5px solid ${statusColor}40`, textTransform: "capitalize", flexShrink: 0 }}>{plot.status}</span>
+                          <span style={{ fontSize: 11, color: C.textSecondary, textTransform: "capitalize" }}>{plot.type}</span>
+                          <span style={{ fontSize: 11, color: C.textTertiary }}>{plot.areaSqFt} sq ft</span>
+                          <span style={{ fontSize: 11, color: "#00BFFF", marginLeft: "auto" }}>{plot.price}</span>
+                          <span style={{ fontSize: 11, color: C.textTertiary, minWidth: 120, textAlign: "right", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{plot.phase}</span>
+                          <span style={{ fontSize: 11, color: C.textTertiary, transform: isEditing ? "rotate(180deg)" : "none", display: "inline-block", transition: "transform .18s" }}>›</span>
+                          <button onClick={(e) => { e.stopPropagation(); deletePlot(plot.id); }}
+                            style={{ background: "none", border: "none", cursor: "pointer", color: "rgba(248,113,113,0.35)", fontSize: 12, padding: "0 4px", flexShrink: 0 }}
+                            onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.color = "#f87171"; }}
+                            onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.color = "rgba(248,113,113,0.35)"; }}>✕</button>
+                        </div>
+
+                        {/* Expanded editor */}
+                        {isEditing && (
+                          <div style={{ borderTop: `0.5px solid rgba(0,191,255,0.1)`, padding: "12px 12px 14px", display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 8 }}>
+                            {([
+                              { lbl: "Plot ID",      field: "id",       wide: false, type: "text"   },
+                              { lbl: "Phase",        field: "phase",    wide: true,  type: "text"   },
+                              { lbl: "Type",         field: "type",     wide: false, type: "select", opts: ["residential","corner","commercial"] },
+                              { lbl: "Status",       field: "status",   wide: false, type: "select", opts: ["available","reserved","sold"] },
+                              { lbl: "Area (sq ft)", field: "areaSqFt", wide: false, type: "number" },
+                              { lbl: "Price (Lakhs)",field: "priceL",   wide: false, type: "number" },
+                              { lbl: "Dimensions",   field: "dim",      wide: false, type: "text"   },
+                              { lbl: "Facing",       field: "face",     wide: false, type: "text"   },
+                              { lbl: "Road Width",   field: "road",     wide: false, type: "text"   },
+                              { lbl: "Price Display",field: "price",    wide: false, type: "text"   },
+                              { lbl: "Per Unit",     field: "per",      wide: true,  type: "text"   },
+                              { lbl: "Tag / Badge",  field: "tag",      wide: false, type: "text"   },
+                            ] as { lbl: string; field: keyof PlotRow; wide: boolean; type: string; opts?: string[] }[]).map(({ lbl, field, wide, type, opts }) => (
+                              <div key={field} style={{ gridColumn: wide ? "1 / 3" : "auto" }}>
+                                <label style={{ display: "block", fontSize: 9, color: C.textTertiary, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 3 }}>{lbl}</label>
+                                {type === "select" ? (
+                                  <select value={String(plot[field])} onChange={(e) => updatePlot(plot.id, field, e.target.value)} style={sS} className="pie-inp">
+                                    {(opts ?? []).map((o) => <option key={o} value={o}>{o}</option>)}
+                                  </select>
+                                ) : type === "number" ? (
+                                  <input type="number" value={Number(plot[field])} onChange={(e) => updatePlot(plot.id, field, Number(e.target.value))} style={iS} className="pie-inp" />
+                                ) : (
+                                  <input value={String(plot[field] ?? "")} onChange={(e) => updatePlot(plot.id, field, e.target.value)} style={iS} className="pie-inp" />
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                  <button onClick={() => addPlot(project)}
+                    style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 5, padding: "8px", border: `1px dashed rgba(0,191,255,0.15)`, borderRadius: 8, background: "transparent", color: "rgba(0,191,255,0.4)", fontSize: 11, cursor: "pointer", fontFamily: "inherit" }}>
+                    <PlusIcon size={11} /> Add plot to {project}
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        );
+      })}
+
+      {projectGroups.size === 0 && plots.length === 0 && (
+        <div style={{ border: `0.5px solid ${C.border}`, borderRadius: 10, padding: "40px", textAlign: "center" }}>
+          <p style={{ color: C.textTertiary, fontSize: 13, marginBottom: 12 }}>No projects yet. Click "Add Project" to get started.</p>
+        </div>
+      )}
+
+      {/* Floating save reminder */}
+      <div style={{ position: "sticky", bottom: 12, right: 0, display: "flex", justifyContent: "flex-end", pointerEvents: "none" }}>
+        <button onClick={handleSave} disabled={saving} style={{ pointerEvents: "auto", padding: "9px 20px", borderRadius: 8, background: "#00BFFF", border: "none", color: "#04090f", fontSize: 12, fontWeight: 700, cursor: "pointer", fontFamily: "inherit", boxShadow: "0 8px 32px rgba(0,191,255,0.25)", opacity: saving ? 0.6 : 1 }}>
+          {saving ? "Saving…" : "💾 Save All Changes"}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ── Media URL field with image/video preview ───────────────────────────────────
+function MediaUrlField({
+  label, value, fieldKey, uploadingField, onUpload, onChange, colors,
+}: {
+  label: string;
+  value: string;
+  fieldKey: string;
+  uploadingField: string | null;
+  onUpload: (file: File, fieldKey: string, onUrl: (url: string) => void) => void;
+  onChange: (v: string) => void;
+  colors: Record<string, string>;
+}) {
+  const C = colors;
+  const isUploading = uploadingField === fieldKey;
+  const isVideo = /\.(mp4|webm|mov|avi|mkv)(\?|$)/i.test(value);
+  const isImg   = !isVideo && value.trim().length > 0;
+
+  return (
+    <div>
+      <label style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 4 }}>
+        <span style={{ fontSize: 9.5, color: C.textTertiary, textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 600 }}>
+          {label} <span style={{ textTransform: "none", fontWeight: 400 }}>— url or upload</span>
+        </span>
+        {value && (
+          <span style={{ fontSize: 9, padding: "1px 7px", borderRadius: 8, background: isVideo ? "rgba(167,139,250,0.1)" : "rgba(0,191,255,0.1)", color: isVideo ? "#a78bfa" : "#00BFFF", border: `0.5px solid ${isVideo ? "rgba(167,139,250,0.25)" : "rgba(0,191,255,0.25)"}` }}>
+            {isVideo ? "▶ Video" : "🖼 Image"}
+          </span>
+        )}
+      </label>
+      <div style={{ display: "flex", gap: 6 }}>
+        <input
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder="https://… paste image or video URL, or upload ↗"
+          style={{ flex: 1, minWidth: 0, background: C.bgTertiary, border: `0.5px solid ${C.borderMd}`, borderRadius: 7, padding: "7px 10px", fontSize: 11, color: C.textPrimary, fontFamily: "monospace", outline: "none" }}
+        />
+        <label className="adm-upload-btn" style={{ color: isUploading ? "rgba(0,191,255,0.35)" : "#00BFFF", cursor: isUploading ? "wait" : "pointer" }}>
+          {isUploading ? <span style={{ width: 11, height: 11, border: "2px solid rgba(0,191,255,0.2)", borderTop: "2px solid #00BFFF", borderRadius: "50%", display: "inline-block", animation: "spin 0.8s linear infinite" }} /> : <UploadIcon size={11} />}
+          {isUploading ? "…" : "Upload"}
+          <input type="file" accept="image/*,video/*,.mp4,.webm,.mov,.avi" disabled={!!uploadingField} style={{ display: "none" }}
+            onChange={(e) => { const file = e.target.files?.[0]; if (!file) return; e.target.value = ""; onUpload(file, fieldKey, onChange); }} />
+        </label>
+      </div>
+      {/* Live preview */}
+      {(isVideo || isImg) && (
+        <div style={{ marginTop: 6 }}>
+          {isVideo ? (
+            <video src={value} controls muted style={{ width: "100%", maxHeight: 120, borderRadius: 6, background: "#000", border: `0.5px solid ${C.border}` }} />
+          ) : (
+            <img src={value} alt="preview" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
+              style={{ height: 72, borderRadius: 6, objectFit: "cover", border: `0.5px solid ${C.border}`, display: "block" }} />
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ── Block Card ───────────────────────────────────────────────────────────────
 type CardItem = { num?: string; name: string; desc: string; linkText?: string; [k: string]: unknown };
 type ImageItem = { src: string; alt: string; video_url: string };
@@ -652,25 +1002,21 @@ function BlockCard({
 
                 return (
                   <div key={field} className="adm-field" style={{ gridColumn: isUrl || isLong ? "1 / -1" : "auto" }}>
-                    <label style={{ display: "block", fontSize: 9.5, color: C.textTertiary, textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 600, marginBottom: 4 }}>
-                      {field.replace(/_/g, " ")}
-                      {isUrl && <span style={{ marginLeft: 5, textTransform: "none", fontWeight: 400 }}>— url or upload</span>}
-                    </label>
+                    {!isUrl && (
+                      <label style={{ display: "block", fontSize: 9.5, color: C.textTertiary, textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 600, marginBottom: 4 }}>
+                        {field.replace(/_/g, " ")}
+                      </label>
+                    )}
                     {isUrl ? (
-                      <div style={{ display: "flex", gap: 6 }}>
-                        <input
-                          value={String(val)}
-                          onChange={(e) => { if (!parsed) return; onChange(JSON.stringify({ ...parsed, [field]: e.target.value }, null, 2)); }}
-                          placeholder="https://… or upload a file →"
-                          style={{ flex: 1, minWidth: 0, background: C.bgTertiary, border: `0.5px solid ${C.borderMd}`, borderRadius: 7, padding: "7px 10px", fontSize: 11, color: C.textPrimary, fontFamily: "monospace", outline: "none" }}
-                        />
-                        <label className="adm-upload-btn" style={{ color: isUploading ? "rgba(0,191,255,0.35)" : "#00BFFF" }}>
-                          {isUploading ? <span style={{ width: 11, height: 11, border: "2px solid rgba(0,191,255,0.2)", borderTop: "2px solid #00BFFF", borderRadius: "50%", display: "inline-block", animation: "spin 0.8s linear infinite" }} /> : <UploadIcon size={11} />}
-                          {isUploading ? "…" : "Upload"}
-                          <input type="file" accept="image/*,video/*" disabled={!!uploadingField} style={{ display: "none" }}
-                            onChange={(e) => { const file = e.target.files?.[0]; if (!file || !parsed) return; e.target.value = ""; onUpload(file, fieldUid, (url) => onChange(JSON.stringify({ ...parsed, [field]: url }, null, 2))); }} />
-                        </label>
-                      </div>
+                      <MediaUrlField
+                        label={field.replace(/_/g, " ")}
+                        value={String(val)}
+                        fieldKey={fieldUid}
+                        uploadingField={uploadingField}
+                        onUpload={onUpload}
+                        onChange={(url) => { if (!parsed) return; onChange(JSON.stringify({ ...parsed, [field]: url }, null, 2)); }}
+                        colors={C}
+                      />
                     ) : isLong ? (
                       <textarea
                         value={String(val)}
@@ -770,6 +1116,7 @@ function BlockCard({
 // ── Block prefix icon (maps prefix → matching icon) ───────────────────────────
 function BlockIcon({ prefix, size }: { prefix: string; size: number }) {
   switch (prefix) {
+    case "plots":           return <DatabaseIcon size={size} />;
     case "home":            return <HomeIcon size={size} />;
     case "about":           return <BuildingIcon size={size} />;
     case "plot_selling":    return <MapPinIcon size={size} />;
@@ -998,3 +1345,5 @@ function SearchIcon({ size = 16, style }: { size?: number; style?: React.CSSProp
   );
 }
 function MenuIcon({ size = 16 }: { size?: number }) { return <Ico size={size} d="M3 12h18 M3 6h18 M3 18h18" />; }
+function DatabaseIcon({ size = 16, style }: { size?: number; style?: React.CSSProperties }) { return <Ico size={size} style={style} d="M12 2C6.48 2 2 3.79 2 6v12c0 2.21 4.48 4 10 4s10-1.79 10-4V6c0-2.21-4.48-4-10-4z M2 12c0 2.21 4.48 4 10 4s10-1.79 10-4 M2 6c0 2.21 4.48 4 10 4s10-1.79 10-4" />; }
+function TrashIcon({ size = 16 }: { size?: number }) { return <Ico size={size} d="M3 6h18 M19 6l-1 14H6L5 6 M9 6V4h6v2" />; }
