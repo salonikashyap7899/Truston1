@@ -1,0 +1,334 @@
+Preview
+Save
+body
+Prices starting at ₹12 Lakhs. Talk to our team today — no obligations, just complete clarity about your investment.
+title
+Ready to Claim
+eyebrow
+47 Plots Still Available · Prime Estate · Dubagga
+title accent
+Your Plot?
+
+Advanced — Raw JSON
+Home
+Home — Gallery Section
+
+home.gallery
+
+Preview
+Save
+heading
+SPACES WHERE LIFE
+heading accent
+Unfolds
+
+Advanced — Raw JSON
+Home
+Home — Hero
+
+home.hero
+
+Preview
+Save
+title
+TRUST
+subtitle
+Own the Ground. Build the Legacy.
+image url
+— url or upload
+https://… or upload a file →
+Upload
+video url
+— url or upload
+https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Video%202026-05-22%20at%2010.03.14%20PM-QaTFrXd8V3Y9wkvJT59K1CIHabjmqa.mp4
+Upload
+title accent
+ON
+
+Advanced — Raw JSON
+Home
+Home — Marquee Banner
+
+home.marquee
+
+Preview
+Save
+
+Advanced — Raw JSON
+Home
+Home — New Generation (Intro Highlight)
+
+home.new_generation
+
+Preview
+Save
+body
+Welcome to the era of TrustOn, where we blend cinematic storytelling with architectural excellence. Our mission is to create billion-dollar luxury experiences that transcend traditional real estate.
+title
+Redefining
+eyebrow
+New Generation
+subtitle
+Real Estate
+title accent
+Luxury
+body secondary
+From interactive 3D environments to immersive lifestyle offerings, every detail is crafted for the elite.
+
+Advanced — Raw JSON
+Home
+Home — Philosophy
+
+home.philosophy
+
+Preview
+Save
+body
+TrustOn stands at the intersection of architectural brilliance and strategic investment. We don't just sell plots; we provide the foundation for your future aspirations.
+title
+Crafting
+eyebrow
+Our Philosophy
+subtitle
+Legacies
+image url
+— url or upload
+https://hebbkx1anhila5yf.public.blob.vercel-storage.com/photo_2026-05-25_23-25-53-thbQTIwazkPXtZmxwz9M0Fc8S5PCNo.jpg
+Upload
+title accent
+Timeless
+body secondary
+Our commitment to quality and transparency ensures that every square foot you own is a testament to enduring luxury — built to outlast trends and appreciate with time.
+
+Advanced — Raw JSON
+Home
+Home — Plots & Structures
+
+home.plots_structures
+
+Preview
+Save
+body
+Discover the ultimate foundation for your architectural dreams. Our premium building plots are strategically located in Lucknow's most promising corridors, offering 100% legal clearance and Jila Panchayat approval.
+title
+Building
+eyebrow
+Strategic Masterpieces
+stat 1 val
+150+
+stat 2 val
+Elite
+stat 1 label
+Premium Plots
+stat 2 label
+Architectural Support
+title accent
+Plots & Structures
+
+Advanced — Raw JSON
+Home
+Home — Prime Estate Project
+
+home.prime_estate
+
+Preview
+Save
+body
+A masterfully planned residential plot colony at Dubagga, Lucknow — designed for those who want the freedom to build on their own terms, in a location primed for significant growth.
+title
+Prime
+eyebrow
+Flagship Project
+image url
+— url or upload
+https://hebbkx1anhila5yf.public.blob.vercel-storage.com/photo_1_2026-05-25_19-38-16-cw2VCtfJrtIWHFnZ75BKIzp9ddykUQ.jpg
+Upload
+stat 1 sup
++
+stat 1 val
+120
+stat 2 sup
+stat 2 val
+47
+stat 3 sup
+stat 3 val
+2,400
+stat 4 sup
+L+
+stat 4 val
+₹12
+stat 1 label
+Total Plots
+stat 2 label
+Available Now
+stat 3 label
+Sq. Ft Range
+stat 4 label
+Starting Price
+title accent
+Estate
+
+Advanced — Raw JSON
+Home
+Home — Projects Portfolio
+
+home.projects
+
+Preview
+Save
+title
+Flagship
+eyebrow
+Our Projects
+title accent
+Developments
+
+Advanced — Raw JSON
+Home
+Home — Redefining Luxury
+
+home.redefining
+
+Preview
+Save
+body
+Where we blend cinematic storytelling with architectural excellence. Our mission is to create billion-dollar luxury experiences that transcend traditional real estate.
+title
+Redefining
+eyebrow
+Welcome to the Era of TrustOn
+subtitle
+Real Estate
+title accent
+Luxury
+body secondary
+From interactive 3D environments to immersive lifestyle offerings, every detail is crafted for the elite.
+
+Advanced — Raw JSON
+Home
+Home — Services (Four Pillars)
+
+home.services
+
+Preview
+Save
+body
+Truston Developers is your complete real estate ecosystem in Lucknow. Whether you're buying land, building a home, seeking investment guidance, or designing your dream space, we bring deep local knowledge and end-to-end capability.
+title
+Four Pillars of
+eyebrow
+What We Offer
+title accent
+Our Expertise
+Service Cards
+
+Card 01
+
+Title
+Plot Selling
+Button Text
+Explore Plots
+Description
+Residential land parcels in Lucknow's high-growth corridors. Jila Panchayat approvals, clear title deeds, and complete legal documentation — every plot backed by full transparency.
+Card 02
+
+Title
+Construction
+Button Text
+Build With Us
+Description
+Full home construction — from foundation to finishing. Quality materials, experienced teams, and complete transparency at every phase with on-time delivery guaranteed.
+Card 03
+
+Title
+Investment Consultancy
+Button Text
+Grow Your Assets
+Description
+Expert land investment guidance for first-time buyers, NRIs, and seasoned investors. ROI assessments, location analysis, and long-term portfolio strategy crafted for Lucknow's real estate landscape.
+Card 04
+
+Title
+Architecture & Design
+Button Text
+Design Your Space
+Description
+In-house architectural planning tailored to your vision. Concept layouts, elevation designs, complete blueprint documentation — bringing your idea of home to life before a single brick is laid.
+
+Advanced — Raw JSON
+Home
+Home — Stats Bar
+
+home.stats
+
+Preview
+Save
+
+Advanced — Raw JSON
+Home
+Home — Testimonials
+
+home.testimonials
+
+Preview
+Save
+title
+Distinguished
+eyebrow
+Client Narratives
+cta text
+Join the future of luxury real estate.
+subtitle
+Voices of excellence from our growing network of homeowners, investors, and partners.
+title accent
+Partnerships
+
+Advanced — Raw JSON
+Home
+Home — Who We Are
+
+home.who_we_are
+
+Preview
+Save
+body
+Truston Developers is a Lucknow-based property development company built on a single founding principle — that buying land should be simple, transparent, and deeply empowering for the buyer.
+quote
+We build the foundation. You build the dream.
+title
+Shaping
+eyebrow
+Who We Are
+subtitle
+in Lucknow
+night image
+— url or upload
+/assets/night-image.jpeg
+Upload
+title accent
+Legacies
+morning image
+— url or upload
+/assets/morning-image.jpeg
+Upload
+body secondary
+We do not merely sell plots; we help you make one of the most significant decisions of your life with complete clarity, verified documentation, and a team that stands behind every commitment.
+
+Advanced — Raw JSON
+Home
+Home — Why Truston
+
+home.why_truston
+
+Preview
+Save
+title
+Why Buyers Choose
+eyebrow
+The Truston Difference
+title accent
+Truston
+
+Advanced — Raw JSON
+✕
+Upload failed: insert into "objects" ("bucket_id", "metadata", "name", "owner", "owner_id", "user_metadata", "version") values ($1, $2, $3, $4, $5, DEFAULT, $6) on conflict ("name", "bucket_id") do update set "metadata" = $7,"version" = $8,"owner" = $9,"owner_id" = $10 returning * - permission denied for function has_role
