@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { Reveal } from "@/components/Reveal";
 import { PROJECTS, STATUS_COLOR } from "@/data/projects";
+import { usePageContent } from "@/hooks/usePageContent";
 
 export const Route = createFileRoute("/project")({
   head: () => ({
@@ -35,6 +36,74 @@ function ProjectPage() {
   const [activeCountry, setActiveCountry] = useState("All");
   const [formData, setFormData] = useState({ name: "", phone: "", country: "India" });
 
+  const heroC = usePageContent("projects_page.hero", {
+    eyebrow: "Our Portfolio",
+    title: "Projects across",
+    title_em: "four countries",
+    title_suffix: ", one standard.",
+    subtitle: "From Lucknow to Dubai, every TrustOn development is built on the same foundation — transparent ownership, verified documentation, and long-term value.",
+  });
+
+  const statsC = usePageContent("projects_page.stats", {
+    items: [
+      { num: "48", label: "Live Projects" },
+      { num: "4", label: "Countries" },
+      { num: "11", label: "Cities" },
+      { num: "₹2,400Cr+", label: "Assets Delivered" },
+    ],
+  });
+
+  const spotlightC = usePageContent("projects_page.spotlight", {
+    eyebrow: "Where We Build",
+    heading: "Four markets,",
+    heading_em: "one investment thesis.",
+    subtitle: "Tap a market below to jump straight to its projects in the portfolio grid.",
+    portfolio_eyebrow: "The Portfolio",
+    portfolio_heading: "Every project,",
+    portfolio_heading_em: "filtered by country.",
+  });
+
+  const processC = usePageContent("projects_page.process", {
+    eyebrow: "How We Work",
+    heading: "The same process,",
+    heading_em: "in every market.",
+    subtitle: "A consistent four-stage path from site selection to handover, regardless of geography.",
+    steps: [
+      { num: "01", title: "Site Diligence", copy: "Legal title, zoning, and market demand are verified before a single brick is laid." },
+      { num: "02", title: "Design & Approvals", copy: "Local architects and planning authorities sign off before construction begins." },
+      { num: "03", title: "Construction", copy: "Independent quantity surveyors track progress against a public milestone schedule." },
+      { num: "04", title: "Handover", copy: "Full documentation, title transfer, and after-sales support, wherever you bought from." },
+    ],
+  });
+
+  const testimonialC = usePageContent("projects_page.testimonial", {
+    quote: "We bought into the Dubai project from Mumbai without a single site visit. The documentation alone made the decision easy.",
+    name: "Anjali Mehta",
+    designation: "NRI Investor, Marina Azure, Dubai",
+    image_url: "https://images.unsplash.com/photo-1560520653-9e0e4c89eb11?q=80&w=900&auto=format&fit=crop",
+  });
+
+  const ctaC = usePageContent("projects_page.cta", {
+    heading: "Find your next",
+    heading_em: "investment",
+    heading_suffix: ", wherever it is.",
+    subtitle: "Tell us what you're looking for and which market interests you. Our team will share a shortlist within 24 hours.",
+  });
+
+  const statsItems = Array.isArray(statsC.items) ? (statsC.items as {num:string;label:string}[]) : [
+    { num: "48", label: "Live Projects" },
+    { num: "4", label: "Countries" },
+    { num: "11", label: "Cities" },
+    { num: "₹2,400Cr+", label: "Assets Delivered" },
+  ];
+
+  const processSteps = Array.isArray(processC.steps) ? (processC.steps as {num:string;title:string;copy:string}[]) : [
+    { num: "01", title: "Site Diligence", copy: "Legal title, zoning, and market demand are verified before a single brick is laid." },
+    { num: "02", title: "Design & Approvals", copy: "Local architects and planning authorities sign off before construction begins." },
+    { num: "03", title: "Construction", copy: "Independent quantity surveyors track progress against a public milestone schedule." },
+    { num: "04", title: "Handover", copy: "Full documentation, title transfer, and after-sales support, wherever you bought from." },
+  ];
+
   const counts = countByCountry();
   const countryKeys = Object.keys(counts).sort((a, b) => counts[b] - counts[a]);
 
@@ -58,10 +127,10 @@ function ProjectPage() {
         <div className="max-w-[1180px] mx-auto grid lg:grid-cols-[1.3fr_1fr] gap-12 items-end relative">
           <div>
             <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}>
-              <p className="text-[#00BFFF] text-[11px] font-bold tracking-[0.18em] uppercase mb-4">Our Portfolio</p>
+              <p className="text-[#00BFFF] text-[11px] font-bold tracking-[0.18em] uppercase mb-4">{String(heroC.eyebrow || "Our Portfolio")}</p>
               <h1 className="font-serif text-[clamp(34px,5vw,56px)] font-semibold leading-[1.06] tracking-tight text-white">
-                Projects across{" "}
-                <em className="italic text-[#00BFFF]">four countries</em>,<br />one standard.
+                {String(heroC.title || "Projects across")}{" "}
+                <em className="italic text-[#00BFFF]">{String(heroC.title_em || "four countries")}</em>{String(heroC.title_suffix || ", one standard.")}
               </h1>
             </motion.div>
           </div>
@@ -71,7 +140,7 @@ function ProjectPage() {
             transition={{ duration: 0.9, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
             className="text-white/50 text-base leading-[1.65] max-w-[460px]"
           >
-            From Lucknow to Dubai, every TrustOn development is built on the same foundation — transparent ownership, verified documentation, and long-term value.
+            {String(heroC.subtitle || "From Lucknow to Dubai, every TrustOn development is built on the same foundation — transparent ownership, verified documentation, and long-term value.")}
           </motion.p>
         </div>
       </header>
@@ -79,12 +148,7 @@ function ProjectPage() {
       {/* ── STATS BAND ── */}
       <section className="border-b border-white/8 bg-[#060c16]">
         <div className="max-w-[1180px] mx-auto grid grid-cols-2 md:grid-cols-4">
-          {[
-            { num: "48", label: "Live Projects" },
-            { num: "4", label: "Countries" },
-            { num: "11", label: "Cities" },
-            { num: "₹2,400Cr+", label: "Assets Delivered" },
-          ].map((s, i) => (
+          {statsItems.map((s, i) => (
             <div key={s.label} className={`py-9 px-6 text-center ${i > 0 ? "border-l border-white/8" : ""}`}>
               <p className="font-serif italic text-[clamp(28px,3.4vw,38px)] text-[#00BFFF] leading-none">{s.num}</p>
               <p className="mt-2.5 text-[11.5px] font-bold tracking-[0.1em] uppercase text-white/30">{s.label}</p>
@@ -99,12 +163,12 @@ function ProjectPage() {
           <Reveal>
             <div className="flex items-end justify-between gap-6 mb-10 flex-wrap">
               <div>
-                <p className="text-[11px] font-bold tracking-[0.18em] uppercase text-white/30 mb-3">Where We Build</p>
+                <p className="text-[11px] font-bold tracking-[0.18em] uppercase text-white/30 mb-3">{String(spotlightC.eyebrow || "Where We Build")}</p>
                 <h2 className="font-serif text-[clamp(26px,3.4vw,36px)] font-semibold text-white">
-                  Four markets, <em className="italic text-[#00BFFF]">one investment thesis.</em>
+                  {String(spotlightC.heading || "Four markets,")} <em className="italic text-[#00BFFF]">{String(spotlightC.heading_em || "one investment thesis.")}</em>
                 </h2>
               </div>
-              <p className="text-white/45 text-sm max-w-xs">Tap a market below to jump straight to its projects in the portfolio grid.</p>
+              <p className="text-white/45 text-sm max-w-xs">{String(spotlightC.subtitle || "Tap a market below to jump straight to its projects in the portfolio grid.")}</p>
             </div>
           </Reveal>
 
@@ -141,9 +205,9 @@ function ProjectPage() {
         <div className="max-w-[1180px] mx-auto">
           <Reveal>
             <div className="mb-10">
-              <p className="text-[11px] font-bold tracking-[0.18em] uppercase text-white/30 mb-3">The Portfolio</p>
+              <p className="text-[11px] font-bold tracking-[0.18em] uppercase text-white/30 mb-3">{String(spotlightC.portfolio_eyebrow || "The Portfolio")}</p>
               <h2 className="font-serif text-[clamp(26px,3.4vw,36px)] font-semibold text-white">
-                Every project, <em className="italic text-[#00BFFF]">filtered by country.</em>
+                {String(spotlightC.portfolio_heading || "Every project,")} <em className="italic text-[#00BFFF]">{String(spotlightC.portfolio_heading_em || "filtered by country.")}</em>
               </h2>
             </div>
           </Reveal>
@@ -257,22 +321,17 @@ function ProjectPage() {
           <Reveal>
             <div className="flex items-end justify-between gap-6 mb-10 flex-wrap">
               <div>
-                <p className="text-[11px] font-bold tracking-[0.18em] uppercase text-white/30 mb-3">How We Work</p>
+                <p className="text-[11px] font-bold tracking-[0.18em] uppercase text-white/30 mb-3">{String(processC.eyebrow || "How We Work")}</p>
                 <h2 className="font-serif text-[clamp(26px,3.4vw,36px)] font-semibold text-white">
-                  The same process, <em className="italic text-[#00BFFF]">in every market.</em>
+                  {String(processC.heading || "The same process,")} <em className="italic text-[#00BFFF]">{String(processC.heading_em || "in every market.")}</em>
                 </h2>
               </div>
-              <p className="text-white/45 text-sm max-w-xs">A consistent four-stage path from site selection to handover, regardless of geography.</p>
+              <p className="text-white/45 text-sm max-w-xs">{String(processC.subtitle || "A consistent four-stage path from site selection to handover, regardless of geography.")}</p>
             </div>
           </Reveal>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-white/8 border border-white/8 rounded-2xl overflow-hidden">
-            {[
-              { num: "01", title: "Site Diligence", copy: "Legal title, zoning, and market demand are verified before a single brick is laid." },
-              { num: "02", title: "Design & Approvals", copy: "Local architects and planning authorities sign off before construction begins." },
-              { num: "03", title: "Construction", copy: "Independent quantity surveyors track progress against a public milestone schedule." },
-              { num: "04", title: "Handover", copy: "Full documentation, title transfer, and after-sales support, wherever you bought from." },
-            ].map((step, i) => (
+            {processSteps.map((step, i) => (
               <Reveal key={step.num} delay={i * 0.07}>
                 <div className="bg-[#060c16] p-8">
                   <p className="font-serif italic text-3xl text-[#00BFFF] mb-4">{step.num}</p>
@@ -291,7 +350,7 @@ function ProjectPage() {
           <Reveal>
             <div className="rounded-2xl overflow-hidden border border-white/8" style={{ aspectRatio: "5/4" }}>
               <img
-                src="https://images.unsplash.com/photo-1560520653-9e0e4c89eb11?q=80&w=900&auto=format&fit=crop"
+                src={String(testimonialC.image_url || "https://images.unsplash.com/photo-1560520653-9e0e4c89eb11?q=80&w=900&auto=format&fit=crop")}
                 alt="Investor portrait"
                 className="w-full h-full object-cover"
                 loading="lazy"
@@ -300,10 +359,10 @@ function ProjectPage() {
           </Reveal>
           <Reveal delay={0.1}>
             <p className="font-serif italic text-[clamp(22px,2.6vw,30px)] text-white leading-[1.42]">
-              <span className="text-[#00BFFF]">"</span>We bought into the Dubai project from Mumbai without a single site visit. The documentation alone made the decision easy.<span className="text-[#00BFFF]">"</span>
+              <span className="text-[#00BFFF]">"</span>{String(testimonialC.quote || "We bought into the Dubai project from Mumbai without a single site visit. The documentation alone made the decision easy.")}<span className="text-[#00BFFF]">"</span>
             </p>
             <p className="mt-6 text-[13.5px] text-white/45">
-              <b className="text-white">Anjali Mehta</b> — NRI Investor, Marina Azure, Dubai
+              <b className="text-white">{String(testimonialC.name || "Anjali Mehta")}</b> — {String(testimonialC.designation || "NRI Investor, Marina Azure, Dubai")}
             </p>
           </Reveal>
         </div>
@@ -318,10 +377,10 @@ function ProjectPage() {
         <div className="max-w-[1180px] mx-auto grid md:grid-cols-[1.1fr_0.9fr] gap-12 items-center relative">
           <Reveal>
             <h2 className="font-serif text-[clamp(28px,3.6vw,40px)] font-semibold text-white leading-[1.15]">
-              Find your next <em className="italic text-[#00BFFF]">investment</em>, wherever it is.
+              {String(ctaC.heading || "Find your next")} <em className="italic text-[#00BFFF]">{String(ctaC.heading_em || "investment")}</em>{String(ctaC.heading_suffix || ", wherever it is.")}
             </h2>
             <p className="mt-4 text-[15px] text-white/45 max-w-[440px] leading-relaxed">
-              Tell us what you're looking for and which market interests you. Our team will share a shortlist within 24 hours.
+              {String(ctaC.subtitle || "Tell us what you're looking for and which market interests you. Our team will share a shortlist within 24 hours.")}
             </p>
           </Reveal>
           <Reveal delay={0.1}>

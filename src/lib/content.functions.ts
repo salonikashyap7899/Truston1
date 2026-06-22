@@ -530,6 +530,149 @@ const DEFAULT_BLOCKS: { key: string; label: string; data: Record<string, unknown
     },
   },
 
+  // ── PROJECTS LISTING PAGE (/project) ────────────────────────────
+  {
+    key: "projects_page.hero",
+    label: "Projects Page — Hero",
+    data: {
+      eyebrow: "Our Portfolio",
+      title: "Projects across",
+      title_em: "four countries",
+      title_suffix: ", one standard.",
+      subtitle: "From Lucknow to Dubai, every TrustOn development is built on the same foundation — transparent ownership, verified documentation, and long-term value.",
+    },
+  },
+  {
+    key: "projects_page.stats",
+    label: "Projects Page — Stats Band",
+    data: {
+      items: [
+        { num: "48", label: "Live Projects" },
+        { num: "4", label: "Countries" },
+        { num: "11", label: "Cities" },
+        { num: "₹2,400Cr+", label: "Assets Delivered" },
+      ],
+    },
+  },
+  {
+    key: "projects_page.spotlight",
+    label: "Projects Page — Country Spotlight & Portfolio Headings",
+    data: {
+      eyebrow: "Where We Build",
+      heading: "Four markets,",
+      heading_em: "one investment thesis.",
+      subtitle: "Tap a market below to jump straight to its projects in the portfolio grid.",
+      portfolio_eyebrow: "The Portfolio",
+      portfolio_heading: "Every project,",
+      portfolio_heading_em: "filtered by country.",
+    },
+  },
+  {
+    key: "projects_page.process",
+    label: "Projects Page — Process Section",
+    data: {
+      eyebrow: "How We Work",
+      heading: "The same process,",
+      heading_em: "in every market.",
+      subtitle: "A consistent four-stage path from site selection to handover, regardless of geography.",
+      steps: [
+        { num: "01", title: "Site Diligence", copy: "Legal title, zoning, and market demand are verified before a single brick is laid." },
+        { num: "02", title: "Design & Approvals", copy: "Local architects and planning authorities sign off before construction begins." },
+        { num: "03", title: "Construction", copy: "Independent quantity surveyors track progress against a public milestone schedule." },
+        { num: "04", title: "Handover", copy: "Full documentation, title transfer, and after-sales support, wherever you bought from." },
+      ],
+    },
+  },
+  {
+    key: "projects_page.testimonial",
+    label: "Projects Page — Testimonial",
+    data: {
+      quote: "We bought into the Dubai project from Mumbai without a single site visit. The documentation alone made the decision easy.",
+      name: "Anjali Mehta",
+      designation: "NRI Investor, Marina Azure, Dubai",
+      image_url: "https://images.unsplash.com/photo-1560520653-9e0e4c89eb11?q=80&w=900&auto=format&fit=crop",
+    },
+  },
+  {
+    key: "projects_page.cta",
+    label: "Projects Page — CTA / Enquiry",
+    data: {
+      heading: "Find your next",
+      heading_em: "investment",
+      heading_suffix: ", wherever it is.",
+      subtitle: "Tell us what you're looking for and which market interests you. Our team will share a shortlist within 24 hours.",
+    },
+  },
+
+  // ── PRIME ESTATE DETAIL PAGE (/projects/prime-estate) ───────────
+  {
+    key: "prime_estate.quote",
+    label: "Prime Estate — Photo Break Quote",
+    data: {
+      quote: "We don't merely sell plots — we help you make one of the most significant decisions of your life.",
+      attribution: "— Truston Developers, Lucknow",
+    },
+  },
+  {
+    key: "prime_estate.location_advantage",
+    label: "Prime Estate — Location Advantage",
+    data: {
+      eyebrow: "Location Advantage",
+      heading: "Well Connected to",
+      heading_em: "Every Corner of Lucknow",
+      locations: [
+        { num: "01", title: "Highway Connectivity", desc: "Direct access to the major highway ensures fast, smooth connectivity to central Lucknow and beyond — making daily commutes completely effortless." },
+        { num: "02", title: "Metro Corridor", desc: "Close proximity to the metro corridor connects residents seamlessly to the city's commercial, educational, and healthcare districts." },
+        { num: "03", title: "Green Surroundings", desc: "Enveloped by lush greenery — offering clean air and a peaceful environment away from urban congestion. A rare luxury in today's cities." },
+        { num: "04", title: "Growth Corridor", desc: "Located in a rapidly developing zone with rising infrastructure investment and proven land appreciation trends — your wealth grows alongside the city." },
+      ],
+    },
+  },
+  {
+    key: "prime_estate.why",
+    label: "Prime Estate — Why Prime Estate",
+    data: {
+      eyebrow: "Why Prime Estate",
+      heading: "Invest with",
+      heading_em: "Clarity & Confidence",
+      reasons: [
+        { num: "01", title: "High Growth Location", desc: "Situated in Lucknow's rapidly expanding development corridor, Prime Estate benefits from strong land appreciation driven by proximity to highways and the metro." },
+        { num: "02", title: "Transparent Documentation", desc: "Clear title deeds, Jila Panchayat approval, and no hidden charges — every document provided upfront. Zero ambiguity at every stage of the transaction." },
+        { num: "03", title: "Planned Infrastructure", desc: "Wide roads, drainage, water, and electricity — developed in phases for consistent quality. Master-planned for long-term livability and value appreciation." },
+        { num: "04", title: "Build on Your Own Terms", desc: "With full construction approval, you design and build exactly as you envision. No forced packages, no builder lock-ins — your land, your freedom, your timeline." },
+        { num: "05", title: "Strong Investment Potential", desc: "Highway and metro proximity make Prime Estate a smart long-term investment with high resale value. Both hold-and-appreciate and build-immediately strategies are fully supported." },
+      ],
+    },
+  },
+  {
+    key: "prime_estate.faq",
+    label: "Prime Estate — FAQ",
+    data: {
+      eyebrow: "Frequently Asked",
+      heading: "Common Questions About",
+      heading_em: "Prime Estate",
+      faqs: [
+        { q: "Are the plots in Prime Estate legally approved?", a: "Yes — all plots are Jila Panchayat approved with clear title deeds and proper documentation. Every stage is handled with complete transparency. No hidden conditions, no fine print." },
+        { q: "Can I get construction approval to build my home?", a: "Yes. With proper construction approval, you can design and build exactly as you envision. TrustOn also offers in-house architecture and construction services if you'd like guidance through the process." },
+        { q: "What is the starting price of plots?", a: "Plots start from ₹12 Lakhs+ depending on size and phase. Pricing is fully transparent with no hidden costs. Contact our team for current availability and the latest pricing sheet." },
+        { q: "Is Phase 2 available for booking now?", a: "Phase 2 is in active development. Early buyers can register interest now to secure priority booking at launch pricing — locking in below-market rates before the public announcement." },
+        { q: "How well connected is Prime Estate to Lucknow?", a: "Prime Estate at Dubagga offers direct highway connectivity and close proximity to the metro corridor — ensuring seamless access to central Lucknow, airports, schools, and commercial hubs." },
+      ],
+    },
+  },
+  {
+    key: "prime_estate.prime_cta",
+    label: "Prime Estate — Final CTA",
+    data: {
+      eyebrow: "47 Plots Still Available · Prime Estate · Dubagga, Lucknow",
+      title: "Ready to Claim",
+      title_em: "Plot?",
+      subtitle: "Prices starting at ₹12 Lakhs. Talk to our team today — no obligations, just complete clarity about your investment.",
+      phone: "+91 96160-61166",
+      email: "trustondevelopers01@gmail.com",
+    },
+  },
+
   // ── ABOUT PAGE — extra blocks ───────────────────────────────────
   {
     key: "about.mvision",

@@ -42,7 +42,9 @@ const SIDEBAR_NAV = [
   {
     section: "Projects",
     items: [
-      { label: "Prime Estate — Phases", prefix: "prime_estate.", icon: GridIcon },
+      { label: "Prime Estate — Phases",   prefix: "prime_estate.phases",  icon: GridIcon },
+      { label: "Prime Estate — Detail",   prefix: "prime_estate.",        icon: MapPinIcon },
+      { label: "Projects Listing Page",   prefix: "projects_page.",       icon: GridIcon },
     ],
   },
   {
@@ -79,6 +81,7 @@ function previewUrl(blockKey: string): string | null {
   if (blockKey.startsWith("about."))            return "/about-us";
   if (blockKey.startsWith("contact."))          return "/contact";
   if (blockKey.startsWith("prime_estate."))      return "/projects/prime-estate";
+  if (blockKey.startsWith("projects_page."))    return "/project";
   if (blockKey.startsWith("project"))           return "/project";
   if (blockKey.startsWith("plot_selling."))     return "/plot-selling";
   if (blockKey.startsWith("construction."))     return "/construction-build";

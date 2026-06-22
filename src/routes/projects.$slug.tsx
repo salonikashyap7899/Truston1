@@ -5,6 +5,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { Reveal } from "@/components/Reveal";
 import { PROJECTS, STATUS_COLOR } from "@/data/projects";
 import { getPrimeEstatePhases } from "@/lib/content.functions";
+import { usePageContent } from "@/hooks/usePageContent";
 
 export const Route = createFileRoute("/projects/$slug")({
   head: ({ params }) => {
@@ -38,6 +39,29 @@ const FALLBACK_PHASES = [
   },
 ];
 
+const FALLBACK_LOCATIONS = [
+  { num: "01", title: "Highway Connectivity", desc: "Direct access to the major highway ensures fast, smooth connectivity to central Lucknow and beyond — making daily commutes completely effortless." },
+  { num: "02", title: "Metro Corridor", desc: "Close proximity to the metro corridor connects residents seamlessly to the city's commercial, educational, and healthcare districts." },
+  { num: "03", title: "Green Surroundings", desc: "Enveloped by lush greenery — offering clean air and a peaceful environment away from urban congestion. A rare luxury in today's cities." },
+  { num: "04", title: "Growth Corridor", desc: "Located in a rapidly developing zone with rising infrastructure investment and proven land appreciation trends — your wealth grows alongside the city." },
+];
+
+const FALLBACK_REASONS = [
+  { num: "01", title: "High Growth Location", desc: "Situated in Lucknow's rapidly expanding development corridor, Prime Estate benefits from strong land appreciation driven by proximity to highways and the metro." },
+  { num: "02", title: "Transparent Documentation", desc: "Clear title deeds, Jila Panchayat approval, and no hidden charges — every document provided upfront. Zero ambiguity at every stage of the transaction." },
+  { num: "03", title: "Planned Infrastructure", desc: "Wide roads, drainage, water, and electricity — developed in phases for consistent quality. Master-planned for long-term livability and value appreciation." },
+  { num: "04", title: "Build on Your Own Terms", desc: "With full construction approval, you design and build exactly as you envision. No forced packages, no builder lock-ins — your land, your freedom, your timeline." },
+  { num: "05", title: "Strong Investment Potential", desc: "Highway and metro proximity make Prime Estate a smart long-term investment with high resale value. Both hold-and-appreciate and build-immediately strategies are fully supported." },
+];
+
+const FALLBACK_FAQS = [
+  { q: "Are the plots in Prime Estate legally approved?", a: "Yes — all plots are Jila Panchayat approved with clear title deeds and proper documentation. Every stage is handled with complete transparency. No hidden conditions, no fine print." },
+  { q: "Can I get construction approval to build my home?", a: "Yes. With proper construction approval, you can design and build exactly as you envision. TrustOn also offers in-house architecture and construction services if you'd like guidance through the process." },
+  { q: "What is the starting price of plots?", a: "Plots start from ₹12 Lakhs+ depending on size and phase. Pricing is fully transparent with no hidden costs. Contact our team for current availability and the latest pricing sheet." },
+  { q: "Is Phase 2 available for booking now?", a: "Phase 2 is in active development. Early buyers can register interest now to secure priority booking at launch pricing — locking in below-market rates before the public announcement." },
+  { q: "How well connected is Prime Estate to Lucknow?", a: "Prime Estate at Dubagga offers direct highway connectivity and close proximity to the metro corridor — ensuring seamless access to central Lucknow, airports, schools, and commercial hubs." },
+];
+
 function PrimeEstateExtra() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const fetchPhases = useServerFn(getPrimeEstatePhases);
@@ -49,28 +73,44 @@ function PrimeEstateExtra() {
     }).catch(() => {});
   }, []);
 
-  const locations = [
-    { num: "01", title: "Highway Connectivity", desc: "Direct access to the major highway ensures fast, smooth connectivity to central Lucknow and beyond — making daily commutes completely effortless." },
-    { num: "02", title: "Metro Corridor", desc: "Close proximity to the metro corridor connects residents seamlessly to the city's commercial, educational, and healthcare districts." },
-    { num: "03", title: "Green Surroundings", desc: "Enveloped by lush greenery — offering clean air and a peaceful environment away from urban congestion. A rare luxury in today's cities." },
-    { num: "04", title: "Growth Corridor", desc: "Located in a rapidly developing zone with rising infrastructure investment and proven land appreciation trends — your wealth grows alongside the city." },
-  ];
+  const quoteC = usePageContent("prime_estate.quote", {
+    quote: "We don't merely sell plots — we help you make one of the most significant decisions of your life.",
+    attribution: "— Truston Developers, Lucknow",
+  });
 
-  const reasons = [
-    { num: "01", title: "High Growth Location", desc: "Situated in Lucknow's rapidly expanding development corridor, Prime Estate benefits from strong land appreciation driven by proximity to highways and the metro." },
-    { num: "02", title: "Transparent Documentation", desc: "Clear title deeds, Jila Panchayat approval, and no hidden charges — every document provided upfront. Zero ambiguity at every stage of the transaction." },
-    { num: "03", title: "Planned Infrastructure", desc: "Wide roads, drainage, water, and electricity — developed in phases for consistent quality. Master-planned for long-term livability and value appreciation." },
-    { num: "04", title: "Build on Your Own Terms", desc: "With full construction approval, you design and build exactly as you envision. No forced packages, no builder lock-ins — your land, your freedom, your timeline." },
-    { num: "05", title: "Strong Investment Potential", desc: "Highway and metro proximity make Prime Estate a smart long-term investment with high resale value. Both hold-and-appreciate and build-immediately strategies are fully supported." },
-  ];
+  const locationC = usePageContent("prime_estate.location_advantage", {
+    eyebrow: "Location Advantage",
+    heading: "Well Connected to",
+    heading_em: "Every Corner of Lucknow",
+    locations: FALLBACK_LOCATIONS,
+  });
 
-  const faqs = [
-    { q: "Are the plots in Prime Estate legally approved?", a: "Yes — all plots are Jila Panchayat approved with clear title deeds and proper documentation. Every stage is handled with complete transparency. No hidden conditions, no fine print." },
-    { q: "Can I get construction approval to build my home?", a: "Yes. With proper construction approval, you can design and build exactly as you envision. TrustOn also offers in-house architecture and construction services if you'd like guidance through the process." },
-    { q: "What is the starting price of plots?", a: "Plots start from ₹12 Lakhs+ depending on size and phase. Pricing is fully transparent with no hidden costs. Contact our team for current availability and the latest pricing sheet." },
-    { q: "Is Phase 2 available for booking now?", a: "Phase 2 is in active development. Early buyers can register interest now to secure priority booking at launch pricing — locking in below-market rates before the public announcement." },
-    { q: "How well connected is Prime Estate to Lucknow?", a: "Prime Estate at Dubagga offers direct highway connectivity and close proximity to the metro corridor — ensuring seamless access to central Lucknow, airports, schools, and commercial hubs." },
-  ];
+  const whyC = usePageContent("prime_estate.why", {
+    eyebrow: "Why Prime Estate",
+    heading: "Invest with",
+    heading_em: "Clarity & Confidence",
+    reasons: FALLBACK_REASONS,
+  });
+
+  const faqC = usePageContent("prime_estate.faq", {
+    eyebrow: "Frequently Asked",
+    heading: "Common Questions About",
+    heading_em: "Prime Estate",
+    faqs: FALLBACK_FAQS,
+  });
+
+  const primeCta = usePageContent("prime_estate.prime_cta", {
+    eyebrow: "47 Plots Still Available · Prime Estate · Dubagga, Lucknow",
+    title: "Ready to Claim",
+    title_em: "Plot?",
+    subtitle: "Prices starting at ₹12 Lakhs. Talk to our team today — no obligations, just complete clarity about your investment.",
+    phone: "+91 96160-61166",
+    email: "trustondevelopers01@gmail.com",
+  });
+
+  const locations = Array.isArray(locationC.locations) ? (locationC.locations as {num:string;title:string;desc:string}[]) : FALLBACK_LOCATIONS;
+  const reasons = Array.isArray(whyC.reasons) ? (whyC.reasons as {num:string;title:string;desc:string}[]) : FALLBACK_REASONS;
+  const faqs = Array.isArray(faqC.faqs) ? (faqC.faqs as {q:string;a:string}[]) : FALLBACK_FAQS;
 
   return (
     <>
@@ -88,9 +128,9 @@ function PrimeEstateExtra() {
         <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(4,9,15,0.75) 0%, transparent 55%)" }} />
         <div className="absolute bottom-12 left-6 md:left-16 right-6 md:right-16">
           <p className="font-serif italic text-white leading-relaxed" style={{ fontSize: "clamp(1.3rem,2.4vw,1.9rem)", maxWidth: "600px" }}>
-            <span className="text-[#00BFFF]">"</span>We don't merely sell plots — we help you make one of the most significant decisions of your life.<span className="text-[#00BFFF]">"</span>
+            <span className="text-[#00BFFF]">"</span>{String(quoteC.quote || "We don't merely sell plots — we help you make one of the most significant decisions of your life.")}<span className="text-[#00BFFF]">"</span>
           </p>
-          <p className="mt-4 text-[11px] tracking-[0.2em] uppercase text-white/40 font-semibold">— Truston Developers, Lucknow</p>
+          <p className="mt-4 text-[11px] tracking-[0.2em] uppercase text-white/40 font-semibold">{String(quoteC.attribution || "— Truston Developers, Lucknow")}</p>
         </div>
       </div>
 
@@ -99,10 +139,10 @@ function PrimeEstateExtra() {
         <div className="max-w-[1180px] mx-auto">
           <Reveal>
             <p className="text-[#00BFFF] text-[11px] font-bold tracking-[0.25em] uppercase mb-3 flex items-center gap-3">
-              <span className="w-6 h-px bg-[#00BFFF]" /> Location Advantage
+              <span className="w-6 h-px bg-[#00BFFF]" /> {String(locationC.eyebrow || "Location Advantage")}
             </p>
             <h2 className="font-serif text-[clamp(26px,3.4vw,36px)] font-semibold text-white mb-10">
-              Well Connected to <em className="italic text-[#00BFFF]">Every Corner of Lucknow</em>
+              {String(locationC.heading || "Well Connected to")} <em className="italic text-[#00BFFF]">{String(locationC.heading_em || "Every Corner of Lucknow")}</em>
             </h2>
           </Reveal>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-white/5 border border-white/5 rounded-2xl overflow-hidden">
@@ -178,10 +218,10 @@ function PrimeEstateExtra() {
         <div className="max-w-[1180px] mx-auto">
           <Reveal>
             <p className="text-[#00BFFF] text-[11px] font-bold tracking-[0.25em] uppercase mb-3 flex items-center gap-3">
-              <span className="w-6 h-px bg-[#00BFFF]" /> Why Prime Estate
+              <span className="w-6 h-px bg-[#00BFFF]" /> {String(whyC.eyebrow || "Why Prime Estate")}
             </p>
             <h2 className="font-serif text-[clamp(26px,3.4vw,36px)] font-semibold text-white mb-10">
-              Invest with <em className="italic text-[#00BFFF]">Clarity & Confidence</em>
+              {String(whyC.heading || "Invest with")} <em className="italic text-[#00BFFF]">{String(whyC.heading_em || "Clarity & Confidence")}</em>
             </h2>
           </Reveal>
           <div className="divide-y divide-white/8 border-y border-white/8">
@@ -205,10 +245,10 @@ function PrimeEstateExtra() {
         <div className="max-w-[1180px] mx-auto">
           <Reveal>
             <p className="text-[#00BFFF] text-[11px] font-bold tracking-[0.25em] uppercase mb-3 flex items-center gap-3">
-              <span className="w-6 h-px bg-[#00BFFF]" /> Frequently Asked
+              <span className="w-6 h-px bg-[#00BFFF]" /> {String(faqC.eyebrow || "Frequently Asked")}
             </p>
             <h2 className="font-serif text-[clamp(26px,3.4vw,36px)] font-semibold text-white mb-10">
-              Common Questions About <em className="italic text-[#00BFFF]">Prime Estate</em>
+              {String(faqC.heading || "Common Questions About")} <em className="italic text-[#00BFFF]">{String(faqC.heading_em || "Prime Estate")}</em>
             </h2>
           </Reveal>
           <div className="divide-y divide-white/8 border-y border-white/8">
@@ -261,23 +301,23 @@ function PrimeEstateExtra() {
           style={{ background: "radial-gradient(circle, rgba(0,191,255,0.1) 0%, transparent 70%)" }}
         />
         <div className="relative z-10 max-w-2xl mx-auto">
-          <p className="text-[#00BFFF] text-[10px] font-bold tracking-[0.3em] uppercase mb-5">47 Plots Still Available · Prime Estate · Dubagga, Lucknow</p>
+          <p className="text-[#00BFFF] text-[10px] font-bold tracking-[0.3em] uppercase mb-5">{String(primeCta.eyebrow || "47 Plots Still Available · Prime Estate · Dubagga, Lucknow")}</p>
           <h2 className="font-serif text-[clamp(2.2rem,4.5vw,3.6rem)] font-semibold text-white leading-[1.1] mb-4">
-            Ready to Claim<br />Your <em className="italic text-[#00BFFF]">Plot?</em>
+            {String(primeCta.title || "Ready to Claim")}<br />Your <em className="italic text-[#00BFFF]">{String(primeCta.title_em || "Plot?")}</em>
           </h2>
           <p className="text-white/45 text-[15px] leading-[1.8] mb-10">
-            Prices starting at ₹12 Lakhs. Talk to our team today — no obligations, just complete clarity about your investment.
+            {String(primeCta.subtitle || "Prices starting at ₹12 Lakhs. Talk to our team today — no obligations, just complete clarity about your investment.")}
           </p>
           <div className="flex justify-center gap-4 flex-wrap">
             <a
-              href="tel:+919616061166"
+              href={`tel:${String(primeCta.phone || "+919616061166").replace(/\s/g, "")}`}
               className="px-8 py-3.5 text-[12px] font-bold tracking-[0.1em] uppercase transition-all duration-200 hover:opacity-85 hover:scale-105"
               style={{ background: "#00BFFF", color: "#04090f" }}
             >
-              +91 96160-61166
+              {String(primeCta.phone || "+91 96160-61166")}
             </a>
             <a
-              href="mailto:trustondevelopers01@gmail.com"
+              href={`mailto:${String(primeCta.email || "trustondevelopers01@gmail.com")}`}
               className="px-8 py-3.5 text-[12px] font-bold tracking-[0.1em] uppercase border border-white/20 text-white/65 hover:border-[#00BFFF]/50 hover:text-[#00BFFF] transition-all duration-200"
             >
               Email Us
