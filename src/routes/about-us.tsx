@@ -505,8 +505,21 @@ function AboutPage() {
       </section>
 
       {/* ── About Video ── */}
-      <section className="py-20 px-6 md:px-16 bg-[#04090f] border-b border-white/8">
-        <div className="max-w-5xl mx-auto">
+      <section className="py-20 px-6 md:px-16 bg-[#04090f] border-b border-white/8 overflow-hidden">
+        <style>{`
+          @keyframes scrollUp {
+            0%   { transform: translateY(0); }
+            100% { transform: translateY(-50%); }
+          }
+          .video-scroll-track {
+            animation: scrollUp 28s linear infinite;
+          }
+          .video-scroll-track:hover {
+            animation-play-state: paused;
+          }
+        `}</style>
+
+        <div className="max-w-[1180px] mx-auto">
           <Reveal>
             <p className="text-[#00BFFF] text-[11px] font-bold tracking-[0.25em] uppercase mb-4 flex items-center gap-3">
               <span className="w-6 h-px bg-[#00BFFF]" /> Our Story
@@ -515,48 +528,98 @@ function AboutPage() {
               See What We <em className="italic text-[#00BFFF]">Stand For</em>
             </h2>
           </Reveal>
-          <Reveal delay={0.1}>
-            <div className="relative rounded-2xl overflow-hidden border border-white/8 bg-[#060c16]" style={{ aspectRatio: "16/9" }}>
-              <video
-                autoPlay
-                muted
-                loop
-                playsInline
-                className="w-full h-full object-cover"
-                style={{ opacity: 0.92 }}
-              >
-                <source
-                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Video%202026-05-22%20at%2010.03.14%20PM-QaTFrXd8V3Y9wkvJT59K1CIHabjmqa.mp4"
-                  type="video/mp4"
-                />
-              </video>
-              <div className="absolute inset-0 pointer-events-none" style={{ background: "linear-gradient(180deg, transparent 50%, rgba(4,9,15,0.65) 100%)" }} />
-              <div className="absolute top-5 left-5 flex items-center gap-2.5 bg-[#04090f]/70 backdrop-blur-sm border border-white/10 rounded-full px-4 py-2">
-                <span className="w-2 h-2 rounded-full bg-[#00BFFF] animate-pulse" />
-                <span className="text-[11px] uppercase tracking-[0.15em] text-white/70 font-semibold">Live Preview</span>
-              </div>
-              <div className="absolute bottom-7 left-7 right-7">
-                <p className="font-serif italic text-2xl md:text-3xl text-white/90 font-light leading-tight max-w-2xl">
-                  "Own the Ground. Build the Legacy."
+
+          <div className="grid lg:grid-cols-[1fr_420px] gap-10 items-start">
+
+            {/* Left — stats + text */}
+            <Reveal delay={0.05}>
+              <div className="space-y-8">
+                <p className="text-white/45 text-base leading-[1.9] font-light">
+                  Every video captures a real moment — a site visit, a handover, a family stepping onto their plot for the first time. At TrustOn, our work isn't just construction; it's the foundation of someone's legacy.
                 </p>
-                <p className="text-white/35 text-[11px] uppercase tracking-[0.2em] mt-3">— Truston Developers, Lucknow</p>
-              </div>
-            </div>
-          </Reveal>
-          <Reveal delay={0.15}>
-            <div className="grid grid-cols-3 gap-px bg-white/5 border border-white/5 rounded-2xl overflow-hidden mt-6">
-              {[
-                { val: "100%", label: "Transparency Guaranteed" },
-                { val: "JP ✓", label: "Approved Projects" },
-                { val: "2025", label: "Est. Lucknow" },
-              ].map((s) => (
-                <div key={s.label} className="bg-[#060c16] py-6 px-8 text-center">
-                  <p className="font-serif text-2xl text-[#00BFFF] leading-none mb-1">{s.val}</p>
-                  <p className="text-[10px] uppercase tracking-[0.2em] text-white/30 font-bold mt-2">{s.label}</p>
+                <div className="grid grid-cols-3 gap-px bg-white/5 border border-white/5 rounded-2xl overflow-hidden">
+                  {[
+                    { val: "100%", label: "Transparency Guaranteed" },
+                    { val: "JP ✓", label: "Approved Projects" },
+                    { val: "2025", label: "Est. Lucknow" },
+                  ].map((s) => (
+                    <div key={s.label} className="bg-[#060c16] py-6 px-5 text-center">
+                      <p className="font-serif text-2xl text-[#00BFFF] leading-none mb-1">{s.val}</p>
+                      <p className="text-[10px] uppercase tracking-[0.18em] text-white/30 font-bold mt-2">{s.label}</p>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          </Reveal>
+                <div className="border border-white/8 rounded-2xl p-7 bg-[#060c16]">
+                  <p className="font-serif italic text-xl text-white/80 leading-relaxed mb-4">
+                    "Own the Ground. Build the Legacy."
+                  </p>
+                  <p className="text-white/30 text-[11px] uppercase tracking-[0.2em] font-semibold">— Truston Developers, Lucknow</p>
+                </div>
+              </div>
+            </Reveal>
+
+            {/* Right — infinite vertical scrolling video cards */}
+            <Reveal delay={0.1}>
+              <div
+                className="relative rounded-2xl overflow-hidden border border-white/8"
+                style={{ height: "560px" }}
+              >
+                {/* Top fade */}
+                <div className="absolute top-0 left-0 right-0 h-20 z-10 pointer-events-none"
+                  style={{ background: "linear-gradient(to bottom, #04090f 0%, transparent 100%)" }} />
+                {/* Bottom fade */}
+                <div className="absolute bottom-0 left-0 right-0 h-20 z-10 pointer-events-none"
+                  style={{ background: "linear-gradient(to top, #04090f 0%, transparent 100%)" }} />
+
+                {/* Scrolling track */}
+                <div className="video-scroll-track flex flex-col gap-4 p-4">
+                  {[
+                    { label: "Site Visit", tag: "Prime Estate · Dubagga", badge: "🏗️ Live" },
+                    { label: "Project Walkthrough", tag: "Infrastructure Tour", badge: "📍 On Site" },
+                    { label: "Plot Handover", tag: "Happy Buyers", badge: "🎉 Milestone" },
+                    { label: "Construction Update", tag: "Phase 1 Progress", badge: "🔧 Update" },
+                    { label: "Community Vision", tag: "Planned Development", badge: "🌿 Future" },
+                  ].concat([
+                    { label: "Site Visit", tag: "Prime Estate · Dubagga", badge: "🏗️ Live" },
+                    { label: "Project Walkthrough", tag: "Infrastructure Tour", badge: "📍 On Site" },
+                    { label: "Plot Handover", tag: "Happy Buyers", badge: "🎉 Milestone" },
+                    { label: "Construction Update", tag: "Phase 1 Progress", badge: "🔧 Update" },
+                    { label: "Community Vision", tag: "Planned Development", badge: "🌿 Future" },
+                  ]).map((card, i) => (
+                    <div
+                      key={i}
+                      className="relative rounded-xl overflow-hidden border border-white/8 shrink-0 group"
+                      style={{ aspectRatio: "16/9" }}
+                    >
+                      <video
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        style={{ opacity: 0.88 }}
+                      >
+                        <source
+                          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Video%202026-05-22%20at%2010.03.14%20PM-QaTFrXd8V3Y9wkvJT59K1CIHabjmqa.mp4"
+                          type="video/mp4"
+                        />
+                      </video>
+                      <div className="absolute inset-0 pointer-events-none"
+                        style={{ background: "linear-gradient(180deg, transparent 40%, rgba(4,9,15,0.8) 100%)" }} />
+                      <div className="absolute top-3 left-3 flex items-center gap-2 bg-[#04090f]/70 backdrop-blur-sm border border-white/10 rounded-full px-3 py-1.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#00BFFF] animate-pulse" />
+                        <span className="text-[10px] uppercase tracking-[0.12em] text-white/65 font-semibold">{card.badge}</span>
+                      </div>
+                      <div className="absolute bottom-4 left-4 right-4">
+                        <p className="font-serif text-base font-semibold text-white leading-tight">{card.label}</p>
+                        <p className="text-[11px] text-white/40 mt-1 uppercase tracking-[0.12em] font-medium">{card.tag}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </Reveal>
+          </div>
         </div>
       </section>
 
