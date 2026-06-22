@@ -324,10 +324,10 @@ function ProjectDetailPage() {
   ];
 
   return (
-    <div className="bg-[#04090f] text-white overflow-x-hidden" style={{ paddingTop: "140px" }}>
+    <div className="bg-[#04090f] text-white overflow-x-hidden">
 
       {/* ── HERO ── */}
-      <section className="relative h-[70vh] min-h-[480px] overflow-hidden">
+      <section className="relative h-[85vh] min-h-[520px] overflow-hidden">
         <img
           src={project.image}
           alt={project.name}

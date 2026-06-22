@@ -512,10 +512,11 @@ function AboutPage() {
             100% { transform: translateX(-50%); }
           }
           .video-marquee-track {
-            animation: scrollLeft 36s linear infinite;
+            animation: scrollLeft 30s linear infinite;
             display: flex;
-            gap: 16px;
+            gap: 12px;
             width: max-content;
+            align-items: flex-start;
           }
           .video-marquee-track:hover {
             animation-play-state: paused;
@@ -523,7 +524,7 @@ function AboutPage() {
         `}</style>
 
         {/* Heading */}
-        <div className="px-6 md:px-16 max-w-[1180px] mx-auto mb-10">
+        <div className="px-6 md:px-16 max-w-[1180px] mx-auto mb-8">
           <Reveal>
             <p className="text-[#00BFFF] text-[11px] font-bold tracking-[0.25em] uppercase mb-4 flex items-center gap-3">
               <span className="w-6 h-px bg-[#00BFFF]" /> Our Story
@@ -534,57 +535,66 @@ function AboutPage() {
           </Reveal>
         </div>
 
-        {/* Infinite horizontal video card marquee — full bleed */}
+        {/* Infinite horizontal Shorts-style portrait card marquee — full bleed */}
         <div className="relative overflow-hidden">
           {/* Left fade */}
-          <div className="absolute left-0 top-0 bottom-0 w-24 z-10 pointer-events-none"
+          <div className="absolute left-0 top-0 bottom-0 w-16 z-10 pointer-events-none"
             style={{ background: "linear-gradient(to right, #04090f 0%, transparent 100%)" }} />
           {/* Right fade */}
-          <div className="absolute right-0 top-0 bottom-0 w-24 z-10 pointer-events-none"
+          <div className="absolute right-0 top-0 bottom-0 w-16 z-10 pointer-events-none"
             style={{ background: "linear-gradient(to left, #04090f 0%, transparent 100%)" }} />
 
-          <div className="video-marquee-track py-2 px-4">
+          <div className="video-marquee-track py-2 px-2">
             {[
-              { label: "Site Visit", tag: "Prime Estate · Dubagga", badge: "Live" },
-              { label: "Project Walkthrough", tag: "Infrastructure Tour", badge: "On Site" },
+              { label: "Site Visit", tag: "Prime Estate", badge: "Live" },
+              { label: "Walkthrough", tag: "Infrastructure", badge: "On Site" },
               { label: "Plot Handover", tag: "Happy Buyers", badge: "Milestone" },
-              { label: "Construction Update", tag: "Phase 1 Progress", badge: "Update" },
-              { label: "Community Vision", tag: "Planned Development", badge: "Future" },
-              { label: "Site Visit", tag: "Prime Estate · Dubagga", badge: "Live" },
-              { label: "Project Walkthrough", tag: "Infrastructure Tour", badge: "On Site" },
+              { label: "Phase 1 Update", tag: "Construction", badge: "Update" },
+              { label: "Colony Vision", tag: "Development", badge: "Future" },
+              { label: "Site Visit", tag: "Prime Estate", badge: "Live" },
+              { label: "Walkthrough", tag: "Infrastructure", badge: "On Site" },
               { label: "Plot Handover", tag: "Happy Buyers", badge: "Milestone" },
-              { label: "Construction Update", tag: "Phase 1 Progress", badge: "Update" },
-              { label: "Community Vision", tag: "Planned Development", badge: "Future" },
+              { label: "Phase 1 Update", tag: "Construction", badge: "Update" },
+              { label: "Colony Vision", tag: "Development", badge: "Future" },
             ].map((card, i) => (
               <div
                 key={i}
-                className="relative rounded-2xl overflow-hidden border border-white/8 shrink-0 group cursor-pointer"
-                style={{ width: "340px", aspectRatio: "16/9" }}
+                className="relative rounded-xl overflow-hidden shrink-0 group cursor-pointer"
+                style={{ width: "180px", height: "320px" }}
               >
+                {/* Video fills portrait frame */}
                 <video
                   autoPlay
                   muted
                   loop
                   playsInline
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  style={{ opacity: 0.9 }}
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  style={{ opacity: 0.92 }}
                 >
                   <source
                     src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Video%202026-05-22%20at%2010.03.14%20PM-QaTFrXd8V3Y9wkvJT59K1CIHabjmqa.mp4"
                     type="video/mp4"
                   />
                 </video>
+                {/* Gradient overlay */}
                 <div className="absolute inset-0 pointer-events-none"
-                  style={{ background: "linear-gradient(180deg, transparent 35%, rgba(4,9,15,0.85) 100%)" }} />
-                {/* Badge */}
-                <div className="absolute top-3 left-3 flex items-center gap-1.5 bg-[#04090f]/75 backdrop-blur-sm border border-white/10 rounded-full px-3 py-1.5">
+                  style={{ background: "linear-gradient(180deg, rgba(4,9,15,0.15) 0%, transparent 30%, rgba(4,9,15,0.75) 100%)" }} />
+                {/* Badge top */}
+                <div className="absolute top-2.5 left-2.5 flex items-center gap-1 bg-[#04090f]/70 backdrop-blur-sm rounded-full px-2 py-1">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#00BFFF] animate-pulse shrink-0" />
-                  <span className="text-[10px] uppercase tracking-[0.14em] text-white/70 font-bold">{card.badge}</span>
+                  <span className="text-[9px] uppercase tracking-[0.1em] text-white/75 font-bold">{card.badge}</span>
                 </div>
-                {/* Title */}
-                <div className="absolute bottom-4 left-4 right-4">
-                  <p className="font-serif text-[15px] font-semibold text-white leading-snug">{card.label}</p>
-                  <p className="text-[10px] text-white/40 mt-1 uppercase tracking-[0.14em] font-medium">{card.tag}</p>
+                {/* Play icon center */}
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center border border-white/30">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
+                  </div>
+                </div>
+                {/* Title bottom */}
+                <div className="absolute bottom-0 left-0 right-0 px-3 pb-3 pt-6"
+                  style={{ background: "linear-gradient(to top, rgba(4,9,15,0.9) 0%, transparent 100%)" }}>
+                  <p className="text-[12px] font-semibold text-white leading-snug">{card.label}</p>
+                  <p className="text-[9px] text-white/45 mt-0.5 uppercase tracking-[0.1em]">{card.tag}</p>
                 </div>
               </div>
             ))}
