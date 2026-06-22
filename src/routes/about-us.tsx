@@ -251,6 +251,8 @@ function AboutPage() {
   });
 
   const FALLBACK_VIDEO_URL = "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Video%202026-05-22%20at%2010.03.14%20PM-QaTFrXd8V3Y9wkvJT59K1CIHabjmqa.mp4";
+
+  const isMediaImage = (url: string) => /\.(jpg|jpeg|png|webp|gif|svg|avif|bmp)(\?|$)/i.test(url.split("?")[0]);
   const aboutVideos = usePageContent("about.videos", {
     eyebrow: "Our Story",
     heading: "See What We",
@@ -580,17 +582,26 @@ function AboutPage() {
                     boxShadow: "0 12px 48px rgba(0,0,0,0.65), 0 0 0 1px rgba(0,191,255,0.06), 0 2px 8px rgba(0,0,0,0.4)",
                   }}
                 >
-                  {/* Video fills upper 60% */}
+                  {/* Media fills upper 60% — video or image */}
                   <div className="relative overflow-hidden bg-[#080d1a]" style={{ height: "216px", flexShrink: 0 }}>
-                    <video
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      style={{ opacity: 0.88 }}
-                      src={card.video_url || FALLBACK_VIDEO_URL}
-                    />
+                    {isMediaImage(card.video_url || FALLBACK_VIDEO_URL) ? (
+                      <img
+                        src={card.video_url || FALLBACK_VIDEO_URL}
+                        alt={card.label}
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        style={{ opacity: 0.88 }}
+                      />
+                    ) : (
+                      <video
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        style={{ opacity: 0.88 }}
+                        src={card.video_url || FALLBACK_VIDEO_URL}
+                      />
+                    )}
                     {/* Gradient overlay */}
                     <div className="absolute inset-0 pointer-events-none"
                       style={{ background: "linear-gradient(180deg, rgba(6,12,22,0) 40%, rgba(6,12,22,0.92) 100%)" }} />

@@ -7,6 +7,11 @@ import { useRef } from "react";
 const FALLBACK_VIDEO =
   "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Video%202026-05-22%20at%2010.03.14%20PM-QaTFrXd8V3Y9wkvJT59K1CIHabjmqa.mp4";
 
+function isMediaImage(url: string): boolean {
+  if (!url) return false;
+  return /\.(jpg|jpeg|png|webp|gif|svg|avif|bmp)(\?|$)/i.test(url.split("?")[0]);
+}
+
 interface TestimonialItem {
   name: string;
   designation: string;
@@ -37,18 +42,27 @@ function VideoCard({ item }: { item: TestimonialItem }) {
         boxShadow: "0 12px 48px rgba(0,0,0,0.65), 0 0 0 1px rgba(0,191,255,0.06), 0 2px 8px rgba(0,0,0,0.4)",
       }}
     >
-      {/* Video 16:9 */}
+      {/* Media 16:9 — video or image */}
       <div className="relative w-full overflow-hidden bg-[#080d1a]" style={{ aspectRatio: "16/9" }}>
-        <video
-          ref={videoRef}
-          src={videoUrl}
-          muted
-          loop
-          playsInline
-          autoPlay
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-          style={{ opacity: 0.88 }}
-        />
+        {isMediaImage(videoUrl) ? (
+          <img
+            src={videoUrl}
+            alt={item.name}
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            style={{ opacity: 0.88 }}
+          />
+        ) : (
+          <video
+            ref={videoRef}
+            src={videoUrl}
+            muted
+            loop
+            playsInline
+            autoPlay
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            style={{ opacity: 0.88 }}
+          />
+        )}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{ background: "linear-gradient(180deg, rgba(6,12,22,0) 40%, rgba(6,12,22,0.9) 100%)" }}

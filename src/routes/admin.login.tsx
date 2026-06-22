@@ -72,7 +72,7 @@ function AdminLoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#04090f] flex items-center justify-center px-4">
+    <div data-admin-panel className="min-h-screen bg-[#04090f] flex items-center justify-center px-4">
       {/* Subtle background glow */}
       <div className="pointer-events-none fixed inset-0 overflow-hidden">
         <div className="absolute top-[-200px] right-[-200px] w-[600px] h-[600px] rounded-full bg-[#00BFFF]/6 blur-[120px]" />

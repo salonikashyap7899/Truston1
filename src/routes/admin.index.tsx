@@ -468,6 +468,7 @@ function AdminPage() {
               saveBlockFn={saveBlockFn}
               uploadFn={uploadFn}
               onToast={addToast}
+              onBlockSaved={(saved) => setBlocks((prev) => prev.some((b) => b.key === saved.key) ? prev.map((b) => b.key === saved.key ? saved : b) : [...prev, saved])}
               colors={C}
             />
           ) : activeTab === "about.videos" ? (
@@ -476,6 +477,7 @@ function AdminPage() {
               saveBlockFn={saveBlockFn}
               uploadFn={uploadFn}
               onToast={addToast}
+              onBlockSaved={(saved) => setBlocks((prev) => prev.some((b) => b.key === saved.key) ? prev.map((b) => b.key === saved.key ? saved : b) : [...prev, saved])}
               colors={C}
             />
           ) : (
@@ -1532,6 +1534,20 @@ function GenericArrayEditor({
   );
 }
 
+// ── shared helper ─────────────────────────────────────────────────────────────
+function isMediaImage(url: string): boolean {
+  if (!url) return false;
+  return /\.(jpg|jpeg|png|webp|gif|svg|avif|bmp)(\?|$)/i.test(url.split("?")[0]);
+}
+
+function MediaPreview({ url, style }: { url: string; style?: React.CSSProperties }) {
+  if (!url) return null;
+  if (isMediaImage(url)) {
+    return <img src={url} alt="" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }} style={{ marginTop: 6, width: "100%", borderRadius: 6, objectFit: "cover", ...style }} />;
+  }
+  return <video src={url} muted style={{ marginTop: 6, width: "100%", borderRadius: 6, objectFit: "cover", ...style }} />;
+}
+
 // ── Testimonials Editor ───────────────────────────────────────────────────────
 type TestimonialItem = {
   name: string;
@@ -1542,16 +1558,18 @@ type TestimonialItem = {
 };
 
 function TestimonialsEditor({
-  blocks, saveBlockFn, uploadFn, onToast, colors,
+  blocks, saveBlockFn, uploadFn, onToast, onBlockSaved, colors,
 }: {
   blocks: ContentBlock[];
   saveBlockFn: ReturnType<typeof useServerFn<typeof saveSiteContentBlock>>;
   uploadFn: ReturnType<typeof useServerFn<typeof uploadMedia>>;
   onToast: (type: "success" | "error" | "info", msg: string) => void;
+  onBlockSaved: (saved: ContentBlock) => void;
   colors: Record<string, string>;
 }) {
   const C = colors;
   const block = blocks.find((b) => b.key === "home.testimonials");
+  const initialized = useRef(false);
 
   const parseData = (b: ContentBlock | undefined) => {
     if (!b?.data) return { eyebrow: "Client Narratives", title: "Distinguished", title_accent: "Partnerships", subtitle: "", cta_text: "", items: [] as TestimonialItem[] };
@@ -1569,8 +1587,14 @@ function TestimonialsEditor({
   const [data, setData] = useState(() => parseData(block));
   const [saving, setSaving] = useState(false);
   const [uploadingField, setUploadingField] = useState<string | null>(null);
+  const [confirmDelete, setConfirmDelete] = useState<number | null>(null);
 
-  useEffect(() => { setData(parseData(block)); }, [blocks]);
+  useEffect(() => {
+    if (!initialized.current && block) {
+      initialized.current = true;
+      setData(parseData(block));
+    }
+  }, [blocks]);
 
   const uploadFile = async (file: File, fieldKey: string, onUrl: (url: string) => void) => {
     setUploadingField(fieldKey);
@@ -1589,7 +1613,8 @@ function TestimonialsEditor({
   const save = async () => {
     setSaving(true);
     try {
-      await saveBlockFn({ data: { key: "home.testimonials", label: "Home — Testimonials", data: data as unknown as Record<string, unknown> } });
+      const saved = await saveBlockFn({ data: { key: "home.testimonials", label: "Home — Testimonials", data: data as unknown as Record<string, unknown> } });
+      onBlockSaved(saved);
       onToast("success", "✓ Testimonials saved! Changes are live on the website.");
     } catch (err) {
       onToast("error", `Save failed: ${err instanceof Error ? err.message : String(err)}`);
@@ -1603,15 +1628,17 @@ function TestimonialsEditor({
     setData((prev) => ({ ...prev, items: prev.items.map((it, i) => i === idx ? { ...it, [field]: val } : it) }));
   };
   const addItem = () => {
+    setConfirmDelete(null);
     setData((prev) => ({ ...prev, items: [...prev.items, { name: "", designation: "", description: "", profile_image: "", video_url: "" }] }));
   };
   const removeItem = (idx: number) => {
-    if (!confirm("Remove this testimonial?")) return;
+    setConfirmDelete(null);
     setData((prev) => ({ ...prev, items: prev.items.filter((_, i) => i !== idx) }));
   };
 
   const inp = { fontSize: 12.5, padding: "7px 10px", border: `0.5px solid ${C.borderMd}`, borderRadius: 7, background: C.bgTertiary, color: C.textPrimary, fontFamily: "inherit", width: "100%", outline: "none" };
   const lbl = { fontSize: 10, color: C.textTertiary, textTransform: "uppercase" as const, letterSpacing: "0.06em", display: "block", marginBottom: 4, fontWeight: 600 };
+  const MEDIA_ACCEPT = "image/*,video/*,.mp4,.webm,.mov,.jpg,.jpeg,.png,.webp,.gif";
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
@@ -1619,7 +1646,7 @@ function TestimonialsEditor({
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 16px", background: C.bgPrimary, border: `0.5px solid ${C.border}`, borderRadius: 10 }}>
         <div>
           <p style={{ fontSize: 13, fontWeight: 600, color: C.textPrimary }}>Client Narratives / Testimonials</p>
-          <p style={{ fontSize: 11, color: C.textTertiary, marginTop: 2 }}>{data.items.length} testimonial{data.items.length !== 1 ? "s" : ""} · Home page carousel</p>
+          <p style={{ fontSize: 11, color: C.textTertiary, marginTop: 2 }}>{data.items.length} testimonial{data.items.length !== 1 ? "s" : ""} · Home page marquee</p>
         </div>
         <div style={{ display: "flex", gap: 8 }}>
           <a href="/" target="_blank" rel="noopener noreferrer"
@@ -1666,12 +1693,27 @@ function TestimonialsEditor({
             <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
               {item.profile_image && <img src={item.profile_image} alt="" style={{ width: 28, height: 28, borderRadius: "50%", objectFit: "cover", border: "1px solid rgba(0,191,255,0.2)" }} />}
               <span style={{ fontSize: 12, fontWeight: 600, color: C.textPrimary }}>{item.name || `Testimonial ${i + 1}`}</span>
-              {item.video_url && <span style={{ fontSize: 9, padding: "1px 7px", borderRadius: 8, background: "rgba(167,139,250,0.1)", color: "#a78bfa", border: "0.5px solid rgba(167,139,250,0.25)" }}>▶ Video</span>}
+              {item.video_url && <span style={{ fontSize: 9, padding: "1px 7px", borderRadius: 8, background: isMediaImage(item.video_url) ? "rgba(74,222,128,0.1)" : "rgba(167,139,250,0.1)", color: isMediaImage(item.video_url) ? "#4ade80" : "#a78bfa", border: `0.5px solid ${isMediaImage(item.video_url) ? "rgba(74,222,128,0.25)" : "rgba(167,139,250,0.25)"}` }}>{isMediaImage(item.video_url) ? "🖼 Image" : "▶ Video"}</span>}
             </div>
-            <button onClick={() => removeItem(i)}
-              style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 11, padding: "4px 10px", background: "rgba(248,113,113,0.07)", border: "0.5px solid rgba(248,113,113,0.2)", color: "#f87171", borderRadius: 6, cursor: "pointer", fontFamily: "inherit" }}>
-              <TrashIcon size={11} /> Remove
-            </button>
+            {/* Inline delete confirmation — no browser confirm() dialog needed */}
+            {confirmDelete === i ? (
+              <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                <span style={{ fontSize: 11, color: C.textTertiary }}>Remove this?</span>
+                <button onClick={() => removeItem(i)}
+                  style={{ fontSize: 11, padding: "4px 10px", background: "rgba(248,113,113,0.15)", border: "0.5px solid rgba(248,113,113,0.4)", color: "#f87171", borderRadius: 6, cursor: "pointer", fontFamily: "inherit", fontWeight: 600 }}>
+                  Yes, Remove
+                </button>
+                <button onClick={() => setConfirmDelete(null)}
+                  style={{ fontSize: 11, padding: "4px 10px", background: C.bgTertiary, border: `0.5px solid ${C.border}`, color: C.textSecondary, borderRadius: 6, cursor: "pointer", fontFamily: "inherit" }}>
+                  Cancel
+                </button>
+              </div>
+            ) : (
+              <button onClick={() => setConfirmDelete(i)}
+                style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 11, padding: "4px 10px", background: "rgba(248,113,113,0.07)", border: "0.5px solid rgba(248,113,113,0.2)", color: "#f87171", borderRadius: 6, cursor: "pointer", fontFamily: "inherit" }}>
+                <TrashIcon size={11} /> Remove
+              </button>
+            )}
           </div>
           <div style={{ padding: "14px 16px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
             <div>
@@ -1689,9 +1731,9 @@ function TestimonialsEditor({
             {/* Profile image upload */}
             <div>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 4 }}>
-                <span style={lbl}>Profile Image</span>
+                <span style={lbl}>Profile Photo</span>
                 <label style={{ fontSize: 10, cursor: uploadingField === `test-${i}-img` ? "wait" : "pointer", color: "#00BFFF", fontWeight: 600 }}>
-                  {uploadingField === `test-${i}-img` ? "Uploading…" : "Upload"}
+                  {uploadingField === `test-${i}-img` ? "Uploading…" : "↑ Upload"}
                   <input type="file" accept="image/*" disabled={!!uploadingField} style={{ display: "none" }}
                     onChange={(e) => { const f = e.target.files?.[0]; if (!f) return; e.target.value = ""; uploadFile(f, `test-${i}-img`, (url) => updateItem(i, "profile_image", url)); }} />
                 </label>
@@ -1699,18 +1741,18 @@ function TestimonialsEditor({
               <input style={inp} value={item.profile_image} onChange={(e) => updateItem(i, "profile_image", e.target.value)} placeholder="https://… or upload ↗" />
               {item.profile_image && <img src={item.profile_image} alt="" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }} style={{ marginTop: 5, height: 44, width: 44, borderRadius: "50%", objectFit: "cover", border: "1px solid rgba(0,191,255,0.2)", display: "block" }} />}
             </div>
-            {/* Video upload */}
+            {/* Media upload — video OR image */}
             <div>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 4 }}>
-                <span style={lbl}>Video URL</span>
+                <span style={lbl}>Media (Video or Image)</span>
                 <label style={{ fontSize: 10, cursor: uploadingField === `test-${i}-vid` ? "wait" : "pointer", color: "#00BFFF", fontWeight: 600 }}>
-                  {uploadingField === `test-${i}-vid` ? "Uploading…" : "Upload"}
-                  <input type="file" accept="video/*,.mp4,.webm,.mov" disabled={!!uploadingField} style={{ display: "none" }}
+                  {uploadingField === `test-${i}-vid` ? "Uploading…" : "↑ Upload"}
+                  <input type="file" accept={MEDIA_ACCEPT} disabled={!!uploadingField} style={{ display: "none" }}
                     onChange={(e) => { const f = e.target.files?.[0]; if (!f) return; e.target.value = ""; uploadFile(f, `test-${i}-vid`, (url) => updateItem(i, "video_url", url)); }} />
                 </label>
               </div>
-              <input style={{ ...inp, fontFamily: "monospace" }} value={item.video_url} onChange={(e) => updateItem(i, "video_url", e.target.value)} placeholder="https://… video URL or upload ↗" />
-              {item.video_url && <video src={item.video_url} muted style={{ marginTop: 5, width: "100%", maxHeight: 80, borderRadius: 6, objectFit: "cover", border: `0.5px solid ${C.border}` }} />}
+              <input style={{ ...inp, fontFamily: "monospace" }} value={item.video_url} onChange={(e) => updateItem(i, "video_url", e.target.value)} placeholder="https://… video or image URL, or upload ↗" />
+              <MediaPreview url={item.video_url} style={{ maxHeight: 80, border: `0.5px solid ${C.border}` }} />
             </div>
           </div>
         </div>
@@ -1747,16 +1789,18 @@ type AboutVideoItem = {
 };
 
 function AboutVideosEditor({
-  blocks, saveBlockFn, uploadFn, onToast, colors,
+  blocks, saveBlockFn, uploadFn, onToast, onBlockSaved, colors,
 }: {
   blocks: ContentBlock[];
   saveBlockFn: ReturnType<typeof useServerFn<typeof saveSiteContentBlock>>;
   uploadFn: ReturnType<typeof useServerFn<typeof uploadMedia>>;
   onToast: (type: "success" | "error" | "info", msg: string) => void;
+  onBlockSaved: (saved: ContentBlock) => void;
   colors: Record<string, string>;
 }) {
   const C = colors;
   const block = blocks.find((b) => b.key === "about.videos");
+  const initialized = useRef(false);
 
   const parseData = (b: ContentBlock | undefined) => {
     if (!b?.data) return { eyebrow: "Our Story", heading: "See What We", heading_accent: "Stand For", items: [] as AboutVideoItem[] };
@@ -1772,8 +1816,14 @@ function AboutVideosEditor({
   const [data, setData] = useState(() => parseData(block));
   const [saving, setSaving] = useState(false);
   const [uploadingField, setUploadingField] = useState<string | null>(null);
+  const [confirmDelete, setConfirmDelete] = useState<number | null>(null);
 
-  useEffect(() => { setData(parseData(block)); }, [blocks]);
+  useEffect(() => {
+    if (!initialized.current && block) {
+      initialized.current = true;
+      setData(parseData(block));
+    }
+  }, [blocks]);
 
   const uploadFile = async (file: File, fieldKey: string, onUrl: (url: string) => void) => {
     setUploadingField(fieldKey);
@@ -1792,7 +1842,8 @@ function AboutVideosEditor({
   const save = async () => {
     setSaving(true);
     try {
-      await saveBlockFn({ data: { key: "about.videos", label: "About — Video Gallery", data: data as unknown as Record<string, unknown> } });
+      const saved = await saveBlockFn({ data: { key: "about.videos", label: "About — Video Gallery", data: data as unknown as Record<string, unknown> } });
+      onBlockSaved(saved);
       onToast("success", "✓ About Videos saved! Changes are live on the website.");
     } catch (err) {
       onToast("error", `Save failed: ${err instanceof Error ? err.message : String(err)}`);
@@ -1806,23 +1857,25 @@ function AboutVideosEditor({
     setData((prev) => ({ ...prev, items: prev.items.map((it, i) => i === idx ? { ...it, [field]: val } : it) }));
   };
   const addItem = () => {
+    setConfirmDelete(null);
     setData((prev) => ({ ...prev, items: [...prev.items, { label: "", tag: "", badge: "", video_url: "" }] }));
   };
   const removeItem = (idx: number) => {
-    if (!confirm("Remove this video card?")) return;
+    setConfirmDelete(null);
     setData((prev) => ({ ...prev, items: prev.items.filter((_, i) => i !== idx) }));
   };
 
   const inp = { fontSize: 12.5, padding: "7px 10px", border: `0.5px solid ${C.borderMd}`, borderRadius: 7, background: C.bgTertiary, color: C.textPrimary, fontFamily: "inherit", width: "100%", outline: "none" };
   const lbl = { fontSize: 10, color: C.textTertiary, textTransform: "uppercase" as const, letterSpacing: "0.06em", display: "block", marginBottom: 4, fontWeight: 600 };
+  const MEDIA_ACCEPT = "image/*,video/*,.mp4,.webm,.mov,.jpg,.jpeg,.png,.webp,.gif";
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
       {/* Header */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 16px", background: C.bgPrimary, border: `0.5px solid ${C.border}`, borderRadius: 10 }}>
         <div>
-          <p style={{ fontSize: 13, fontWeight: 600, color: C.textPrimary }}>About — Video Gallery</p>
-          <p style={{ fontSize: 11, color: C.textTertiary, marginTop: 2 }}>{data.items.length} video card{data.items.length !== 1 ? "s" : ""} · About Us page marquee</p>
+          <p style={{ fontSize: 13, fontWeight: 600, color: C.textPrimary }}>About — Media Gallery</p>
+          <p style={{ fontSize: 11, color: C.textTertiary, marginTop: 2 }}>{data.items.length} card{data.items.length !== 1 ? "s" : ""} · About Us page marquee</p>
         </div>
         <div style={{ display: "flex", gap: 8 }}>
           <a href="/about-us" target="_blank" rel="noopener noreferrer"
@@ -1831,7 +1884,7 @@ function AboutVideosEditor({
           </a>
           <button onClick={addItem}
             style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, fontWeight: 600, padding: "6px 14px", background: "rgba(0,191,255,0.1)", border: "0.5px solid rgba(0,191,255,0.25)", color: "#00BFFF", borderRadius: 7, cursor: "pointer", fontFamily: "inherit" }}>
-            <PlusIcon size={12} /> Add Video Card
+            <PlusIcon size={12} /> Add Card
           </button>
           <button onClick={save} disabled={saving}
             style={{ fontSize: 12, fontWeight: 600, padding: "6px 18px", background: "#00BFFF", border: "none", color: "#04090f", borderRadius: 7, cursor: saving ? "default" : "pointer", opacity: saving ? 0.55 : 1, fontFamily: "inherit" }}>
@@ -1857,18 +1910,34 @@ function AboutVideosEditor({
         </div>
       </div>
 
-      {/* Video Items */}
+      {/* Cards */}
       {data.items.map((item, i) => (
         <div key={i} style={{ background: C.bgPrimary, border: `0.5px solid ${C.border}`, borderRadius: 10, overflow: "hidden" }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 16px", borderBottom: `0.5px solid ${C.border}`, background: "rgba(0,191,255,0.03)" }}>
-            <span style={{ fontSize: 12, fontWeight: 600, color: C.textPrimary }}>{item.label || `Video ${i + 1}`}</span>
-            <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <span style={{ fontSize: 12, fontWeight: 600, color: C.textPrimary }}>{item.label || `Card ${i + 1}`}</span>
               {item.badge && <span style={{ fontSize: 9, padding: "1px 7px", borderRadius: 8, background: "rgba(0,191,255,0.1)", color: "#00BFFF", border: "0.5px solid rgba(0,191,255,0.25)" }}>{item.badge}</span>}
-              <button onClick={() => removeItem(i)}
+              {item.video_url && <span style={{ fontSize: 9, padding: "1px 7px", borderRadius: 8, background: isMediaImage(item.video_url) ? "rgba(74,222,128,0.1)" : "rgba(167,139,250,0.1)", color: isMediaImage(item.video_url) ? "#4ade80" : "#a78bfa", border: `0.5px solid ${isMediaImage(item.video_url) ? "rgba(74,222,128,0.25)" : "rgba(167,139,250,0.25)"}` }}>{isMediaImage(item.video_url) ? "🖼 Image" : "▶ Video"}</span>}
+            </div>
+            {/* Inline delete confirmation */}
+            {confirmDelete === i ? (
+              <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                <span style={{ fontSize: 11, color: C.textTertiary }}>Remove this?</span>
+                <button onClick={() => removeItem(i)}
+                  style={{ fontSize: 11, padding: "4px 10px", background: "rgba(248,113,113,0.15)", border: "0.5px solid rgba(248,113,113,0.4)", color: "#f87171", borderRadius: 6, cursor: "pointer", fontFamily: "inherit", fontWeight: 600 }}>
+                  Yes, Remove
+                </button>
+                <button onClick={() => setConfirmDelete(null)}
+                  style={{ fontSize: 11, padding: "4px 10px", background: C.bgTertiary, border: `0.5px solid ${C.border}`, color: C.textSecondary, borderRadius: 6, cursor: "pointer", fontFamily: "inherit" }}>
+                  Cancel
+                </button>
+              </div>
+            ) : (
+              <button onClick={() => setConfirmDelete(i)}
                 style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 11, padding: "4px 10px", background: "rgba(248,113,113,0.07)", border: "0.5px solid rgba(248,113,113,0.2)", color: "#f87171", borderRadius: 6, cursor: "pointer", fontFamily: "inherit" }}>
                 <TrashIcon size={11} /> Remove
               </button>
-            </div>
+            )}
           </div>
           <div style={{ padding: "14px 16px", display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
             <div>
@@ -1885,15 +1954,15 @@ function AboutVideosEditor({
             </div>
             <div style={{ gridColumn: "1 / -1" }}>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 4 }}>
-                <span style={lbl}>Video URL</span>
+                <span style={lbl}>Media (Video or Image)</span>
                 <label style={{ fontSize: 10, cursor: uploadingField === `abvid-${i}` ? "wait" : "pointer", color: "#00BFFF", fontWeight: 600 }}>
-                  {uploadingField === `abvid-${i}` ? "Uploading…" : "Upload Video"}
-                  <input type="file" accept="video/*,.mp4,.webm,.mov" disabled={!!uploadingField} style={{ display: "none" }}
+                  {uploadingField === `abvid-${i}` ? "Uploading…" : "↑ Upload"}
+                  <input type="file" accept={MEDIA_ACCEPT} disabled={!!uploadingField} style={{ display: "none" }}
                     onChange={(e) => { const f = e.target.files?.[0]; if (!f) return; e.target.value = ""; uploadFile(f, `abvid-${i}`, (url) => updateItem(i, "video_url", url)); }} />
                 </label>
               </div>
-              <input style={{ ...inp, fontFamily: "monospace" }} value={item.video_url} onChange={(e) => updateItem(i, "video_url", e.target.value)} placeholder="https://… video URL or upload ↗" />
-              {item.video_url && <video src={item.video_url} muted style={{ marginTop: 6, width: "100%", maxHeight: 90, borderRadius: 6, objectFit: "cover", border: `0.5px solid ${C.border}` }} />}
+              <input style={{ ...inp, fontFamily: "monospace" }} value={item.video_url} onChange={(e) => updateItem(i, "video_url", e.target.value)} placeholder="https://… video or image URL, or upload ↗" />
+              <MediaPreview url={item.video_url} style={{ maxHeight: 90, border: `0.5px solid ${C.border}` }} />
             </div>
           </div>
         </div>
@@ -1901,7 +1970,7 @@ function AboutVideosEditor({
 
       {data.items.length === 0 && (
         <div style={{ textAlign: "center", padding: "36px 20px", border: `0.5px dashed ${C.border}`, borderRadius: 10, color: C.textTertiary, fontSize: 12 }}>
-          No video cards yet. Click <b style={{ color: "#00BFFF" }}>Add Video Card</b> to create the first one.
+          No cards yet. Click <b style={{ color: "#00BFFF" }}>Add Card</b> to create the first one.
         </div>
       )}
 
