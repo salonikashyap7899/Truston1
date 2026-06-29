@@ -3,23 +3,29 @@ import "./ws-polyfill"; // Polyfill WebSocket for Node.js < 22 (no-op in browser
 import { createClient } from "@supabase/supabase-js";
 import type { Database } from "./types";
 
-// Public values — safe to hardcode (publishable key is not a secret).
-// Override via VITE_SUPABASE_URL / VITE_SUPABASE_PUBLISHABLE_KEY env vars if needed.
-const SUPABASE_URL_DEFAULT = "https://riphytslpvrasnbcfpaw.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY_DEFAULT = "sb_publishable_hnVWD6AsHeGlIx5rLGLZ3g_EWm9mDL5";
-
 function createSupabaseClient() {
   const SUPABASE_URL =
-    import.meta.env.VITE_SUPABASE_URL ||
-    process.env.SUPABASE_URL ||
-    SUPABASE_URL_DEFAULT;
+    (typeof import.meta !== "undefined" && (import.meta as any).env?.VITE_SUPABASE_URL) ||
+    (typeof process !== "undefined" && process.env?.SUPABASE_URL) ||
+    "";
 
-  const SUPABASE_PUBLISHABLE_KEY =
-    import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY ||
-    process.env.SUPABASE_PUBLISHABLE_KEY ||
-    SUPABASE_PUBLISHABLE_KEY_DEFAULT;
+  const SUPABASE_ANON_KEY =
+    (typeof import.meta !== "undefined" && (import.meta as any).env?.VITE_SUPABASE_ANON_KEY) ||
+    (typeof process !== "undefined" && process.env?.SUPABASE_ANON_KEY) ||
+    "";
 
-  return createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+    const missing = [
+      ...(!SUPABASE_URL ? ["SUPABASE_URL / VITE_SUPABASE_URL"] : []),
+      ...(!SUPABASE_ANON_KEY ? ["SUPABASE_ANON_KEY / VITE_SUPABASE_ANON_KEY"] : []),
+    ];
+    throw new Error(
+      `Missing Supabase environment variable(s): ${missing.join(", ")}. ` +
+      `Set these in your environment (VPS: .env file or PM2 ecosystem config).`
+    );
+  }
+
+  return createClient<Database>(SUPABASE_URL, SUPABASE_ANON_KEY, {
     auth: {
       storage: typeof window !== "undefined" ? localStorage : undefined,
       persistSession: true,
