@@ -1166,6 +1166,252 @@ const DEFAULT_BLOCKS: { key: string; label: string; data: Record<string, unknown
       phone: "+91 96160-61166",
     },
   },
+
+  // ── ARCHITECTURE PAGE (full editable sections) ───────────────────
+  {
+    key: "architecture.delivery_items",
+    label: "Architecture — What We Deliver List",
+    data: {
+      items: [
+        "Concept Design & Layouts",
+        "Elevation & 3D Renderings",
+        "Complete Blueprint Documentation",
+        "Material & Finish Selection Guidance",
+        "Space Planning & Optimization",
+        "Structural Design Consultation",
+        "Regulatory & Compliance Alignment",
+        "Construction Supervision",
+      ],
+    },
+  },
+  {
+    key: "architecture.services_list",
+    label: "Architecture — Design Services Grid",
+    data: {
+      items: [
+        { title: "Residential Designs", desc: "From cozy family homes to sprawling villas, we design residential spaces that celebrate your lifestyle. Every room is carefully planned for flow, natural light, and functional beauty." },
+        { title: "3D Renderings & Walkthroughs", desc: "See your home before construction begins. Our photorealistic 3D renderings and virtual walkthroughs let you explore every corner, adjust details, and make confident decisions." },
+        { title: "Interior Layout & Planning", desc: "Smart space utilization is an art. We maximize functionality while maintaining aesthetic appeal—thoughtfully positioned furniture, optimized storage, and intelligent traffic flow." },
+        { title: "Material & Finish Selection", desc: "Choosing finishes can be overwhelming. Our design team guides you through material selections—flooring, wall treatments, hardware, lighting—ensuring cohesive aesthetics." },
+        { title: "Sustainable Design Solutions", desc: "Modern homes should minimize environmental impact. We integrate sustainable design principles—passive cooling, natural ventilation, rainwater harvesting, solar orientation." },
+        { title: "Renovation & Reimagining", desc: "Have an existing structure that needs new life? We reimagine spaces, modernize layouts, and refresh aesthetics while respecting structural integrity." },
+      ],
+    },
+  },
+  {
+    key: "architecture.process_steps",
+    label: "Architecture — Design Process Steps",
+    data: {
+      items: [
+        { num: "01", title: "Discovery", desc: "We begin with detailed conversations about your needs, preferences, lifestyle, and vision. Site analysis includes terrain, orientation, and growth opportunities." },
+        { num: "02", title: "Concept Design", desc: "Multiple design concepts are developed, exploring different layouts and aesthetics. We present mood boards, space relationships, and preliminary sketches." },
+        { num: "03", title: "Detailed Design", desc: "Once a concept is selected, we refine every detail. 3D renderings, materials, colors, and all specifications are finalized in collaboration with you." },
+        { num: "04", title: "Documentation & Approval", desc: "Complete architectural blueprints, structural drawings, and all regulatory documentation are prepared. We handle approvals and ensure your design is construction-ready." },
+      ],
+    },
+  },
+  {
+    key: "architecture.excellence",
+    label: "Architecture — Why Choose TrustOn Design",
+    data: {
+      items: [
+        { title: "In-House Expertise", desc: "Our architects and designers are part of your TrustOn family. There's no communication loss through external agencies—just direct collaboration." },
+        { title: "Technology-Driven Design", desc: "We leverage cutting-edge design software—BIM modeling, advanced visualization, and simulation tools—to ensure your design is technically sound." },
+        { title: "Local Context Expertise", desc: "Lucknow's climate, culture, and real estate landscape inform every design decision. We ensure your home is locally optimized for performance." },
+        { title: "Regulatory Navigation", desc: "Municipal approvals, building codes, and zoning regulations can be complex. Our team handles all compliance requirements, ensuring no delays." },
+      ],
+    },
+  },
+  {
+    key: "architecture.gallery",
+    label: "Architecture — Gallery Grid",
+    data: {
+      items: [
+        { title: "Modern Villa", sub: "Contemporary aesthetics", src: "/assets/redefining-luxury.jpg" },
+        { title: "Urban Residence", sub: "Space optimization", src: "/assets/architecture-design.jpg" },
+        { title: "Traditional Design", sub: "Cultural integration", src: "/assets/building-render.jpg" },
+        { title: "Interior Rendering", sub: "3D visualization", src: "/assets/interior-street.jpg" },
+        { title: "Sustainable Home", sub: "Eco-conscious design", src: "/assets/prime-estate-gate.jpg" },
+        { title: "Luxury Layout", sub: "Premium planning", src: "/assets/aerial-township.jpg" },
+      ],
+    },
+  },
+  {
+    key: "architecture.testimonials",
+    label: "Architecture — Client Testimonials",
+    data: {
+      items: [
+        { quote: "The architectural design service exceeded all expectations. Our 3D walkthrough felt like stepping into a dream. When construction completed, the reality matched perfectly.", author: "Sunita Pandey", role: "Homeowner — Phase 2" },
+        { quote: "The design team listened carefully to our requirements and created a layout that perfectly suits our family's lifestyle. The attention to detail was exceptional.", author: "Anil Singh", role: "Homeowner — Phase 1" },
+        { quote: "As someone with no design background, I appreciated how the team explained every choice and showed me alternatives. The final design feels uniquely ours.", author: "Rajesh Kumar", role: "Plot Owner" },
+        { quote: "The material selection guidance made the entire process stress-free. They have an incredible eye for detail and quality.", author: "Priya Sharma", role: "Homeowner — Lucknow" },
+      ],
+    },
+  },
+  {
+    key: "architecture.cta",
+    label: "Architecture — Call to Action",
+    data: {
+      title: "Ready to Design Your Dream",
+      title_accent: "Home",
+      body: "Schedule a consultation with our architecture team. We'll discuss your vision, analyze your plot, and create a design proposal tailored to your dreams and budget.",
+      cta_label: "Book Free Consultation",
+    },
+  },
+
+  // ── CONSTRUCTION PAGE (full editable sections) ────────────────────
+  {
+    key: "construction.features",
+    label: "Construction — Feature Cards",
+    data: {
+      items: [
+        { title: "Complete Home Construction", desc: "From foundation to finishing, we handle the entire build process with professional oversight and dedicated project management." },
+        { title: "100% Material Certification", desc: "We source only grade-A materials from verified suppliers. Every batch is certified for quality and durability." },
+        { title: "50+ Structural Audits", desc: "Our projects undergo rigorous multi-stage quality inspections to ensure absolute structural integrity and compliance." },
+        { title: "Skilled Workforce Management", desc: "Our teams are composed of experienced artisans and technicians who take genuine pride in the precision of their work." },
+        { title: "Progress Transparency", desc: "Regular updates, site photos, and milestone reports ensure you are always informed about your project's status." },
+        { title: "On-Time Delivery Guaranteed", desc: "Rigorous project scheduling and resource management ensure your home is handed over exactly when promised." },
+      ],
+    },
+  },
+  {
+    key: "construction.process_steps",
+    label: "Construction — Build Process Steps",
+    data: {
+      items: [
+        { num: "01", title: "Site Preparation", desc: "We begin with comprehensive site analysis, grading, and foundation engineering to ensure a solid base for your legacy." },
+        { num: "02", title: "Structural Shell", desc: "Execution of the main structure using premium steel and concrete systems, adhering to the highest safety and design standards." },
+        { num: "03", title: "Finishing & MEP", desc: "Installation of mechanical, electrical, and plumbing systems followed by high-end interior and exterior finishing works." },
+        { num: "04", title: "Handover", desc: "Thorough quality inspection, snag resolution, and formal handover with complete documentation and support." },
+      ],
+    },
+  },
+  {
+    key: "construction.testimonials",
+    label: "Construction — Client Testimonials",
+    data: {
+      items: [
+        { quote: "The quality of construction is visible in every corner. They delivered exactly what was shown in the 3D renders. Truly professional team.", author: "Rajesh Kumar", role: "Homeowner — Phase 1" },
+        { quote: "Managed the entire build while I was away. The transparency and regular updates gave me complete peace of mind. Highly recommended.", author: "Anil Singh", role: "NRI Homeowner" },
+      ],
+    },
+  },
+
+  // ── INVESTMENT PAGE (full editable sections) ──────────────────────
+  {
+    key: "investment.services_list",
+    label: "Investment — Services Grid",
+    data: {
+      items: [
+        { title: "First-Time Buyer Guidance", desc: "Buying your first plot can feel overwhelming. We demystify the process, explain legal requirements, assess affordability, evaluate locations, and guide you toward land that aligns with your budget." },
+        { title: "Experienced Investor Portfolio Strategy", desc: "If you already own property, we help optimize your portfolio. We analyze existing holdings, identify portfolio gaps, recommend diversification, and structure new investments to maximize overall returns." },
+        { title: "NRI Investment Solutions", desc: "Investing from abroad brings unique challenges—currency fluctuations, regulatory compliance, property management distance. We provide NRI-specific guidance covering foreign investment regulations." },
+        { title: "Location Intelligence & Growth Analysis", desc: "We identify high-potential locations before the curve. Our analysis covers infrastructure development, commercial activity, population growth, and long-term demand drivers." },
+        { title: "Legal & Compliance Verification", desc: "Investment is only worthwhile if the foundation is legal and clear. We conduct thorough title audits, verify Jila Panchayat approvals, and confirm ownership documentation." },
+        { title: "Exit Strategy & Wealth Realization", desc: "Investment is ultimately about realization. We help you plan exit strategies, understand optimal holding periods, navigate sale processes, and realize maximum value." },
+      ],
+    },
+  },
+  {
+    key: "investment.metrics",
+    label: "Investment — Key Metrics",
+    data: {
+      items: [
+        { value: "12–18%", label: "Annual Appreciation", desc: "Historical land appreciation in high-growth Lucknow corridors, year-over-year" },
+        { value: "7–10 yrs", label: "Wealth Doubling Timeline", desc: "Average investment doubling period at 12% compound annual growth" },
+        { value: "3.1x–4.2x", label: "10-Year Return Multiple", desc: "Expected portfolio multiplier over a decade with strategic investment" },
+        { value: "100%", label: "Legal Clearance", desc: "All TrustOn properties are fully documented and Jila Panchayat approved" },
+      ],
+    },
+  },
+  {
+    key: "investment.investor_types",
+    label: "Investment — Investor Type Cards",
+    data: {
+      items: [
+        { type: "Conservative Builder", desc: "You want to buy a plot and build your family home or hold for long-term appreciation.", benefits: ["Plot selection tailored to your vision", "Architecture & design coordination", "Construction guidance & oversight", "Long-term appreciation strategy"] },
+        { type: "Portfolio Growth Investor", desc: "You're building a real estate portfolio focused on capital appreciation and multiple wealth streams.", benefits: ["Multi-property portfolio analysis", "High-growth corridor identification", "ROI optimization per holding", "Tax-efficient structuring"] },
+        { type: "NRI Wealth Builder", desc: "You're investing from abroad seeking India's real estate growth with regulatory compliance and management support.", benefits: ["NRI-specific legal guidance", "Currency optimization strategies", "Remote property management", "Repatriation planning"] },
+      ],
+    },
+  },
+  {
+    key: "investment.testimonials",
+    label: "Investment — Client Testimonials",
+    data: {
+      items: [
+        { quote: "I purchased two plots through TrustOn after thorough market research. The appreciation over 18 months has been exceptional. Their investment consulting team provided data-driven insights.", author: "Priya Sharma", role: "Investor — Lucknow" },
+        { quote: "Managing a real estate investment from abroad is always nerve-wracking, but TrustOn made every step crystal clear. Documentation was impeccable and legal clearance was pristine.", author: "Vikram Agarwal", role: "NRI Investor — Dubai" },
+        { quote: "As a channel partner, I have referred over 20 clients. The team is responsive, the commission structure is fair, and the product is genuinely good. Best partnership.", author: "Mohammed Irfan", role: "Channel Partner" },
+        { quote: "The ROI projections have held up remarkably well. Highly recommended for anyone serious about real estate wealth.", author: "Rajesh Kumar", role: "Plot Investor — Phase 1" },
+      ],
+    },
+  },
+  {
+    key: "investment.strategy_items",
+    label: "Investment — Strategy Services List",
+    data: {
+      items: [
+        "Location & Market Analysis",
+        "ROI Projections & Scenario Planning",
+        "Portfolio Diversification Strategy",
+        "Legal Verification & Title Audit",
+        "Tax Planning & Compliance Guidance",
+        "NRI Investment Solutions",
+        "Exit Strategy Planning",
+        "Long-Term Wealth Management",
+      ],
+    },
+  },
+  {
+    key: "investment.cta",
+    label: "Investment — Call to Action",
+    data: {
+      title: "Ready to Build Your Real Estate",
+      title_accent: "Wealth",
+      body: "Schedule a confidential consultation with our investment advisory team. We'll analyze your goals, assess your risk profile, and create a personalized strategy.",
+      cta_label: "Book Free Investment Consultation",
+    },
+  },
+
+  // ── LIFESTYLE PAGE (full editable sections) ───────────────────────
+  {
+    key: "lifestyle.features",
+    label: "Lifestyle — Feature Cards",
+    data: {
+      items: [
+        { title: "Curated Communities", desc: "We don't just build roads and plots; we foster environments where neighbors become friends and families thrive in a secure, upscale setting.", icon: "🏘️" },
+        { title: "Eco-Conscious Living", desc: "Integrated green spaces, planned plantations, and sustainable infrastructure are at the heart of every TrustOn development.", icon: "🌱" },
+        { title: "Secure & Serene", desc: "24/7 security and meticulously planned layouts ensure that your home is a sanctuary of peace and safety for your loved ones.", icon: "🛡️" },
+        { title: "Architectural Harmony", desc: "Consistent design guidelines and aesthetic excellence ensure that the entire township maintains a premium, cohesive character.", icon: "✨" },
+      ],
+    },
+  },
+  {
+    key: "lifestyle.pillars",
+    label: "Lifestyle — Lifestyle Pillars",
+    data: {
+      items: [
+        { title: "Legacy", desc: "Own a piece of land that grows in value as your family grows in the space. A foundation for future generations.", img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800&auto=format" },
+        { title: "Connectivity", desc: "Stay connected to the heartbeat of the city while enjoying the tranquil pace of a master-planned residential colony.", img: "/assets/lucknow-aerial.jpg" },
+        { title: "Exclusivity", desc: "A limited collection of plots designed for those who appreciate the finer details and the luxury of personal space.", img: "/assets/luxury-interior.jpg" },
+      ],
+    },
+  },
+
+  // ── ABOUT PAGE (extended editable sections) ───────────────────────
+  {
+    key: "about.services_detail",
+    label: "About — Services Detailed (with bullets)",
+    data: {
+      items: [
+        { num: "01", iconKey: "map", title: "Plot Selling", desc: "We offer Jila Panchayat approved residential plots in Prime Estate, Lucknow — with clear title deeds, transparent pricing, and full infrastructure support.", bullets: ["JP approved with clear title deeds", "Highway & metro connected locations", "Sizes from 1200 sq.ft — flexible options", "Phase 1 & Phase 2 available"] },
+        { num: "02", iconKey: "ruler", title: "Architecture & Design", desc: "Our architecture and design team transforms your vision into a practical, beautiful, and approved blueprint.", bullets: ["Custom home design & layout planning", "Regulatory & approval-compliant drawings", "3D visualisation & walkthroughs", "Vastu & modern design integration"] },
+        { num: "03", iconKey: "hardhat", title: "Construction & Build", desc: "From foundation to finish, our construction team delivers high-quality residential buildings on schedule and within budget.", bullets: ["End-to-end construction management", "Quality materials & skilled workforce", "Transparent cost breakdowns", "Timely delivery with milestone tracking"] },
+        { num: "04", iconKey: "trending", title: "Investment Consulting", desc: "Our investment consulting service gives you data-driven insights, location analysis, and long-term strategy to maximise your property portfolio.", bullets: ["Location & growth potential analysis", "Portfolio strategy & diversification", "ROI projections & market insights", "First-time buyer guidance"] },
+      ],
+    },
+  },
 ];
 
 export const getPrimeEstatePhases = createServerFn({ method: "POST" })
