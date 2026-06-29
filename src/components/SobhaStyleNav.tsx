@@ -85,7 +85,9 @@ export function SobhaStyleNav() {
                 src="/logo.png"
                 alt="TrustOn Developers"
                 className={`w-auto object-contain group-hover:scale-105 transition-all duration-300 ${
-                  scrolled ? "h-10 sm:h-12" : "h-12 sm:h-14"
+                  scrolled
+                    ? "h-10 sm:h-12 lg:h-20"
+                    : "h-12 sm:h-14 lg:h-28"
                 }`}
                 style={{ filter: "brightness(0.85) saturate(1.2)" }}
               />
