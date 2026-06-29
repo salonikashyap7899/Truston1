@@ -1,0 +1,161 @@
+root@srv1789327:~/TrustonDevelopers# cat > /root/TrustonDevelopers/src/integrations/supabase/client.ts << 'EOF'
+import "./ws-polyfill";
+import { createClient } from "@supabase/supabase-js";
+import type { Database } from "./types";
+
+const SUPABASE_URL_DEFAULT = "https://riphytslpvrasnbcfpaw.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY_DEFAULT = "sb_publishable_hnVWD6AsHeGlIx5rLGLZ3g_EWm9mDL5";
+
+function createSupabaseClient() {
+  const SUPABASE_URL =
+    (import.meta as any).env?.VITE_SUPABASE_URL ||
+    (typeof process !== "undefined" && process.env?.SUPABASE_URL) ||
+    SUPABASE_URL_DEFAULT;
+  const SUPABASE_PUBLISHABLE_KEY =
+    (import.meta as any).env?.VITE_SUPABASE_PUBLISHABLE_KEY ||
+    (typeof process !== "undefined" && process.env?.SUPABASE_PUBLISHABLE_KEY) ||
+    SUPABASE_PUBLISHABLE_KEY_DEFAULT;
+  return createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+    auth: {
+      storage: typeof window !== "undefined" ? localStorage : undefined,
+      persistSession: true,
+      autoRefreshToken: true,
+    },
+  });
+}
+
+let _supabase: ReturnType<typeof createSupabaseClient> | undefined;
+export const supabase: ReturnType<typeof createSupabaseClient> = new Proxy({}, {
+  get(_, prop, receiver) {
+    if (!_supabase) _supabase = createSupabaseClient();
+    return Reflect.get(_supabase, prop, receiver);
+EOFas ReturnType<typeof createSupabaseClient>;
+root@srv1789327:~/TrustonDevelopers# cd /root/TrustonDevelopers
+set -a && source .env && set +a
+npm run build
+pm2 stop truston && pm2 delete truston
+pm2 start serve.mjs --name truston
+pm2 save
+
+> build
+> vite build
+
+vite v7.3.6 building client environment for production...
+[plugin tanstack-start-core::server-fn:client] src/lib/contactSubmit.ts: /root/TrustonDevelopers/src/lib/contactSubmit.ts:12:37 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:client] src/lib/content.functions.ts: /root/TrustonDevelopers/src/lib/content.functions.ts:1202:37 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:client] src/lib/content.functions.ts: /root/TrustonDevelopers/src/lib/content.functions.ts:1219:35 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:client] src/lib/content.functions.ts: /root/TrustonDevelopers/src/lib/content.functions.ts:1239:28 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:client] src/lib/admin-server-fn.ts: /root/TrustonDevelopers/src/lib/admin-server-fn.ts:4:33 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:client] src/lib/admin-server-fn.ts: /root/TrustonDevelopers/src/lib/admin-server-fn.ts:19:33 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+✓ 3233 modules transformed.
+dist/client/assets/luxury-interior-BrQ6G-yG.jpg         228.17 kB
+dist/client/assets/hero-estate-aH7pViNj.jpg             256.63 kB
+dist/client/assets/plot-tracker-CjDz2KCb.jpg            257.69 kB
+dist/client/assets/lucknow-aerial-DWYPpmTc.jpg          296.57 kB
+dist/client/assets/sobha-animations-BP7VE9oA.css          5.72 kB
+dist/client/assets/styles-2yfaFFI-.css                  180.06 kB
+dist/client/assets/lucknow-aerial-CTB3p-Qn.js             0.06 kB
+dist/client/assets/luxury-interior-B8ToM9sk.js            0.06 kB
+dist/client/assets/blog-CHORV0lc.js                       0.10 kB
+dist/client/assets/Section3DBackground-B7hysP58.js        0.85 kB
+dist/client/assets/content.functions-BCjkQQVE.js          0.86 kB
+dist/client/assets/useAuth-8_ViDoXo.js                    0.91 kB
+dist/client/assets/Reveal-gxjECj04.js                     3.14 kB
+dist/client/assets/admin.login-DBiIQxzc.js                6.35 kB
+dist/client/assets/blog._slug-Be8Dyhd_.js                 6.77 kB
+dist/client/assets/construction-build-k_vfI5Ed.js         8.70 kB
+dist/client/assets/lifestyle-aNrY_a74.js                 11.37 kB
+dist/client/assets/blog.index-DpKnqbwd.js                11.90 kB
+dist/client/assets/contact-DUSnt9g2.js                   12.44 kB
+dist/client/assets/architecture-design-BbSEq7LF.js       14.68 kB
+dist/client/assets/project-r9zVYUK0.js                   17.76 kB
+dist/client/assets/investment-consulting-DGLSibS9.js     20.24 kB
+dist/client/assets/purify.es-DUvdDGiy.js                 27.87 kB
+dist/client/assets/projects._slug-BJ8tyLKw.js            31.79 kB
+dist/client/assets/plot-selling-CxNhNZJx.js              40.49 kB
+dist/client/assets/about-us-DatSYL5p.js                  44.74 kB
+dist/client/assets/admin.index-D7dcTS6A.js               89.82 kB
+dist/client/assets/index-BwCGf_8D.js                     98.74 kB
+dist/client/assets/index.es-CWqAM_us.js                 155.95 kB
+dist/client/assets/html2canvas.esm-BJJ5nGCg.js          198.61 kB
+dist/client/assets/jspdf.es.min-BzzqAXEA.js             382.09 kB
+dist/client/assets/index-Ca1Hic7h.js                    792.65 kB
+dist/client/assets/channel-partner-CRZazKHh.js        1,001.97 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 46.55s
+vite v7.3.6 building ssr environment for production...
+[plugin tanstack-start-core::server-fn:ssr] src/lib/content.functions.ts?tss-serverfn-split: /root/TrustonDevelopers/src/lib/content.functions.ts?tss-serverfn-split:1202:37 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] src/lib/content.functions.ts?tss-serverfn-split: /root/TrustonDevelopers/src/lib/content.functions.ts?tss-serverfn-split:1219:35 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] src/lib/content.functions.ts?tss-serverfn-split: /root/TrustonDevelopers/src/lib/content.functions.ts?tss-serverfn-split:1239:28 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] src/lib/admin-server-fn.ts?tss-serverfn-split: /root/TrustonDevelopers/src/lib/admin-server-fn.ts?tss-serverfn-split:4:33 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] src/lib/admin-server-fn.ts?tss-serverfn-split: /root/TrustonDevelopers/src/lib/admin-server-fn.ts?tss-serverfn-split:19:33 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] src/lib/contactSubmit.ts?tss-serverfn-split: /root/TrustonDevelopers/src/lib/contactSubmit.ts?tss-serverfn-split:12:37 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] src/lib/contactSubmit.ts: /root/TrustonDevelopers/src/lib/contactSubmit.ts:12:37 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] src/lib/content.functions.ts: /root/TrustonDevelopers/src/lib/content.functions.ts:1202:37 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] src/lib/content.functions.ts: /root/TrustonDevelopers/src/lib/content.functions.ts:1219:35 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] src/lib/content.functions.ts: /root/TrustonDevelopers/src/lib/content.functions.ts:1239:28 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] src/lib/admin-server-fn.ts: /root/TrustonDevelopers/src/lib/admin-server-fn.ts:4:33 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] src/lib/admin-server-fn.ts: /root/TrustonDevelopers/src/lib/admin-server-fn.ts:19:33 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+"createRequestHandler", "defineHandlerCallback", "transformPipeableStreamWithRouter" and "transformReadableStreamWithRouter" are imported from external module "@tanstack/router-core/ssr/server" but never used in "node_modules/@tanstack/start-server-core/dist/esm/index.js".
+"RawStream" is imported from external module "@tanstack/router-core" but never used in "node_modules/@tanstack/start-client-core/dist/esm/index.js".
+"hydrate" and "json" are imported from external module "@tanstack/router-core/ssr/client" but never used in "node_modules/@tanstack/start-client-core/dist/esm/index.js".
+✓ 135 modules transformed.
+dist/server/assets/lucknow-aerial-CTB3p-Qn.js               0.06 kB
+dist/server/assets/luxury-interior-B8ToM9sk.js              0.06 kB
+dist/server/assets/empty-plugin-adapters-CfTWacEV.js        0.08 kB
+dist/server/assets/blog-B8GpRenY.js                         0.14 kB
+dist/server/assets/client.server-BzJ4C_XG.js                0.64 kB
+dist/server/assets/Section3DBackground-DMiWMswo.js          0.85 kB
+dist/server/assets/contactSubmit-Bytdt154.js                0.99 kB
+dist/server/assets/start-CUGlkvYB.js                        1.01 kB
+dist/server/assets/useAuth-Ct-0hGE6.js                      1.11 kB
+dist/server/assets/Reveal-CW7_B9gf.js                       1.39 kB
+dist/server/assets/content.functions-Cas8aYjp.js            1.65 kB
+dist/server/assets/admin-server-fn-B8ZaoNr3.js              1.72 kB
+dist/server/assets/_tanstack-start-manifest_v-D4eunB5f.js   3.72 kB
+dist/server/server.js                                       3.73 kB
+dist/server/assets/admin.login--PadH682.js                  6.62 kB
+dist/server/assets/blog._slug-k2tW_4mV.js                   7.00 kB
+dist/server/assets/construction-build-DpIkamc5.js           8.91 kB
+dist/server/assets/lifestyle-DogpoaoQ.js                   11.51 kB
+dist/server/assets/blog.index-DBfsXJ0v.js                  11.98 kB
+dist/server/assets/contact-D4yXdhEZ.js                     12.20 kB
+dist/server/assets/architecture-design-CEXwXyFc.js         14.72 kB
+dist/server/assets/project-Dcmwefwd.js                     17.72 kB
+dist/server/assets/investment-consulting-DPAhFYE_.js       20.00 kB
+dist/server/assets/server-BgsjCabb.js                      30.74 kB
+dist/server/assets/projects._slug-CbqVDFyU.js              31.18 kB
+dist/server/assets/plot-selling-DkuPpXt3.js                40.14 kB
+dist/server/assets/about-us-BT8zPvyZ.js                    41.41 kB
+dist/server/assets/channel-partner-Nz7_Bdtd.js             42.22 kB
+dist/server/assets/index-DO2mAEGc.js                       54.55 kB
+dist/server/assets/content.functions-D8UhZo70.js           57.97 kB
+dist/server/assets/router-CWr2HK-l.js                      80.66 kB
+dist/server/assets/admin.index-BYUo8DqA.js                 87.65 kB
+✓ built in 7.33s
+[PM2] Applying action stopProcessId on app [truston](ids: [ 0 ])
+[PM2] [truston](0) ✓
+┌────┬────────────┬─────────────┬─────────┬─────────┬──────────┬────────┬──────┬───────────┬──────────┬──────────┬──────────┬──────────┐
+│ id │ name       │ namespace   │ version │ mode    │ pid      │ uptime │ ↺    │ status    │ cpu      │ mem      │ user     │ watching │
+├────┼────────────┼─────────────┼─────────┼─────────┼──────────┼────────┼──────┼───────────┼──────────┼──────────┼──────────┼──────────┤
+│ 0  │ truston    │ default     │ N/A     │ fork    │ 0        │ 0      │ 0    │ stopped   │ 0%       │ 0b       │ root     │ disabled │
+└────┴────────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
+[PM2] Applying action deleteProcessId on app [truston](ids: [ 0 ])
+[PM2] [truston](0) ✓
+┌────┬───────────┬─────────────┬─────────┬─────────┬──────────┬────────┬──────┬───────────┬──────────┬──────────┬──────────┬──────────┐
+│ id │ name      │ namespace   │ version │ mode    │ pid      │ uptime │ ↺    │ status    │ cpu      │ mem      │ user     │ watching │
+└────┴───────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
+[PM2] Starting /root/TrustonDevelopers/serve.mjs in fork_mode (1 instance)
+[PM2] Done.
+┌────┬────────────┬─────────────┬─────────┬─────────┬──────────┬────────┬──────┬───────────┬──────────┬──────────┬──────────┬──────────┐
+│ id │ name       │ namespace   │ version │ mode    │ pid      │ uptime │ ↺    │ status    │ cpu      │ mem      │ user     │ watching │
+├────┼────────────┼─────────────┼─────────┼─────────┼──────────┼────────┼──────┼───────────┼──────────┼──────────┼──────────┼──────────┤
+│ 0  │ truston    │ default     │ N/A     │ fork    │ 20618    │ 0s     │ 0    │ online    │ 0%       │ 9.4mb    │ root     │ disabled │
+└────┴────────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
+[PM2] Saving current process list...
+[PM2] Successfully saved in /root/.pm2/dump.pm2
+root@srv1789327:~/TrustonDevelopers# 
