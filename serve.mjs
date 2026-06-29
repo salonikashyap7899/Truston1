@@ -4,11 +4,23 @@ import path from "node:path";
 import { Readable } from "node:stream";
 import { fileURLToPath } from "node:url";
 import dotenv from "dotenv";
-import handler from "./dist/server/server.js";
 
-dotenv.config();
+// Resolve .env relative to this file, not process.cwd()
+// This is critical: PM2 may start from a different directory,
+// so we pin the path to wherever serve.mjs lives.
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const envResult = dotenv.config({ path: path.join(__dirname, ".env") });
+if (envResult.error) {
+  console.warn("[serve] .env not found at", path.join(__dirname, ".env"), "- relying on shell environment");
+} else {
+  console.log("[serve] Loaded", Object.keys(envResult.parsed ?? {}).length, "env vars from .env");
+}
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+// Dynamic import AFTER dotenv runs so that every module (including Supabase client)
+// initialises with the correct environment variables already set.
+const { default: handler } = await import("./dist/server/server.js");
+
 const CLIENT_DIR = path.join(__dirname, "dist", "client");
 const PORT = process.env.PORT || 3000;
 
@@ -55,16 +67,13 @@ function serveStatic(filePath, req, res) {
 
 const server = http.createServer(async (req, res) => {
   try {
-    // Strip query string for file resolution
     const urlPath = req.url.split("?")[0];
     const candidate = path.join(CLIENT_DIR, urlPath);
 
-    // Serve static files from dist/client/
     if (fs.existsSync(candidate) && fs.statSync(candidate).isFile()) {
       return serveStatic(candidate, req, res);
     }
 
-    // Fall through to the TanStack Start fetch handler (SSR)
     const protocol = req.headers["x-forwarded-proto"] || "http";
     const host = req.headers["x-forwarded-host"] || req.headers.host || `localhost:${PORT}`;
     const url = `${protocol}://${host}${req.url}`;
@@ -113,5 +122,5 @@ const server = http.createServer(async (req, res) => {
 });
 
 server.listen(PORT, "0.0.0.0", () => {
-  console.log(`Server listening on http://0.0.0.0:${PORT}`);
+  console.log(`[serve] Server listening on http://0.0.0.0:${PORT}`);
 });
