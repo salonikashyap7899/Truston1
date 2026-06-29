@@ -1,12 +1,22 @@
 import { createServerFn } from "@tanstack/react-start";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 
+const ALLOWED_ADMIN_EMAIL = "trustondevelopers@gmail.com";
+
 export const checkAdminStatus = createServerFn({ method: "POST" })
   .inputValidator((userId: unknown) => {
     if (typeof userId !== "string" || !userId) throw new Error("Invalid userId");
     return userId;
   })
   .handler(async ({ data: userId }) => {
+    // First verify the user's email matches the only allowed admin account
+    const { data: userData, error: userError } = await supabaseAdmin.auth.admin.getUserById(userId);
+    if (userError || !userData?.user) return { isAdmin: false };
+
+    const email = userData.user.email?.toLowerCase() ?? "";
+    if (email !== ALLOWED_ADMIN_EMAIL) return { isAdmin: false };
+
+    // Then confirm they have the admin role in the database
     const { data: roles, error } = await supabaseAdmin
       .from("user_roles")
       .select("role")
@@ -22,6 +32,15 @@ export const ensureFirstAdmin = createServerFn({ method: "POST" })
     return userId;
   })
   .handler(async ({ data: userId }) => {
+    // Only allow the designated admin email to be assigned as admin
+    const { data: userData, error: userError } = await supabaseAdmin.auth.admin.getUserById(userId);
+    if (userError || !userData?.user) return { success: false, reason: "user_not_found" };
+
+    const email = userData.user.email?.toLowerCase() ?? "";
+    if (email !== ALLOWED_ADMIN_EMAIL) {
+      return { success: false, reason: "not_allowed" };
+    }
+
     const { data: existing } = await supabaseAdmin
       .from("user_roles")
       .select("user_id")
@@ -31,16 +50,6 @@ export const ensureFirstAdmin = createServerFn({ method: "POST" })
 
     if (existing && existing.length > 0) {
       return { success: true, reason: "already_admin" };
-    }
-
-    const { data: admins } = await supabaseAdmin
-      .from("user_roles")
-      .select("user_id")
-      .eq("role", "admin")
-      .limit(1);
-
-    if (admins && admins.length > 0) {
-      return { success: false, reason: "admin_exists" };
     }
 
     const { error: insertError } = await supabaseAdmin

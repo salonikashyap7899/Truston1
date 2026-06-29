@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 
+const ALLOWED_ADMIN_EMAIL = "trustondevelopers@gmail.com";
+
 export const Route = createFileRoute("/admin/login")({
   head: () => ({
     meta: [
@@ -17,13 +19,10 @@ function AdminLoginPage() {
   const { user, isAdmin, loading } = useAuth();
   const navigate = useNavigate();
 
-  const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
-  const [message, setMessage] = useState("");
 
   useEffect(() => {
     if (!loading && user && isAdmin) navigate({ to: "/admin" });
@@ -32,49 +31,27 @@ function AdminLoginPage() {
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    setMessage("");
 
-    if (mode === "signup" && password !== confirmPassword) {
-      setError("Passwords do not match.");
-      return;
-    }
-    if (password.length < 6) {
-      setError("Password must be at least 6 characters.");
+    if (email.trim().toLowerCase() !== ALLOWED_ADMIN_EMAIL) {
+      setError("Access denied. You are not authorised to access this panel.");
       return;
     }
 
     setBusy(true);
     try {
-      if (mode === "signup") {
-        const { error: signUpError } = await supabase.auth.signUp({ email, password });
-        if (signUpError) throw signUpError;
-        setMessage("Account created! Signing you in…");
-        await new Promise((r) => setTimeout(r, 1500));
-        const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
-        if (signInError) throw signInError;
-      } else {
-        const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
-        if (signInError) throw signInError;
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      if (signInError) {
+        if (signInError.message.toLowerCase().includes("invalid login credentials")) {
+          setError("Incorrect email or password.");
+        } else {
+          setError(signInError.message);
+        }
       }
     } catch (err) {
-      const msg = (err as Error).message ?? "Something went wrong. Please try again.";
-      if (msg.toLowerCase().includes("invalid login credentials")) {
-        setError("Incorrect email or password.");
-      } else if (msg.toLowerCase().includes("user already registered")) {
-        setError("An account with this email already exists. Please sign in.");
-        setMode("signin");
-      } else if (
-        msg.toLowerCase().includes("invalid api key") ||
-        msg.toLowerCase().includes("invalid publishable key") ||
-        msg.toLowerCase().includes("invalid service role key")
-      ) {
-        console.error("Supabase API key error:", msg);
-        setError(
-          "Server misconfiguration: Supabase API key is invalid or missing. Please ensure SUPABASE_URL and the publishable/service role keys are set in environment variables."
-        );
-      } else {
-        setError(msg);
-      }
+      setError((err as Error).message ?? "Something went wrong. Please try again.");
     } finally {
       setBusy(false);
     }
@@ -102,26 +79,6 @@ function AdminLoginPage() {
         {/* Card */}
         <div className="bg-white/[0.04] border border-white/10 rounded-3xl p-8 backdrop-blur-sm">
 
-          {/* Tab switcher */}
-          <div className="flex bg-white/5 rounded-2xl p-1 mb-8">
-            <button
-              onClick={() => { setMode("signin"); setError(""); setMessage(""); }}
-              className={`flex-1 py-2.5 rounded-xl text-sm font-medium transition-all ${
-                mode === "signin" ? "bg-white text-[#04090f] shadow" : "text-white/50 hover:text-white"
-              }`}
-            >
-              Sign In
-            </button>
-            <button
-              onClick={() => { setMode("signup"); setError(""); setMessage(""); }}
-              className={`flex-1 py-2.5 rounded-xl text-sm font-medium transition-all ${
-                mode === "signup" ? "bg-white text-[#04090f] shadow" : "text-white/50 hover:text-white"
-              }`}
-            >
-              Create Account
-            </button>
-          </div>
-
           <form onSubmit={submit} className="space-y-5">
             <div>
               <label className="block text-white/50 text-xs font-medium uppercase tracking-widest mb-2">
@@ -145,44 +102,19 @@ function AdminLoginPage() {
               <input
                 type="password"
                 required
-                autoComplete={mode === "signup" ? "new-password" : "current-password"}
+                autoComplete="current-password"
                 minLength={6}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="At least 6 characters"
+                placeholder="Enter your password"
                 className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#00BFFF]/50 focus:bg-white/8 transition-all"
               />
             </div>
-
-            {mode === "signup" && (
-              <div>
-                <label className="block text-white/50 text-xs font-medium uppercase tracking-widest mb-2">
-                  Confirm Password
-                </label>
-                <input
-                  type="password"
-                  required
-                  autoComplete="new-password"
-                  minLength={6}
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  placeholder="Re-enter password"
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#00BFFF]/50 focus:bg-white/8 transition-all"
-                />
-              </div>
-            )}
 
             {error && (
               <div className="flex items-start gap-2 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-300">
                 <span className="shrink-0 mt-0.5">⚠</span>
                 <span>{error}</span>
-              </div>
-            )}
-
-            {message && (
-              <div className="flex items-center gap-2 rounded-xl border border-green-500/30 bg-green-500/10 px-4 py-3 text-sm text-green-300">
-                <span>✓</span>
-                <span>{message}</span>
               </div>
             )}
 
@@ -194,29 +126,14 @@ function AdminLoginPage() {
               {busy ? (
                 <>
                   <span className="w-4 h-4 border-2 border-[#04090f]/30 border-t-[#04090f] rounded-full animate-spin" />
-                  {mode === "signup" ? "Creating account…" : "Signing in…"}
+                  Signing in…
                 </>
               ) : (
-                mode === "signup" ? "Create Account" : "Sign In"
+                "Sign In"
               )}
             </button>
           </form>
 
-          {/* Access denied info */}
-          {user && !isAdmin && !loading && (
-            <div className="mt-6 rounded-2xl border border-amber-500/25 bg-amber-500/5 p-4 text-center">
-              <p className="text-amber-200 text-sm font-medium mb-1">No admin access</p>
-              <p className="text-amber-200/60 text-xs leading-relaxed">
-                This account is not set up as an admin. If you are the website owner, please contact support or use the first registered account.
-              </p>
-              <button
-                onClick={() => supabase.auth.signOut()}
-                className="mt-3 text-xs text-white/40 hover:text-white transition-colors"
-              >
-                Sign out and try another account
-              </button>
-            </div>
-          )}
         </div>
 
         {/* Back to site */}
