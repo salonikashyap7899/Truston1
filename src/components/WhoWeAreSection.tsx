@@ -2,6 +2,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { ContainerScroll } from "./ui/container-scroll-animation";
 import { usePageContent } from "@/hooks/usePageContent";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 const DEFAULT_PILLARS = [
   { num: "01", title: "Transparent Documentation", desc: "Clear title deeds, Jila Panchayat approvals, and zero hidden conditions." },
@@ -10,6 +11,7 @@ const DEFAULT_PILLARS = [
 ];
 
 export function WhoWeAreSection() {
+  const isMobile = useIsMobile();
   const sectionRef = useRef(null);
   
   const content = usePageContent("home.who_we_are", {
@@ -40,8 +42,11 @@ export function WhoWeAreSection() {
     offset: ["start end", "end start"],
   });
 
-  const morningOpacity = useTransform(scrollYProgress, [0, 0.4, 0.6, 1], [1, 1, 0, 0]);
-  const nightOpacity = useTransform(scrollYProgress, [0, 0.4, 0.6, 1], [0, 0, 1, 1]);
+  const morningOpacityRaw = useTransform(scrollYProgress, [0, 0.4, 0.6, 1], [1, 1, 0, 0]);
+  const nightOpacityRaw = useTransform(scrollYProgress, [0, 0.4, 0.6, 1], [0, 0, 1, 1]);
+
+  const morningOpacity = isMobile ? 1 : morningOpacityRaw;
+  const nightOpacity = isMobile ? 0 : nightOpacityRaw;
 
   return (
     <section ref={sectionRef} className="relative bg-[#050b14] overflow-hidden ">

@@ -7,8 +7,10 @@ import {
   useAnimationFrame,
 } from "framer-motion";
 import { usePageContent } from "@/hooks/usePageContent";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 export function GallerySection() {
+  const isMobile = useIsMobile();
   const c = usePageContent("home.gallery", {
     heading: "Living place that becomes",
     heading_accent: "your pride",
@@ -47,6 +49,7 @@ export function GallerySection() {
 
   const smooth = useMotionValue(0);
   useAnimationFrame(() => {
+    if (isMobile) return;
     const cur = smooth.get();
     const tgt = scrollYProgress.get();
     smooth.set(cur + (tgt - cur) * 0.055);
@@ -84,6 +87,35 @@ export function GallerySection() {
     objectFit: "cover",
     display: "block",
   };
+
+  /* ── Mobile: show a simple static gallery grid ─────────── */
+  if (isMobile) {
+    return (
+      <section
+        id="gallery-section"
+        style={{ background: "#04090f" }}
+        className="relative w-full overflow-hidden"
+      >
+        <div className="relative w-full" style={{ aspectRatio: "16/10", maxHeight: "70vw" }}>
+          <img src={img1.src} alt={img1.alt} className="w-full h-full object-cover" />
+          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 60%)" }} />
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none px-4">
+            <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "clamp(1.6rem, 7vw, 2.8rem)", fontWeight: 300, lineHeight: 1.15, textAlign: "center", color: "#fff", textShadow: "0 4px 24px rgba(0,0,0,0.45)", margin: 0 }}>
+              {String(c.heading || "")}<br />
+              <em style={{ fontStyle: "italic", fontWeight: 400 }}>{String(c.heading_accent || "")}</em>
+            </h2>
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-1" style={{ background: "#04090f" }}>
+          {[img2, img3, img4, img5].map((img, i) => (
+            <div key={i} className="overflow-hidden" style={{ aspectRatio: "4/3" }}>
+              <img src={img.src} alt={img.alt} className="w-full h-full object-cover" />
+            </div>
+          ))}
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section

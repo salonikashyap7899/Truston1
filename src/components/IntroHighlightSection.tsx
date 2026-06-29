@@ -4,6 +4,7 @@ import { SwipeReveal } from "./TextReveal";
 import { Reveal } from "./Reveal";
 import { Section3DBackground } from "./Section3DBackground";
 import { usePageContent } from "@/hooks/usePageContent";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 const DEFAULT_IMAGES = [
   { src: "/assets/green-amenities.jpg", alt: "Prime Estate 1", video_url: "" },
@@ -53,15 +54,20 @@ export function IntroHighlightSection() {
 
   while (images.length < 4) images.push(DEFAULT_IMAGES[images.length % DEFAULT_IMAGES.length]);
 
+  const isMobile = useIsMobile();
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"],
   });
 
-  const y1 = useTransform(scrollYProgress, [0, 1], [0, -100]);
-  const y2 = useTransform(scrollYProgress, [0, 1], [0, 100]);
-  const scale = useTransform(scrollYProgress, [0, 0.2], [0.8, 1]);
+  const y1Raw = useTransform(scrollYProgress, [0, 1], [0, -100]);
+  const y2Raw = useTransform(scrollYProgress, [0, 1], [0, 100]);
+  const scaleRaw = useTransform(scrollYProgress, [0, 0.2], [0.8, 1]);
+
+  const y1 = isMobile ? 0 : y1Raw;
+  const y2 = isMobile ? 0 : y2Raw;
+  const scale = isMobile ? 1 : scaleRaw;
 
   return (
     <section

@@ -2,6 +2,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, type ReactNode } from "react";
 import { LazyVideo, type VideoSource } from "./LazyVideo";
 import { Luxury3DScene } from "./Luxury3DScene";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 interface PageHeroProps {
   eyebrow?: string;
@@ -85,12 +86,18 @@ export function PageHero({
   children,
   height = "short",
 }: PageHeroProps) {
+  const isMobile = useIsMobile();
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.05]);
-  const opacity = useTransform(scrollYProgress, [0, 0.75], [1, 0]);
-  const textY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
+  const yRaw = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+  const scaleRaw = useTransform(scrollYProgress, [0, 1], [1, 1.05]);
+  const opacityRaw = useTransform(scrollYProgress, [0, 0.75], [1, 0]);
+  const textYRaw = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
+
+  const y = isMobile ? "0%" : yRaw;
+  const scale = isMobile ? 1 : scaleRaw;
+  const opacity = isMobile ? 1 : opacityRaw;
+  const textY = isMobile ? "0%" : textYRaw;
 
   const isFull = height === "full";
 

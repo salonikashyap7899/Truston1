@@ -1,6 +1,7 @@
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { useRef, type ReactNode, useState, useEffect } from "react";
 import { LazyVideo, type VideoSource } from "./LazyVideo";
+import { useIsMobile } from "@/hooks/useIsMobile";
 interface SobhaStyleHeroProps {
   eyebrow?: string;
   title: ReactNode;
@@ -21,15 +22,20 @@ export function SobhaStyleHero({
   children,
   height = "short",
 }: SobhaStyleHeroProps) {
+  const isMobile = useIsMobile();
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"],
   });
 
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
+  const yRaw = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+  const opacityRaw = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const scaleRaw = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
+
+  const y = isMobile ? "0%" : yRaw;
+  const opacity = isMobile ? 1 : opacityRaw;
+  const scale = isMobile ? 1 : scaleRaw;
 
   const isFull = height === "full";
 
