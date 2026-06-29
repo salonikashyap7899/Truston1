@@ -133,13 +133,15 @@ function RootComponent() {
 
   useEffect(() => {
     if (isAdmin) return;
+    // Disable Lenis smooth scroll on touch devices — native momentum scroll feels better
+    const isTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
     const lenis = new Lenis({
-      duration: 1.0,
+      duration: isTouch ? 0.6 : 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-      lerp: 0.1,
-      wheelMultiplier: 0.8,
-      touchMultiplier: 1.5,
+      smoothWheel: !isTouch,
+      lerp: isTouch ? 0.15 : 0.08,
+      wheelMultiplier: 1.0,
+      touchMultiplier: isTouch ? 1.0 : 1.5,
       infinite: false,
     });
 

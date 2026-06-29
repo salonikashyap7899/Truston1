@@ -154,9 +154,12 @@
     color: var(--color-foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     font-feature-settings: "ss01", "cv01";
     position: relative;
     overflow-x: hidden;
+    /* iOS momentum scrolling */
+    -webkit-overflow-scrolling: touch;
     overflow-y: auto;
     /* Optimize scrolling performance */
     min-height: 100vh;
@@ -515,5 +518,92 @@
 
   .premium-glow:hover {
     box-shadow: 0 0 80px oklch(0.55 0.15 250 / 0.25);
+  }
+
+  /* ── Global mobile responsiveness fixes ─────────────────────── */
+
+  /* Prevent content from overflowing on mobile */
+  .overflow-x-hidden {
+    overflow-x: hidden;
+  }
+
+  /* Better image rendering on all devices */
+  img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Ensure flex/grid items don't overflow on small screens */
+  @media (max-width: 640px) {
+    /* Reduce large heading sizes on very small phones */
+    .font-serif {
+      word-break: break-word;
+      overflow-wrap: break-word;
+    }
+
+    /* Fix icon + text alignment in flex rows */
+    .flex.items-center {
+      align-items: center;
+    }
+
+    /* Prevent text overflow in small containers */
+    p, h1, h2, h3, h4, h5 {
+      overflow-wrap: break-word;
+      word-break: break-word;
+    }
+
+    /* Touch-friendly button targets */
+    button, a[role="button"] {
+      min-height: 44px;
+      min-width: 44px;
+    }
+
+    /* Fix gap issues on mobile grids */
+    .grid {
+      grid-gap: 1rem;
+    }
+  }
+
+  /* ── Smooth scroll performance ───────────────────────────────── */
+  
+  /* Optimize animated elements — reduce repaints */
+  [data-framer-motion], 
+  [style*="transform"],
+  [style*="will-change"] {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  /* GPU-accelerated scrolling on iOS */
+  main, section {
+    -webkit-overflow-scrolling: touch;
+    transform: translateZ(0);
+  }
+
+  /* ── Mobile nav spacing fix ──────────────────────────────────── */
+
+  /* Add top padding on pages to account for the nav */
+  @media (max-width: 1024px) {
+    main > :first-child section:first-child {
+      padding-top: max(80px, env(safe-area-inset-top));
+    }
+  }
+
+  /* ── Icon alignment global fix ───────────────────────────────── */
+
+  /* Ensure SVG icons are always perfectly centered */
+  svg {
+    display: inline-block;
+    vertical-align: middle;
+    flex-shrink: 0;
+  }
+
+  /* Lucide icons alignment */
+  .lucide {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
   }
 }
