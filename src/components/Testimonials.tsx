@@ -42,8 +42,8 @@ function VideoCard({ item }: { item: TestimonialItem }) {
         boxShadow: "0 12px 48px rgba(0,0,0,0.65), 0 0 0 1px rgba(0,191,255,0.06), 0 2px 8px rgba(0,0,0,0.4)",
       }}
     >
-      {/* Media 9:16 portrait — video or image */}
-      <div className="relative w-full overflow-hidden bg-[#080d1a]" style={{ aspectRatio: "9/16" }}>
+      {/* Media 4:5 portrait — video or image */}
+      <div className="relative w-full overflow-hidden bg-[#080d1a]" style={{ aspectRatio: "4/5" }}>
         {isMediaImage(videoUrl) ? (
           <img
             src={videoUrl}

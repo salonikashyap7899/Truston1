@@ -126,38 +126,62 @@ function RootShell({ children }: { children: React.ReactNode }) {
   );
 }
 
+// Single persistent Lenis instance shared across all pages
+let globalLenis: Lenis | null = null;
+
+function useLenis(isAdmin: boolean) {
+  useEffect(() => {
+    if (isAdmin) {
+      // Clean up if navigating to admin
+      if (globalLenis) { globalLenis.destroy(); globalLenis = null; }
+      return;
+    }
+
+    if (!globalLenis) {
+      const isTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+      globalLenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        smoothWheel: true,
+        lerp: 0.08,
+        wheelMultiplier: 1.0,
+        touchMultiplier: isTouch ? 1.2 : 1.5,
+        infinite: false,
+      });
+
+      let rafId: number;
+      function raf(time: number) {
+        globalLenis?.raf(time);
+        rafId = requestAnimationFrame(raf);
+      }
+      rafId = requestAnimationFrame(raf);
+
+      // Store cleanup ref on lenis instance for teardown
+      (globalLenis as unknown as { _rafId: number })._rafId = rafId;
+    }
+
+    return () => {
+      // Don't destroy on unmount — keep alive across navigation
+    };
+  }, [isAdmin]);
+}
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const location = useLocation();
   const isAdmin = location.pathname.startsWith("/admin");
 
+  useLenis(isAdmin);
+
+  // Scroll to top on every page navigation — smooth via Lenis
   useEffect(() => {
     if (isAdmin) return;
-    // Disable Lenis smooth scroll on touch devices — native momentum scroll feels better
-    const isTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
-    const lenis = new Lenis({
-      duration: isTouch ? 0.6 : 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: !isTouch,
-      lerp: isTouch ? 0.15 : 0.08,
-      wheelMultiplier: 1.0,
-      touchMultiplier: isTouch ? 1.0 : 1.5,
-      infinite: false,
-    });
-
-    let rafId: number;
-    function raf(time: number) {
-      lenis.raf(time);
-      rafId = requestAnimationFrame(raf);
+    if (globalLenis) {
+      globalLenis.scrollTo(0, { immediate: false, duration: 0.6 });
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
-
-    rafId = requestAnimationFrame(raf);
-
-    return () => {
-      cancelAnimationFrame(rafId);
-      lenis.destroy();
-    };
-  }, [isAdmin]);
+  }, [location.pathname, isAdmin]);
 
   if (isAdmin) {
     return (

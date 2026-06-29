@@ -566,19 +566,10 @@
   }
 
   /* ── Smooth scroll performance ───────────────────────────────── */
-  
-  /* Optimize animated elements — reduce repaints */
-  [data-framer-motion], 
-  [style*="transform"],
-  [style*="will-change"] {
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-  }
 
-  /* GPU-accelerated scrolling on iOS */
-  main, section {
+  /* GPU-accelerated scrolling on iOS — only on the scroll wrapper */
+  html, body {
     -webkit-overflow-scrolling: touch;
-    transform: translateZ(0);
   }
 
   /* ── Mobile nav spacing fix ──────────────────────────────────── */
