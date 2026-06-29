@@ -1,0 +1,61 @@
+root@srv1789327:~/TrustonDevelopers# cd /root/TrustonDevelopers
+git stash
+git pull origin main
+git stash pop
+pm2 stop truston
+pm2 delete truston
+pm2 start serve.mjs --name truston --cwd /root/TrustonDevelopers
+pm2 save
+pm2 logs truston --lines 5 --nostream
+Saved working directory and index state WIP on main: b9905d7 Merge branch 'main' of https://github.com/salonikashyap7899/TrustonDevelopers
+From https://github.com/salonikashyap7899/TrustonDevelopers
+ * branch            main       -> FETCH_HEAD
+ + 2578400...d6deda6 main       -> origin/main  (forced update)
+Already up to date.
+On branch main
+Your branch is ahead of 'origin/main' by 3 commits.
+  (use "git push" to publish your local commits)
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   .env
+        modified:   deploy/vps-deploy.sh
+        modified:   package-lock.json
+        modified:   package.json
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        .env~
+
+no changes added to commit (use "git add" and/or "git commit -a")
+Dropped refs/stash@{0} (7b39ee365dadbd56b503033ada770fa2fe8d1302)
+[PM2] Applying action stopProcessId on app [truston](ids: [ 0 ])
+[PM2] [truston](0) ✓
+┌────┬────────────┬─────────────┬─────────┬─────────┬──────────┬────────┬──────┬───────────┬──────────┬──────────┬──────────┬──────────┐
+│ id │ name       │ namespace   │ version │ mode    │ pid      │ uptime │ ↺    │ status    │ cpu      │ mem      │ user     │ watching │
+├────┼────────────┼─────────────┼─────────┼─────────┼──────────┼────────┼──────┼───────────┼──────────┼──────────┼──────────┼──────────┤
+│ 0  │ truston    │ default     │ N/A     │ fork    │ 0        │ 0      │ 0    │ stopped   │ 0%       │ 0b       │ root     │ disabled │
+└────┴────────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
+[PM2] Applying action deleteProcessId on app [truston](ids: [ 0 ])
+[PM2] [truston](0) ✓
+┌────┬───────────┬─────────────┬─────────┬─────────┬──────────┬────────┬──────┬───────────┬──────────┬──────────┬──────────┬──────────┐
+│ id │ name      │ namespace   │ version │ mode    │ pid      │ uptime │ ↺    │ status    │ cpu      │ mem      │ user     │ watching │
+└────┴───────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
+[PM2] Starting /root/TrustonDevelopers/serve.mjs in fork_mode (1 instance)
+[PM2] Done.
+┌────┬────────────┬─────────────┬─────────┬─────────┬──────────┬────────┬──────┬───────────┬──────────┬──────────┬──────────┬──────────┐
+│ id │ name       │ namespace   │ version │ mode    │ pid      │ uptime │ ↺    │ status    │ cpu      │ mem      │ user     │ watching │
+├────┼────────────┼─────────────┼─────────┼─────────┼──────────┼────────┼──────┼───────────┼──────────┼──────────┼──────────┼──────────┤
+│ 0  │ truston    │ default     │ N/A     │ fork    │ 20396    │ 0s     │ 0    │ online    │ 0%       │ 14.8mb   │ root     │ disabled │
+└────┴────────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
+[PM2] Saving current process list...
+[PM2] Successfully saved in /root/.pm2/dump.pm2
+[TAILING] Tailing last 5 lines for [truston] process (change the value with --lines option)
+/root/.pm2/logs/truston-error.log last 5 lines:
+/root/.pm2/logs/truston-out.log last 5 lines:
+0|truston  | Server listening on http://0.0.0.0:3000
+0|truston  | ◇ injected env (0) from .env // tip: ⌘ multiple files { path: ['.env.local', '.env'] }
+0|truston  | Server listening on http://0.0.0.0:3000
+0|truston  | ◇ injected env (0) from .env // tip: ◈ encrypted .env [www.dotenvx.com]
+0|truston  | Server listening on http://0.0.0.0:3000
