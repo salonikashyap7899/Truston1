@@ -105,14 +105,12 @@ export function SiteFooter() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 py-8 md:py-12 grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
 
         <div className="md:col-span-2">
-          <div className="flex items-start justify-start mb-4">
-            <img
-              src="/logo.png"
-              alt="TrustOn Logo"
-              className="h-20 sm:h-24 w-auto object-contain brightness-125"
-              onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
-            />
-          </div>
+          <img
+            src="/logo.png"
+            alt="TrustOn Logo"
+            className="h-16 sm:h-20 w-auto object-contain object-left brightness-125 mb-5 block"
+            onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+          />
           <p className="text-white/45 text-base leading-relaxed max-w-sm mb-6 font-light">
             {String(contact.brand_desc || "Prime Estate by TrustOn Developers.")}
           </p>
