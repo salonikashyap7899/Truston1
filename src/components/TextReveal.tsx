@@ -9,22 +9,20 @@ interface TextRevealProps {
   once?: boolean;
 }
 
-/**
- * SwipeReveal: A cinematic text reveal where a background swipe effect (overlay)
- * slides across the text as it reveals, inspired by high-end luxury websites.
- */
 export function SwipeReveal({ children, className, delay = 0, once = true }: TextRevealProps) {
+  const isMobile = useIsMobile();
+
+  if (isMobile) {
+    return <span className={className}>{children}</span>;
+  }
+
   return (
     <div className={`relative overflow-hidden inline-block ${className}`}>
       <motion.div
         initial={{ y: "100%" }}
         whileInView={{ y: 0 }}
         viewport={{ once }}
-        transition={{
-          duration: 0.8,
-          delay,
-          ease: [0.16, 1, 0.3, 1],
-        }}
+        transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
       >
         {children}
       </motion.div>
@@ -32,12 +30,7 @@ export function SwipeReveal({ children, className, delay = 0, once = true }: Tex
         initial={{ scaleY: 0 }}
         whileInView={{ scaleY: [0, 1, 1, 0], y: ["100%", "0%", "0%", "-100%"] }}
         viewport={{ once }}
-        transition={{
-          duration: 1.2,
-          delay,
-          times: [0, 0.4, 0.6, 1],
-          ease: "easeInOut",
-        }}
+        transition={{ duration: 1.2, delay, times: [0, 0.4, 0.6, 1], ease: "easeInOut" }}
         className="absolute inset-0 bg-luxe-cyan z-10 origin-bottom"
       />
     </div>
@@ -45,6 +38,12 @@ export function SwipeReveal({ children, className, delay = 0, once = true }: Tex
 }
 
 export function TextReveal({ children, className, delay = 0, once = true }: TextRevealProps) {
+  const isMobile = useIsMobile();
+
+  if (isMobile) {
+    return <div className={className}>{children}</div>;
+  }
+
   const words = children.split(" ");
 
   const container = {
@@ -60,22 +59,13 @@ export function TextReveal({ children, className, delay = 0, once = true }: Text
       opacity: 1,
       y: 0,
       rotateX: 0,
-      transition: {
-        type: "spring",
-        damping: 12,
-        stiffness: 100,
-        duration: 0.8,
-      },
+      transition: { type: "spring" as const, damping: 12, stiffness: 100, duration: 0.8 },
     },
     hidden: {
       opacity: 0,
       y: 20,
       rotateX: 45,
-      transition: {
-        type: "spring",
-        damping: 12,
-        stiffness: 100,
-      },
+      transition: { type: "spring" as const, damping: 12, stiffness: 100 },
     },
   };
 
@@ -102,6 +92,12 @@ export function TextReveal({ children, className, delay = 0, once = true }: Text
 }
 
 export function CharReveal({ children, className, delay = 0, once = true }: TextRevealProps) {
+  const isMobile = useIsMobile();
+
+  if (isMobile) {
+    return <div className={className}>{children}</div>;
+  }
+
   const letters = Array.from(children);
 
   const container = {
@@ -117,19 +113,13 @@ export function CharReveal({ children, className, delay = 0, once = true }: Text
       opacity: 1,
       y: 0,
       filter: "blur(0px)",
-      transition: {
-        duration: 0.5,
-        ease: [0.2, 0.65, 0.3, 0.9],
-      },
+      transition: { duration: 0.5, ease: [0.2, 0.65, 0.3, 0.9] },
     },
     hidden: {
       opacity: 0,
       y: 10,
       filter: "blur(4px)",
-      transition: {
-        duration: 0.5,
-        ease: [0.2, 0.65, 0.3, 0.9],
-      },
+      transition: { duration: 0.5, ease: [0.2, 0.65, 0.3, 0.9] },
     },
   };
 

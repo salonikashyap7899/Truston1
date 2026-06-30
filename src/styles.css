@@ -639,19 +639,33 @@
     }
   }
 
-  /* ── Reduce heavy animations on mobile for performance ──────── */
+  /* ── Aggressively strip GPU-heavy effects on mobile ─────────── */
   @media (max-width: 768px) {
-    /* Reduce will-change budget on mobile */
-    .motion-safe {
-      will-change: auto;
+    /* Kill will-change — frees GPU layers */
+    *, *::before, *::after {
+      will-change: auto !important;
     }
-    /* Disable blur effects on performance-critical elements */
-    .blur-3xl { filter: blur(40px); }
-    .blur-\[120px\] { filter: blur(60px); }
-    .blur-\[100px\] { filter: blur(50px); }
-    .blur-\[80px\] { filter: blur(40px); }
-    /* Simplify backdrop blur on mobile */
-    .backdrop-blur-md { backdrop-filter: blur(8px); }
-    .backdrop-blur-xl { backdrop-filter: blur(12px); }
+    /* Kill ALL filter blurs — biggest GPU killer on mobile */
+    .blur-sm, .blur, .blur-md, .blur-lg, .blur-xl,
+    .blur-2xl, .blur-3xl,
+    [class*="blur-["] {
+      filter: none !important;
+    }
+    /* Kill backdrop blurs — heavy compositing layers */
+    .backdrop-blur-sm, .backdrop-blur, .backdrop-blur-md,
+    .backdrop-blur-lg, .backdrop-blur-xl, .backdrop-blur-2xl,
+    .backdrop-blur-3xl, [class*="backdrop-blur-["] {
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+    }
+    /* Kill transform3d/perspective on decorative elements */
+    .perspective-1000 { perspective: none !important; }
+    /* Force GPU-friendly compositing hints off for static elements */
+    .translate-z-0, [style*="translateZ"] {
+      transform: none !important;
+    }
+    /* Remove expensive background animations */
+    @keyframes pulse { from, to { opacity: 1; } }
+    @keyframes ping { from, to { opacity: 0; } }
   }
 }

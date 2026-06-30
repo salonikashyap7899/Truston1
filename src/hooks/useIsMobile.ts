@@ -1,19 +1,17 @@
 import { useEffect, useState } from "react";
 
-let cachedResult: boolean | null = null;
-
 export function useIsMobile(): boolean {
-  const [isMobile, setIsMobile] = useState<boolean>(() => {
-    if (typeof window === "undefined") return false;
-    if (cachedResult !== null) return cachedResult;
-    return window.innerWidth < 768 || "ontouchstart" in window || navigator.maxTouchPoints > 0;
-  });
+  // Always start with false — matches SSR output, avoids hydration mismatch.
+  // useEffect updates to the real value after hydration (client-only).
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const check = () => {
-      const val = window.innerWidth < 768 || "ontouchstart" in window || navigator.maxTouchPoints > 0;
-      cachedResult = val;
-      setIsMobile(val);
+      setIsMobile(
+        window.innerWidth < 768 ||
+        "ontouchstart" in window ||
+        navigator.maxTouchPoints > 0
+      );
     };
     check();
     window.addEventListener("resize", check, { passive: true });

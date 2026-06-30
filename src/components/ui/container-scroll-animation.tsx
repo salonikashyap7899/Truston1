@@ -11,7 +11,9 @@ export const ContainerScroll = ({
 }) => {
   const isMobile = useIsMobile();
   const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: containerRef });
+  // Don't pass the ref to useScroll on mobile — ref detaches after hydration
+  // and Framer Motion throws "Target ref is defined but not hydrated".
+  const { scrollYProgress } = useScroll(isMobile ? {} : { target: containerRef });
 
   const rotate = useTransform(scrollYProgress, [0, 1], [8, 0]);
   const scale = useTransform(scrollYProgress, [0, 1], [1.05, 1]);
